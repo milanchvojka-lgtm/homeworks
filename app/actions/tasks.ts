@@ -9,7 +9,7 @@ import {
   createTaskInstance,
   hasCompletedTodayChecks,
 } from "@/lib/task-rotation";
-import { startOfDayPrague } from "@/lib/time";
+import { startOfDayPrague, startOfWeekPrague } from "@/lib/time";
 
 export type TaskActionResult = { ok: true } | { ok: false; error: string };
 
@@ -168,12 +168,16 @@ export async function approveTaskAction(
 
   const inst = await db.taskInstance.findUnique({
     where: { id: instanceId },
+    include: { task: true },
   });
   if (!inst) return { ok: false, error: "not_found" };
   if (inst.status !== "PENDING_REVIEW") {
     return { ok: false, error: "invalid_state" };
   }
   if (!inst.claimedById) return { ok: false, error: "no_claimer" };
+
+  const claimerId = inst.claimedById;
+  const weekStart = startOfWeekPrague();
 
   await db.$transaction([
     db.taskInstance.update({
@@ -185,20 +189,22 @@ export async function approveTaskAction(
       },
     }),
     db.taskRotationLog.create({
+      data: { taskId: inst.taskId, userId: claimerId },
+    }),
+    db.creditTransaction.create({
       data: {
-        taskId: inst.taskId,
-        userId: inst.claimedById,
+        userId: claimerId,
+        amountCzk: inst.task.valueCzk,
+        type: "TASK_REWARD",
+        referenceId: instanceId,
+        weekStart,
       },
     }),
   ]);
 
-  // M4: tady se vytvoří CreditTransaction. Pro M3 jen audit log.
-  console.log(
-    `[M3 stub] approve task ${inst.taskId} for user ${inst.claimedById} (credit M4)`,
-  );
-
   revalidatePath("/admin");
   revalidatePath("/child/me-ukoly");
+  revalidatePath("/child/kredit");
   return { ok: true };
 }
 

@@ -3,10 +3,14 @@
 import { useState, useTransition } from "react";
 import { approveCheckAction, rejectCheckAction } from "@/app/actions/checks";
 import { approveTaskAction, rejectTaskAction } from "@/app/actions/tasks";
+import {
+  approveScreenTimeAction,
+  rejectScreenTimeAction,
+} from "@/app/actions/screen-time";
 
 type Item = {
   id: string;
-  kind: "check" | "task";
+  kind: "check" | "task" | "screen";
   title: string;
   subtitle: string;
   submittedAt: string | null;
@@ -26,7 +30,9 @@ export function InboxList({ items }: { items: Item[] }) {
       const res =
         item.kind === "check"
           ? await approveCheckAction(item.id)
-          : await approveTaskAction(item.id);
+          : item.kind === "task"
+            ? await approveTaskAction(item.id)
+            : await approveScreenTimeAction(item.id);
       if (res.ok) setHidden((h) => new Set(h).add(item.id));
     });
   };
@@ -36,7 +42,9 @@ export function InboxList({ items }: { items: Item[] }) {
       const res =
         item.kind === "check"
           ? await rejectCheckAction(item.id, note)
-          : await rejectTaskAction(item.id, note);
+          : item.kind === "task"
+            ? await rejectTaskAction(item.id, note)
+            : await rejectScreenTimeAction(item.id);
       if (res.ok) {
         setHidden((h) => new Set(h).add(item.id));
         setRejectingId(null);

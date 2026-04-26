@@ -31,6 +31,10 @@ model User {
   competencyAssignments  CompetencyAssignment[]
   dailyCheckInstances    DailyCheckInstance[]    @relation("DailyCheckInstanceUser")
   reviewedCheckInstances DailyCheckInstance[]    @relation("DailyCheckInstanceReviewer")
+  creditTransactions     CreditTransaction[]
+  screenTimeRequests     ScreenTimeRequest[]
+  weeklyPayouts          WeeklyPayout[]          @relation("WeeklyPayoutUser")
+  paidOutByWeeklyPayouts WeeklyPayout[]          @relation("WeeklyPayoutPaidBy")
 }
 
 model Session {
@@ -210,4 +214,78 @@ model NotificationLog {
   itemCount Int
 
   @@index([sentAt])
+}
+
+enum TransactionType {
+  TASK_REWARD
+  SCREEN_TIME
+  MONTHLY_BONUS
+  PAYOUT
+  ADJUSTMENT
+}
+
+model CreditTransaction {
+  id          String          @id @default(cuid())
+  userId      String
+  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  amountCzk   Int
+  type        TransactionType
+  referenceId String?
+  weekStart   DateTime
+  note        String?
+  createdAt   DateTime        @default(now())
+
+  @@index([userId, weekStart])
+  @@index([userId, createdAt])
+}
+
+enum RequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model ScreenTimeRequest {
+  id         String        @id @default(cuid())
+  userId     String
+  user       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  minutes    Int
+  costCzk    Int
+  status     RequestStatus @default(PENDING)
+  createdAt  DateTime      @default(now())
+  reviewedAt DateTime?
+  reviewerId String?
+
+  @@index([status])
+  @@index([userId])
+}
+
+model WeeklyPayout {
+  id                 String    @id @default(cuid())
+  userId             String
+  user               User      @relation("WeeklyPayoutUser", fields: [userId], references: [id], onDelete: Cascade)
+  weekStart          DateTime
+  weekEnd            DateTime
+  totalEarnedCzk     Int
+  totalScreenTimeCzk Int
+  bonusCzk           Int       @default(0)
+  totalPayoutCzk     Int
+  paidOutAt          DateTime?
+  paidOutById        String?
+  paidOutBy          User?     @relation("WeeklyPayoutPaidBy", fields: [paidOutById], references: [id], onDelete: SetNull)
+  createdAt          DateTime  @default(now())
+
+  @@unique([userId, weekStart])
+  @@index([weekStart])
+}
+
+model AppSettings {
+  id                         String @id @default(cuid())
+  hourlyRateCzk              Int    @default(150)
+  screenTimeHourCostCzk      Int    @default(200)
+  screenTimeMinGranularity   Int    @default(30)
+  monthlyBonusCzk            Int    @default(200)
+  defaultClaimTimeoutHours   Int    @default(24)
+  defaultExecuteTimeoutHours Int    @default(3)
+  updatedAt                  DateTime @updatedAt
 }

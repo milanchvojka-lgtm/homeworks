@@ -154,10 +154,21 @@ async function seedCurrentWeekAssignments() {
   }
 }
 
+async function seedAppSettings() {
+  const existing = await db.appSettings.findFirst();
+  if (existing) {
+    console.log("skip app settings (already exists)");
+    return;
+  }
+  await db.appSettings.create({ data: {} });
+  console.log("created app settings (defaults)");
+}
+
 async function main() {
   await seedUsers();
   await seedCompetencies();
   await seedCurrentWeekAssignments();
+  await seedAppSettings();
   console.log(`\nDefault PIN: ${DEFAULT_PIN}`);
 }
 

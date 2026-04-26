@@ -19,6 +19,12 @@ export default async function AdminInbox() {
     orderBy: { submittedAt: "asc" },
   });
 
+  const screenRequests = await db.screenTimeRequest.findMany({
+    where: { status: "PENDING" },
+    include: { user: { select: { id: true, name: true, avatarColor: true } } },
+    orderBy: { createdAt: "asc" },
+  });
+
   const claimerIds = Array.from(
     new Set(pendingTasks.map((t) => t.claimedById).filter(Boolean) as string[]),
   );
@@ -30,7 +36,7 @@ export default async function AdminInbox() {
 
   type GroupItem = {
     id: string;
-    kind: "check" | "task";
+    kind: "check" | "task" | "screen";
     title: string;
     subtitle: string;
     submittedAt: string | null;
@@ -44,35 +50,51 @@ export default async function AdminInbox() {
     }
   >();
 
+  const add = (
+    user: { id: string; name: string; avatarColor: string },
+    item: GroupItem,
+  ) => {
+    const g = grouped.get(user.id) ?? { user, items: [] };
+    g.items.push(item);
+    grouped.set(user.id, g);
+  };
+
   for (const c of submittedChecks) {
-    const g = grouped.get(c.userId) ?? { user: c.user, items: [] };
-    g.items.push({
+    add(c.user, {
       id: c.id,
       kind: "check",
       title: c.dailyCheck.name,
       subtitle: c.dailyCheck.competency.name,
       submittedAt: c.submittedAt?.toISOString() ?? null,
     });
-    grouped.set(c.userId, g);
   }
 
   for (const t of pendingTasks) {
     if (!t.claimedById) continue;
     const user = claimerById.get(t.claimedById);
     if (!user) continue;
-    const g = grouped.get(user.id) ?? { user, items: [] };
-    g.items.push({
+    add(user, {
       id: t.id,
       kind: "task",
       title: t.task.name,
       subtitle: `Úkol • ${t.task.valueCzk} Kč`,
       submittedAt: t.submittedAt?.toISOString() ?? null,
     });
-    grouped.set(user.id, g);
+  }
+
+  for (const r of screenRequests) {
+    add(r.user, {
+      id: r.id,
+      kind: "screen",
+      title: `${r.minutes} min obrazovky`,
+      subtitle: `Žádost • ${r.costCzk} Kč`,
+      submittedAt: r.createdAt.toISOString(),
+    });
   }
 
   const groups = Array.from(grouped.values());
-  const total = submittedChecks.length + pendingTasks.length;
+  const total =
+    submittedChecks.length + pendingTasks.length + screenRequests.length;
 
   return (
     <div>
