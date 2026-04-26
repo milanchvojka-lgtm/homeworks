@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   Sparkles,
   RotateCw,
@@ -6,6 +7,7 @@ import {
   Monitor,
   Check,
   Star,
+  ArrowUpRight,
 } from "lucide-react";
 
 const ACCENT = "#FF5C00";
@@ -114,6 +116,63 @@ export default function PitchPage() {
           title="Obrazovka jako měna"
           body="Holky si můžou výdělek vyměnit za čas u obrazovky. 100 Kč = 30 minut. Aplikace nic nevynucuje (od toho je Apple Screen Time), jen eviduje. Volba je jejich: peníze, nebo Instáč."
         />
+      </section>
+
+      {/* PREVIEW — Jak by to vypadalo */}
+      <section className="flex flex-col gap-6 px-7 pt-2 pb-10">
+        <div className="flex items-center gap-[10px]">
+          <Sparkles size={14} strokeWidth={2.25} color={ACCENT} />
+          <span
+            className={`${funnel} text-[11px] font-semibold tracking-[0.27em]`}
+            style={{ color: ACCENT }}
+          >
+            JAK BY TO VYPADALO
+          </span>
+          <span className="h-px flex-1" style={{ backgroundColor: LINE }} />
+        </div>
+        <h2
+          className={`${newsreader} text-[26px] font-semibold leading-tight`}
+        >
+          Pár obrazovek na ukázku.
+        </h2>
+        <p className="text-[14px] leading-[1.6]" style={{ color: INK_2 }}>
+          Tohle je klikací prototyp — můžeš si projít, jak by to vypadalo na
+          telefonu. Žádná data se neukládají.
+        </p>
+        <div className="grid grid-cols-2 gap-3 pt-1">
+          <PreviewCard
+            href="/preview"
+            label="Login"
+            note="5 dlaždic + PIN"
+            preview={<LoginPreview />}
+          />
+          <PreviewCard
+            href="/preview/dnes"
+            label="Dnes"
+            note="Týdenní úkol + checky"
+            preview={<DnesPreview />}
+          />
+          <PreviewCard
+            href="/preview/pool"
+            label="Pool"
+            note="Extra úkoly za peníze"
+            preview={<PoolPreview />}
+          />
+          <PreviewCard
+            href="/preview/kredit"
+            label="Kredit"
+            note="Balance + obrazovka"
+            preview={<KreditPreview />}
+          />
+        </div>
+        <Link
+          href="/preview"
+          className={`${funnel} mt-2 inline-flex w-fit items-center gap-2 rounded-full border px-4 py-2 text-[12px] font-semibold tracking-[0.18em]`}
+          style={{ borderColor: ACCENT, color: ACCENT }}
+        >
+          OTEVŘÍT UKÁZKU
+          <ArrowUpRight size={14} strokeWidth={2.5} />
+        </Link>
       </section>
 
       {/* SECTION 4 — Co bys dělala ty (soft background) */}
@@ -337,6 +396,217 @@ function CtaDeco() {
         style={{ backgroundColor: ACCENT_2 }}
       />
       <Star size={8} strokeWidth={2} fill={ACCENT_2} color={ACCENT_2} />
+    </div>
+  );
+}
+
+/* ───────── Preview cards ───────── */
+
+function PreviewCard({
+  href,
+  label,
+  note,
+  preview,
+}: {
+  href: string;
+  label: string;
+  note: string;
+  preview: React.ReactNode;
+}) {
+  return (
+    <Link
+      href={href}
+      className="group flex flex-col overflow-hidden rounded-2xl border border-[#EFEFEF] bg-white transition hover:border-orange-200 hover:shadow-md"
+    >
+      <div className="relative aspect-[3/4] w-full overflow-hidden bg-zinc-50">
+        <div className="absolute inset-2 flex flex-col rounded-xl bg-white shadow-sm">
+          <div className="flex items-center justify-between px-2 pt-1.5 pb-1">
+            <span className="text-[7px] font-semibold tracking-wider text-zinc-400">
+              9:41
+            </span>
+            <span className="flex items-center gap-0.5 text-zinc-300">
+              <span className="h-1 w-2.5 rounded-sm bg-zinc-300" />
+            </span>
+          </div>
+          {preview}
+        </div>
+      </div>
+      <div className="flex items-center justify-between px-3 py-2.5">
+        <div className="flex flex-col">
+          <span
+            className={`${newsreader} text-[15px] font-semibold leading-tight`}
+            style={{ color: INK }}
+          >
+            {label}
+          </span>
+          <span className="text-[11px]" style={{ color: INK_2 }}>
+            {note}
+          </span>
+        </div>
+        <ArrowUpRight
+          size={14}
+          strokeWidth={2.25}
+          className="text-zinc-300 transition group-hover:text-orange-500"
+        />
+      </div>
+    </Link>
+  );
+}
+
+function LoginPreview() {
+  const colors = ["#3B82F6", "#A855F7", "#EC4899", "#10B981", "#F59E0B"];
+  return (
+    <div className="flex flex-1 flex-col items-center px-2 pt-2 pb-2">
+      <span
+        className={`${funnel} text-[5px] font-bold tracking-[0.3em]`}
+        style={{ color: ACCENT }}
+      >
+        HOMEWORKS
+      </span>
+      <span className="mt-0.5 text-[6px] font-semibold">Klikni na profil</span>
+      <div className="mt-1.5 grid grid-cols-2 gap-1">
+        {colors.slice(0, 4).map((c, i) => (
+          <div
+            key={i}
+            className="flex flex-col items-center gap-0.5 rounded border border-zinc-100 px-1 py-1"
+          >
+            <span
+              className="h-3 w-3 rounded-full"
+              style={{ backgroundColor: c }}
+            />
+            <span className="h-[2px] w-3 rounded-full bg-zinc-200" />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function DnesPreview() {
+  return (
+    <div className="flex flex-1 flex-col px-2 pt-1 pb-1">
+      <div className="mb-1 flex items-center gap-1 rounded bg-orange-100 px-1.5 py-1">
+        <span
+          className="h-2 w-2 rounded-full"
+          style={{ backgroundColor: ACCENT }}
+        />
+        <span className="flex flex-col gap-0.5 leading-none">
+          <span className="text-[4px] tracking-wider text-orange-600">
+            TENTO TÝDEN
+          </span>
+          <span className="text-[6px] font-semibold">Kuchyň</span>
+        </span>
+      </div>
+      <div className="flex flex-col gap-0.5">
+        <CheckLine done />
+        <CheckLine wait />
+        <CheckLine />
+        <CheckLine />
+      </div>
+      <div className="mt-auto flex justify-around border-t border-zinc-100 pt-1">
+        <span
+          className="h-1 w-3 rounded-full"
+          style={{ backgroundColor: ACCENT }}
+        />
+        <span className="h-1 w-2 rounded-full bg-zinc-200" />
+        <span className="h-1 w-2 rounded-full bg-zinc-200" />
+      </div>
+    </div>
+  );
+}
+
+function CheckLine({ done, wait }: { done?: boolean; wait?: boolean }) {
+  const dotBg = done ? "#10B981" : wait ? "#F59E0B" : "#E5E5E5";
+  return (
+    <div className="flex items-center gap-1 rounded border border-zinc-100 px-1 py-0.5">
+      <span
+        className="h-1.5 w-1.5 rounded-full"
+        style={{ backgroundColor: dotBg }}
+      />
+      <span className="h-[2px] flex-1 rounded-full bg-zinc-200" />
+      {!done && !wait && (
+        <span
+          className="h-1 w-2 rounded-full"
+          style={{ backgroundColor: ACCENT }}
+        />
+      )}
+    </div>
+  );
+}
+
+function PoolPreview() {
+  return (
+    <div className="flex flex-1 flex-col gap-1 px-2 pt-1 pb-1">
+      <span className="text-[5px] font-bold tracking-wider text-orange-600">
+        MŮŽU VZÍT TEĎ
+      </span>
+      <div className="rounded border-2 border-orange-200 bg-orange-50/50 p-1">
+        <div className="flex items-center justify-between gap-1">
+          <span className="h-[3px] flex-1 rounded-full bg-zinc-300" />
+          <span
+            className="text-[6px] font-bold"
+            style={{ color: ACCENT }}
+          >
+            250 Kč
+          </span>
+        </div>
+        <div className="mt-1 flex justify-end">
+          <span
+            className="h-1.5 w-4 rounded-full"
+            style={{ backgroundColor: ACCENT }}
+          />
+        </div>
+      </div>
+      <span className="mt-1 text-[5px] font-bold tracking-wider text-zinc-400">
+        ZAMČENO
+      </span>
+      <div className="rounded border border-zinc-100 bg-zinc-50 p-1 opacity-70">
+        <div className="flex items-center justify-between gap-1">
+          <span className="h-[3px] flex-1 rounded-full bg-zinc-200" />
+          <span className="text-[6px] font-bold text-zinc-400">150 Kč</span>
+        </div>
+      </div>
+      <div className="rounded border border-zinc-100 bg-zinc-50 p-1 opacity-70">
+        <div className="flex items-center justify-between gap-1">
+          <span className="h-[3px] flex-1 rounded-full bg-zinc-200" />
+          <span className="text-[6px] font-bold text-zinc-400">200 Kč</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function KreditPreview() {
+  return (
+    <div className="flex flex-1 flex-col px-2 pt-1 pb-1">
+      <div className="mb-1 rounded bg-zinc-900 px-1.5 py-1.5">
+        <span className="text-[4px] tracking-wider text-white/60">
+          K VÝPLATĚ
+        </span>
+        <div
+          className={`${newsreader} mt-0.5 text-[16px] font-bold leading-none`}
+          style={{ color: ACCENT }}
+        >
+          280
+          <span className="ml-0.5 text-[7px] text-white">Kč</span>
+        </div>
+      </div>
+      <div
+        className="mb-1 rounded border-2 px-1.5 py-1"
+        style={{ borderColor: ACCENT }}
+      >
+        <span
+          className="text-[6px] font-semibold"
+          style={{ color: ACCENT }}
+        >
+          Chci obrazovku
+        </span>
+      </div>
+      <div className="flex flex-col gap-0.5">
+        <span className="h-[2px] w-3/4 rounded-full bg-zinc-200" />
+        <span className="h-[2px] w-2/3 rounded-full bg-zinc-200" />
+        <span className="h-[2px] w-3/4 rounded-full bg-zinc-200" />
+      </div>
     </div>
   );
 }
