@@ -2,6 +2,8 @@
 
 > Pracovní název. Finální brand může mít rodinný "in-joke" charakter (např. „Holky v akci", „Naše dom(ác)nost") — řešíme později.
 
+> ⚠️ **Tento dokument byl po sepsání upraven o rozhodnutí D1–D4 v [`DECISIONS.md`](./DECISIONS.md).** Při rozporu má `DECISIONS.md` prioritu. Hlavní upravené body: cron přes GitHub Actions (ne Vercel Cron), eager generování `DailyCheckInstance`, e-mail digest pro adminy, Supabase jako DB.
+
 ---
 
 ## 1. Overview
@@ -107,6 +109,7 @@ Po přihlášení se uživatel směruje automaticky do `/admin` nebo `/child` po
   - Den přechází po půlnoci. Nesplněné checky předchozího dne se uzavírají s výsledkem `missed`.
   - Pokud admin nestihne schválit do konce dne, check zůstává v `submitted` — neblokuje to claim extra úkolů (viz 4.4).
   - Vrácený check (`rejected`) vrací holku do `pending` a lze znovu odeslat.
+  - **`DailyCheckInstance` se generuje eager** ranním cronem v 00:05 Prague (viz `DECISIONS.md` D2). Holka, která appku ten den neotevře, má instance vytvořené tak jako tak — `MISSED` cron je o 23:59 označí, čímž zůstává integritní výpočet měsíčního bonusu.
 
 ---
 
@@ -383,23 +386,32 @@ Po přihlášení se uživatel směruje automaticky do `/admin` nebo `/child` po
 
 ---
 
-### 4.11 Vizuální badge notifikace
+### 4.11 Vizuální badge notifikace + admin e-mail digest
 
 - **Priorita:** Must-have
 
 - **Description:**
-  V navigaci aplikace jsou viditelné číselné badge u sekcí, které vyžadují pozornost.
+  Aplikace upozorňuje na položky vyžadující pozornost dvěma kanály:
 
+  **(a) Vizuální badge** v navigaci uvnitř appky:
   - **Pro dítě:** badge u „Můj kredit" (kolik mi přibylo), badge u „Pool" (nový úkol pro mě), badge u „Mé úkoly" (zamítnutý/schválený úkol).
   - **Pro admina:** badge u „Inbox" (čekající ke schválení), badge u „Žádosti o obrazovku".
+
+  **(b) Admin e-mail digest** (viz `DECISIONS.md` D3):
+  - Když holka odešle check / nahlásí úkol / požádá o obrazovku, vznikne event v `NotificationQueue`.
+  - Cron každých 15 min: pokud jsou unsent items A poslední digest šel před >10 min → pošli souhrnný e-mail na adminy přes Resend.
+  - Safety-net daily digest v 20:00 Prague (i kdyby se cron job zasekl).
+  - Důvod: pouze badge má provozní díru — rodič si nepamatuje appku otevřít, holka čeká, systém se opotřebí.
 
 - **UI notes:**
   - Klasický red dot s číslem.
   - Badge zmizí po otevření dané sekce.
+  - E-mail obsahuje stručný souhrn („3 čekající checky, 1 hlášený úkol") + link do `/admin/inbox`.
 
 - **Out of scope pro v1:**
-  - Push notifikace (vyžadují jinou infrastrukturu).
-  - E-mailové notifikace.
+  - PWA Web Push (zvážit v M6, jako bonus nad e-mailem).
+  - Push pro děti (notifikace o schválení atd.).
+  - Telegram / SMS / jiné kanály.
 
 ---
 
@@ -452,6 +464,10 @@ Hlavní entity v plain language. Vztahy popsané, datové typy zjednodušené.
 ### AppSettings
 - Klíč-hodnota pro globální parametry (hodinová sazba, cena obrazovky, výše bonusu, timeouty, …).
 
+### NotificationQueue
+- Event log pro admin e-mail digest (viz `DECISIONS.md` D3).
+- `id`, `event_type` (check_submitted / task_pending_review / screen_time_requested), `payload` (JSON s metadaty pro vyrenderování e-mailu — kdo, co), `created_at`, `sent_at` (null = čeká na odeslání).
+
 **Vztahy:**
 - User 1:N CompetencyAssignment (přes čas)
 - Competency 1:N DailyCheck
@@ -467,9 +483,10 @@ Hlavní entity v plain language. Vztahy popsané, datové typy zjednodušené.
 
 ### Stack
 - **Frontend + Backend:** Next.js (App Router) na Vercelu.
-- **Databáze:** Postgres přes Neon nebo Supabase (free tier).
+- **Databáze:** Postgres přes **Supabase** (free tier) — viz `DECISIONS.md` D4.
 - **ORM:** Prisma.
 - **Styling:** Tailwind CSS.
+- **E-mail:** Resend (free tier, 100 e-mailů/den) pro admin digest.
 - **PWA:** Manifest + service worker, aby si holky mohly přidat aplikaci na home screen iPhonu.
 
 ### Auth
@@ -480,11 +497,19 @@ Hlavní entity v plain language. Vztahy popsané, datové typy zjednodušené.
 - Žádné externí auth služby.
 
 ### Cron joby
-- **Každou neděli 23:59:** rotace kompetencí, uzavření týdenního výpisu.
-- **Každý den 23:59:** uzavření denních checků (`pending` → `missed`, pokud nebyly odeslané).
-- **Každou hodinu (nebo dle frekvence):** generování nových instancí opakujících se úkolů, expirace claim timeoutů.
-- **Poslední den měsíce 23:59:** výpočet bonusu, připsání do posledního týdenního výpisu.
-- Implementace: Vercel Cron (free tier ti stačí na jednoduché frekvence).
+
+Spouští se přes **GitHub Actions workflow** (`.github/workflows/cron.yml`), který volá HTTPS endpointy na Vercelu (`/api/cron/*`) s autorizací přes `CRON_SECRET` header. Důvod: Vercel Hobby Cron je omezený na 2 entries × 1×/den, což pro tuhle appku nestačí. GH Actions má free tier bez těchto limitů. Detail v `DECISIONS.md` D1.
+
+Naplánované joby:
+- **Každý den 00:05 Prague:** generování `DailyCheckInstance` pro dnešní den (viz D2 — eager).
+- **Každý den 23:59 Prague:** uzavření denních checků (`PENDING` → `MISSED`).
+- **Každou neděli 23:55 Prague:** rotace kompetencí.
+- **Každou neděli 23:59 Prague:** uzavření týdenního výpisu.
+- **Každý den 06:00 Prague:** generování nových instancí opakujících se úkolů.
+- **Každých 15 min:** posun rotační fronty (claim timeout) + odeslání admin e-mail digestu (pokud je co a uplynulo aspoň 10 min od posledního).
+- **Poslední den měsíce 23:58 Prague:** výpočet bonusu, připsání do posledního týdenního výpisu.
+
+Cron handler vždy nejdřív ověří `CRON_SECRET` header a kontroluje, že je teď reálně to správné okno v `Europe/Prague` (DST safety).
 
 ### Responsive
 - Primární cílovka: iPhone, iPad (PWA).

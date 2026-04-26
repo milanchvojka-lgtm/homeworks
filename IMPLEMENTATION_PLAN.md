@@ -1,6 +1,8 @@
 # Domácí Úkoly — Implementation Plan
 
-> Doprovodný dokument k `Domaci-Ukoly-PRD.md`. Slouží jako přírůstkový plán pro Claude Code. Každý milestone produkuje **funkční, deployovatelný stav**, který lze otestovat dřív, než se pustíme do dalšího.
+> Doprovodný dokument k [`PRD.md`](./PRD.md). Slouží jako přírůstkový plán pro Claude Code. Každý milestone produkuje **funkční, deployovatelný stav**, který lze otestovat dřív, než se pustíme do dalšího.
+
+> ⚠️ **Tento plán byl po sepsání upraven o rozhodnutí D1–D4 v [`DECISIONS.md`](./DECISIONS.md).** Hlavní změny: cron přes GitHub Actions (ne Vercel Cron), eager generování `DailyCheckInstance` (ne lazy), e-mail digest pro adminy přes Resend, Supabase jako DB.
 
 ---
 
@@ -17,15 +19,16 @@
 
 ## Stack — finální shrnutí
 
-- **Framework:** Next.js 15 (App Router) + TypeScript
-- **Styling:** Tailwind CSS
-- **DB:** Postgres přes Neon (free tier) nebo Supabase (free tier)
-- **ORM:** Prisma
+- **Framework:** Next.js 16 (App Router) + TypeScript
+- **Styling:** Tailwind CSS 4
+- **DB:** Postgres přes **Supabase** (free tier) — D4
+- **ORM:** Prisma 6
 - **Auth:** vlastní implementace (profile + PIN), session přes httpOnly cookie
 - **Hosting:** Vercel (free tier)
-- **Cron:** Vercel Cron
-- **PWA:** `next-pwa` nebo manuální manifest + service worker
-- **Datetime:** `date-fns` (nebo `dayjs`), všechno v `Europe/Prague` timezone
+- **Cron:** **GitHub Actions** workflow → volá `/api/cron/*` na Vercelu s `CRON_SECRET` headerem — D1
+- **E-mail:** Resend (free tier) pro admin digest — D3
+- **PWA:** manuální manifest + service worker
+- **Datetime:** `date-fns` + `date-fns-tz`, všechno v `Europe/Prague` timezone
 - **Forms / UI:** vlastní jednoduché komponenty, žádný design system framework. (Případně shadcn/ui, ale jen sporadicky.)
 
 ---
@@ -35,14 +38,15 @@
 **Cíl:** Funkční prázdný projekt na Vercelu, napojená DB, deployment pipeline.
 
 ### Úkoly
-1. Vytvořit Next.js 15 projekt s TypeScriptem a Tailwindem.
-2. Nastavit Prisma + Neon (nebo Supabase), pushnout prázdné schéma.
+1. Vytvořit Next.js 16 projekt s TypeScriptem a Tailwindem 4.
+2. Nastavit Prisma + **Supabase** (D4), pushnout prázdné schéma. Použít split `DATABASE_URL` (pooler 6543) + `DIRECT_URL` (5432) pro Prisma migrace.
 3. Vytvořit GitHub repo, propojit s Vercelem.
-4. Konfigurace ENV proměnných na Vercelu (DATABASE_URL, …).
+4. Konfigurace ENV proměnných na Vercelu: `DATABASE_URL`, `DIRECT_URL`, `TZ=Europe/Prague`, `CRON_SECRET`, `RESEND_API_KEY`, `ADMIN_NOTIFICATION_EMAILS`.
 5. Vytvořit jednoduchou home page s textem „Domácí Úkoly — v1".
-6. Nastavit `Europe/Prague` jako default timezone v aplikaci.
+6. Nastavit `Europe/Prague` jako default timezone v aplikaci (přes `TZ` env var na Vercelu i lokálně).
 7. Nastavit ESLint + Prettier (volitelné, ale doporučené).
 8. README.md s instrukcemi pro lokální vývoj.
+9. Připravit `.github/workflows/cron.yml` skeleton (zatím bez jobů, přidávají se v M2+ podle D1).
 
 ### Acceptance criteria
 - ✅ Live URL na Vercelu funguje (např. `domaci-ukoly.vercel.app`).
@@ -224,22 +228,27 @@ enum CheckStatus {
 
 #### 2.4 Cron job — týdenní rotace
 - `/app/api/cron/weekly-rotation/route.ts`
-- Vercel Cron config v `vercel.json`: každou neděli 23:55 (před koncem dne).
+- Volá ho **GitHub Actions** workflow (D1), ne Vercel Cron. Cron expression v UTC, handler kontroluje že je teď neděle 23:55 Prague.
 - Vytvoří `CompetencyAssignment` pro nadcházející týden.
-- Vytvoří `DailyCheckInstance` pro pondělí ráno (lazy přístup: instance se vytváří at-runtime, viz 2.5).
+- Generování `DailyCheckInstance` se NEDĚLÁ tady — řeší ho separátní daily cron (viz 2.5, eager).
 
-#### 2.5 Generování `DailyCheckInstance`
-- **Doporučený přístup:** lazy. Když holka otevře `/child/today`, query si:
-  1. Aktuální `CompetencyAssignment` pro mě a dnešní den.
-  2. Pro každou `DailyCheck` v té kompetenci se podívej, jestli existuje `DailyCheckInstance` pro dnešní datum. Pokud ne, vytvoř s `status=PENDING`.
-- Tím nemusíš mít cron, který by každý den generoval instance dopředu.
+#### 2.5 Generování `DailyCheckInstance` — eager (D2)
+- **Přístup:** eager, ranní cron. (Lazy přístup byl zavrhnut — viz `DECISIONS.md` D2: díra v missed/bonus logice.)
+- `/app/api/cron/daily-rollover/route.ts`
+- Volá GitHub Actions (D1), cíleně na 00:05 Prague.
+- Algoritmus:
+  1. Pro každé aktivní dítě najdi jeho `CompetencyAssignment` pro tento týden.
+  2. Pro každou `DailyCheck` šablonu té kompetence vytvoř `DailyCheckInstance(userId, date=today, status=PENDING)`.
+  3. Idempotentní: pokud instance už existuje (např. cron běžel dvakrát), přeskoč.
+- **Důsledek:** pokud admin upraví `DailyCheck` šablonu během dne, dnešní instance jsou už vytvořené se starou definicí — historie je tak zamrzlá k okamžiku vzniku. Změna se projeví od dalšího dne.
+- Při čtení v `/child/today` se instance jen načítají, **nevytváří se** (kdyby chyběly, je to bug v rolloveru).
 
 #### 2.6 Cron job — denní uzavření
 - `/app/api/cron/daily-close/route.ts`
-- Vercel Cron: každý den 23:59.
-- Najde všechny `DailyCheckInstance` z dnešního dne ve stavu `PENDING` nebo `SUBMITTED` a:
-  - `PENDING` → `MISSED`
-  - `SUBMITTED` → zůstává (admin ještě může schválit zpětně, ale jen do nějakého limitu — pro v1 řekněme 24h)
+- Volá GitHub Actions (D1), 23:59 Prague.
+- Díky eager generování (2.5) je logika triviální:
+  - `UPDATE DailyCheckInstance SET status='MISSED' WHERE status='PENDING' AND date = today_prague`.
+  - `SUBMITTED` zůstává (admin může schválit zpětně do 24h).
 
 #### 2.7 Child UI
 - `/child/today`:
@@ -260,6 +269,43 @@ enum CheckStatus {
 - 3 kompetence (Kuchyň, Obývák, Koupelna).
 - Pro každou ~3 ukázkové denní checky (Milan a manželka pak nahradí reálnými).
 - První `CompetencyAssignment` pro aktuální týden.
+
+#### 2.10 NotificationQueue + admin e-mail digest (D3)
+
+Bootstrap notifikační infrastruktury — používá se napříč M2–M4.
+
+```prisma
+model NotificationQueue {
+  id        String   @id @default(cuid())
+  eventType NotificationEventType
+  payload   Json     // { userId, displayName, itemName, ... }
+  createdAt DateTime @default(now())
+  sentAt    DateTime?  // null = čeká na odeslání
+}
+
+enum NotificationEventType {
+  CHECK_SUBMITTED
+  TASK_PENDING_REVIEW    // přidá se v M3
+  SCREEN_TIME_REQUESTED  // přidá se v M4
+}
+
+model NotificationLog {
+  id        String   @id @default(cuid())
+  sentAt    DateTime @default(now())
+  itemCount Int      // kolik queue položek bylo zahrnuto
+}
+```
+
+- `lib/notifications.ts`:
+  - `enqueueNotification(eventType, payload)` — volá se při relevantní akci.
+  - `sendAdminDigest()` — agreguje unsent items, pošle e-mail přes Resend, označí jako sent.
+- `/app/api/cron/admin-digest/route.ts`
+- Volá GitHub Actions každých 15 min:
+  - Pokud `NotificationQueue.sentAt IS NULL` count > 0 a poslední `NotificationLog.sentAt > 10 min ago` → pošli souhrnný e-mail na `ADMIN_NOTIFICATION_EMAILS` přes Resend.
+  - Safety-net: i když není nic nového, pokud je 20:00 Prague a jsou unsent items → pošli.
+- E-mail šablona: jednoduchý HTML se shrnutím („3 nové denní checky čekají na schválení", „1 hlášený úkol", …) + odkaz na `/admin/inbox`.
+
+**Pro M2:** stačí enqueue při `submitCheckAction` (denní check) a digest cron. Další event types se přidají v M3 a M4.
 
 ### Acceptance criteria
 - ✅ Admin vytvoří/upraví denní check.
@@ -392,13 +438,18 @@ model TaskRotationLog {
   - `TaskInstance.status = REJECTED`. Vytvoří se nová `TaskInstance` se stejným `taskId`, ale rotace přeskočí Aničku → další v pořadí.
 
 #### 3.7 Cron — opakující se úkoly
-- `/app/api/cron/recurring-tasks/route.ts`, denně 06:00.
+- `/app/api/cron/recurring-tasks/route.ts`, volá GitHub Actions (D1) v 06:00 Prague.
 - Pro každý `Task` s `frequencyDays != null`:
   - Pokud poslední `TaskInstance` (DONE/EXPIRED) je starší než `frequencyDays` a žádná aktivní instance neexistuje → vytvoř novou.
 
 #### 3.8 Cron — claim timeout
-- `/app/api/cron/claim-timeout/route.ts`, každých 15–60 min.
+- `/app/api/cron/claim-timeout/route.ts`, GitHub Actions (D1), každých 15 min.
 - Najde `TaskInstance` ve stavu `AVAILABLE` s prošlým `unlockExpiresAt` → posun rotace.
+- Pokud `TaskInstance` ve stavu `CLAIMED` má prošlý `executeDeadline` → vrátí do poolu (status `AVAILABLE`, vyčistí claim fields, log).
+
+#### 3.9 NotificationQueue rozšíření
+Přidat enqueue volání:
+- Při `reportTaskDoneAction` (child klikne „Hotovo") → `enqueueNotification('TASK_PENDING_REVIEW', {...})`.
 
 #### 3.9 Edge cases
 - **Holka má kompetenci splněnou jen částečně** → claim disabled. Vysvětlení v UI.
@@ -521,7 +572,7 @@ model AppSettings {
   - **Zamítnout:** jen `status = REJECTED`. Žádný odpočet.
 
 #### 4.5 Týdenní uzávěrka — cron
-- `/app/api/cron/weekly-close/route.ts`, neděle 23:59.
+- `/app/api/cron/weekly-close/route.ts`, GitHub Actions (D1) neděle 23:59 Prague.
 - Pro každé dítě:
   1. Spočítej `totalEarnedCzk` = suma `TASK_REWARD` za týden.
   2. Spočítej `totalScreenTimeCzk` = suma abs `SCREEN_TIME` za týden.
@@ -546,6 +597,10 @@ model AppSettings {
 - `/admin/settings`:
   - Formulář s hodnotami z `AppSettings`.
   - Save → update.
+
+#### 4.9 NotificationQueue rozšíření
+Přidat enqueue volání:
+- Při vytvoření `ScreenTimeRequest` → `enqueueNotification('SCREEN_TIME_REQUESTED', {...})`.
 
 ### Acceptance criteria
 - ✅ Schválený úkol připíše hodnotu do kreditu.
@@ -579,7 +634,7 @@ model AppSettings {
     - Jinak 0.
 
 #### 5.2 Cron — měsíční uzávěrka
-- `/app/api/cron/monthly-close/route.ts`, poslední den měsíce 23:58 (před týdenní uzávěrkou).
+- `/app/api/cron/monthly-close/route.ts`, GitHub Actions (D1), poslední den měsíce 23:58 Prague (před týdenní uzávěrkou).
 - Pro každé dítě spočítej bonus.
 - Pokud bonus > 0:
   - Vytvoř `CreditTransaction` s `type=MONTHLY_BONUS`, `amountCzk = bonus`, `weekStart = currentWeekStart()`.
