@@ -1,6 +1,8 @@
 # Pencil brief — "Homeworks" pitch (for wife)
 
-> Tento dokument je vstup pro Pencil. Slouží k vygenerování jednostránkového webu, kterým Milan představí svojí ženě návrh na 3-týdenní rodinný experiment. **Cílem stránky je získat jasné yes/no rozhodnutí**, ne prodat finální produkt.
+> Tento dokument je vstup pro Pencil. Slouží k vygenerování jednostránkového webu, kterým Milan představí Teri (manželka) návrh na 4-týdenní rodinný experiment. **Cílem stránky je získat jasné yes/no rozhodnutí**, ne prodat finální produkt.
+>
+> ⚠️ **Po prvním kole v Pencilu některý copy diverged.** Tento dokument byl 2026-04-26 aktualizován tak, aby odpovídal canonical verzi v `app/pitch/page.tsx` (která reprodukuje Tangerine v2 mockup). Hlavní změny: timeline 3 → 4 týdny, "Netflix" → "Instáč", drobné přeformulování.
 >
 > Strukturální poznámky pro Pencil (EN) jsou kurzívou. Veškeré české texty (`> blockquotes` níže) zachovat **verbatim** — tonalita je úmyslná.
 
@@ -27,7 +29,7 @@
 
 > **Homeworks**
 >
-> *3 týdny zkusíme jiný systém pro povinnosti a obrazovku.*
+> *Péče o domácnost. Nový systém na 4 týdny.*
 
 ---
 
@@ -61,7 +63,7 @@
 
 #### 3d — Obrazovka jako měna
 
-> Holky si můžou výdělek vyměnit za čas u obrazovky. **100 Kč = 30 minut.** Aplikace nic nevynucuje (od toho je Apple Screen Time), jen eviduje. Volba je jejich: peníze, nebo Netflix.
+> Holky si můžou výdělek vyměnit za čas u obrazovky. **100 Kč = 30 minut.** Aplikace nic nevynucuje (od toho je Apple Screen Time), jen eviduje. Volba je jejich: peníze, nebo Instáč.
 
 ---
 
@@ -72,7 +74,7 @@
 > **Co bys dělala ty:**
 >
 > - Společný admin účet — schvaluješ úkoly stejně jako já, nemáme oddělená oprávnění.
-> - Pár kliknutí denně, nejvíc 5 minut. Holka klikne "hotovo", ty (nebo já) klikneme "schváleno" nebo "vrátit".
+> - Pár kliknutí denně, nejvíc 5 minut. Jedna z holek klikne "hotovo", ty (nebo já) klikneme "schváleno" nebo "vrátit".
 > - Můžeš **kdykoliv** změnit pravidla, ceny úkolů, sazbu obrazovky. Nic není zabetonované.
 > - Cokoliv, co bys ráda viděla jinak, řekni — udělám to.
 
@@ -84,7 +86,7 @@
 
 > Nečekám zázrak. Možná se atmosféra zlepší o 20 %, možná o 50 %, možná to vůbec nezabere a holky to po týdnu začnou ignorovat.
 >
-> **Proto navrhuju 3 týdny zkušebně.** Pokud po 3 týdnech vidíme, že to atmosféru zhoršuje, ne zlepšuje, **vypneme to** a vrátíme se k tomu, co máme dnes. Žádný lock-in, žádný *"ale dali jsme do toho tolik práce"*.
+> **Proto navrhuju 4 týdny zkušebně.** Pokud po 4 týdnech vidíme, že to atmosféru zhoršuje, ne zlepšuje, **vypneme to** a vrátíme se k tomu, co máme dnes. Žádný lock-in, žádný *"ale dali jsme do toho tolik práce"*.
 >
 > Investice z mojí strany: 2–3 týdny stavby aplikace navíc po práci. Z tvojí strany: 30 minut dnes, 5 minut denně po dobu zkoušky, a upřímná zpětná vazba na konci.
 
@@ -98,7 +100,7 @@
 >
 > 1. Říct, jestli to chceš zkusit, nebo ne.
 > 2. Pokud ano — 30 minut spolu, ať napíšeme konkrétní denní úkoly pro kuchyň, obývák a koupelnu. Ty víš líp než já, co tam doopravdy potřebuje hlídat.
-> 3. Po 3 týdnech mi upřímně říct, jak to bylo.
+> 3. Po 4 týdnech mi upřímně říct, jak to bylo.
 
 *Final line, set apart. No exclamation marks, no urgency.*
 
