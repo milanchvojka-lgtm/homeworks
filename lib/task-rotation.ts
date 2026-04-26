@@ -1,13 +1,12 @@
 import "server-only";
 import { db } from "./db";
 import type { Prisma } from "@prisma/client";
+import { nextRotationState, prioritizeChildren } from "./task-rotation-pure";
+export { canUserClaim, prioritizeChildren } from "./task-rotation-pure";
 
 /**
  * Vrátí ordered list child userIds pro nový TaskInstance.
- * Pořadí: kdo dělal tento taskId nejdéle naposledy nahoře (z TaskRotationLog).
- * Kdo nikdy nedělal → priorita podle User.rotationOrder.
- *
- * Volitelný parametr `excludeUserIds` pro skip rotaci po REJECTED.
+ * Volitelný `excludeUserIds` pro skip po REJECTED.
  */
 export async function buildRotationQueue(
   taskId: string,
@@ -30,18 +29,7 @@ export async function buildRotationQueue(
     if (!lastByUser.has(l.userId)) lastByUser.set(l.userId, l.doneAt);
   }
 
-  return children
-    .slice()
-    .sort((a, b) => {
-      const la = lastByUser.get(a.id);
-      const lb = lastByUser.get(b.id);
-      // Nikdy nedělal vyhrává nad těmi, kdo dělali nedávno.
-      if (!la && !lb) return (a.rotationOrder ?? 0) - (b.rotationOrder ?? 0);
-      if (!la) return -1;
-      if (!lb) return 1;
-      return la.getTime() - lb.getTime(); // starší naposledy = výš
-    })
-    .map((c) => c.id);
+  return prioritizeChildren(children, lastByUser);
 }
 
 /** Vytvoří novou TaskInstance s rotation queue a unlocked pro prvního v pořadí. */
@@ -94,39 +82,31 @@ export async function shiftRotation(instanceId: string) {
   if (inst.status !== "AVAILABLE") return;
 
   const queue = (inst.rotationQueue as unknown as string[]) ?? [];
-  const claimMs = inst.task.claimTimeoutHours * 60 * 60 * 1000;
-  const now = new Date();
-  const nextIndex = inst.rotationIndex + 1;
+  const next = nextRotationState(
+    { rotationIndex: inst.rotationIndex, queueLength: queue.length },
+    new Date(),
+    inst.task.claimTimeoutHours * 60 * 60 * 1000,
+  );
 
-  if (nextIndex < queue.length) {
+  if (next.kind === "expired") {
     await db.taskInstance.update({
       where: { id: instanceId },
       data: {
-        rotationIndex: nextIndex,
-        unlockedForUserId: queue[nextIndex],
-        unlockExpiresAt: new Date(now.getTime() + claimMs),
-      },
-    });
-    return;
-  }
-
-  if (nextIndex === queue.length) {
-    // Open phase: kdokoliv si může vzít
-    await db.taskInstance.update({
-      where: { id: instanceId },
-      data: {
-        rotationIndex: nextIndex,
+        status: "EXPIRED",
         unlockedForUserId: null,
-        unlockExpiresAt: new Date(now.getTime() + claimMs),
+        unlockExpiresAt: null,
       },
     });
     return;
   }
 
-  // Po open phase → EXPIRED
   await db.taskInstance.update({
     where: { id: instanceId },
-    data: { status: "EXPIRED", unlockedForUserId: null, unlockExpiresAt: null },
+    data: {
+      rotationIndex: next.rotationIndex,
+      unlockedForUserId: next.kind === "open" ? null : queue[next.rotationIndex],
+      unlockExpiresAt: next.unlockExpiresAt,
+    },
   });
 }
 
@@ -145,15 +125,3 @@ export async function hasCompletedTodayChecks(
   );
 }
 
-/** True, pokud uživatel může claimnout danou TaskInstance (bez blokujících podmínek). */
-export function canUserClaim(
-  inst: {
-    status: string;
-    unlockedForUserId: string | null;
-  },
-  userId: string,
-): boolean {
-  if (inst.status !== "AVAILABLE") return false;
-  if (inst.unlockedForUserId === null) return true; // open phase
-  return inst.unlockedForUserId === userId;
-}

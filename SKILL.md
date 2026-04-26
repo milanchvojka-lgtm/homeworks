@@ -164,9 +164,14 @@ Existují tři typy nejednoznačnosti:
 - ❌ CI pipeline s testy
 
 ### Co bys ale měl mít:
-- ✅ **Unit testy pro datum/čas helpery** (`lib/week.ts`, `lib/rotation.ts`) — kritická logika, drahé chyby
-- ✅ **Unit testy pro výpočty** (kredit, bonus, rotační algoritmus)
+- ✅ **Unit testy pro datum/čas helpery** (`lib/time.ts`) — kritická logika, drahé chyby
+- ✅ **Unit testy pro výpočty** (kredit, bonus, rotační algoritmus — `lib/rotation-pure.ts`, `lib/task-rotation-pure.ts`)
 - ✅ **Manuální happy path test** po každém milestonu
+
+### Konvence
+- `lib/foo.ts` → DB I/O, server-only. `lib/foo-pure.ts` → čisté funkce, bez `server-only`. Testy importují jen `-pure` moduly.
+- Testy v `tests/`. Spustit `npm test` (one-shot) nebo `npm run test:watch`.
+- **Spouštěj `npm test` po každém milestone** — ověření, že předchozí milestony nejsou rozbité refaktorem.
 
 ### Test framework
 Vitest. Jednoduchý setup, rychlý.

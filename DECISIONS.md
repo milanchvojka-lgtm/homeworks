@@ -73,6 +73,22 @@
 
 ---
 
+## D6 — Vitest pro pure logiku, `-pure.ts` boundary
+
+**Rozhodnutí:** Unit testy přes Vitest, jen pro čisté funkce (rotation, time, výpočty). DB-touching kód se netestuje, ten ověřuje manuální happy path + cron smoke testy. **Konvence:** `lib/foo.ts` (server-only, DB I/O) re-exportuje pure helpery z `lib/foo-pure.ts`. Testy importují vždy `-pure`.
+
+**Důvod:**
+- Server-only moduly nelze importovat do testů (`server-only` package házet při importu mimo RSC).
+- Mockování Prisma client je upovídané a brittle. Extrakce pure logiky je rychlejší a stejně bezpečnější.
+- DST bug v `computeWeekIndex` (spring-forward týden má 167 h, ne 168 h → `Math.floor` vrátí 0 místo 1) by se v UI testu nikdy nevyřešil — unit test ho najde okamžitě.
+
+**Důsledky:**
+- Kritická logika z M2/M3 přesunuta do `lib/rotation-pure.ts`, `lib/task-rotation-pure.ts`.
+- `npm test` se spouští **po každém milestonu** (ne v CI — solo dev, žádná pipeline pro v1).
+- Když přidáváš nové výpočty (M4 kredit, M5 bonus), čistou matematiku vždy do `-pure` modulu.
+
+---
+
 ## D4 — DB provider: Supabase
 
 **Rozhodnutí:** Postgres přes Supabase (free tier).
