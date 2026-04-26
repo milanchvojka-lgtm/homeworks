@@ -3,6 +3,26 @@ import { startOfDay, startOfWeek, endOfWeek, addDays } from "date-fns";
 
 export const PRAGUE_TZ = "Europe/Prague";
 
+/** Hour (0–23) v Praze pro daný moment. */
+export function hourInPrague(date: Date = new Date()): number {
+  return Number(
+    new Intl.DateTimeFormat("en-US", {
+      hour: "2-digit",
+      hour12: false,
+      timeZone: PRAGUE_TZ,
+    }).format(date),
+  );
+}
+
+/** Den v týdnu v Praze (0=neděle, 1=pondělí, …, 6=sobota). */
+export function dayOfWeekInPrague(date: Date = new Date()): number {
+  const wd = new Intl.DateTimeFormat("en-US", {
+    weekday: "short",
+    timeZone: PRAGUE_TZ,
+  }).format(date);
+  return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].indexOf(wd);
+}
+
 /** "Now" in Prague timezone, returned as a Date in UTC. */
 export function nowInPrague(): Date {
   return toZonedTime(new Date(), PRAGUE_TZ);

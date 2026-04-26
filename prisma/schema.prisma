@@ -27,7 +27,10 @@ model User {
   createdAt           DateTime  @default(now())
   updatedAt           DateTime  @updatedAt
 
-  sessions            Session[]
+  sessions               Session[]
+  competencyAssignments  CompetencyAssignment[]
+  dailyCheckInstances    DailyCheckInstance[]    @relation("DailyCheckInstanceUser")
+  reviewedCheckInstances DailyCheckInstance[]    @relation("DailyCheckInstanceReviewer")
 }
 
 model Session {
@@ -39,4 +42,101 @@ model Session {
   createdAt DateTime @default(now())
 
   @@index([userId])
+}
+
+model Competency {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  order       Int
+
+  dailyChecks DailyCheck[]
+  assignments CompetencyAssignment[]
+}
+
+enum TimeOfDay {
+  MORNING
+  EVENING
+  ANYTIME
+}
+
+model DailyCheck {
+  id           String     @id @default(cuid())
+  competencyId String
+  competency   Competency @relation(fields: [competencyId], references: [id], onDelete: Cascade)
+  name         String
+  timeOfDay    TimeOfDay
+  order        Int
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  instances    DailyCheckInstance[]
+
+  @@index([competencyId])
+}
+
+model CompetencyAssignment {
+  id           String     @id @default(cuid())
+  competencyId String
+  competency   Competency @relation(fields: [competencyId], references: [id], onDelete: Cascade)
+  userId       String
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  weekStart    DateTime
+  weekEnd      DateTime
+
+  @@unique([userId, weekStart])
+  @@index([weekStart])
+}
+
+enum CheckStatus {
+  PENDING
+  SUBMITTED
+  APPROVED
+  REJECTED
+  MISSED
+}
+
+model DailyCheckInstance {
+  id           String      @id @default(cuid())
+  dailyCheckId String
+  dailyCheck   DailyCheck  @relation(fields: [dailyCheckId], references: [id], onDelete: Cascade)
+  userId       String
+  user         User        @relation("DailyCheckInstanceUser", fields: [userId], references: [id], onDelete: Cascade)
+  date         DateTime
+  status       CheckStatus @default(PENDING)
+  submittedAt  DateTime?
+  reviewedAt   DateTime?
+  reviewerId   String?
+  reviewer     User?       @relation("DailyCheckInstanceReviewer", fields: [reviewerId], references: [id], onDelete: SetNull)
+  note         String?
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  @@unique([dailyCheckId, userId, date])
+  @@index([userId, date])
+  @@index([status])
+}
+
+enum NotificationEventType {
+  CHECK_SUBMITTED
+  TASK_PENDING_REVIEW
+  SCREEN_TIME_REQUESTED
+}
+
+model NotificationQueue {
+  id        String                @id @default(cuid())
+  eventType NotificationEventType
+  payload   Json
+  createdAt DateTime              @default(now())
+  sentAt    DateTime?
+
+  @@index([sentAt])
+}
+
+model NotificationLog {
+  id        String   @id @default(cuid())
+  sentAt    DateTime @default(now())
+  itemCount Int
+
+  @@index([sentAt])
 }

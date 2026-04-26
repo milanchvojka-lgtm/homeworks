@@ -1,25 +1,15 @@
 name: Cron jobs
 
-# Skeleton workflow pro Homeworks cron infrastructure (viz DECISIONS.md D1).
+# Cron infrastructure pro Homeworks (viz DECISIONS.md D1).
 # Volá `/api/cron/*` endpointy na Vercelu s `CRON_SECRET` headerem.
 #
 # Repo secrets potřebné v Settings → Secrets and variables → Actions:
 #   DEPLOY_URL    — kořenová URL produkčního Vercel deploye
-#                   (např. https://homeworks-rose.vercel.app)
 #   CRON_SECRET   — sdílený secret, identický s `CRON_SECRET` env na Vercelu
-#                   (vygeneruj přes `openssl rand -hex 32`)
 #
-# Pro M0 zatím jen ruční trigger + health check. V M2+ se přidají:
-#   - schedule:  daily 00:05 Prague  → /api/cron/daily-rollover
-#   - schedule:  daily 23:59 Prague  → /api/cron/daily-close
-#   - schedule:  Sun 23:55 Prague    → /api/cron/weekly-rotation
-#   - schedule:  Sun 23:59 Prague    → /api/cron/weekly-close
-#   - schedule:  daily 06:00 Prague  → /api/cron/recurring-tasks
-#   - schedule:  every 15 min        → /api/cron/claim-timeout + admin-digest
-#   - schedule:  EOM 23:58 Prague    → /api/cron/monthly-close
-# Cron expressions GitHub Actions interpretuje v UTC; každý handler musí
-# v sobě zkontrolovat, že je teď opravdu to správné okno v Europe/Prague
-# (DST safety — viz DECISIONS.md D1).
+# Cron expressions GitHub Actions interpretuje v UTC; každý handler je
+# idempotentní + uvnitř si timezone-aware kontroly dělá sám (viz D5).
+# Dvojí spuštění (zima/léto offset) handlerům nevadí — operace jsou idempotentní.
 
 on:
   workflow_dispatch:
@@ -28,33 +18,61 @@ on:
         description: "Cron endpoint to ping (without /api/cron/ prefix)"
         required: true
         default: "health"
-  # schedule:
-  #   - cron: "*/15 * * * *"  # M2+ — claim-timeout + admin-digest
+  schedule:
+    # daily-rollover: 00:05 Prague (23:05 UTC zima / 22:05 UTC léto)
+    - cron: "5 23 * * *"
+    - cron: "5 22 * * *"
+    # daily-close: 23:59 Prague (22:59 UTC zima / 21:59 UTC léto)
+    - cron: "59 22 * * *"
+    - cron: "59 21 * * *"
+    # weekly-rotation: Sun 23:55 Prague (22:55 UTC zima / 21:55 UTC léto)
+    - cron: "55 22 * * 0"
+    - cron: "55 21 * * 0"
+    # admin-digest: každých 15 minut
+    - cron: "*/15 * * * *"
 
 jobs:
-  ping:
-    name: Ping ${{ github.event.inputs.endpoint || 'health' }}
+  manual:
+    name: Manual ping ${{ github.event.inputs.endpoint }}
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - uses: actions/checkout@v4
+      - name: Sanity check secrets
+        run: |
+          if [ -z "${{ secrets.DEPLOY_URL }}" ]; then echo "::error::DEPLOY_URL not set"; exit 1; fi
+          if [ -z "${{ secrets.CRON_SECRET }}" ]; then echo "::error::CRON_SECRET not set"; exit 1; fi
+      - name: Call endpoint
+        env:
+          ENDPOINT: ${{ github.event.inputs.endpoint }}
+        run: |
+          set -euo pipefail
+          curl -fsS -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            "${{ secrets.DEPLOY_URL }}/api/cron/${ENDPOINT}"; echo
+
+  scheduled:
+    name: Scheduled (${{ github.event.schedule }})
+    if: github.event_name == 'schedule'
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
       - name: Sanity check secrets
         run: |
-          if [ -z "${{ secrets.DEPLOY_URL }}" ]; then
-            echo "::error::DEPLOY_URL secret is not set."
-            exit 1
-          fi
-          if [ -z "${{ secrets.CRON_SECRET }}" ]; then
-            echo "::error::CRON_SECRET secret is not set."
-            exit 1
-          fi
-      - name: Call endpoint
+          if [ -z "${{ secrets.DEPLOY_URL }}" ]; then echo "::error::DEPLOY_URL not set"; exit 1; fi
+          if [ -z "${{ secrets.CRON_SECRET }}" ]; then echo "::error::CRON_SECRET not set"; exit 1; fi
+      - name: Route schedule → endpoint
         env:
-          ENDPOINT: ${{ github.event.inputs.endpoint || 'health' }}
+          SCHEDULE: ${{ github.event.schedule }}
         run: |
           set -euo pipefail
-          URL="${{ secrets.DEPLOY_URL }}/api/cron/${ENDPOINT}"
-          echo "Calling: ${URL}"
-          curl -fsS \
-            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
-            "${URL}"
-          echo
+          case "${SCHEDULE}" in
+            "5 23 * * *"|"5 22 * * *")  ENDPOINT="daily-rollover" ;;
+            "59 22 * * *"|"59 21 * * *") ENDPOINT="daily-close" ;;
+            "55 22 * * 0"|"55 21 * * 0") ENDPOINT="weekly-rotation" ;;
+            "*/15 * * * *")              ENDPOINT="admin-digest" ;;
+            *) echo "::error::Unknown schedule: ${SCHEDULE}"; exit 1 ;;
+          esac
+          echo "Schedule ${SCHEDULE} → /api/cron/${ENDPOINT}"
+          curl -fsS -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            "${{ secrets.DEPLOY_URL }}/api/cron/${ENDPOINT}"; echo
