@@ -1,0 +1,68 @@
+# Architectural Decisions
+
+> Záznam zásadních rozhodnutí, která rozšiřují / upřesňují PRD a IMPLEMENTATION_PLAN.
+> Číslováno chronologicky. Při rozporu s plánem má DECISIONS prioritu (novější).
+
+---
+
+## D1 — Cron strategy: GitHub Actions → Vercel endpoint
+
+**Rozhodnutí:** Cron joby NEspouští Vercel Cron. Místo toho GitHub Actions workflow volá HTTPS endpointy na Vercelu (`/api/cron/*`) přes `curl` s autorizací přes `CRON_SECRET` header.
+
+**Důvod:**
+- Vercel Hobby cron je omezený na 2 entries × 1×/den. Plán potřebuje 4+ jobů různé frekvence.
+- Vercel Pro ($20/měs) porušuje "0 Kč/měsíc" cíl PRD.
+- GitHub Actions cron je free (2000 min/měs pro private repo), bez limitů na frekvenci/počet jobů.
+- DST: cron běží v UTC, handler ověřuje "je teď to správné okno v `Europe/Prague`?"
+- Lokální debug: `curl localhost:3000/api/cron/X` = stejný flow jako produkce.
+
+**Důsledky:**
+- `.github/workflows/cron.yml` je load-bearing soubor.
+- Endpoint hlavičky musí ověřit `CRON_SECRET` (defense in depth, endpointy jsou veřejné HTTPS).
+- GitHub Actions cron má best-effort delay (typicky < 5 min). Pro tuto appku zanedbatelné.
+
+---
+
+## D2 — DailyCheckInstance: eager generování ráno
+
+**Rozhodnutí:** `DailyCheckInstance` se generuje **eager** ranním cronem (00:05 Prague), NE lazy při otevření `/child/today`.
+
+**Důvod:**
+- Lazy přístup z plánu M2.5 má díru: pokud holka appku ten den neotevře, instance neexistují → missed cron je nemá co označit jako MISSED → měsíční bonus se připíše neoprávněně.
+- Optimalizace nemá hodnotu: 3 holky × ~5 checků = 15 řádků/den, ~5500/rok. Triviální velikost.
+- Eager dává jediný zdroj pravdy a zjednodušuje logiku missed/bonus.
+
+**Důsledky:**
+- Nový cron job: `daily-rollover` (každé ráno generuje instance pro dnešní den podle `CompetencyAssignment` daného týdne).
+- Pokud admin upraví `DailyCheck` šablonu během dne, **existující instance pro dnešek se NEMĚNÍ** (historie zamrzá k okamžiku vzniku). Změna se projeví od dalšího dne.
+- `MISSED` cron se zjednoduší: `UPDATE DailyCheckInstance SET status='MISSED' WHERE status='PENDING' AND date < today`.
+
+---
+
+## D3 — Admin notifikace: e-mail digest přes Resend
+
+**Rozhodnutí:** Pro v1 admini dostávají souhrnný e-mail (digest), když mají něco k odbavení (čekající checky, hlášené úkoly, žádosti o obrazovku). Žádné PWA push, žádný Telegram pro v1.
+
+**Důvod:**
+- Pouze badge (per PRD) je #1 riziko: rodič si nepamatuje otevřít appku → holka čeká → systém se opotřebí.
+- E-mail je nejrobustnější (na telefonu admini už mají e-mail notifikace zapnuté), zero uživatelský setup.
+- Resend free tier (3000 e-mailů/měs, 100/den) bohatě stačí.
+
+**Implementace:**
+- Tabulka `NotificationQueue` (event log: typ, payload, createdAt, sentAt).
+- Při relevantní akci (`SUBMITTED` check, `PENDING_REVIEW` úkol, `PENDING` screen-time request) → enqueue záznam.
+- Cron každých 15 min: pokud jsou unsent items A poslední odeslaný digest šel před >10 min → pošli souhrn na admin e-mail(y).
+- Safety-net "evening digest" v 20:00 Prague (pokud by se cron job zasekl).
+
+**Out of scope pro v1:** PWA Web Push (zvážit v M6), Telegram, per-event okamžité notifikace.
+
+---
+
+## D4 — DB provider: Supabase
+
+**Rozhodnutí:** Postgres přes Supabase (free tier).
+
+**Důvod:**
+- Milan už má Supabase účet z jiného projektu = nula context-switchingu.
+- Free tier (500 MB) bohatě stačí pro 5 uživatelů a desítky zápisů týdně.
+- Používáme **jen Postgres connection** — ne Supabase Auth, Storage ani Realtime. Datový model je portable, případná migrace na Neon = změna `DATABASE_URL`.
