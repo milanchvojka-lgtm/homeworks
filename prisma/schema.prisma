@@ -10,3 +10,33 @@ datasource db {
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
+
+enum Role {
+  ADMIN
+  CHILD
+}
+
+model User {
+  id                  String    @id @default(cuid())
+  name                String
+  role                Role
+  pinHash             String
+  avatarColor         String    @default("#888")
+  rotationOrder       Int?
+  monthlyAllowanceCzk Int       @default(0)
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  sessions            Session[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}

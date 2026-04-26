@@ -1,10 +1,18 @@
-export default function Home() {
-  return (
-    <main className="flex flex-1 flex-col items-center justify-center px-6">
-      <div className="max-w-md text-center">
-        <h1 className="text-4xl font-semibold tracking-tight">Homeworks</h1>
-        <p className="mt-3 text-sm text-zinc-500">v1 — bootstrap</p>
-      </div>
-    </main>
-  );
+import { redirect } from "next/navigation";
+import { db } from "@/lib/db";
+import { getSession } from "@/lib/auth";
+import { LoginScreen } from "./_components/login-screen";
+
+export default async function Home() {
+  const user = await getSession();
+  if (user) {
+    redirect(user.role === "ADMIN" ? "/admin" : "/child");
+  }
+
+  const users = await db.user.findMany({
+    select: { id: true, name: true, role: true, avatarColor: true },
+    orderBy: [{ role: "asc" }, { name: "asc" }],
+  });
+
+  return <LoginScreen users={users} />;
 }
