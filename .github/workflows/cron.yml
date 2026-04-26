@@ -36,6 +36,9 @@ on:
     # recurring-tasks: 06:00 Prague (05:00 UTC zima / 04:00 UTC léto)
     - cron: "0 5 * * *"
     - cron: "0 4 * * *"
+    # monthly-close: denně 23:58 Prague (handler skipne, pokud není poslední den měsíce)
+    - cron: "58 22 * * *"
+    - cron: "58 21 * * *"
     # admin-digest + claim-timeout: každých 15 minut (oba zároveň)
     - cron: "*/15 * * * *"
 
@@ -81,6 +84,7 @@ jobs:
             "55 22 * * 0"|"55 21 * * 0") ENDPOINTS="weekly-rotation" ;;
             "59 22 * * 0"|"59 21 * * 0") ENDPOINTS="weekly-close" ;;
             "0 5 * * *"|"0 4 * * *")     ENDPOINTS="recurring-tasks" ;;
+            "58 22 * * *"|"58 21 * * *") ENDPOINTS="monthly-close" ;;
             "*/15 * * * *")              ENDPOINTS="claim-timeout admin-digest" ;;
             *) echo "::error::Unknown schedule: ${SCHEDULE}"; exit 1 ;;
           esac

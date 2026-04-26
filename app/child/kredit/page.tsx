@@ -2,27 +2,31 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { db } from "@/lib/db";
 import { getSession } from "@/lib/auth";
+import { getBonusStatus } from "@/lib/bonus";
 import {
   computeScreenTimeCost,
   getAppSettings,
   getCurrentBalance,
   getWeekTotals,
 } from "@/lib/credit";
+import { BonusBanner } from "../_components/bonus-banner";
 import { ScreenTimeRequester } from "../_components/screen-time-requester";
 
 export default async function ChildCreditPage() {
   const user = await getSession();
   if (!user) redirect("/");
 
-  const [balance, weekTotals, settings, pendingRequest] = await Promise.all([
-    getCurrentBalance(user.id),
-    getWeekTotals(user.id),
-    getAppSettings(),
-    db.screenTimeRequest.findFirst({
-      where: { userId: user.id, status: "PENDING" },
-      orderBy: { createdAt: "desc" },
-    }),
-  ]);
+  const [balance, weekTotals, settings, pendingRequest, bonusStatus] =
+    await Promise.all([
+      getCurrentBalance(user.id),
+      getWeekTotals(user.id),
+      getAppSettings(),
+      db.screenTimeRequest.findFirst({
+        where: { userId: user.id, status: "PENDING" },
+        orderBy: { createdAt: "desc" },
+      }),
+      getBonusStatus(user.id),
+    ]);
 
   const offers = [30, 60, 90].map((m) => ({
     minutes: m,
@@ -62,15 +66,9 @@ export default async function ChildCreditPage() {
         </p>
       </section>
 
-      <section className="mt-4 rounded-2xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900">
-        <div className="text-xs font-medium uppercase tracking-wide text-zinc-500">
-          Bonus
-        </div>
-        <div className="mt-1 text-sm">Bonus tento měsíc stále ve hře 🎯</div>
-        <p className="mt-1 text-xs text-zinc-500">
-          (Logika měsíčního bonusu přijde v M5.)
-        </p>
-      </section>
+      <div className="mt-4">
+        <BonusBanner status={bonusStatus} amount={settings.monthlyBonusCzk} />
+      </div>
 
       <section className="mt-4">
         <h2 className="text-lg font-semibold">Chci obrazovku</h2>

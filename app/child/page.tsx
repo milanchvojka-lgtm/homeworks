@@ -1,8 +1,11 @@
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { getSession } from "@/lib/auth";
+import { getBonusStatus } from "@/lib/bonus";
+import { getAppSettings } from "@/lib/credit";
 import { getCurrentAssignment } from "@/lib/rotation";
 import { startOfDayPrague } from "@/lib/time";
+import { BonusBanner } from "./_components/bonus-banner";
 import { TodayChecks } from "./_components/today-checks";
 
 export default async function ChildToday() {
@@ -10,15 +13,23 @@ export default async function ChildToday() {
   if (!user) redirect("/");
 
   const today = startOfDayPrague();
-  const assignment = await getCurrentAssignment(user.id);
-  const instances = await db.dailyCheckInstance.findMany({
-    where: { userId: user.id, date: today },
-    include: { dailyCheck: true },
-    orderBy: [{ dailyCheck: { order: "asc" } }],
-  });
+  const [assignment, instances, bonusStatus, settings] = await Promise.all([
+    getCurrentAssignment(user.id),
+    db.dailyCheckInstance.findMany({
+      where: { userId: user.id, date: today },
+      include: { dailyCheck: true },
+      orderBy: [{ dailyCheck: { order: "asc" } }],
+    }),
+    getBonusStatus(user.id),
+    getAppSettings(),
+  ]);
 
   return (
     <div>
+      <div className="mb-4">
+        <BonusBanner status={bonusStatus} amount={settings.monthlyBonusCzk} />
+      </div>
+
       <h1 className="text-2xl font-semibold">Dnes</h1>
       {assignment ? (
         <p className="mt-1 text-sm text-zinc-500">

@@ -1,10 +1,7 @@
 import { NextResponse } from "next/server";
 import { checkCronAuth } from "@/lib/cron";
 import { db } from "@/lib/db";
-import {
-  aggregateTransactions,
-  computeWeeklyPayout,
-} from "@/lib/credit";
+import { computeWeeklyPayout } from "@/lib/credit";
 import { endOfWeekPrague, startOfWeekPrague } from "@/lib/time";
 
 /**
@@ -42,11 +39,19 @@ export async function GET(request: Request) {
       },
       select: { type: true, amountCzk: true },
     });
-    const agg = aggregateTransactions(txs as never);
+    // Earned (jen TASK_REWARD), screen time, a bonus (MONTHLY_BONUS) reportujeme zvlášť.
+    let earnedCzk = 0;
+    let screenTimeCzk = 0;
+    let bonusCzk = 0;
+    for (const t of txs) {
+      if (t.type === "TASK_REWARD") earnedCzk += t.amountCzk;
+      else if (t.type === "SCREEN_TIME") screenTimeCzk += Math.abs(t.amountCzk);
+      else if (t.type === "MONTHLY_BONUS") bonusCzk += t.amountCzk;
+    }
     const totalPayout = computeWeeklyPayout({
-      earnedCzk: agg.earnedCzk - 0, // bez bonusu — bonus přijde v M5
-      screenTimeCzk: agg.screenTimeCzk,
-      bonusCzk: 0,
+      earnedCzk,
+      screenTimeCzk,
+      bonusCzk,
     });
 
     await db.weeklyPayout.create({
@@ -54,9 +59,9 @@ export async function GET(request: Request) {
         userId: child.id,
         weekStart,
         weekEnd,
-        totalEarnedCzk: agg.earnedCzk,
-        totalScreenTimeCzk: agg.screenTimeCzk,
-        bonusCzk: 0,
+        totalEarnedCzk: earnedCzk,
+        totalScreenTimeCzk: screenTimeCzk,
+        bonusCzk,
         totalPayoutCzk: totalPayout,
       },
     });

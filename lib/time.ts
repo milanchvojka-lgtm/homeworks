@@ -1,5 +1,12 @@
 import { fromZonedTime, toZonedTime } from "date-fns-tz";
-import { startOfDay, startOfWeek, endOfWeek, addDays } from "date-fns";
+import {
+  addDays,
+  endOfMonth,
+  endOfWeek,
+  startOfDay,
+  startOfMonth,
+  startOfWeek,
+} from "date-fns";
 
 export const PRAGUE_TZ = "Europe/Prague";
 
@@ -51,4 +58,23 @@ export function endOfWeekPrague(date: Date = new Date()): Date {
 /** Start of next week (next Monday 00:00 Prague), as UTC Date. */
 export function startOfNextWeekPrague(date: Date = new Date()): Date {
   return addDays(startOfWeekPrague(date), 7);
+}
+
+/** 1st of the month 00:00 Prague, as UTC Date. */
+export function startOfMonthPrague(date: Date = new Date()): Date {
+  const zoned = toZonedTime(date, PRAGUE_TZ);
+  return fromZonedTime(startOfMonth(zoned), PRAGUE_TZ);
+}
+
+/** Last day of the month 23:59:59.999 Prague, as UTC Date. */
+export function endOfMonthPrague(date: Date = new Date()): Date {
+  const zoned = toZonedTime(date, PRAGUE_TZ);
+  return fromZonedTime(endOfMonth(zoned), PRAGUE_TZ);
+}
+
+/** True, pokud je v Praze poslední den měsíce. */
+export function isLastDayOfMonthInPrague(date: Date = new Date()): boolean {
+  const zoned = toZonedTime(date, PRAGUE_TZ);
+  const eom = toZonedTime(endOfMonthPrague(date), PRAGUE_TZ);
+  return zoned.getDate() === eom.getDate();
 }
