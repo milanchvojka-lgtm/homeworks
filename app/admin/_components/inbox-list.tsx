@@ -2,11 +2,13 @@
 
 import { useState, useTransition } from "react";
 import { approveCheckAction, rejectCheckAction } from "@/app/actions/checks";
+import { approveTaskAction, rejectTaskAction } from "@/app/actions/tasks";
 
 type Item = {
   id: string;
-  checkName: string;
-  competencyName: string;
+  kind: "check" | "task";
+  title: string;
+  subtitle: string;
   submittedAt: string | null;
 };
 
@@ -19,18 +21,24 @@ export function InboxList({ items }: { items: Item[] }) {
   const visible = items.filter((i) => !hidden.has(i.id));
   if (visible.length === 0) return null;
 
-  const approve = (id: string) => {
+  const approve = (item: Item) => {
     startTransition(async () => {
-      const res = await approveCheckAction(id);
-      if (res.ok) setHidden((h) => new Set(h).add(id));
+      const res =
+        item.kind === "check"
+          ? await approveCheckAction(item.id)
+          : await approveTaskAction(item.id);
+      if (res.ok) setHidden((h) => new Set(h).add(item.id));
     });
   };
 
-  const reject = (id: string) => {
+  const reject = (item: Item) => {
     startTransition(async () => {
-      const res = await rejectCheckAction(id, note);
+      const res =
+        item.kind === "check"
+          ? await rejectCheckAction(item.id, note)
+          : await rejectTaskAction(item.id, note);
       if (res.ok) {
-        setHidden((h) => new Set(h).add(id));
+        setHidden((h) => new Set(h).add(item.id));
         setRejectingId(null);
         setNote("");
       }
@@ -46,9 +54,9 @@ export function InboxList({ items }: { items: Item[] }) {
         >
           <div className="flex items-start justify-between gap-3">
             <div className="flex-1">
-              <div className="text-sm font-medium">{i.checkName}</div>
+              <div className="text-sm font-medium">{i.title}</div>
               <div className="text-xs text-zinc-500">
-                {i.competencyName}
+                {i.subtitle}
                 {i.submittedAt
                   ? ` • ${new Date(i.submittedAt).toLocaleTimeString("cs-CZ", { hour: "2-digit", minute: "2-digit" })}`
                   : ""}
@@ -56,7 +64,7 @@ export function InboxList({ items }: { items: Item[] }) {
             </div>
             <div className="flex shrink-0 gap-2">
               <button
-                onClick={() => approve(i.id)}
+                onClick={() => approve(i)}
                 disabled={isPending}
                 className="rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-medium text-white disabled:opacity-40"
               >
@@ -85,7 +93,7 @@ export function InboxList({ items }: { items: Item[] }) {
                 autoFocus
               />
               <button
-                onClick={() => reject(i.id)}
+                onClick={() => reject(i)}
                 disabled={isPending}
                 className="rounded-lg bg-red-600 px-3 py-1.5 text-xs font-medium text-white disabled:opacity-40"
               >

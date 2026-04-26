@@ -2,7 +2,7 @@ import { db } from "@/lib/db";
 import { InboxList } from "./_components/inbox-list";
 
 export default async function AdminInbox() {
-  const submitted = await db.dailyCheckInstance.findMany({
+  const submittedChecks = await db.dailyCheckInstance.findMany({
     where: { status: "SUBMITTED" },
     include: {
       user: { select: { id: true, name: true, avatarColor: true } },
@@ -11,28 +11,76 @@ export default async function AdminInbox() {
     orderBy: { submittedAt: "asc" },
   });
 
-  const groupedByUser = new Map<
+  const pendingTasks = await db.taskInstance.findMany({
+    where: { status: "PENDING_REVIEW" },
+    include: {
+      task: { select: { name: true, valueCzk: true } },
+    },
+    orderBy: { submittedAt: "asc" },
+  });
+
+  const claimerIds = Array.from(
+    new Set(pendingTasks.map((t) => t.claimedById).filter(Boolean) as string[]),
+  );
+  const claimers = await db.user.findMany({
+    where: { id: { in: claimerIds } },
+    select: { id: true, name: true, avatarColor: true },
+  });
+  const claimerById = new Map(claimers.map((c) => [c.id, c]));
+
+  type GroupItem = {
+    id: string;
+    kind: "check" | "task";
+    title: string;
+    subtitle: string;
+    submittedAt: string | null;
+  };
+
+  const grouped = new Map<
     string,
     {
       user: { id: string; name: string; avatarColor: string };
-      items: typeof submitted;
+      items: GroupItem[];
     }
   >();
-  for (const s of submitted) {
-    const existing = groupedByUser.get(s.userId);
-    if (existing) existing.items.push(s);
-    else groupedByUser.set(s.userId, { user: s.user, items: [s] });
+
+  for (const c of submittedChecks) {
+    const g = grouped.get(c.userId) ?? { user: c.user, items: [] };
+    g.items.push({
+      id: c.id,
+      kind: "check",
+      title: c.dailyCheck.name,
+      subtitle: c.dailyCheck.competency.name,
+      submittedAt: c.submittedAt?.toISOString() ?? null,
+    });
+    grouped.set(c.userId, g);
   }
 
-  const groups = Array.from(groupedByUser.values());
+  for (const t of pendingTasks) {
+    if (!t.claimedById) continue;
+    const user = claimerById.get(t.claimedById);
+    if (!user) continue;
+    const g = grouped.get(user.id) ?? { user, items: [] };
+    g.items.push({
+      id: t.id,
+      kind: "task",
+      title: t.task.name,
+      subtitle: `Úkol • ${t.task.valueCzk} Kč`,
+      submittedAt: t.submittedAt?.toISOString() ?? null,
+    });
+    grouped.set(user.id, g);
+  }
+
+  const groups = Array.from(grouped.values());
+  const total = submittedChecks.length + pendingTasks.length;
 
   return (
     <div>
       <h1 className="text-2xl font-semibold">Inbox</h1>
       <p className="mt-1 text-sm text-zinc-500">
-        {submitted.length === 0
+        {total === 0
           ? "Nic ke schválení."
-          : `${submitted.length} položek čeká na schválení`}
+          : `${total} položek čeká na schválení`}
       </p>
 
       <div className="mt-6 space-y-6">
@@ -47,14 +95,7 @@ export default async function AdminInbox() {
               </div>
               <span className="text-sm font-medium">{g.user.name}</span>
             </div>
-            <InboxList
-              items={g.items.map((i) => ({
-                id: i.id,
-                checkName: i.dailyCheck.name,
-                competencyName: i.dailyCheck.competency.name,
-                submittedAt: i.submittedAt?.toISOString() ?? null,
-              }))}
-            />
+            <InboxList items={g.items} />
           </section>
         ))}
       </div>

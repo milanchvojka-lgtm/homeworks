@@ -117,6 +117,77 @@ model DailyCheckInstance {
   @@index([status])
 }
 
+model Task {
+  id                  String   @id @default(cuid())
+  name                String
+  description         String?
+  valueCzk            Int
+  timeEstimateMinutes Int?
+  frequencyDays       Int?
+  claimTimeoutHours   Int      @default(24)
+  executeTimeoutHours Int      @default(3)
+  createdById         String
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+  isActive            Boolean  @default(true)
+
+  instances   TaskInstance[]
+  rotationLog TaskRotationLog[]
+
+  @@index([isActive])
+}
+
+enum TaskStatus {
+  AVAILABLE
+  CLAIMED
+  PENDING_REVIEW
+  DONE
+  EXPIRED
+  REJECTED
+}
+
+model TaskInstance {
+  id        String   @id @default(cuid())
+  taskId    String
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  expiresAt DateTime
+  status    TaskStatus @default(AVAILABLE)
+
+  // Rotational queue
+  rotationQueue   Json   // string[] of userIds in priority order
+  rotationIndex   Int    @default(0)
+  unlockedForUserId String?
+  unlockExpiresAt   DateTime?
+
+  // Claim
+  claimedById     String?
+  claimedAt       DateTime?
+  executeDeadline DateTime?
+
+  // Review
+  submittedAt DateTime?
+  reviewedAt  DateTime?
+  reviewerId  String?
+  reviewNote  String?
+
+  @@index([status])
+  @@index([taskId])
+  @@index([unlockedForUserId])
+}
+
+model TaskRotationLog {
+  id     String   @id @default(cuid())
+  taskId String
+  task   Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  userId String
+  doneAt DateTime @default(now())
+
+  @@index([taskId, userId])
+  @@index([taskId, doneAt])
+}
+
 enum NotificationEventType {
   CHECK_SUBMITTED
   TASK_PENDING_REVIEW

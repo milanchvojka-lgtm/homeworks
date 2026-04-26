@@ -28,7 +28,10 @@ on:
     # weekly-rotation: Sun 23:55 Prague (22:55 UTC zima / 21:55 UTC léto)
     - cron: "55 22 * * 0"
     - cron: "55 21 * * 0"
-    # admin-digest: každých 15 minut
+    # recurring-tasks: 06:00 Prague (05:00 UTC zima / 04:00 UTC léto)
+    - cron: "0 5 * * *"
+    - cron: "0 4 * * *"
+    # admin-digest + claim-timeout: každých 15 minut (oba zároveň)
     - cron: "*/15 * * * *"
 
 jobs:
@@ -61,18 +64,22 @@ jobs:
         run: |
           if [ -z "${{ secrets.DEPLOY_URL }}" ]; then echo "::error::DEPLOY_URL not set"; exit 1; fi
           if [ -z "${{ secrets.CRON_SECRET }}" ]; then echo "::error::CRON_SECRET not set"; exit 1; fi
-      - name: Route schedule → endpoint
+      - name: Route schedule → endpoint(s)
         env:
           SCHEDULE: ${{ github.event.schedule }}
         run: |
           set -euo pipefail
+          ENDPOINTS=""
           case "${SCHEDULE}" in
-            "5 23 * * *"|"5 22 * * *")  ENDPOINT="daily-rollover" ;;
-            "59 22 * * *"|"59 21 * * *") ENDPOINT="daily-close" ;;
-            "55 22 * * 0"|"55 21 * * 0") ENDPOINT="weekly-rotation" ;;
-            "*/15 * * * *")              ENDPOINT="admin-digest" ;;
+            "5 23 * * *"|"5 22 * * *")   ENDPOINTS="daily-rollover" ;;
+            "59 22 * * *"|"59 21 * * *") ENDPOINTS="daily-close" ;;
+            "55 22 * * 0"|"55 21 * * 0") ENDPOINTS="weekly-rotation" ;;
+            "0 5 * * *"|"0 4 * * *")     ENDPOINTS="recurring-tasks" ;;
+            "*/15 * * * *")              ENDPOINTS="claim-timeout admin-digest" ;;
             *) echo "::error::Unknown schedule: ${SCHEDULE}"; exit 1 ;;
           esac
-          echo "Schedule ${SCHEDULE} → /api/cron/${ENDPOINT}"
-          curl -fsS -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
-            "${{ secrets.DEPLOY_URL }}/api/cron/${ENDPOINT}"; echo
+          for E in $ENDPOINTS; do
+            echo "Schedule ${SCHEDULE} → /api/cron/${E}"
+            curl -fsS -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+              "${{ secrets.DEPLOY_URL }}/api/cron/${E}"; echo
+          done
