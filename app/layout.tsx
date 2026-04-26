@@ -4,12 +4,23 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Homeworks",
   description: "Rodinný systém pro domácí povinnosti a odměny.",
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    title: "Homeworks",
+    statusBarStyle: "black-translucent",
+  },
+  icons: {
+    icon: "/icon.svg",
+    apple: "/icon.svg",
+  },
 };
 
 export const viewport: Viewport = {
   themeColor: "#0a0a0a",
   width: "device-width",
   initialScale: 1,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({
