@@ -89,6 +89,21 @@
 
 ---
 
+## D7 — Badges: server-side count při renderu layoutu, žádný `lastSeenAt` tracker
+
+**Rozhodnutí:** Badge čísla v navigaci (`Inbox`, `Pool`, `Mé úkoly`) se počítají server-side při každém renderu layoutu jako `db.count` query. **Žádné** sledování „od posledního zobrazení" (které plán M6.2 zmiňoval pro `/child/kredit`).
+
+**Důvod:**
+- 5 uživatelů × 5 tabů = max 25 count queries/render. Trivial.
+- `lastSeenAt` per uživatele × per sekce = nový sloupec/tabulka + invalidace při akcích + edge cases (admin schválí, ale dítě se zatím nepodívalo). Nevyplatí se na škále jedné rodiny.
+- Reset badge na 0 jde sám: jakmile dítě otevře `/child/me-ukoly`, server akce změní stav (CLAIMED → PENDING_REVIEW = mizí z badge), `revalidatePath` přepočítá count.
+
+**Důsledek:**
+- `/child/kredit` a `/child/historie` **nemají badge**, ani když se připíše nová transakce. Plán to chtěl, ale bez `lastSeenAt` to není možné. Pokud Milan/holky budou v provozu chybět, doplní se v v2.
+- Badges nejsou real-time — dítě musí refreshnout / přejít na jinou stránku, aby se aktualizovaly.
+
+---
+
 ## D4 — DB provider: Supabase
 
 **Rozhodnutí:** Postgres přes Supabase (free tier).

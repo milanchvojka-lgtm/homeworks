@@ -9,7 +9,8 @@
 1. Načti [`SKILL.md`](./SKILL.md) — operating manual (jak pracovat).
 2. Načti [`DECISIONS.md`](./DECISIONS.md) — architektonická rozhodnutí (přepisují PRD/plán při rozporu).
 3. Otevři [`PRD.md`](./PRD.md) a [`IMPLEMENTATION_PLAN.md`](./IMPLEMENTATION_PLAN.md) podle toho, na čem se pracuje.
-4. `git log --oneline -10` a `git status` pro orientaci, kde jsme.
+4. Pokud Milan řeší ostrý launch v1, načti [`LAUNCH_CHECKLIST.md`](./LAUNCH_CHECKLIST.md) — open items mimo kód (ENV, secrets, reálná data, ikony).
+5. `git log --oneline -10` a `git status` pro orientaci, kde jsme.
 
 Při rozporu má přednost: **DECISIONS > PRD > Plán**. Pokud něco není pokryté → zeptej se Milana, nehádej.
 
@@ -47,6 +48,7 @@ To samé platí pro otevřené otázky z `PRD.md §8`: jakmile padne odpověď, 
 | Produktové rozhodnutí | `PRD.md` (v repu) | člověk i Claude |
 | Postup implementace | `IMPLEMENTATION_PLAN.md` (v repu) | člověk i Claude |
 | Operating manual | `SKILL.md` (v repu) | Claude (primárně) |
+| Launch open items (mimo kód) | `LAUNCH_CHECKLIST.md` (v repu) | člověk |
 | Preference Milana napříč projekty | `~/.claude/projects/.../memory/` | Claude (auto memory) |
 | Stav rozdělané práce v session | TaskList (in-context) | Claude |
 
