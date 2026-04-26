@@ -1,8 +1,11 @@
 import { Check, Clock, Lock } from "lucide-react";
 import {
   ACCENT,
+  ItemCard,
+  KidHero,
   KidTabs,
   ProfileBar,
+  SectionTitle,
   TourBar,
 } from "../_shared";
 
@@ -25,42 +28,58 @@ export default function AniDnes() {
       <TourBar step={2} />
       <ProfileBar personId="ani" />
       <main className="flex-1 px-5 py-5">
-        {/* Hero card */}
-        <div className="mb-4 rounded-2xl border border-zinc-200 bg-white px-5 py-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-zinc-400">
-                Tento týden
-              </span>
-              <h1 className="mt-1 text-[26px] font-semibold leading-tight">
-                Kuchyň
-              </h1>
-            </div>
-            <span className="rounded-full bg-zinc-900 px-3 py-1.5 text-[11px] font-medium text-white">
-              Středa, 24. 4.
-            </span>
-          </div>
-          <div className="mt-3 flex items-center gap-2 text-[12px] text-zinc-500">
-            <span>2 hotové</span>
-            <span>·</span>
-            <span>3 zbývají</span>
-          </div>
-          <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-zinc-100">
-            <span
-              className="block h-full rounded-full"
-              style={{ width: "40%", backgroundColor: ACCENT }}
-            />
-          </div>
-        </div>
+        <KidHero
+          eyebrow="Tento týden"
+          title="Kuchyň"
+          description="2 hotové · 3 zbývají"
+          meta="Středa, 24. 4."
+          progress={40}
+        />
 
         {/* Bonus dashboard */}
         <BonusCalendar today={24} totalDays={30} />
 
-        <Group title="Ráno" items={morning} />
-        <Group title="Večer" items={evening} />
+        <SectionTitle>Ráno</SectionTitle>
+        <ul className="mb-5 flex flex-col gap-2">
+          {morning.map((it) => (
+            <CheckRow key={it.name} {...it} />
+          ))}
+        </ul>
 
-        {/* Locked extra tasks */}
-        <LockedPoolPreview />
+        <SectionTitle>Večer</SectionTitle>
+        <ul className="mb-5 flex flex-col gap-2">
+          {evening.map((it) => (
+            <CheckRow key={it.name} {...it} />
+          ))}
+        </ul>
+
+        <SectionTitle>Pool extra úkolů</SectionTitle>
+        <p className="mb-3 flex items-center gap-2 text-[12px] text-zinc-500">
+          <Lock size={12} />
+          Splň zbývající 3 checky a pool se odemkne.
+        </p>
+        <ItemCard variant="locked">
+          <div className="flex items-start justify-between gap-4">
+            <div className="flex flex-col gap-1">
+              <h3 className="text-[16px] font-semibold leading-tight text-zinc-700">
+                Vyklidit půdu
+              </h3>
+              <p className="text-[12px] text-zinc-500">
+                Krabice po Vánocích, srovnat na hromady, ostatní vyhodit.
+              </p>
+            </div>
+            <span className="shrink-0 text-[18px] font-semibold text-zinc-400">
+              250&nbsp;Kč
+            </span>
+          </div>
+          <button
+            type="button"
+            disabled
+            className="mt-3 w-full cursor-not-allowed rounded-lg border border-zinc-200 bg-white py-2 text-[12px] font-semibold text-zinc-400"
+          >
+            🔒 Zamčeno · dokonči checky
+          </button>
+        </ItemCard>
       </main>
       <KidTabs active="dnes" />
     </>
@@ -124,63 +143,6 @@ function BonusCalendar({
         })}
       </div>
     </div>
-  );
-}
-
-function LockedPoolPreview() {
-  return (
-    <section className="mt-1">
-      <h2 className="mb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-zinc-400">
-        Pool extra úkolů
-      </h2>
-      <p className="mb-3 flex items-center gap-2 text-[12px] text-zinc-500">
-        <Lock size={12} />
-        Splň zbývající 3 checky a pool se odemkne.
-      </p>
-      <div className="relative rounded-2xl border-2 border-dashed border-zinc-200 bg-zinc-50/50 p-4 opacity-70">
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex flex-col gap-1">
-            <h3 className="text-[16px] font-semibold leading-tight text-zinc-700">
-              Vyklidit půdu
-            </h3>
-            <p className="text-[12px] text-zinc-500">
-              Krabice po Vánocích, srovnat na hromady, ostatní vyhodit.
-            </p>
-          </div>
-          <span className="shrink-0 text-[18px] font-semibold text-zinc-400">
-            250&nbsp;Kč
-          </span>
-        </div>
-        <button
-          type="button"
-          disabled
-          className="mt-3 w-full cursor-not-allowed rounded-lg border border-zinc-200 bg-white py-2 text-[12px] font-semibold text-zinc-400"
-        >
-          🔒 Zamčeno · dokonči checky
-        </button>
-      </div>
-    </section>
-  );
-}
-
-function Group({
-  title,
-  items,
-}: {
-  title: string;
-  items: { name: string; status: Status }[];
-}) {
-  return (
-    <section className="mb-5">
-      <h2 className="mb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-zinc-400">
-        {title}
-      </h2>
-      <ul className="flex flex-col gap-2">
-        {items.map((it) => (
-          <CheckRow key={it.name} {...it} />
-        ))}
-      </ul>
-    </section>
   );
 }
 

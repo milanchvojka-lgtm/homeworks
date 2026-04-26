@@ -127,6 +127,99 @@ export function MockBanner() {
   );
 }
 
+/* ─────────────────────── Shared primitives ─────────────────────── */
+
+/** Top "context card" used as the hero of every kid screen.
+ *  Same skeleton across Ani/Emi/Neli — only content varies. */
+export function KidHero({
+  eyebrow,
+  title,
+  description,
+  meta,
+  progress,
+  tone = "default",
+}: {
+  eyebrow: string;
+  title: string;
+  description?: string;
+  meta?: string;
+  progress?: number;
+  tone?: "default" | "success" | "warning";
+}) {
+  const toneStyles: Record<typeof tone, { border: string; bg: string }> = {
+    default: { border: "border-zinc-200", bg: "bg-white" },
+    success: { border: "border-emerald-200", bg: "bg-emerald-50/40" },
+    warning: { border: "border-amber-200", bg: "bg-amber-50/60" },
+  };
+  const t = toneStyles[tone];
+  return (
+    <div className={`mb-5 rounded-2xl border ${t.border} ${t.bg} px-5 py-4`}>
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex flex-col gap-1">
+          <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-zinc-400">
+            {eyebrow}
+          </span>
+          <h1 className="text-[26px] font-semibold leading-tight text-zinc-900">
+            {title}
+          </h1>
+          {description && (
+            <p className="text-[13px] text-zinc-600">{description}</p>
+          )}
+        </div>
+        {meta && (
+          <span className="rounded-full bg-zinc-900 px-3 py-1 text-[11px] font-medium text-white">
+            {meta}
+          </span>
+        )}
+      </div>
+      {typeof progress === "number" && (
+        <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-zinc-100">
+          <span
+            className="block h-full rounded-full"
+            style={{ width: `${progress}%`, backgroundColor: ACCENT }}
+          />
+        </div>
+      )}
+    </div>
+  );
+}
+
+/** Uppercase section header with trailing hairline. */
+export function SectionTitle({ children }: { children: React.ReactNode }) {
+  return (
+    <h2 className="mb-3 flex items-center gap-3">
+      <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-zinc-400">
+        {children}
+      </span>
+      <span className="h-px flex-1 bg-zinc-200" />
+    </h2>
+  );
+}
+
+/** Base card with variant skin. */
+type CardVariant = "default" | "active" | "locked" | "success" | "warning";
+
+const CARD_CLASSES: Record<CardVariant, string> = {
+  default: "rounded-2xl border border-zinc-200 bg-white p-4",
+  active: "rounded-2xl border-2 border-orange-300 bg-orange-50/50 p-4",
+  locked:
+    "rounded-2xl border-2 border-dashed border-zinc-200 bg-zinc-50/50 p-4 opacity-80",
+  success: "rounded-2xl border border-emerald-200 bg-emerald-50/40 p-4",
+  warning: "rounded-2xl border border-amber-200 bg-amber-50/60 p-4",
+};
+
+export function ItemCard({
+  variant = "default",
+  className = "",
+  children,
+}: {
+  variant?: CardVariant;
+  className?: string;
+  children: React.ReactNode;
+}) {
+  return <div className={`${CARD_CLASSES[variant]} ${className}`}>{children}</div>;
+}
+
 /* ─────────────────────── Shared rows ─────────────────────── */
 
 export function Avatar({

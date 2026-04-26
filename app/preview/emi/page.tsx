@@ -1,8 +1,11 @@
-import { Check, Lock, Timer } from "lucide-react";
+import { Lock, Timer } from "lucide-react";
 import {
   ACCENT,
+  ItemCard,
+  KidHero,
   KidTabs,
   ProfileBar,
+  SectionTitle,
   TourBar,
 } from "../_shared";
 
@@ -44,26 +47,18 @@ export default function EmiPool() {
       <TourBar step={3} />
       <ProfileBar personId="emi" />
       <main className="flex-1 px-5 py-5">
-        {/* Status hero */}
-        <div className="mb-5 flex items-center gap-3 rounded-2xl border border-emerald-200 bg-emerald-50/60 px-4 py-3 text-[13px] text-emerald-900">
-          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-500 text-white">
-            <Check size={18} strokeWidth={3} />
-          </span>
-          <span>
-            <strong className="font-semibold">Obývák — vše dnes hotovo.</strong>
-            <br />
-            Pool extra úkolů je pro tebe odemčený.
-          </span>
-        </div>
+        <KidHero
+          eyebrow="Tento týden"
+          title="Obývák"
+          description="Vše dnes hotovo · pool extra úkolů odemčený"
+          meta="Středa, 24. 4."
+          tone="success"
+        />
 
-        {/* Můžu vzít teď */}
-        <SectionHeader label="Můžu vzít teď" tint={ACCENT} />
-        <ul className="mb-6 flex flex-col gap-3">
+        <SectionTitle>Můžu vzít teď</SectionTitle>
+        <ul className="mb-5 flex flex-col gap-3">
           {available.map((task) => (
-            <li
-              key={task.name}
-              className="rounded-2xl border-2 border-orange-300 bg-orange-50/50 p-4"
-            >
+            <ItemCard key={task.name} variant="active">
               <div className="flex items-start justify-between gap-4">
                 <div className="flex flex-col gap-1">
                   <h3 className="text-[18px] font-semibold leading-tight">
@@ -93,52 +88,44 @@ export default function EmiPool() {
                   Vzít si
                 </button>
               </div>
-            </li>
+            </ItemCard>
           ))}
         </ul>
 
-        {/* Mé úkoly */}
-        <SectionHeader label="Mé úkoly · rozpracované" />
-        <ul className="mb-6 flex flex-col gap-3">
+        <SectionTitle>Mé úkoly · rozpracované</SectionTitle>
+        <ul className="mb-5 flex flex-col gap-3">
           {myActive.map((task) => (
-            <li
-              key={task.name}
-              className="rounded-2xl border border-zinc-900 bg-zinc-900 p-4 text-white"
-            >
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <h3 className="text-[16px] font-semibold leading-tight">
-                    {task.name}
-                  </h3>
-                  <p className="mt-1 text-[12px] text-zinc-400">
-                    {task.deadline}
-                  </p>
-                </div>
+            <ItemCard key={task.name} variant="active">
+              <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-orange-600">
+                <Timer size={11} />
+                <span>Aktivní · {task.deadline}</span>
+              </div>
+              <div className="mt-1 flex items-start justify-between gap-4">
+                <h3 className="text-[18px] font-semibold leading-tight">
+                  {task.name}
+                </h3>
                 <span
-                  className="shrink-0 text-[18px] font-semibold"
-                  style={{ color: "#FF8533" }}
+                  className="shrink-0 text-[22px] font-semibold"
+                  style={{ color: ACCENT }}
                 >
                   {task.price}&nbsp;Kč
                 </span>
               </div>
               <button
                 type="button"
-                className="mt-3 w-full rounded-lg bg-white px-4 py-2 text-[13px] font-semibold text-zinc-900"
+                className="mt-3 w-full rounded-lg py-2 text-[13px] font-semibold text-white"
+                style={{ backgroundColor: ACCENT }}
               >
                 Hotovo, nahlásit ke schválení
               </button>
-            </li>
+            </ItemCard>
           ))}
         </ul>
 
-        {/* Locked */}
-        <SectionHeader label="Zamčeno" />
+        <SectionTitle>Zamčeno</SectionTitle>
         <ul className="flex flex-col gap-3">
           {locked.map((task) => (
-            <li
-              key={task.name}
-              className="rounded-2xl border border-zinc-200 bg-zinc-50 p-4 opacity-80"
-            >
+            <ItemCard key={task.name} variant="locked">
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <h3 className="text-[15px] font-semibold leading-tight">
@@ -154,25 +141,11 @@ export default function EmiPool() {
                   {task.price}&nbsp;Kč
                 </span>
               </div>
-            </li>
+            </ItemCard>
           ))}
         </ul>
       </main>
       <KidTabs active="pool" />
     </>
-  );
-}
-
-function SectionHeader({ label, tint = "#71717A" }: { label: string; tint?: string }) {
-  return (
-    <div className="mb-3 flex items-center gap-3">
-      <span
-        className="text-[11px] font-semibold uppercase tracking-[0.18em]"
-        style={{ color: tint }}
-      >
-        {label}
-      </span>
-      <span className="h-px flex-1 bg-zinc-200" />
-    </div>
   );
 }

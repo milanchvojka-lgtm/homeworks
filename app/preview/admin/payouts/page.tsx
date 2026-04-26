@@ -14,6 +14,7 @@ type Row = {
   screenTime: number;
   bonus: number;
   bonusReason?: string;
+  paidAt?: string;
 };
 
 const rows: Row[] = [
@@ -24,7 +25,13 @@ const rows: Row[] = [
     bonus: 200,
     bonusReason: "perfektní měsíc",
   },
-  { childId: "emi", earned: 200, screenTime: 50, bonus: 0 },
+  {
+    childId: "emi",
+    earned: 200,
+    screenTime: 50,
+    bonus: 0,
+    paidAt: "neděle 21:55",
+  },
   { childId: "neli", earned: 50, screenTime: 0, bonus: 0 },
 ];
 
@@ -114,12 +121,19 @@ function PayoutRow({ row }: { row: Row }) {
           </span>
         </div>
       )}
-      <button
-        type="button"
-        className="mt-3 w-full rounded-lg bg-zinc-900 py-2 text-[13px] font-semibold text-white"
-      >
-        Vyplaceno
-      </button>
+      {row.paidAt ? (
+        <div className="mt-3 flex items-center justify-center gap-2 rounded-lg border border-emerald-200 bg-emerald-50 py-2 text-[12px] font-semibold text-emerald-700">
+          <span>✓</span>
+          <span>Vyplaceno · {row.paidAt}</span>
+        </div>
+      ) : (
+        <button
+          type="button"
+          className="mt-3 w-full rounded-lg bg-zinc-900 py-2 text-[13px] font-semibold text-white"
+        >
+          Vyplatit
+        </button>
+      )}
     </li>
   );
 }

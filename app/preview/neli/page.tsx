@@ -1,8 +1,10 @@
 import { Monitor } from "lucide-react";
 import {
-  ACCENT,
+  ItemCard,
+  KidHero,
   KidTabs,
   ProfileBar,
+  SectionTitle,
   TourBar,
 } from "../_shared";
 
@@ -37,56 +39,32 @@ export default function NeliKredit() {
       <TourBar step={4} />
       <ProfileBar personId="neli" />
       <main className="flex-1 px-5 py-5">
-        {/* Balance card */}
-        <div className="mb-4 rounded-3xl bg-zinc-900 px-6 py-6 text-white">
-          <span className="text-[10px] font-semibold uppercase tracking-[0.27em] opacity-70">
-            K výplatě tento týden
-          </span>
-          <div className="mt-2 flex items-baseline gap-1">
-            <span
-              className="text-[52px] font-semibold leading-none"
-              style={{ color: ACCENT }}
-            >
-              {balance}
-            </span>
-            <span className="text-[20px] font-semibold">Kč</span>
-          </div>
-          <div className="mt-4 grid grid-cols-2 gap-3 text-[12px]">
-            <div className="rounded-xl bg-white/10 px-3 py-2">
-              <div className="text-[10px] uppercase tracking-wider opacity-60">
-                Vyděláno
-              </div>
-              <div className="font-semibold">{earned} Kč</div>
-            </div>
-            <div className="rounded-xl bg-white/10 px-3 py-2">
-              <div className="text-[10px] uppercase tracking-wider opacity-60">
-                Obrazovka
-              </div>
-              <div className="font-semibold">0 Kč</div>
-            </div>
-          </div>
-        </div>
+        <KidHero
+          eyebrow="K výplatě tento týden"
+          title={`${balance} Kč`}
+          description={`Vyděláno +${earned} Kč · obrazovka 0 Kč`}
+        />
 
         {/* Bonus lost banner */}
-        <div className="mb-4 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-[13px] text-rose-900">
+        <ItemCard variant="warning" className="!border-rose-200 !bg-rose-50">
           <div className="flex items-start gap-2">
             <span className="text-[16px]">😞</span>
             <div>
-              <div className="font-semibold">
+              <div className="text-[14px] font-semibold text-rose-900">
                 Bonus tento měsíc už nedosažitelný.
               </div>
-              <div className="text-[12px] opacity-80">
+              <div className="text-[12px] text-rose-800/80">
                 Zaváhala ve čtvrtek 24. 4. — 1 propadlý check.
               </div>
             </div>
           </div>
-        </div>
+        </ItemCard>
 
         {/* Disabled CTA */}
         <button
           type="button"
           disabled
-          className="mb-6 flex w-full cursor-not-allowed items-center justify-between rounded-2xl border-2 border-zinc-200 bg-zinc-100 px-5 py-4 text-zinc-400"
+          className="my-5 flex w-full cursor-not-allowed items-center justify-between rounded-2xl border-2 border-zinc-200 bg-zinc-100 px-5 py-4 text-zinc-400"
         >
           <span className="flex items-center gap-3">
             <span className="flex h-9 w-9 items-center justify-center rounded-full bg-zinc-200">
@@ -106,55 +84,48 @@ export default function NeliKredit() {
           </span>
         </button>
 
-        <SectionLabel>Tento týden</SectionLabel>
-        <ul className="mb-6 flex flex-col">
-          {thisWeek.map((tx, i) => (
-            <li
-              key={i}
-              className="flex items-center justify-between border-b border-zinc-100 py-3 text-[14px] last:border-0"
-            >
-              <span className="text-zinc-700">{tx.name}</span>
-              <span className="font-semibold text-zinc-900">
-                +{tx.amount}&nbsp;Kč
-              </span>
-            </li>
-          ))}
-        </ul>
+        <SectionTitle>Tento týden</SectionTitle>
+        <ItemCard className="mb-5 !p-0">
+          <ul className="flex flex-col">
+            {thisWeek.map((tx, i) => (
+              <li
+                key={i}
+                className="flex items-center justify-between border-b border-zinc-100 px-4 py-3 text-[14px] last:border-0"
+              >
+                <span className="text-zinc-700">{tx.name}</span>
+                <span className="font-semibold text-zinc-900">
+                  +{tx.amount}&nbsp;Kč
+                </span>
+              </li>
+            ))}
+          </ul>
+        </ItemCard>
 
-        <SectionLabel>Historie</SectionLabel>
+        <SectionTitle>Historie</SectionTitle>
         <ul className="flex flex-col gap-2">
           {history.map((w) => (
-            <li
-              key={w.week}
-              className="flex items-center justify-between rounded-xl border border-zinc-200 bg-white px-4 py-3"
-            >
-              <div className="flex flex-col leading-tight">
-                <span className="text-[13px] font-semibold">{w.week}</span>
-                <span className="text-[11px] text-zinc-500">
-                  Vyděláno {w.earned} Kč · obrazovka {w.screenTime} Kč
-                </span>
+            <ItemCard key={w.week}>
+              <div className="flex items-center justify-between">
+                <div className="flex flex-col leading-tight">
+                  <span className="text-[13px] font-semibold">{w.week}</span>
+                  <span className="text-[11px] text-zinc-500">
+                    Vyděláno {w.earned} Kč · obrazovka {w.screenTime} Kč
+                  </span>
+                </div>
+                <div className="flex flex-col items-end leading-tight">
+                  <span className="text-[15px] font-semibold">
+                    {w.payout}&nbsp;Kč
+                  </span>
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.15em] text-emerald-600">
+                    Vyplaceno
+                  </span>
+                </div>
               </div>
-              <div className="flex flex-col items-end leading-tight">
-                <span className="text-[15px] font-semibold">
-                  {w.payout}&nbsp;Kč
-                </span>
-                <span className="text-[10px] font-semibold uppercase tracking-[0.15em] text-emerald-600">
-                  Vyplaceno
-                </span>
-              </div>
-            </li>
+            </ItemCard>
           ))}
         </ul>
       </main>
       <KidTabs active="kredit" />
     </>
-  );
-}
-
-function SectionLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <h2 className="mb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-zinc-400">
-      {children}
-    </h2>
   );
 }
