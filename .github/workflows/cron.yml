@@ -1,0 +1,60 @@
+name: Cron jobs
+
+# Skeleton workflow pro Homeworks cron infrastructure (viz DECISIONS.md D1).
+# Volá `/api/cron/*` endpointy na Vercelu s `CRON_SECRET` headerem.
+#
+# Repo secrets potřebné v Settings → Secrets and variables → Actions:
+#   DEPLOY_URL    — kořenová URL produkčního Vercel deploye
+#                   (např. https://homeworks-rose.vercel.app)
+#   CRON_SECRET   — sdílený secret, identický s `CRON_SECRET` env na Vercelu
+#                   (vygeneruj přes `openssl rand -hex 32`)
+#
+# Pro M0 zatím jen ruční trigger + health check. V M2+ se přidají:
+#   - schedule:  daily 00:05 Prague  → /api/cron/daily-rollover
+#   - schedule:  daily 23:59 Prague  → /api/cron/daily-close
+#   - schedule:  Sun 23:55 Prague    → /api/cron/weekly-rotation
+#   - schedule:  Sun 23:59 Prague    → /api/cron/weekly-close
+#   - schedule:  daily 06:00 Prague  → /api/cron/recurring-tasks
+#   - schedule:  every 15 min        → /api/cron/claim-timeout + admin-digest
+#   - schedule:  EOM 23:58 Prague    → /api/cron/monthly-close
+# Cron expressions GitHub Actions interpretuje v UTC; každý handler musí
+# v sobě zkontrolovat, že je teď opravdu to správné okno v Europe/Prague
+# (DST safety — viz DECISIONS.md D1).
+
+on:
+  workflow_dispatch:
+    inputs:
+      endpoint:
+        description: "Cron endpoint to ping (without /api/cron/ prefix)"
+        required: true
+        default: "health"
+  # schedule:
+  #   - cron: "*/15 * * * *"  # M2+ — claim-timeout + admin-digest
+
+jobs:
+  ping:
+    name: Ping ${{ github.event.inputs.endpoint || 'health' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Sanity check secrets
+        run: |
+          if [ -z "${{ secrets.DEPLOY_URL }}" ]; then
+            echo "::error::DEPLOY_URL secret is not set."
+            exit 1
+          fi
+          if [ -z "${{ secrets.CRON_SECRET }}" ]; then
+            echo "::error::CRON_SECRET secret is not set."
+            exit 1
+          fi
+      - name: Call endpoint
+        env:
+          ENDPOINT: ${{ github.event.inputs.endpoint || 'health' }}
+        run: |
+          set -euo pipefail
+          URL="${{ secrets.DEPLOY_URL }}/api/cron/${ENDPOINT}"
+          echo "Calling: ${URL}"
+          curl -fsS \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            "${URL}"
+          echo
