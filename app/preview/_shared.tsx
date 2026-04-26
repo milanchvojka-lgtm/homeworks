@@ -87,18 +87,30 @@ export const TOUR: { href: string; title: string }[] = [
 
 export function TourBar({ step }: { step: number }) {
   const total = TOUR.length;
-  const prev = step > 1 ? TOUR[step - 2] : TOUR[total - 1];
-  const next = step < total ? TOUR[step] : TOUR[0];
+  const hasPrev = step > 1;
+  const hasNext = step < total;
+  const prev = hasPrev ? TOUR[step - 2] : null;
+  const next = hasNext ? TOUR[step] : null;
   const current = TOUR[step - 1];
   return (
     <div className="flex items-center justify-between border-b border-zinc-200 bg-white px-3 py-2">
-      <Link
-        href={prev.href}
-        aria-label="Předchozí ukázka"
-        className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 hover:bg-zinc-100"
-      >
-        <ChevronLeft size={18} />
-      </Link>
+      {prev ? (
+        <Link
+          href={prev.href}
+          scroll={false}
+          aria-label={`Předchozí ukázka — ${prev.title}`}
+          className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 hover:bg-zinc-100"
+        >
+          <ChevronLeft size={18} />
+        </Link>
+      ) : (
+        <span
+          aria-hidden
+          className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-200"
+        >
+          <ChevronLeft size={18} />
+        </span>
+      )}
       <div className="flex flex-col items-center leading-tight">
         <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-zinc-400">
           Ukázka {step}/{total}
@@ -107,13 +119,23 @@ export function TourBar({ step }: { step: number }) {
           {current.title}
         </span>
       </div>
-      <Link
-        href={next.href}
-        aria-label="Další ukázka"
-        className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 hover:bg-zinc-100"
-      >
-        <ChevronRight size={18} />
-      </Link>
+      {next ? (
+        <Link
+          href={next.href}
+          scroll={false}
+          aria-label={`Další ukázka — ${next.title}`}
+          className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 hover:bg-zinc-100"
+        >
+          <ChevronRight size={18} />
+        </Link>
+      ) : (
+        <span
+          aria-hidden
+          className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-200"
+        >
+          <ChevronRight size={18} />
+        </span>
+      )}
     </div>
   );
 }
