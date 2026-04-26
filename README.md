@@ -49,10 +49,11 @@ ENV proměnné na Vercelu (Production + Preview):
 
 - `DATABASE_URL` — Supabase pooler URL (port 6543, `pgbouncer=true`)
 - `DIRECT_URL` — Supabase direct URL (port 5432) pro Prisma migrace
-- `TZ` — `Europe/Prague`
 - `CRON_SECRET` — sdílený secret s GitHub Actions
 - `RESEND_API_KEY` — pro admin e-mail digest
 - `ADMIN_NOTIFICATION_EMAILS` — čárkou oddělené adresy
+
+> **`TZ` na Vercelu nenastavujeme** — Vercel ji rezervuje a runtime je vždy UTC. Kód si timezone (`Europe/Prague`) předává explicitně přes `lib/time.ts`. Lokálně v `.env.local` můžeš mít `TZ=Europe/Prague` pro pohodlí.
 
 ## Cron joby
 

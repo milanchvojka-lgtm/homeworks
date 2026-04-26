@@ -30,9 +30,11 @@ export async function GET(request: Request) {
     {
       status: "ok",
       nowUtc: now.toISOString(),
+      // Server runtime na Vercelu je vždy UTC (TZ je rezervovaná systémová
+      // proměnná). Náš kód si timezone explicitně předává přes `appTz`
+      // konstantu (lib/time.ts), takže to nezáleží.
       nowPrague: now.toLocaleString("cs-CZ", { timeZone: PRAGUE_TZ }),
-      runtimeTz: process.env.TZ ?? "(unset)",
-      expectedTz: PRAGUE_TZ,
+      appTz: PRAGUE_TZ,
     },
     { headers: { "cache-control": "no-store" } },
   );
