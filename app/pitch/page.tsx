@@ -57,7 +57,7 @@ export default function PitchPage() {
         >
           Péče o domácnost.
           <br />
-          Nový systém na 4 týny.
+          Nový systém na 4 týdny.
         </h1>
 
         <p className="text-[15px] leading-[1.5]" style={{ color: INK_2 }}>
