@@ -143,26 +143,38 @@ export default function PitchPage() {
           <PreviewCard
             href="/preview"
             label="Login"
-            note="5 dlaždic + PIN"
+            note="5 dlaždic — každá jiná obrazovka"
             preview={<LoginPreview />}
           />
           <PreviewCard
-            href="/preview/dnes"
-            label="Dnes"
-            note="Týdenní úkol + checky"
+            href="/preview/ani"
+            label="Ani · Dnes"
+            note="Kuchyň, středa, bonus ve hře"
             preview={<DnesPreview />}
           />
           <PreviewCard
-            href="/preview/pool"
-            label="Pool"
-            note="Extra úkoly za peníze"
+            href="/preview/emi"
+            label="Emi · Pool"
+            note="Splnila checky → odemčen pool"
             preview={<PoolPreview />}
           />
           <PreviewCard
-            href="/preview/kredit"
-            label="Kredit"
-            note="Balance + obrazovka"
+            href="/preview/neli"
+            label="Neli · Kredit"
+            note="Bonus padl, nízký zůstatek"
             preview={<KreditPreview />}
+          />
+          <PreviewCard
+            href="/preview/admin/inbox"
+            label="Milan · Inbox"
+            note="7 čekajících ke schválení"
+            preview={<InboxPreview />}
+          />
+          <PreviewCard
+            href="/preview/admin/payouts"
+            label="Teri · Výplata"
+            note="Neděle, weekly close"
+            preview={<PayoutsPreview />}
           />
         </div>
         <Link
@@ -587,26 +599,112 @@ function KreditPreview() {
           className={`${newsreader} mt-0.5 text-[16px] font-bold leading-none`}
           style={{ color: ACCENT }}
         >
-          280
+          50
           <span className="ml-0.5 text-[7px] text-white">Kč</span>
         </div>
       </div>
-      <div
-        className="mb-1 rounded border-2 px-1.5 py-1"
-        style={{ borderColor: ACCENT }}
-      >
-        <span
-          className="text-[6px] font-semibold"
-          style={{ color: ACCENT }}
-        >
-          Chci obrazovku
+      <div className="mb-1 rounded border border-rose-200 bg-rose-50 px-1.5 py-1">
+        <span className="text-[5px] font-semibold text-rose-700">
+          Bonus už ne 😞
         </span>
       </div>
       <div className="flex flex-col gap-0.5">
         <span className="h-[2px] w-3/4 rounded-full bg-zinc-200" />
         <span className="h-[2px] w-2/3 rounded-full bg-zinc-200" />
-        <span className="h-[2px] w-3/4 rounded-full bg-zinc-200" />
       </div>
+    </div>
+  );
+}
+
+function InboxPreview() {
+  return (
+    <div className="flex flex-1 flex-col px-2 pt-1 pb-1">
+      <div className="mb-1 flex items-center justify-between">
+        <span
+          className={`${newsreader} text-[10px] font-bold leading-none`}
+        >
+          Inbox
+        </span>
+        <span
+          className="rounded px-1 text-[5px] font-bold text-white"
+          style={{ backgroundColor: ACCENT }}
+        >
+          7
+        </span>
+      </div>
+      <span className="mb-1 text-[5px] font-bold tracking-wider text-zinc-400">
+        ANI · 3
+      </span>
+      <div className="mb-1 flex flex-col gap-0.5">
+        <InboxLine kind="check" />
+        <InboxLine kind="task" />
+      </div>
+      <span className="mb-1 text-[5px] font-bold tracking-wider text-zinc-400">
+        EMI · 2
+      </span>
+      <div className="flex flex-col gap-0.5">
+        <InboxLine kind="task" />
+      </div>
+    </div>
+  );
+}
+
+function InboxLine({ kind }: { kind: "check" | "task" }) {
+  const dot = kind === "task" ? ACCENT : "#3B82F6";
+  return (
+    <div className="flex items-center gap-1 rounded border border-zinc-100 bg-white px-1 py-0.5">
+      <span
+        className="h-1.5 w-1.5 rounded-full"
+        style={{ backgroundColor: dot }}
+      />
+      <span className="h-[2px] flex-1 rounded-full bg-zinc-200" />
+      <span className="rounded bg-zinc-900 px-1 text-[4px] font-bold text-white">
+        OK
+      </span>
+    </div>
+  );
+}
+
+function PayoutsPreview() {
+  return (
+    <div className="flex flex-1 flex-col gap-1 px-2 pt-1 pb-1">
+      <span className={`${newsreader} text-[9px] font-bold leading-none`}>
+        Týdenní výplata
+      </span>
+      <span className="text-[5px] tracking-wider text-zinc-400">
+        21.–27. 4.
+      </span>
+      <PayoutLine name="ANI" amount="480" highlight />
+      <PayoutLine name="EMI" amount="150" />
+      <PayoutLine name="NELI" amount="50" />
+    </div>
+  );
+}
+
+function PayoutLine({
+  name,
+  amount,
+  highlight,
+}: {
+  name: string;
+  amount: string;
+  highlight?: boolean;
+}) {
+  return (
+    <div
+      className={`flex items-center justify-between rounded px-1 py-0.5 ${
+        highlight ? "bg-orange-50" : ""
+      }`}
+    >
+      <span className="text-[6px] font-bold tracking-wider text-zinc-600">
+        {name}
+      </span>
+      <span
+        className="text-[8px] font-bold"
+        style={{ color: highlight ? ACCENT : "#1A1A1A" }}
+      >
+        {amount}&nbsp;Kč
+      </span>
     </div>
   );
 }
