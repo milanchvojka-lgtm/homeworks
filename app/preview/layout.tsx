@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { MockBanner, StatusBar } from "./_shared";
+import { MockBanner } from "./_shared";
 
 export const metadata: Metadata = {
   title: "Homeworks · ukázka",
@@ -13,7 +13,6 @@ export default function PreviewLayout({
   return (
     <div className="flex min-h-full flex-col items-center bg-zinc-200/60 font-sans">
       <div className="flex w-full max-w-[480px] flex-1 flex-col bg-white text-zinc-900 shadow-[0_0_60px_rgba(0,0,0,0.04)]">
-        <StatusBar />
         <MockBanner />
         {children}
       </div>

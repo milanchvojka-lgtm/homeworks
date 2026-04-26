@@ -85,21 +85,6 @@ export const TOUR: { href: string; title: string }[] = [
 
 /* ─────────────────────── Chrome ─────────────────────── */
 
-export function StatusBar() {
-  return (
-    <div className="flex items-center justify-between px-6 pt-2 pb-1 text-[12px] font-semibold text-zinc-700">
-      <span>9:41</span>
-      <span className="flex items-center gap-1">
-        <span className="text-[10px]">●●●</span>
-        <span>5G</span>
-        <span className="ml-1 inline-block h-2.5 w-5 rounded-sm border border-zinc-700">
-          <span className="block h-full w-4/5 rounded-[1px] bg-zinc-700" />
-        </span>
-      </span>
-    </div>
-  );
-}
-
 export function TourBar({ step }: { step: number }) {
   const total = TOUR.length;
   const prev = step > 1 ? TOUR[step - 2] : TOUR[total - 1];
