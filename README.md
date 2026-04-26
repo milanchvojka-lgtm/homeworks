@@ -24,11 +24,13 @@ Next.js 16 (App Router) + TypeScript + Tailwind 4 + Prisma + Postgres (Supabase)
 
 ```bash
 npm install
-cp .env.example .env.local
-# do .env.local doplň DATABASE_URL, DIRECT_URL z Supabase a vygeneruj CRON_SECRET
+cp .env.example .env
+# do .env doplň DATABASE_URL, DIRECT_URL z Supabase a vygeneruj CRON_SECRET
 npm run db:push    # nahraje aktuální Prisma schéma do DB
 npm run dev        # http://localhost:3000
 ```
+
+> **Pozor:** soubor pojmenuj `.env`, ne `.env.local`. Prisma CLI načítá jen `.env`. Next.js dev server načítá oba; `.env.local` má přednost. Pro náš workflow stačí jeden soubor `.env` (je v `.gitignore`).
 
 ### Užitečné skripty
 
