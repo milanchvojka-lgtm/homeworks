@@ -1,4 +1,4 @@
-import { Check, Clock } from "lucide-react";
+import { Check, Clock, Lock } from "lucide-react";
 import {
   ACCENT,
   KidTabs,
@@ -53,24 +53,113 @@ export default function AniDnes() {
           </div>
         </div>
 
-        {/* Bonus banner */}
-        <div className="mb-5 flex items-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-[13px] text-emerald-900">
-          <span>🎯</span>
-          <span>
-            <strong className="font-semibold">Bonus 200 Kč</strong> tento měsíc
-            stále ve hře.
-          </span>
-        </div>
+        {/* Bonus dashboard */}
+        <BonusCalendar today={24} totalDays={30} />
 
         <Group title="Ráno" items={morning} />
         <Group title="Večer" items={evening} />
 
-        <p className="pt-2 text-center text-[12px] text-zinc-400">
-          Až dnes splníš všechno, odemkne se ti pool extra úkolů.
-        </p>
+        {/* Locked extra tasks */}
+        <LockedPoolPreview />
       </main>
       <KidTabs active="dnes" />
     </>
+  );
+}
+
+function BonusCalendar({
+  today,
+  totalDays,
+}: {
+  today: number;
+  totalDays: number;
+}) {
+  const days = Array.from({ length: totalDays }, (_, i) => i + 1);
+  const completed = today - 1;
+  return (
+    <div className="mb-5 rounded-2xl border border-amber-200 bg-amber-50/60 p-4">
+      <div className="flex items-baseline justify-between">
+        <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-700">
+          🎯 Bonus na dosah
+        </span>
+        <span className="text-[20px] font-semibold text-amber-900">
+          200&nbsp;Kč
+        </span>
+      </div>
+      <p className="mt-1 text-[12px] text-amber-900">
+        Den <strong className="font-semibold">{today}</strong> z {totalDays} ·
+        zatím bez zaváhání. Drž se zbylých {totalDays - completed - 1}.
+      </p>
+      <div className="mt-3 grid grid-cols-6 gap-1.5">
+        {days.map((d) => {
+          if (d < today) {
+            return (
+              <span
+                key={d}
+                className="flex aspect-square items-center justify-center rounded-md bg-emerald-500 text-white"
+              >
+                <Check size={12} strokeWidth={3} />
+              </span>
+            );
+          }
+          if (d === today) {
+            return (
+              <span
+                key={d}
+                className="flex aspect-square items-center justify-center rounded-md text-[11px] font-bold text-white"
+                style={{ backgroundColor: ACCENT }}
+              >
+                {d}
+              </span>
+            );
+          }
+          return (
+            <span
+              key={d}
+              className="flex aspect-square items-center justify-center rounded-md bg-white text-[11px] font-medium text-zinc-300"
+            >
+              {d}
+            </span>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function LockedPoolPreview() {
+  return (
+    <section className="mt-1">
+      <h2 className="mb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-zinc-400">
+        Pool extra úkolů
+      </h2>
+      <p className="mb-3 flex items-center gap-2 text-[12px] text-zinc-500">
+        <Lock size={12} />
+        Splň zbývající 3 checky a pool se odemkne.
+      </p>
+      <div className="relative rounded-2xl border-2 border-dashed border-zinc-200 bg-zinc-50/50 p-4 opacity-70">
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex flex-col gap-1">
+            <h3 className="text-[16px] font-semibold leading-tight text-zinc-700">
+              Vyklidit půdu
+            </h3>
+            <p className="text-[12px] text-zinc-500">
+              Krabice po Vánocích, srovnat na hromady, ostatní vyhodit.
+            </p>
+          </div>
+          <span className="shrink-0 text-[18px] font-semibold text-zinc-400">
+            250&nbsp;Kč
+          </span>
+        </div>
+        <button
+          type="button"
+          disabled
+          className="mt-3 w-full cursor-not-allowed rounded-lg border border-zinc-200 bg-white py-2 text-[12px] font-semibold text-zinc-400"
+        >
+          🔒 Zamčeno · dokonči checky
+        </button>
+      </div>
+    </section>
   );
 }
 

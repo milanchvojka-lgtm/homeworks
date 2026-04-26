@@ -124,8 +124,8 @@ export default function AdminInbox() {
 
 function InboxRow({ item }: { item: Item }) {
   const kindLabel: Record<ItemKind, string> = {
-    check: "Denní check",
-    task: "Hlášený úkol",
+    check: "Kompetence",
+    task: "Extra úkol",
     screen: "Obrazovka",
   };
   const kindColor: Record<ItemKind, string> = {
@@ -160,7 +160,7 @@ function InboxRow({ item }: { item: Item }) {
           type="button"
           className="rounded-lg border border-zinc-200 bg-white py-2 text-[12px] font-semibold text-zinc-600"
         >
-          Vrátit
+          Odmítnout
         </button>
       </div>
     </li>

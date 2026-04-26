@@ -132,7 +132,7 @@ export default function EmiPool() {
         </ul>
 
         {/* Locked */}
-        <SectionHeader label="Zamčeno · čeká na sourozenku" />
+        <SectionHeader label="Zamčeno" />
         <ul className="flex flex-col gap-3">
           {locked.map((task) => (
             <li
@@ -145,8 +145,9 @@ export default function EmiPool() {
                     {task.name}
                   </h3>
                   <p className="mt-1 flex items-center gap-1 text-[12px] text-zinc-500">
-                    <Lock size={12} /> Zamčeno pro {task.lockedFor} ·{" "}
-                    {task.unlockAt}
+                    <Lock size={12} /> Rezervováno pro {task.lockedFor} —
+                    k&nbsp;dispozici&nbsp;{task.unlockAt}, pokud si to
+                    nevezme.
                   </p>
                 </div>
                 <span className="shrink-0 text-[15px] font-semibold text-zinc-400">
