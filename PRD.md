@@ -1,6 +1,6 @@
-# Domácí Úkoly — Product Requirements Document
+# Homeworks — Product Requirements Document
 
-> Pracovní název. Finální brand může mít rodinný "in-joke" charakter (např. „Holky v akci", „Naše dom(ác)nost") — řešíme později.
+> Brand: **Homeworks** (zafixováno 2026-04-26). Pracovní název *„Domácí Úkoly"* opuštěn.
 
 > ⚠️ **Tento dokument byl po sepsání upraven o rozhodnutí D1–D4 v [`DECISIONS.md`](./DECISIONS.md).** Při rozporu má `DECISIONS.md` prioritu. Hlavní upravené body: cron přes GitHub Actions (ne Vercel Cron), eager generování `DailyCheckInstance`, e-mail digest pro adminy, Supabase jako DB.
 

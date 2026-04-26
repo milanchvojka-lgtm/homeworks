@@ -1,4 +1,4 @@
-# Domácí Úkoly
+# Homeworks
 
 Rodinná webová aplikace pro řízení domácích povinností a odměn. PWA, deployed na Vercelu.
 

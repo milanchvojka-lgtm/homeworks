@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Domácí Úkoly",
+  title: "Homeworks",
   description: "Rodinný systém pro domácí povinnosti a odměny.",
 };
 

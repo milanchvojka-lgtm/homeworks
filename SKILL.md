@@ -1,4 +1,4 @@
-# SKILL.md — Domácí Úkoly
+# SKILL.md — Homeworks
 
 > Operating manual pro Claude Code. Přečti tento dokument jako první v každé session.
 

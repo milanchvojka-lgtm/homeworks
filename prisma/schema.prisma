@@ -1,4 +1,4 @@
-// Domácí Úkoly — Prisma schema
+// Homeworks — Prisma schema
 // Schéma se rozšiřuje milestone po milestone podle IMPLEMENTATION_PLAN.md.
 
 generator client {

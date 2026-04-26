@@ -1,4 +1,4 @@
-# Domácí Úkoly — Implementation Plan
+# Homeworks — Implementation Plan
 
 > Doprovodný dokument k [`PRD.md`](./PRD.md). Slouží jako přírůstkový plán pro Claude Code. Každý milestone produkuje **funkční, deployovatelný stav**, který lze otestovat dřív, než se pustíme do dalšího.
 
@@ -42,14 +42,14 @@
 2. Nastavit Prisma + **Supabase** (D4), pushnout prázdné schéma. Použít split `DATABASE_URL` (pooler 6543) + `DIRECT_URL` (5432) pro Prisma migrace.
 3. Vytvořit GitHub repo, propojit s Vercelem.
 4. Konfigurace ENV proměnných na Vercelu: `DATABASE_URL`, `DIRECT_URL`, `TZ=Europe/Prague`, `CRON_SECRET`, `RESEND_API_KEY`, `ADMIN_NOTIFICATION_EMAILS`.
-5. Vytvořit jednoduchou home page s textem „Domácí Úkoly — v1".
+5. Vytvořit jednoduchou home page s textem „Homeworks — v1".
 6. Nastavit `Europe/Prague` jako default timezone v aplikaci (přes `TZ` env var na Vercelu i lokálně).
 7. Nastavit ESLint + Prettier (volitelné, ale doporučené).
 8. README.md s instrukcemi pro lokální vývoj.
 9. Připravit `.github/workflows/cron.yml` skeleton (zatím bez jobů, přidávají se v M2+ podle D1).
 
 ### Acceptance criteria
-- ✅ Live URL na Vercelu funguje (např. `domaci-ukoly.vercel.app`).
+- ✅ Live URL na Vercelu funguje (např. `homeworks.vercel.app`).
 - ✅ Push do `main` automaticky deployuje.
 - ✅ Lokálně `npm run dev` startuje aplikaci.
 - ✅ Prisma se umí připojit k DB (`npx prisma db push` projde).
