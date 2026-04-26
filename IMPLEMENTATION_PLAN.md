@@ -124,7 +124,7 @@ model Session {
 - Viditelné v obou layoutech (např. v hlavičce).
 
 #### 1.6 Seed script
-- 5 uživatelů: 2 admini (otec, matka), 3 děti (Anička, Emma, třetí jméno).
+- 5 uživatelů: 2 admini (Milan, Teri), 3 děti (Ani, Emi, Neli).
 - Defaultní PINy (např. `1234`) — dočasně, mění se po prvním loginu (pro v1 OK i bez force change).
 - `prisma/seed.ts`, spouštět přes `npx prisma db seed`.
 

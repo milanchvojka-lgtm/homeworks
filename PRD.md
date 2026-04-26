@@ -159,7 +159,7 @@ Po přihlášení se uživatel směruje automaticky do `/admin` nebo `/child` po
 - **User flow (dítě — pool):**
   1. `/child/pool` ukazuje seznam úkolů s jejich aktuálním stavem.
   2. Pokud má holka splněné dnešní kompetence + je „na řadě" v rotační frontě → vidí tlačítko „Vzít si".
-  3. Pokud není na řadě → vidí „Zamčeno do [datum/čas], na řadě je [Anička]".
+  3. Pokud není na řadě → vidí „Zamčeno do [datum/čas], na řadě je [Ani]".
 
 - **Data:**
   - **Read:** seznam úkolů v poolu + jejich stav vůči přihlášené holce.
@@ -218,7 +218,7 @@ Po přihlášení se uživatel směruje automaticky do `/admin` nebo `/child` po
   4. Čeká, až ji admin „pojde zkontrolovat" a schválí.
 
 - **User flow (admin):**
-  1. V `/admin/inbox` vidí položku „Anička hlásí: Mytí auta — hotovo".
+  1. V `/admin/inbox` vidí položku „Ani hlásí: Mytí auta — hotovo".
   2. Admin fyzicky zkontroluje výsledek.
   3. Klikne „Schválit" → úkol → `done`, holce se připíše plná hodnota do kreditu.
   4. Klikne „Vrátit" → úkol se vrátí do poolu, holce se nepřipisuje nic. Volitelně lze přidat poznámku.
@@ -288,7 +288,7 @@ Po přihlášení se uživatel směruje automaticky do `/admin` nebo `/child` po
   4. Žádost přechází do stavu `pending` a čeká na admina.
 
 - **User flow (admin):**
-  1. V `/admin/screen-time` (nebo v inboxu) vidí žádost „Anička: 30 min za 100 Kč".
+  1. V `/admin/screen-time` (nebo v inboxu) vidí žádost „Ani: 30 min za 100 Kč".
   2. Klikne „Schváleno" → kredit holky se sníží, transakce se zaeviduje.
   3. Volitelně klikne „Zamítnuto" (např. „máš dost obrazovky na dnešek") → bez odpočtu.
 
@@ -319,7 +319,7 @@ Po přihlášení se uživatel směruje automaticky do `/admin` nebo `/child` po
 - **User flow:**
   - Žádný interaktivní flow ze strany dítěte. Aplikace průběžně počítá.
   - V `/child/today` viditelný status: „Bonus tento měsíc stále ve hře 🎯" / „Bonus tento měsíc už nedosažitelný 😞".
-  - Admin vidí na konci měsíce v `/admin/payouts` řádek „Bonus za červenec: Anička 200 Kč" automaticky připočtený.
+  - Admin vidí na konci měsíce v `/admin/payouts` řádek „Bonus za červenec: Ani 200 Kč" automaticky připočtený.
 
 - **Data:**
   - **Read:** počet missed/rejected checků za měsíc per holka.
@@ -562,13 +562,13 @@ Body, které **nejsou rozhodnuté** a měly by se vyjasnit buď před implementa
    Které dítě začíná s kterou kompetencí v prvním týdnu? Triviální, ale je to volba.
 
 3. **Vrácený úkol — jak chytře ho přesunout v rotaci.**
-   Pokud admin vrátí (rejected) úkol u Aničky, automaticky přejde k další v pořadí, nebo se vrátí do poolu jako nový s plnou rotací? Návrh: vrátit do poolu jako nový, ale Anička jde na konec pořadí pro tento úkol. Otevřené.
+   Pokud admin vrátí (rejected) úkol u Ani, automaticky přejde k další v pořadí, nebo se vrátí do poolu jako nový s plnou rotací? Návrh: vrátit do poolu jako nový, ale Ani jde na konec pořadí pro tento úkol. Otevřené.
 
 4. **Bonus a rotace.**
    Měsíční bonus počítá s tím, že holka má kompetenci jen v některých týdnech. Je tedy bonus férový vůči holce, která měla v měsíci 2 týdny obývák (lehké) vs. 2 týdny kuchyň (těžké)? Pro v1 ignorujeme, ale stojí za pohled po prvním měsíci provozu.
 
 5. **Zobrazení „kolik mi uteklo".**
-   Návrh: ukazujeme jako sekundární informaci („tento týden ti uteklo 150 Kč na úkolech, které vzala Emma"). Otázka — chce to Milan opravdu zobrazovat dětem, nebo je to jen pro admina?
+   Návrh: ukazujeme jako sekundární informaci („tento týden ti uteklo 150 Kč na úkolech, které vzala Emi"). Otázka — chce to Milan opravdu zobrazovat dětem, nebo je to jen pro admina?
 
 6. **Granularita vrácení u denních checků.**
    Když admin vrátí jednu položku z 5 denních checků, blokuje to celý den (= zámek extra úkolů), nebo se počítá „aspoň X z Y"? Návrh pro v1: blokuje celý den, ale dá se opravit (re-submit). Drsné, ale jasné.

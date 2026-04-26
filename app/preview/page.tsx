@@ -50,7 +50,7 @@ export default function PreviewLogin() {
 
       <p className="pt-8 text-center text-[12px] text-zinc-400">
         Tohle je klikací ukázka. PIN se nezadává — kdokoliv kliknete, vstoupíte
-        do dceřiného profilu Anička.
+        do dceřiného profilu Ani.
       </p>
     </main>
   );

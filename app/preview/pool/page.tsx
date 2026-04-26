@@ -37,14 +37,14 @@ const locked: Locked[] = [
     kind: "locked",
     name: "Mytí auta",
     price: 150,
-    lockedFor: "Emma",
+    lockedFor: "Emi",
     unlockAt: "zítra v 8:00",
   },
   {
     kind: "locked",
     name: "Posekání trávníku",
     price: 200,
-    lockedFor: "Klára",
+    lockedFor: "Neli",
     unlockAt: "v sobotu",
   },
 ];
@@ -52,7 +52,7 @@ const locked: Locked[] = [
 export default function PreviewPool() {
   return (
     <main className="flex min-h-screen flex-col">
-      <TopBar greeting="Anička" />
+      <TopBar greeting="Ani" />
 
       <div className="flex-1 px-6 py-6">
         <h1 className={`${newsreader} mb-1 text-[28px] font-semibold`}>

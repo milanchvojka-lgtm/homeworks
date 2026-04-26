@@ -27,7 +27,7 @@ const evening: CheckItem[] = [
 export default function PreviewDnes() {
   return (
     <main className="flex min-h-screen flex-col">
-      <TopBar greeting="Anička" />
+      <TopBar greeting="Ani" />
 
       <div className="flex-1 px-6 py-6">
         {/* Hero */}

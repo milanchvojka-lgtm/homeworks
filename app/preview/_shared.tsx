@@ -15,9 +15,9 @@ export const funnel = "font-[family-name:var(--font-funnel)]";
 export const PEOPLE = [
   { id: "milan", name: "Milan", role: "Rodič", color: "#3B82F6" },
   { id: "teri", name: "Teri", role: "Rodič", color: "#A855F7" },
-  { id: "anicka", name: "Anička", role: "Dcera", color: "#EC4899" },
-  { id: "emma", name: "Emma", role: "Dcera", color: "#10B981" },
-  { id: "klara", name: "Klára", role: "Dcera", color: "#F59E0B" },
+  { id: "ani", name: "Ani", role: "Dcera", color: "#EC4899" },
+  { id: "emi", name: "Emi", role: "Dcera", color: "#10B981" },
+  { id: "neli", name: "Neli", role: "Dcera", color: "#F59E0B" },
 ];
 
 type TabKey = "dnes" | "pool" | "kredit";
