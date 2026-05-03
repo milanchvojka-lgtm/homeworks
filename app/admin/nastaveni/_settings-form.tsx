@@ -2,12 +2,18 @@
 
 import { useState, useTransition } from "react";
 import { updateAppSettingsAction } from "@/app/actions/settings";
+import { computeMonthlyBonus } from "@/lib/bonus-graduated";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 
 type Settings = {
   hourlyRateCzk: number;
   screenTimeHourCostCzk: number;
   screenTimeMinGranularity: number;
   monthlyBonusCzk: number;
+  monthlyBonusStepCzk: number;
   defaultClaimTimeoutHours: number;
   defaultExecuteTimeoutHours: number;
 };
@@ -30,49 +36,149 @@ export function SettingsForm({ initial }: { initial: Settings }) {
   const upd = <K extends keyof Settings>(k: K, v: Settings[K]) =>
     setS((prev) => ({ ...prev, [k]: v }));
 
+  // Compute bonus preview rows
+  const bonusRows = (() => {
+    const rows: { misses: number; amount: number }[] = [];
+    const maxRows = 5;
+    let misses = 0;
+    while (rows.length < maxRows) {
+      const amount = computeMonthlyBonus({
+        misses,
+        fullCzk: s.monthlyBonusCzk,
+        stepCzk: s.monthlyBonusStepCzk,
+      });
+      rows.push({ misses, amount });
+      if (amount === 0) break;
+      misses++;
+    }
+    return rows;
+  })();
+
+  const lastRow = bonusRows[bonusRows.length - 1];
+  const showPlus =
+    lastRow && lastRow.amount > 0 && bonusRows.length >= 5;
+
   return (
-    <div className="mt-6 max-w-md space-y-4 rounded-2xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900">
-      <NumField
-        label="Hodinová sazba (Kč/h)"
-        value={s.hourlyRateCzk}
-        onChange={(v) => upd("hourlyRateCzk", v)}
-      />
-      <NumField
-        label="Cena za hodinu obrazovky (Kč)"
-        value={s.screenTimeHourCostCzk}
-        onChange={(v) => upd("screenTimeHourCostCzk", v)}
-      />
-      <NumField
-        label="Granularita obrazovky (min)"
-        value={s.screenTimeMinGranularity}
-        onChange={(v) => upd("screenTimeMinGranularity", v)}
-      />
-      <NumField
-        label="Měsíční bonus (Kč)"
-        value={s.monthlyBonusCzk}
-        onChange={(v) => upd("monthlyBonusCzk", v)}
-      />
-      <NumField
-        label="Default timeout claim (h)"
-        value={s.defaultClaimTimeoutHours}
-        onChange={(v) => upd("defaultClaimTimeoutHours", v)}
-      />
-      <NumField
-        label="Default timeout execute (h)"
-        value={s.defaultExecuteTimeoutHours}
-        onChange={(v) => upd("defaultExecuteTimeoutHours", v)}
-      />
+    <div className="mt-6 max-w-md space-y-6">
+      {/* EKONOMIKA */}
+      <div>
+        <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          Ekonomika
+        </p>
+        <Card>
+          <CardContent className="space-y-4 pt-5">
+            <NumField
+              label="Hodinová sazba (Kč/h)"
+              value={s.hourlyRateCzk}
+              onChange={(v) => upd("hourlyRateCzk", v)}
+            />
+            <NumField
+              label="Cena za hodinu obrazovky (Kč)"
+              value={s.screenTimeHourCostCzk}
+              onChange={(v) => upd("screenTimeHourCostCzk", v)}
+            />
+            <NumField
+              label="Granularita obrazovky (min)"
+              value={s.screenTimeMinGranularity}
+              onChange={(v) => upd("screenTimeMinGranularity", v)}
+            />
+          </CardContent>
+        </Card>
+      </div>
 
-      {error && <div className="text-sm text-red-600">Chyba: {error}</div>}
+      {/* MĚSÍČNÍ BONUS */}
+      <div>
+        <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          Měsíční bonus
+        </p>
+        <Card>
+          <CardContent className="space-y-4 pt-5">
+            <NumField
+              label="Měsíční bonus (Kč)"
+              value={s.monthlyBonusCzk}
+              onChange={(v) => upd("monthlyBonusCzk", v)}
+            />
+            <NumField
+              label="Krok ubývání bonusu (Kč)"
+              value={s.monthlyBonusStepCzk}
+              onChange={(v) => upd("monthlyBonusStepCzk", v)}
+            />
 
-      <div className="flex items-center gap-3 pt-2">
-        <button
-          onClick={submit}
-          disabled={isPending}
-          className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-40 dark:bg-zinc-100 dark:text-zinc-900"
-        >
+            {/* Live preview */}
+            <Card className="bg-secondary/40 border-0">
+              <CardContent className="pt-4 pb-3">
+                <p className="mb-2 text-xs font-medium text-muted-foreground">
+                  Tabulka bonusu (live preview):
+                </p>
+                <ul className="space-y-0.5">
+                  {bonusRows.map((row) => (
+                    <li
+                      key={row.misses}
+                      className="flex justify-between text-sm"
+                    >
+                      <span className="text-muted-foreground">
+                        {row.misses === bonusRows[bonusRows.length - 1]?.misses &&
+                        row.amount === 0 &&
+                        bonusRows.length > 1
+                          ? `${row.misses}× a víc`
+                          : `${row.misses}× zaváhání`}
+                      </span>
+                      <span
+                        style={
+                          row.amount > 0
+                            ? { color: "var(--chart-1)" }
+                            : undefined
+                        }
+                        className={row.amount === 0 ? "text-muted-foreground" : ""}
+                      >
+                        {row.amount} Kč
+                      </span>
+                    </li>
+                  ))}
+                  {showPlus && (
+                    <li className="flex justify-between text-sm">
+                      <span className="text-muted-foreground">
+                        {(lastRow?.misses ?? 0) + 1}× a víc
+                      </span>
+                      <span className="text-muted-foreground">…</span>
+                    </li>
+                  )}
+                </ul>
+              </CardContent>
+            </Card>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* TIMEOUTY */}
+      <div>
+        <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          Timeouty
+        </p>
+        <Card>
+          <CardContent className="space-y-4 pt-5">
+            <NumField
+              label="Default timeout claim (h)"
+              value={s.defaultClaimTimeoutHours}
+              onChange={(v) => upd("defaultClaimTimeoutHours", v)}
+            />
+            <NumField
+              label="Default timeout execute (h)"
+              value={s.defaultExecuteTimeoutHours}
+              onChange={(v) => upd("defaultExecuteTimeoutHours", v)}
+            />
+          </CardContent>
+        </Card>
+      </div>
+
+      {error && (
+        <p className="text-sm text-destructive">Chyba: {error}</p>
+      )}
+
+      <div className="flex items-center gap-3">
+        <Button onClick={submit} disabled={isPending}>
           Uložit
-        </button>
+        </Button>
         {savedAt && (
           <span className="text-xs text-emerald-600">Uloženo</span>
         )}
@@ -91,16 +197,15 @@ function NumField({
   onChange: (v: number) => void;
 }) {
   return (
-    <div>
-      <label className="block text-xs font-medium uppercase tracking-wide text-zinc-500">
+    <div className="space-y-1">
+      <Label className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
         {label}
-      </label>
-      <input
+      </Label>
+      <Input
         type="number"
         min={0}
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="mt-1 w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-950"
       />
     </div>
   );
