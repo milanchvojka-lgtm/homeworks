@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { Trophy, ChevronRight } from "lucide-react";
+import { Trophy, ChevronRight, CalendarDays } from "lucide-react";
 import { db } from "@/lib/db";
 import { getSession } from "@/lib/auth";
 import { getBonusStatus } from "@/lib/bonus";
@@ -58,6 +58,27 @@ export default async function ChildToday() {
                 <div className="text-sm font-bold">Trofeje</div>
                 <div className="text-[10px] uppercase tracking-widest text-muted-foreground">
                   {earnedMilestones} / {totalMilestones} získáno
+                </div>
+              </div>
+            </div>
+            <ChevronRight className="size-4 text-muted-foreground" />
+          </CardContent>
+        </Card>
+      </Link>
+
+      {/* Streak history link */}
+      <Link href="/child/streak" className="block">
+        <Card className="transition hover:border-primary/50">
+          <CardContent className="flex items-center justify-between py-3">
+            <div className="flex items-center gap-3">
+              <CalendarDays
+                className="size-4"
+                style={{ color: "var(--chart-1)" }}
+              />
+              <div>
+                <div className="text-sm font-bold">Můj streak</div>
+                <div className="text-[10px] uppercase tracking-widest text-muted-foreground">
+                  posledních 12 týdnů
                 </div>
               </div>
             </div>
