@@ -26,15 +26,20 @@ model User {
   monthlyAllowanceCzk Int       @default(0)
   createdAt           DateTime  @default(now())
   updatedAt           DateTime  @updatedAt
+  currentStreak       Int       @default(0)
+  longestStreak       Int       @default(0)
+  lastStreakDate      DateTime?
+  brokenStreaksCount  Int       @default(0)
 
   sessions               Session[]
   competencyAssignments  CompetencyAssignment[]
-  dailyCheckInstances    DailyCheckInstance[]    @relation("DailyCheckInstanceUser")
-  reviewedCheckInstances DailyCheckInstance[]    @relation("DailyCheckInstanceReviewer")
+  dailyCheckInstances    DailyCheckInstance[]   @relation("DailyCheckInstanceUser")
+  reviewedCheckInstances DailyCheckInstance[]   @relation("DailyCheckInstanceReviewer")
   creditTransactions     CreditTransaction[]
   screenTimeRequests     ScreenTimeRequest[]
-  weeklyPayouts          WeeklyPayout[]          @relation("WeeklyPayoutUser")
-  paidOutByWeeklyPayouts WeeklyPayout[]          @relation("WeeklyPayoutPaidBy")
+  weeklyPayouts          WeeklyPayout[]         @relation("WeeklyPayoutUser")
+  paidOutByWeeklyPayouts WeeklyPayout[]         @relation("WeeklyPayoutPaidBy")
+  trophies               TrophyEarned[]
 }
 
 model Session {
@@ -49,7 +54,7 @@ model Session {
 }
 
 model Competency {
-  id          String   @id @default(cuid())
+  id          String  @id @default(cuid())
   name        String
   description String?
   order       Int
@@ -74,7 +79,7 @@ model DailyCheck {
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
 
-  instances    DailyCheckInstance[]
+  instances DailyCheckInstance[]
 
   @@index([competencyId])
 }
@@ -151,17 +156,17 @@ enum TaskStatus {
 }
 
 model TaskInstance {
-  id        String   @id @default(cuid())
+  id        String     @id @default(cuid())
   taskId    String
-  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  task      Task       @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
   expiresAt DateTime
   status    TaskStatus @default(AVAILABLE)
 
   // Rotational queue
-  rotationQueue   Json   // string[] of userIds in priority order
-  rotationIndex   Int    @default(0)
+  rotationQueue     Json // string[] of userIds in priority order
+  rotationIndex     Int       @default(0)
   unlockedForUserId String?
   unlockExpiresAt   DateTime?
 
@@ -220,6 +225,7 @@ enum TransactionType {
   TASK_REWARD
   SCREEN_TIME
   MONTHLY_BONUS
+  STREAK_MILESTONE
   PAYOUT
   ADJUSTMENT
 }
@@ -279,13 +285,38 @@ model WeeklyPayout {
   @@index([weekStart])
 }
 
+model TrophyEarned {
+  id           String          @id @default(cuid())
+  userId       String
+  user         User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  milestoneId  String
+  milestone    StreakMilestone @relation(fields: [milestoneId], references: [id], onDelete: Cascade)
+  earnedAt     DateTime
+  rewardPaidAt DateTime?
+
+  @@index([userId, earnedAt])
+  @@index([milestoneId])
+}
+
+model StreakMilestone {
+  id         String @id @default(cuid())
+  days       Int    @unique
+  rewardCzk  Int
+  trophyName String
+  emoji      String
+  sortOrder  Int    @default(0)
+
+  earned TrophyEarned[]
+}
+
 model AppSettings {
-  id                         String @id @default(cuid())
-  hourlyRateCzk              Int    @default(150)
-  screenTimeHourCostCzk      Int    @default(200)
-  screenTimeMinGranularity   Int    @default(30)
-  monthlyBonusCzk            Int    @default(200)
-  defaultClaimTimeoutHours   Int    @default(24)
-  defaultExecuteTimeoutHours Int    @default(3)
+  id                         String   @id @default(cuid())
+  hourlyRateCzk              Int      @default(150)
+  screenTimeHourCostCzk      Int      @default(200)
+  screenTimeMinGranularity   Int      @default(30)
+  monthlyBonusCzk            Int      @default(200)
+  monthlyBonusStepCzk        Int      @default(50)
+  defaultClaimTimeoutHours   Int      @default(24)
+  defaultExecuteTimeoutHours Int      @default(3)
   updatedAt                  DateTime @updatedAt
 }
