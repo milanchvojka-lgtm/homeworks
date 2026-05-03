@@ -86,7 +86,7 @@ export default async function ChildCreditPage() {
       </Card>
 
       {/* Bonus banner */}
-      <BonusBanner status={bonusStatus} amount={settings.monthlyBonusCzk} />
+      <BonusBanner status={bonusStatus} />
 
       {/* Chci obrazovku */}
       <Card>

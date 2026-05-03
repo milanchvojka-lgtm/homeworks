@@ -1,56 +1,50 @@
 import { describe, expect, it } from "vitest";
-import { evaluateBonusStatus, type BonusCheck } from "@/lib/bonus-pure";
+import { countMissedDays, earliestMissDate, type BonusCheck } from "@/lib/bonus-pure";
 import {
   endOfMonthPrague,
   isLastDayOfMonthInPrague,
   startOfMonthPrague,
 } from "@/lib/time";
 
-describe("evaluateBonusStatus", () => {
-  it("empty list → still in game", () => {
-    expect(evaluateBonusStatus([])).toEqual({ stillInGame: true });
+describe("countMissedDays", () => {
+  it("empty list → 0", () => {
+    expect(countMissedDays([])).toBe(0);
   });
 
-  it("all approved/submitted/pending → still in game", () => {
+  it("only APPROVED/SUBMITTED/PENDING → 0", () => {
     const items: BonusCheck[] = [
       { date: new Date("2026-04-01"), status: "APPROVED" },
       { date: new Date("2026-04-02"), status: "SUBMITTED" },
       { date: new Date("2026-04-03"), status: "PENDING" },
     ];
-    expect(evaluateBonusStatus(items)).toEqual({ stillInGame: true });
+    expect(countMissedDays(items)).toBe(0);
   });
 
-  it("any MISSED → lostOn that date", () => {
+  it("counts distinct miss days (MISSED + REJECTED merged per day)", () => {
     const items: BonusCheck[] = [
-      { date: new Date("2026-04-01"), status: "APPROVED" },
       { date: new Date("2026-04-05"), status: "MISSED" },
-      { date: new Date("2026-04-10"), status: "APPROVED" },
+      { date: new Date("2026-04-05"), status: "REJECTED" }, // same day → still 1
+      { date: new Date("2026-04-10"), status: "MISSED" },
+      { date: new Date("2026-04-15"), status: "REJECTED" },
     ];
-    const r = evaluateBonusStatus(items);
-    expect(r.stillInGame).toBe(false);
-    if (!r.stillInGame) {
-      expect(r.lostOn.toISOString()).toBe("2026-04-05T00:00:00.000Z");
-    }
+    expect(countMissedDays(items)).toBe(3);
+  });
+});
+
+describe("earliestMissDate", () => {
+  it("returns null when no misses", () => {
+    expect(earliestMissDate([])).toBeNull();
+    expect(earliestMissDate([{ date: new Date("2026-04-01"), status: "APPROVED" }])).toBeNull();
   });
 
-  it("REJECTED counts the same as MISSED", () => {
-    const items: BonusCheck[] = [
-      { date: new Date("2026-04-07"), status: "REJECTED" },
-    ];
-    const r = evaluateBonusStatus(items);
-    expect(r.stillInGame).toBe(false);
-  });
-
-  it("multiple failures → earliest wins", () => {
+  it("returns earliest among MISSED/REJECTED", () => {
     const items: BonusCheck[] = [
       { date: new Date("2026-04-15"), status: "MISSED" },
       { date: new Date("2026-04-10"), status: "REJECTED" },
       { date: new Date("2026-04-20"), status: "MISSED" },
     ];
-    const r = evaluateBonusStatus(items);
-    if (!r.stillInGame) {
-      expect(r.lostOn.toISOString()).toBe("2026-04-10T00:00:00.000Z");
-    }
+    const r = earliestMissDate(items);
+    expect(r?.toISOString()).toBe("2026-04-10T00:00:00.000Z");
   });
 });
 

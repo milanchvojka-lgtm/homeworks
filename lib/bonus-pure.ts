@@ -1,11 +1,8 @@
 /**
  * Čistá logika měsíčního bonusu — žádný DB I/O.
  *
- * Bonus se ztrácí v momentě, kdy je v měsíci alespoň jedna `DailyCheckInstance`
- * ve stavu MISSED nebo REJECTED. `lostOn` je datum nejstarší takové instance.
- *
- * Předpoklad: PENDING instance se před půlnocí převedou na MISSED přes daily-close
- * cron. PENDING v dnešním dni se nezapočítává (může být ještě splněno).
+ * Bonus je graduovaný: každý kalendářní den s alespoň jednou MISSED/REJECTED
+ * instancí sníží bonus o stepCzk. Více selhání ve stejný den = 1 miss.
  */
 
 export type BonusCheck = {
@@ -13,11 +10,25 @@ export type BonusCheck = {
   status: "PENDING" | "SUBMITTED" | "APPROVED" | "REJECTED" | "MISSED";
 };
 
-export type BonusStatus =
-  | { stillInGame: true }
-  | { stillInGame: false; lostOn: Date };
+/**
+ * Counts distinct calendar days in the input where at least one check is
+ * MISSED or REJECTED. Multiple failures the same day count as one miss.
+ */
+export function countMissedDays(instances: BonusCheck[]): number {
+  const days = new Set<string>();
+  for (const i of instances) {
+    if (i.status === "MISSED" || i.status === "REJECTED") {
+      days.add(i.date.toISOString().slice(0, 10)); // YYYY-MM-DD
+    }
+  }
+  return days.size;
+}
 
-export function evaluateBonusStatus(instances: BonusCheck[]): BonusStatus {
+/**
+ * Earliest miss date in the input (for "you slipped on…" messaging).
+ * null if none.
+ */
+export function earliestMissDate(instances: BonusCheck[]): Date | null {
   let earliest: Date | null = null;
   for (const i of instances) {
     if (i.status === "MISSED" || i.status === "REJECTED") {
@@ -26,6 +37,5 @@ export function evaluateBonusStatus(instances: BonusCheck[]): BonusStatus {
       }
     }
   }
-  if (earliest) return { stillInGame: false, lostOn: earliest };
-  return { stillInGame: true };
+  return earliest;
 }

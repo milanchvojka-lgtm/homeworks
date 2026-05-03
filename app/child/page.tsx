@@ -2,7 +2,6 @@ import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { getSession } from "@/lib/auth";
 import { getBonusStatus } from "@/lib/bonus";
-import { getAppSettings } from "@/lib/credit";
 import { getCurrentAssignment } from "@/lib/rotation";
 import { startOfDayPrague } from "@/lib/time";
 import { Card, CardContent } from "@/components/ui/card";
@@ -14,7 +13,7 @@ export default async function ChildToday() {
   if (!user) redirect("/");
 
   const today = startOfDayPrague();
-  const [assignment, instances, bonusStatus, settings] = await Promise.all([
+  const [assignment, instances, bonusStatus] = await Promise.all([
     getCurrentAssignment(user.id),
     db.dailyCheckInstance.findMany({
       where: { userId: user.id, date: today },
@@ -22,12 +21,11 @@ export default async function ChildToday() {
       orderBy: [{ dailyCheck: { order: "asc" } }],
     }),
     getBonusStatus(user.id),
-    getAppSettings(),
   ]);
 
   return (
     <div className="space-y-3">
-      <BonusBanner status={bonusStatus} amount={settings.monthlyBonusCzk} />
+      <BonusBanner status={bonusStatus} />
 
       {/* Current competency */}
       <Card>

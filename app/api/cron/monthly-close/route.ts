@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import { checkCronAuth } from "@/lib/cron";
 import { db } from "@/lib/db";
 import { getBonusStatus } from "@/lib/bonus";
-import { getAppSettings } from "@/lib/credit";
 import {
   endOfMonthPrague,
   isLastDayOfMonthInPrague,
@@ -15,8 +14,8 @@ import {
  * ověří, že je teď opravdu poslední den měsíce v Praze (DST safe per D5).
  *
  * Pro každé dítě:
- *   - Pokud bonus je still in game a měsíc skončil → vytvoř CreditTransaction
- *     MONTHLY_BONUS s amountCzk = AppSettings.monthlyBonusCzk.
+ *   - Pokud currentBonusCzk > 0 → vytvoř CreditTransaction
+ *     MONTHLY_BONUS s amountCzk = graduovaná výše bonusu (dle počtu zaváhání).
  *   - weekStart = pondělí týdne, do kterého patří poslední den měsíce.
  *     Týdenní uzávěrka pak bonus zahrne do WeeklyPayout.bonusCzk.
  *
@@ -38,7 +37,6 @@ export async function GET(request: Request) {
   const monthEnd = endOfMonthPrague();
   const weekStart = startOfWeekPrague(monthEnd);
 
-  const settings = await getAppSettings();
   const children = await db.user.findMany({ where: { role: "CHILD" } });
 
   let credited = 0;
@@ -59,7 +57,7 @@ export async function GET(request: Request) {
     }
 
     const status = await getBonusStatus(child.id, monthEnd);
-    if (!status.stillInGame) {
+    if (status.currentBonusCzk === 0) {
       lost++;
       continue;
     }
@@ -67,7 +65,7 @@ export async function GET(request: Request) {
     await db.creditTransaction.create({
       data: {
         userId: child.id,
-        amountCzk: settings.monthlyBonusCzk,
+        amountCzk: status.currentBonusCzk,
         type: "MONTHLY_BONUS",
         weekStart,
         note: `Měsíční bonus za ${monthEnd.toLocaleDateString("cs-CZ", { month: "long", year: "numeric" })}`,
