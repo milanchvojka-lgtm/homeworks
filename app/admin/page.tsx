@@ -1,4 +1,6 @@
 import { db } from "@/lib/db";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { InboxList } from "./_components/inbox-list";
 
 export default async function AdminInbox() {
@@ -96,18 +98,21 @@ export default async function AdminInbox() {
   const total =
     submittedChecks.length + pendingTasks.length + screenRequests.length;
 
-  return (
-    <div>
-      <h1 className="text-2xl font-semibold">Inbox</h1>
-      <p className="mt-1 text-sm text-zinc-500">
-        {total === 0
-          ? "Nic ke schválení."
-          : `${total} položek čeká na schválení`}
-      </p>
+  if (total === 0) {
+    return (
+      <Card>
+        <CardContent className="py-8 text-center text-sm text-muted-foreground">
+          Nic ke schválení.
+        </CardContent>
+      </Card>
+    );
+  }
 
-      <div className="mt-6 space-y-6">
-        {groups.map((g) => (
-          <section key={g.user.id}>
+  return (
+    <div className="space-y-3">
+      {groups.map((g) => (
+        <Card key={g.user.id}>
+          <CardContent className="pt-4">
             <div className="mb-3 flex items-center gap-2">
               <div
                 className="flex h-7 w-7 items-center justify-center rounded-full text-xs font-semibold text-white"
@@ -116,11 +121,14 @@ export default async function AdminInbox() {
                 {g.user.name[0]}
               </div>
               <span className="text-sm font-medium">{g.user.name}</span>
+              <Badge variant="secondary" className="ml-1">
+                {g.items.length}
+              </Badge>
             </div>
             <InboxList items={g.items} />
-          </section>
-        ))}
-      </div>
+          </CardContent>
+        </Card>
+      ))}
     </div>
   );
 }

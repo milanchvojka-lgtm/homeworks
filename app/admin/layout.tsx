@@ -1,9 +1,11 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getSession } from "@/lib/auth";
 import { getAdminInboxCount } from "@/lib/badges";
 import { logoutAction } from "../actions/auth";
-import { NavBadge } from "../_components/nav-badge";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import { AdminTopNav } from "./_components/admin-top-nav";
 
 const TABS = [
   { href: "/admin", label: "Inbox", badge: "inbox" as const },
@@ -27,7 +29,7 @@ export default async function AdminLayout({
 
   return (
     <div className="flex min-h-screen flex-1 flex-col">
-      <header className="flex items-center justify-between border-b border-zinc-200 px-6 py-3 dark:border-zinc-800">
+      <header className="flex items-center justify-between border-b border-border bg-card px-6 py-3">
         <div className="flex items-center gap-3">
           <div
             className="flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold text-white"
@@ -37,25 +39,18 @@ export default async function AdminLayout({
           </div>
           <span className="text-sm font-medium">{user.name}</span>
         </div>
-        <form action={logoutAction}>
-          <button className="text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100">
-            Odhlásit
-          </button>
-        </form>
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <Separator orientation="vertical" className="h-5" />
+          <form action={logoutAction}>
+            <Button variant="ghost" size="sm" type="submit">
+              Odhlásit
+            </Button>
+          </form>
+        </div>
       </header>
 
-      <nav className="flex gap-1 overflow-x-auto border-b border-zinc-200 px-4 py-2 text-sm dark:border-zinc-800">
-        {TABS.map((t) => (
-          <Link
-            key={t.href}
-            href={t.href}
-            className="flex items-center whitespace-nowrap rounded-md px-3 py-1.5 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
-          >
-            {t.label}
-            {t.badge === "inbox" && <NavBadge count={inboxCount} />}
-          </Link>
-        ))}
-      </nav>
+      <AdminTopNav tabs={TABS} inboxCount={inboxCount} />
 
       <main className="flex-1 px-6 py-6">{children}</main>
     </div>

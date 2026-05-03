@@ -7,6 +7,8 @@ import {
   approveScreenTimeAction,
   rejectScreenTimeAction,
 } from "@/app/actions/screen-time";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 type Item = {
   id: string;
@@ -54,16 +56,13 @@ export function InboxList({ items }: { items: Item[] }) {
   };
 
   return (
-    <ul className="space-y-2">
+    <ul className="divide-y -mx-6 px-6">
       {visible.map((i) => (
-        <li
-          key={i.id}
-          className="rounded-xl border border-zinc-200 bg-white p-3 dark:border-zinc-800 dark:bg-zinc-900"
-        >
+        <li key={i.id} className="py-3 first:pt-0 last:pb-0">
           <div className="flex items-start justify-between gap-3">
             <div className="flex-1">
               <div className="text-sm font-medium">{i.title}</div>
-              <div className="text-xs text-zinc-500">
+              <div className="text-xs text-muted-foreground">
                 {i.subtitle}
                 {i.submittedAt
                   ? ` • ${new Date(i.submittedAt).toLocaleTimeString("cs-CZ", { hour: "2-digit", minute: "2-digit" })}`
@@ -71,42 +70,45 @@ export function InboxList({ items }: { items: Item[] }) {
               </div>
             </div>
             <div className="flex shrink-0 gap-2">
-              <button
+              <Button
+                variant="default"
+                size="sm"
                 onClick={() => approve(i)}
                 disabled={isPending}
-                className="rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-medium text-white disabled:opacity-40"
               >
                 Schválit
-              </button>
-              <button
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
                 onClick={() =>
                   setRejectingId(rejectingId === i.id ? null : i.id)
                 }
                 disabled={isPending}
-                className="rounded-lg border border-zinc-300 px-3 py-1.5 text-xs font-medium text-zinc-700 disabled:opacity-40 dark:border-zinc-700 dark:text-zinc-300"
               >
                 Vrátit
-              </button>
+              </Button>
             </div>
           </div>
 
           {rejectingId === i.id && (
             <div className="mt-3 flex gap-2">
-              <input
+              <Input
                 type="text"
                 value={note}
                 onChange={(e) => setNote(e.target.value)}
                 placeholder="Důvod vrácení (volitelné)"
-                className="flex-1 rounded-lg border border-zinc-300 bg-white px-3 py-1.5 text-sm dark:border-zinc-700 dark:bg-zinc-950"
+                className="flex-1"
                 autoFocus
               />
-              <button
+              <Button
+                variant="destructive"
+                size="sm"
                 onClick={() => reject(i)}
                 disabled={isPending}
-                className="rounded-lg bg-red-600 px-3 py-1.5 text-xs font-medium text-white disabled:opacity-40"
               >
                 Vrátit
-              </button>
+              </Button>
             </div>
           )}
         </li>
