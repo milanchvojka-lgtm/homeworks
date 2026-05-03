@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { getSession } from "@/lib/auth";
+import { Card, CardContent } from "@/components/ui/card";
 import { MyTasksList } from "../_components/my-tasks-list";
 
 export default async function ChildMyTasksPage() {
@@ -17,10 +18,13 @@ export default async function ChildMyTasksPage() {
   });
 
   return (
-    <div>
-      <h1 className="text-2xl font-semibold">Mé úkoly</h1>
+    <div className="space-y-3">
       {claimed.length === 0 ? (
-        <p className="mt-4 text-sm text-zinc-500">Aktuálně nemáš žádný úkol.</p>
+        <Card>
+          <CardContent className="py-8 text-center text-sm text-muted-foreground">
+            Aktuálně nemáš žádný úkol.
+          </CardContent>
+        </Card>
       ) : (
         <MyTasksList
           items={claimed.map((i) => ({
