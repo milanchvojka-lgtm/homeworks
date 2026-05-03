@@ -3,7 +3,10 @@ import { redirect } from "next/navigation";
 import { getSession } from "@/lib/auth";
 import { getChildMyTasksCount, getChildPoolCount } from "@/lib/badges";
 import { logoutAction } from "../actions/auth";
-import { NavBadge } from "../_components/nav-badge";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { ChildBottomNav } from "../_components/child-bottom-nav";
 
 export default async function ChildLayout({
   children,
@@ -29,45 +32,40 @@ export default async function ChildLayout({
 
   return (
     <div className="flex min-h-screen flex-1 flex-col pb-20">
-      <header className="flex items-center justify-between border-b border-zinc-200 px-6 py-3 dark:border-zinc-800">
-        <div className="flex items-center gap-3">
+      <header className="flex items-center justify-between border-b border-border px-4 py-2">
+        {/* Left: avatar + name */}
+        <div className="flex items-center gap-2.5">
           <div
             className="flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold text-white"
             style={{ backgroundColor: user.avatarColor }}
           >
             {user.name[0]}
           </div>
-          <span className="text-sm font-medium">{user.name}</span>
+          <span className="text-sm font-semibold">{user.name}</span>
         </div>
-        <div className="flex items-center gap-3 text-sm text-zinc-500">
+
+        {/* Right: settings link, theme toggle, logout */}
+        <div className="flex items-center gap-1">
           <Link
             href="/child/nastaveni"
-            className="hover:text-zinc-900 dark:hover:text-zinc-100"
+            className="inline-flex h-7 items-center rounded-lg px-2 text-[0.8rem] font-medium uppercase tracking-widest text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
           >
             Nastavení
           </Link>
+          <Separator orientation="vertical" className="h-4" />
+          <ThemeToggle />
+          <Separator orientation="vertical" className="h-4" />
           <form action={logoutAction}>
-            <button className="hover:text-zinc-900 dark:hover:text-zinc-100">
+            <Button variant="ghost" size="sm" type="submit" className="text-[0.8rem] font-medium uppercase tracking-widest text-muted-foreground hover:text-foreground px-2">
               Odhlásit
-            </button>
+            </Button>
           </form>
         </div>
       </header>
 
-      <main className="flex-1 px-6 py-6">{children}</main>
+      <main className="flex-1 px-4 py-6">{children}</main>
 
-      <nav className="fixed inset-x-0 bottom-0 z-10 flex justify-around border-t border-zinc-200 bg-white/95 py-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/95">
-        {tabs.map((t) => (
-          <Link
-            key={t.href}
-            href={t.href}
-            className="relative flex flex-1 items-center justify-center px-2 py-2 text-center text-xs font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
-          >
-            {t.label}
-            <NavBadge count={t.badge} />
-          </Link>
-        ))}
-      </nav>
+      <ChildBottomNav tabs={tabs} />
     </div>
   );
 }
