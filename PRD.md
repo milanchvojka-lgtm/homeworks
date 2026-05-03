@@ -2,7 +2,7 @@
 
 > Brand: **Homeworks** (zafixováno 2026-04-26). Pracovní název *„Domácí Úkoly"* opuštěn.
 
-> ⚠️ **Tento dokument byl po sepsání upraven o rozhodnutí D1–D4 v [`DECISIONS.md`](./DECISIONS.md).** Při rozporu má `DECISIONS.md` prioritu. Hlavní upravené body: cron přes GitHub Actions (ne Vercel Cron), eager generování `DailyCheckInstance`, e-mail digest pro adminy, Supabase jako DB.
+> ⚠️ **Tento dokument byl po sepsání upraven o rozhodnutí D1–D13 v [`DECISIONS.md`](./DECISIONS.md).** Při rozporu má `DECISIONS.md` prioritu. v1 (M0–M6) hlavní úpravy: cron přes GitHub Actions, eager `DailyCheckInstance`, e-mail digest, Supabase. v1.1 (M7) přidává: gradient měsíční bonus (D9), streak gamifikaci (D11), shadcn/ui design system (D12), Supabase RLS (D13).
 
 ---
 
@@ -307,31 +307,65 @@ Po přihlášení se uživatel směruje automaticky do `/admin` nebo `/child` po
 
 ---
 
-### 4.8 Měsíční bonus za perfektní výsledek
+### 4.8 Měsíční bonus za perfektní výsledek (v1 binární → v1.1 gradient — viz D9)
 
 - **Priorita:** Must-have
 
-- **Description:**
-  Pokud holka splní **všechny denní checky všech dnů v kalendářním měsíci** (= žádný `missed`, žádný `rejected` bez následné opravy), získá fixní bonus na konci měsíce.
-  - Default: **200 Kč** (konfigurovatelné).
-  - Bonus se připíše do **posledního týdenního kreditu měsíce**.
+- **Description (v1.1, gradient):**
+  Bonus klesá lineárně s počtem zaváhání v měsíci. „Zaváhání" = jeden den se MISSED nebo REJECTED checkem (víc selhání ten samý den = stále 1).
+  - 0× → **200 Kč** (full)
+  - 1× → 150 Kč
+  - 2× → 100 Kč
+  - 3× → 50 Kč
+  - 4× a víc → 0 Kč
+  - Plná částka i krok ubývání jsou globálně konfigurovatelné v `/admin/nastaveni`. Default 200 / 50.
+  - Bonus se připíše do **posledního týdenního kreditu měsíce** přes `CreditTransaction(MONTHLY_BONUS)`.
 
 - **User flow:**
-  - Žádný interaktivní flow ze strany dítěte. Aplikace průběžně počítá.
-  - V `/child/today` viditelný status: „Bonus tento měsíc stále ve hře 🎯" / „Bonus tento měsíc už nedosažitelný 😞".
-  - Admin vidí na konci měsíce v `/admin/payouts` řádek „Bonus za červenec: Ani 200 Kč" automaticky připočtený.
+  - Žádný interaktivní flow. Aplikace průběžně počítá.
+  - V `/child` (Today) je stav bonusu integrován do **StreakBanner** (viz §4.10): "Bonus tento měsíc: X Kč / 200 Kč" + dots indikátor zbývajících „životů".
+  - Admin v `/admin/vyplaty` vidí na konci měsíce řádek bonusu automaticky připočtený do `WeeklyPayout.bonusCzk`.
 
 - **Data:**
-  - **Read:** počet missed/rejected checků za měsíc per holka.
-  - **Write:** připsání bonusu do týdenní výplaty (cron na konci měsíce).
-
-- **UI notes:**
-  - Status bonusu prominentně v dashboardu dítěte.
-  - V detailu „Bonus už nedosažitelný od 12.7." (kdy zaváhala).
+  - **Read:** `getBonusStatus(userId)` agreguje distinct miss days, fetch `AppSettings`, vrací `{ misses, currentBonusCzk, fullBonusCzk, stepCzk, lostOn }`.
+  - **Write:** `monthly-close` cron poslední den měsíce vytvoří `CreditTransaction(MONTHLY_BONUS, currentBonusCzk)` per dítě. Skip pokud `currentBonusCzk === 0`.
 
 - **Edge cases:**
-  - **Holka neměla kompetenci v některém týdnu měsíce** (rotace) → ano, bonus se počítá z dnů, kdy kompetenci měla. Holka, která má rotaci 3× týdně, má víc příležitostí pochybit, ale i víc příležitostí zabodovat. Pro v1 to neřešíme komplikovaněji.
-  - **Měsíc začíná uprostřed týdne** → bonus se počítá podle kalendářního měsíce (1. – poslední), nezávisle na týdnech.
+  - **Holka neměla kompetenci v některém týdnu** → bonus se počítá z dnů, kdy ji měla. Žádné instance = žádné zaváhání.
+  - **Měsíc začíná uprostřed týdne** → kalendářní měsíc (1. – poslední), nezávisle na týdnech.
+  - **Víc selhání ten samý den** → stále 1 zaváhání.
+
+---
+
+### 4.10 Streak gamifikace (v1.1 — viz DECISIONS D11)
+
+- **Priorita:** Must-have pro v1.1
+
+- **Description:**
+  Paralelní vrstva nad denními checks, přidává denní motivaci nezávislou na kalendáři. Tři komponenty:
+  1. **Streak counter** — počet po sobě jdoucích dnů s všemi APPROVED checks. Běží napříč měsíci. Padne na 0 při MISSED/REJECTED. SUBMITTED se počítá jako APPROVED (dítě udělalo svou část).
+  2. **Tier rank** — odvozený z délky streaku: Bronze (0–6), Silver (7–29), Gold (30–59), Platinum (60–99), Diamond (100–364), Master (365+).
+  3. **Trofejní milníky** — opakovatelné per streak cyklus. Default: Iron Will (7 d, 0 Kč), Steady (14 d, 0 Kč), Flawless Month (30 d, 100 Kč), Unbreakable (60 d, 200 Kč), Centurion (100 d, 500 Kč), Legend (365 d, 2000 Kč). Editovatelné v `/admin/nastaveni`.
+
+- **User flow:**
+  - `/child` (Today) — **StreakBanner** nahoře: flame + dnů, tier badge + progress, integrovaný stav měsíčního bonusu.
+  - `/child/trofeje` — milníky earned/current/locked + stats (longestStreak, brokenStreaksCount).
+  - `/child/streak` — 12-týdenní mřížka (84 dnů barevně podle agregovaného stavu).
+
+- **Data:**
+  - **Schema:** `User.currentStreak / longestStreak / lastStreakDate / brokenStreaksCount`, `StreakMilestone`, `TrophyEarned`, enum `TransactionType.STREAK_MILESTONE`.
+  - **Pure logic:** `lib/streak.ts` (tier mapping, progress, applyDayOutcome).
+  - **`daily-close` cron** (po MISSED conversion): per dítě — všechno APPROVED/SUBMITTED → streak++ + milestone detection (cycle-aware dedup); kterýkoli MISSED/REJECTED → streak=0 + brokenStreaksCount++.
+  - **`weekly-close` cron** (před aggregation): vyplať pending `TrophyEarned` (rewardCzk > 0, rewardPaidAt = null) jako `CreditTransaction(STREAK_MILESTONE)`. Lumps do `WeeklyPayout.bonusCzk` spolu s MONTHLY_BONUS.
+
+- **UI notes:**
+  - Žádné custom ilustrace. Emoji, lucide-react ikony, CSS gradienty, Source Sans 3, lime `var(--chart-1)`.
+  - Příběh: „neztratit řadu dnes" + „dotáhnout měsíc bez chyb" (peníze) + „dosáhnout tieru" (dlouhý horizont).
+
+- **Edge cases:**
+  - **Cycle-aware trophy dedup:** ten samý milník v uninterrupted runu nesmí získat dvě `TrophyEarned`. Window check `earnedAt > today - newStreak + 1`.
+  - **Bez instance ten den** (žádná kompetence) → no-op, streak nepadá ani neroste.
+  - **Trofej je 0 Kč** → vzniká `TrophyEarned` (záznam), ale žádná `CreditTransaction`. Jen `rewardPaidAt` se nastaví.
 
 ---
 

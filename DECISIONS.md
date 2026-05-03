@@ -131,3 +131,91 @@
 - Theme tokeny v `app/globals.css` jako CSS proměnné, light/dark varianty.
 - Admin rozhraní (M0–M6) zůstane funkčně beze změny, ale graficky se sjednotí do stejného design language při příležitostných úpravách (žádný explicit refactor pass na admin v rámci v1.1).
 - Existující `app/child/_components/*` komponenty se postupně přepíší na shadcn ekvivalenty (Card, Button, Progress, Badge, Dialog, Switch atd.).
+
+---
+
+## D9 — Měsíční bonus: gradient místo binárního (varianta B)
+
+**Rozhodnutí:** `getBonusStatus()` přechází z binárního `{ stillInGame: bool, lostOn? }` na gradient `{ misses, currentBonusCzk, fullBonusCzk, stepCzk, lostOn }`. Bonus klesá lineárně po každém zaváhání: 200 → 150 → 100 → 50 → 0 (default `monthlyBonusCzk=200`, `monthlyBonusStepCzk=50`).
+
+**Důvod:**
+- v1 binární bonus ("1 zaváhání = 0 Kč") byl pro děti příliš tvrdý — po prvním slipu už nebylo o co bojovat zbytek měsíce.
+- Gradient zachovává motivaci: "ještě stále něco v sázce" platí až do 4. zaváhání.
+- "Zaváhání" = kalendářní den se MISSED nebo REJECTED checkem. Víc selhání ten samý den = stále jedno zaváhání (jinak by se to stalo neprůhledným).
+
+**Důsledky:**
+- `lib/bonus-pure.ts::evaluateBonusStatus` nahrazeno za `countMissedDays` + `earliestMissDate`.
+- Pure výpočet je v `lib/bonus-graduated.ts::computeMonthlyBonus({ misses, fullCzk, stepCzk })` s testy.
+- `monthly-close` cron používá `currentBonusCzk` místo flat `settings.monthlyBonusCzk`.
+- `BonusBanner` má 3 vizuální stavy (full / reduced / lost) — pak ho v Phase 4 nahradil `StreakBanner`.
+- Plná částka i krok jsou editovatelné v `app/admin/nastaveni`.
+
+---
+
+## D10 — Konfigurace bonusu/milníků: extend AppSettings, ne nová tabulka
+
+**Rozhodnutí:** Globální konfigurace pro v1.1 streak gamifikaci se přidává do existující tabulky `AppSettings` (rozšíření o `monthlyBonusStepCzk`), milníky do nové tabulky `StreakMilestone`. Žádný nový "Settings" model — `AppSettings` už je singleton se vším potřebným.
+
+**Důvod:**
+- `AppSettings` v M0 už drží `monthlyBonusCzk`, `hourlyRateCzk`, `screenTimeHourCostCzk` apod. — single source of truth pro globální parametry.
+- Vytvořit paralelní "Settings" tabulku by znamenalo dva singletony, dva fetchy, riziko driftu.
+- `StreakMilestone` je samostatná tabulka, protože je to **kolekce** záznamů (7d, 14d, 30d, ...), ne jeden řádek.
+
+**Důsledky:**
+- `lib/credit.ts::getAppSettings()` (existující helper) zůstává jediným vstupem do globální konfigurace.
+- Per-uživatel `User.monthlyBonusCzk` v plánu zmiňovaný NEEXISTOVAL — bonus byl globální už v M5.
+- Admin form v `app/admin/nastaveni` rozšířen o `monthlyBonusStepCzk` + sekce pro CRUD milníků.
+
+---
+
+## D11 — Streak gamifikace: hybrid (streak napříč měsíci + měsíční bonus paralelně)
+
+**Rozhodnutí:** Místo nahrazení měsíčního bonusu klasickým Duolingo streakem zavádíme **dvě paralelní vrstvy** nad denními checks:
+1. **Streak** — počet po sobě jdoucích APPROVED dnů, běží napříč kalendářem, padá na 0 při MISSED/REJECTED. Používá se pro tier rank (Bronze/Silver/Gold/Platinum/Diamond/Master) a opakovatelné milníkové trofeje.
+2. **Měsíční bonus** — gradient (D9), vázaný na kalendářní měsíc, peněžní výplata.
+
+**Důvod:**
+- Ryze monthly bonus má díru: po prvním zaváhání 1. týden v měsíci nemáš denní motivaci, dokud nezačne nový měsíc.
+- Ryze Duolingo streak by odpojil peníze od kalendáře a pro Milana/Teri to znamená nepředvídatelnou výplatu.
+- Hybrid řeší obojí: streak motivuje **dnes**, bonus motivuje **měsíc**. Ten samý zaváhací den ovlivní obě vrstvy nezávisle.
+
+**Důsledky:**
+- Nový schema: `User.currentStreak/longestStreak/lastStreakDate/brokenStreaksCount`, modely `StreakMilestone` a `TrophyEarned`, enum `TransactionType.STREAK_MILESTONE`.
+- `daily-close` cron updatuje streak po MISSED conversion + detekuje milníky (cycle-aware dedup — ten samý milník v jednom uninterrupted runu nesmí dostat dvě trofeje).
+- `weekly-close` cron vyplácí pending trofejní bonusy přes `CreditTransaction(STREAK_MILESTONE)`, lumps do `WeeklyPayout.bonusCzk`.
+- 6 default milníků seedovaných: Iron Will (7d, 0 Kč), Steady (14d, 0 Kč), Flawless Month (30d, 100 Kč), Unbreakable (60d, 200 Kč), Centurion (100d, 500 Kč), Legend (365d, 2000 Kč). Editovatelné v adminu.
+- Trofeje jsou opakovatelné per cyklus — když streak padne a dítě postaví novou řadu přes 30 dnů, dostane Flawless Month znovu (a 100 Kč znovu).
+
+---
+
+## D12 — Design system: shadcn/ui base-sera preset (b3SlZvnfF)
+
+**Rozhodnutí:** v1.1 dělá design pass napříč child appkou na shadcn/ui s presetem `b3SlZvnfF` (style "base-sera", base color "mauve", purple primary `oklch(0.496 0.265 301.924)`, lime chart-1 pro data, Source Sans 3 font, dark mode).
+
+**Důvod:**
+- v1 child screens byly "minimal usable UI" — funkční, ale 14/15letý uživatelky to demotivuje. Gamifikace bez polished UI ztratí účinek.
+- shadcn = kopíruje zdroják do repa, žádný vendor lock-in, žádný runtime overhead.
+- Preset má sharp aesthetic, který funguje napříč věkem (11/14/15) — Milan ho schválil v Design Labu (varianta D).
+
+**Důsledky:**
+- Nové deps: `lucide-react`, `class-variance-authority`, `clsx`, `tailwind-merge`. `next-themes` nahrazena custom impl (D8 update — viz níže).
+- Theme tokens v `app/globals.css` jako CSS proměnné. Light mode `--chart-1` posunut z `oklch(0.897…)` na `oklch(0.55 0.17 131)` pro WCAG AA na bílém pozadí.
+- Admin rozhraní zůstalo "lighter" — Phase 6 ho dodělá v dalším kroku.
+
+**Update D8:** Custom theme provider (místo next-themes) — knihovna injectuje `<script>` uvnitř React komponenty, což React 19 / Next 16 flag-ují jako warning. Vlastní impl (`components/theme-provider.tsx`) používá `next/script` s `strategy="beforeInteractive"` v root layoutu pro FOUC prevention bez React warningu.
+
+---
+
+## D13 — Supabase RLS: enable přes SQL skript, Prisma jde přes service_role
+
+**Rozhodnutí:** Před production deployem v1.1 zapnout Row-Level Security na všech 17 aplikačních tabulkách v Supabase. Jediná policy na každé tabulce: `service_role_all` (FOR ALL TO service_role USING (true)). `anon` a `authenticated` role mají odebrané všechny granty.
+
+**Důvod:**
+- Supabase advisor (2026-04-29) flagoval `rls_disabled_in_public` a `sensitive_columns_exposed` jako critical issues. Při leaknutí anon klíče by data (včetně `User.pinHash`) byla čitelná přes PostgREST.
+- Prisma se připojuje přes pooler/service_role connection (D4) — RLS policy nezasahuje (service_role má `BYPASSRLS`). App nepřestane fungovat.
+- Skript je idempotentní + má rollback note + sanity-check query.
+
+**Důsledky:**
+- Skript `prisma/security/enable-rls.sql` v repu, jednorázově spuštěn v Supabase SQL Editoru před production deployem.
+- LAUNCH_CHECKLIST má RLS jako blocker.
+- Pokud se v budoucnu přidá frontend přístup přes `@supabase/supabase-js` s anon klíčem (např. realtime subscriptions), RLS policies pro `authenticated` se musí dopsat per use case.

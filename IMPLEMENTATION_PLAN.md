@@ -783,3 +783,48 @@ Vše ostatní (sazby, bonus, timeouty) má v PRD/M0 sensible defaults a doladí 
 ---
 
 *Implementation Plan verze 1.0 — připraveno k handoff do Claude Code.*
+*Implementation Plan verze 1.0 — připraveno k handoff do Claude Code.*
+
+---
+
+## Milestone 7 — v1.1 Design pass + Streak gamifikace
+
+> Detailní bite-sized plán: `~/.claude/plans/dob-e-ale-ukazoval-golden-lantern.md` (drženo v plánovacím adresáři, mimo repo).
+>
+> Spec rozhodnutí: **DECISIONS** D9 (gradient bonus), D10 (settings global), D11 (streak hybrid), D12 (shadcn preset), D13 (Supabase RLS).
+>
+> Detail features: PRD §4.8 (gradient bonus) + §4.10 (streak gamifikace).
+
+**Phase 1 — Design pass child app:** shadcn/ui s preseтem `b3SlZvnfF` (style "base-sera", mauve, purple primary, lime chart-1, Source Sans 3). Refactor všech `app/child/*` obrazovek na shadcn primitiva. Custom theme provider — next/script beforeInteractive pro FOUC (místo next-themes, kvůli React 19 incompatibility).
+
+**Phase 2 — Schema + pure logika:**
+- `prisma/schema.prisma` rozšířený o `User.currentStreak/longestStreak/lastStreakDate/brokenStreaksCount`, `StreakMilestone`, `TrophyEarned`, `AppSettings.monthlyBonusStepCzk`, enum `TransactionType.STREAK_MILESTONE`.
+- `lib/streak.ts` (TIERS, tierFromStreak, nextTierProgress, applyDayOutcome) + 19 testů.
+- `lib/bonus-graduated.ts` (computeMonthlyBonus) + 12 testů.
+- 6 default milníků seedovaných (Iron Will → Legend).
+
+**Phase 3 — Cron integrace:**
+- `lib/bonus.ts::getBonusStatus` přepsán z binárního na gradient.
+- `daily-close` cron — streak update + trophy detection (cycle-aware dedup).
+- `monthly-close` cron — gradient bonus přes `currentBonusCzk`.
+- `weekly-close` cron — výplata pending trofejních bonusů jako `CreditTransaction(STREAK_MILESTONE)`.
+
+**Phase 4 — Streak UI:**
+- `components/streak/streak-banner.tsx` — hero karta (tier rank + progress + monthly bonus row).
+- `/child/trofeje` — Trophy Room (earned/current/locked + stats).
+- `/child/streak` — 12-týdenní grid view.
+- StreakBanner nahrazuje BonusBanner (smazáno) na `/child` a `/child/kredit`.
+
+**Phase 5 — Admin formuláře:**
+- `/admin/nastaveni` rozšířený o `monthlyBonusStepCzk` + live preview tabulky bonusu.
+- Sekce CRUD milníků (shadcn Dialog).
+
+**Phase 6 — Admin design pass** (lighter): refactor admin obrazovek na shadcn primitiva. Žádné funkční změny.
+
+**Phase 7 — Cleanup + deploy:**
+- Smazání `app/lab/*` a `app/mockup/*` (reference během vývoje).
+- DECISIONS.md D9–D13, PRD §4.8 + §4.10, tento plán M7 doplněno.
+- LAUNCH_CHECKLIST — Supabase RLS skript (`prisma/security/enable-rls.sql`) jako blocker.
+- Vercel preview → manuální smoke jako 5 různých uživatelů → push do main.
+
+**Status (2026-05-03):** Phase 1–5 hotové, RLS skript spuštěn v Supabase produkci. Phase 6 + 7 cleanup zbývají před production deployem.

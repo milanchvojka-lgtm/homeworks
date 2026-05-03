@@ -124,6 +124,25 @@ Drobné úpravy texty/defaultní hodnoty dělej průběžně. Větší změny si
 
 ---
 
+## 7.5 Supabase RLS (v1.1 — viz DECISIONS D13)
+
+**Status:** ✅ Hotovo (2026-05-03).
+
+**Co:** Před production deployem je potřeba zapnout Row-Level Security na všech 17 aplikačních tabulkách v Supabase. Bez RLS je každá tabulka veřejně čitelná přes PostgREST anon API — Supabase Advisor to flag-ne jako critical (`rls_disabled_in_public`, `sensitive_columns_exposed`).
+
+**Jak:**
+1. Supabase Dashboard → SQL Editor → New query.
+2. Copy-paste obsah `prisma/security/enable-rls.sql` (idempotentní, bezpečně re-runnable).
+3. Run.
+4. Skript spustí sanity-check query — všechny tabulky musí mít `rowsecurity = true`.
+5. Re-run Supabase Advisor — kritické issues musí zmizet.
+
+**Co se může pokazit:** App by neměla přestat fungovat (Prisma jde přes service_role / pooler, který má `BYPASSRLS`). Pokud přesto, rollback je `ALTER TABLE ... DISABLE ROW LEVEL SECURITY` per tabulka.
+
+**Pokud v budoucnu přidáš `@supabase/supabase-js` přímo do frontendu** (např. realtime subscriptions): musíš dopsat policies pro `authenticated` role per tabulka. RLS skript je intentionally restrictive.
+
+---
+
 ## 8. v2 kandidáti (pro retrospektivu)
 
 Z plánu (mimo v1 scope):
