@@ -5,6 +5,7 @@ import { getBonusStatus } from "@/lib/bonus";
 import { getAppSettings } from "@/lib/credit";
 import { getCurrentAssignment } from "@/lib/rotation";
 import { startOfDayPrague } from "@/lib/time";
+import { Card, CardContent } from "@/components/ui/card";
 import { BonusBanner } from "./_components/bonus-banner";
 import { TodayChecks } from "./_components/today-checks";
 
@@ -25,42 +26,47 @@ export default async function ChildToday() {
   ]);
 
   return (
-    <div>
-      <div className="mb-4">
-        <BonusBanner status={bonusStatus} amount={settings.monthlyBonusCzk} />
-      </div>
+    <div className="space-y-3">
+      <BonusBanner status={bonusStatus} amount={settings.monthlyBonusCzk} />
 
-      <h1 className="text-2xl font-semibold">Dnes</h1>
-      {assignment ? (
-        <p className="mt-1 text-sm text-zinc-500">
-          Tento týden:{" "}
-          <span className="font-medium text-zinc-900 dark:text-zinc-100">
-            {assignment.competency.name}
-          </span>
-        </p>
+      {/* Current competency */}
+      <Card>
+        <CardContent className="pt-4 pb-3">
+          <div className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
+            Aktuální kompetence
+          </div>
+          {assignment ? (
+            <div className="mt-1 text-sm font-semibold tracking-tight">
+              {assignment.competency.name}
+            </div>
+          ) : (
+            <div className="mt-1 text-sm text-muted-foreground">
+              Tento týden nemáš přiřazenou kompetenci.
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Today checks */}
+      {instances.length === 0 ? (
+        <Card>
+          <CardContent className="py-6 text-center">
+            <p className="text-sm text-muted-foreground">
+              Žádné checky pro dnešek. Zkontroluj to později.
+            </p>
+          </CardContent>
+        </Card>
       ) : (
-        <p className="mt-1 text-sm text-zinc-500">
-          Tento týden nemáš přiřazenou kompetenci.
-        </p>
+        <TodayChecks
+          instances={instances.map((i) => ({
+            id: i.id,
+            name: i.dailyCheck.name,
+            timeOfDay: i.dailyCheck.timeOfDay,
+            status: i.status,
+            note: i.note,
+          }))}
+        />
       )}
-
-      <div className="mt-6">
-        {instances.length === 0 ? (
-          <p className="text-sm text-zinc-500">
-            Žádné checky pro dnešek. Zkontroluj to později.
-          </p>
-        ) : (
-          <TodayChecks
-            instances={instances.map((i) => ({
-              id: i.id,
-              name: i.dailyCheck.name,
-              timeOfDay: i.dailyCheck.timeOfDay,
-              status: i.status,
-              note: i.note,
-            }))}
-          />
-        )}
-      </div>
     </div>
   );
 }

@@ -3,6 +3,10 @@
 import { useState, useTransition } from "react";
 import type { CheckStatus, TimeOfDay } from "@prisma/client";
 import { submitCheckAction } from "@/app/actions/checks";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 
 type Instance = {
   id: string;
@@ -26,23 +30,28 @@ export function TodayChecks({ instances }: { instances: Instance[] }) {
   };
   for (const i of instances) grouped[i.timeOfDay].push(i);
 
+  const activeSections = SECTIONS.filter((s) => grouped[s.key].length > 0);
+
   return (
-    <div className="space-y-6">
-      {SECTIONS.map((s) =>
-        grouped[s.key].length === 0 ? null : (
+    <Card>
+      <CardContent className="pt-0 px-0">
+        {activeSections.map((s, idx) => (
           <section key={s.key}>
-            <h2 className="mb-2 text-xs font-semibold uppercase tracking-wide text-zinc-500">
-              {s.label}
-            </h2>
-            <ul className="space-y-2">
+            {idx > 0 && <Separator />}
+            <div className="px-5 pt-4 pb-1">
+              <div className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
+                {s.label}
+              </div>
+            </div>
+            <ul className="divide-y">
               {grouped[s.key].map((i) => (
                 <CheckRow key={i.id} instance={i} />
               ))}
             </ul>
           </section>
-        ),
-      )}
-    </div>
+        ))}
+      </CardContent>
+    </Card>
   );
 }
 
@@ -63,14 +72,23 @@ function CheckRow({ instance }: { instance: Instance }) {
   const canSubmit =
     optimisticStatus === "PENDING" || optimisticStatus === "REJECTED";
 
+  const isDone = optimisticStatus === "APPROVED";
+  const isMissed = optimisticStatus === "MISSED";
+
   return (
     <li
-      className={`flex items-center justify-between gap-3 rounded-xl border p-3 ${rowClass(optimisticStatus)}`}
+      className={`flex items-center justify-between gap-3 px-5 py-3 ${
+        isDone ? "opacity-60" : isMissed ? "opacity-60" : ""
+      }`}
     >
       <div className="flex-1">
-        <div className="text-sm font-medium">{instance.name}</div>
+        <div
+          className={`text-sm font-medium ${isDone ? "line-through text-muted-foreground" : ""}`}
+        >
+          {instance.name}
+        </div>
         {optimisticStatus === "REJECTED" && instance.note ? (
-          <div className="mt-1 text-xs text-red-600 dark:text-red-400">
+          <div className="mt-0.5 text-xs text-destructive">
             Vráceno: {instance.note}
           </div>
         ) : null}
@@ -79,42 +97,46 @@ function CheckRow({ instance }: { instance: Instance }) {
       <div className="flex items-center gap-2">
         <StatusBadge status={optimisticStatus} />
         {canSubmit && (
-          <button
+          <Button
+            variant="default"
+            size="sm"
             onClick={submit}
             disabled={isPending}
-            className="rounded-lg bg-zinc-900 px-3 py-1.5 text-xs font-medium text-white disabled:opacity-40 dark:bg-zinc-100 dark:text-zinc-900"
+            className="text-xs"
           >
             Hotovo
-          </button>
+          </Button>
         )}
       </div>
     </li>
   );
 }
 
-function rowClass(status: CheckStatus): string {
-  switch (status) {
-    case "APPROVED":
-      return "border-emerald-300 bg-emerald-50 dark:border-emerald-900 dark:bg-emerald-950/30";
-    case "REJECTED":
-      return "border-red-300 bg-red-50 dark:border-red-900 dark:bg-red-950/30";
-    case "MISSED":
-      return "border-zinc-200 bg-zinc-100 opacity-60 dark:border-zinc-800 dark:bg-zinc-900";
-    case "SUBMITTED":
-      return "border-amber-300 bg-amber-50 dark:border-amber-900 dark:bg-amber-950/30";
-    default:
-      return "border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900";
-  }
-}
-
 function StatusBadge({ status }: { status: CheckStatus }) {
-  const map: Record<CheckStatus, { label: string; cls: string }> = {
-    PENDING: { label: "—", cls: "text-zinc-400" },
-    SUBMITTED: { label: "⏳ Čeká", cls: "text-amber-700 dark:text-amber-400" },
-    APPROVED: { label: "✅ OK", cls: "text-emerald-700 dark:text-emerald-400" },
-    REJECTED: { label: "⚠️ Vráceno", cls: "text-red-700 dark:text-red-400" },
-    MISSED: { label: "Zmeškáno", cls: "text-zinc-500" },
-  };
-  const { label, cls } = map[status];
-  return <span className={`text-xs font-medium ${cls}`}>{label}</span>;
+  switch (status) {
+    case "PENDING":
+      return null;
+    case "SUBMITTED":
+      return <Badge variant="secondary">⏳ Čeká</Badge>;
+    case "APPROVED":
+      return (
+        <Badge
+          style={{
+            backgroundColor: "var(--chart-1)",
+            color: "var(--background)",
+            borderColor: "var(--chart-1)",
+          }}
+        >
+          ✅ OK
+        </Badge>
+      );
+    case "REJECTED":
+      return <Badge variant="destructive">⚠️ Vráceno</Badge>;
+    case "MISSED":
+      return (
+        <Badge variant="outline" className="text-muted-foreground">
+          Zmeškáno
+        </Badge>
+      );
+  }
 }
