@@ -11,14 +11,14 @@ import {
 } from "@/lib/credit";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { BonusBanner } from "../_components/bonus-banner";
+import { StreakBanner } from "@/components/streak/streak-banner";
 import { ScreenTimeRequester } from "../_components/screen-time-requester";
 
 export default async function ChildCreditPage() {
   const user = await getSession();
   if (!user) redirect("/");
 
-  const [balance, weekTotals, settings, pendingRequest, bonusStatus] =
+  const [balance, weekTotals, settings, pendingRequest, bonusStatus, streakData] =
     await Promise.all([
       getCurrentBalance(user.id),
       getWeekTotals(user.id),
@@ -28,6 +28,10 @@ export default async function ChildCreditPage() {
         orderBy: { createdAt: "desc" },
       }),
       getBonusStatus(user.id),
+      db.user.findUnique({
+        where: { id: user.id },
+        select: { currentStreak: true, longestStreak: true },
+      }),
     ]);
 
   const offers = [30, 60, 90].map((m) => ({
@@ -86,7 +90,11 @@ export default async function ChildCreditPage() {
       </Card>
 
       {/* Bonus banner */}
-      <BonusBanner status={bonusStatus} />
+      <StreakBanner
+        currentStreak={streakData?.currentStreak ?? 0}
+        longestStreak={streakData?.longestStreak ?? 0}
+        bonus={bonusStatus}
+      />
 
       {/* Chci obrazovku */}
       <Card>

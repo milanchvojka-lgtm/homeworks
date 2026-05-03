@@ -5,7 +5,7 @@ import { getBonusStatus } from "@/lib/bonus";
 import { getCurrentAssignment } from "@/lib/rotation";
 import { startOfDayPrague } from "@/lib/time";
 import { Card, CardContent } from "@/components/ui/card";
-import { BonusBanner } from "./_components/bonus-banner";
+import { StreakBanner } from "@/components/streak/streak-banner";
 import { TodayChecks } from "./_components/today-checks";
 
 export default async function ChildToday() {
@@ -13,7 +13,7 @@ export default async function ChildToday() {
   if (!user) redirect("/");
 
   const today = startOfDayPrague();
-  const [assignment, instances, bonusStatus] = await Promise.all([
+  const [assignment, instances, bonusStatus, streakData] = await Promise.all([
     getCurrentAssignment(user.id),
     db.dailyCheckInstance.findMany({
       where: { userId: user.id, date: today },
@@ -21,11 +21,19 @@ export default async function ChildToday() {
       orderBy: [{ dailyCheck: { order: "asc" } }],
     }),
     getBonusStatus(user.id),
+    db.user.findUnique({
+      where: { id: user.id },
+      select: { currentStreak: true, longestStreak: true },
+    }),
   ]);
 
   return (
     <div className="space-y-3">
-      <BonusBanner status={bonusStatus} />
+      <StreakBanner
+        currentStreak={streakData?.currentStreak ?? 0}
+        longestStreak={streakData?.longestStreak ?? 0}
+        bonus={bonusStatus}
+      />
 
       {/* Current competency */}
       <Card>
