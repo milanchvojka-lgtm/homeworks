@@ -1,7 +1,11 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { CheckCircle2 } from "lucide-react";
 import { changePinAction } from "@/app/actions/users";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export function ChangePinForm() {
   const [oldPin, setOldPin] = useState("");
@@ -42,14 +46,15 @@ export function ChangePinForm() {
 
   if (done) {
     return (
-      <div className="mt-3 rounded-xl border border-emerald-300 bg-emerald-50 p-3 text-sm text-emerald-800 dark:border-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-300">
-        ✅ PIN změněn. Příště se přihlas novým PINem.
+      <div className="flex items-center gap-2 text-sm" style={{ color: "var(--chart-1)" }}>
+        <CheckCircle2 className="size-4 shrink-0" />
+        <span>PIN změněn. Příště se přihlas novým PINem.</span>
       </div>
     );
   }
 
   return (
-    <div className="mt-3 max-w-sm space-y-3 rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900">
+    <div className="space-y-3">
       <PinField label="Starý PIN" value={oldPin} onChange={setOldPin} />
       <PinField label="Nový PIN" value={newPin} onChange={setNewPin} />
       <PinField
@@ -57,17 +62,19 @@ export function ChangePinForm() {
         value={confirmPin}
         onChange={setConfirmPin}
       />
-      {error && <div className="text-xs text-red-600">{error}</div>}
-      <button
+      {error && <div className="text-xs text-destructive">{error}</div>}
+      <Button
+        className="w-full"
         onClick={submit}
         disabled={
-          isPending || oldPin.length !== 4 || newPin.length !== 4 ||
+          isPending ||
+          oldPin.length !== 4 ||
+          newPin.length !== 4 ||
           confirmPin.length !== 4
         }
-        className="w-full rounded-lg bg-zinc-900 py-2 text-sm font-medium text-white disabled:opacity-40 dark:bg-zinc-100 dark:text-zinc-900"
       >
         Změnit PIN
-      </button>
+      </Button>
     </div>
   );
 }
@@ -82,11 +89,11 @@ function PinField({
   onChange: (v: string) => void;
 }) {
   return (
-    <div>
-      <label className="block text-xs font-medium uppercase tracking-wide text-zinc-500">
+    <div className="space-y-1.5">
+      <Label className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
         {label}
-      </label>
-      <input
+      </Label>
+      <Input
         type="password"
         inputMode="numeric"
         pattern="[0-9]*"
@@ -94,7 +101,7 @@ function PinField({
         maxLength={4}
         value={value}
         onChange={(e) => onChange(e.target.value.replace(/\D/g, ""))}
-        className="mt-1 w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-center font-mono text-lg tracking-widest dark:border-zinc-700 dark:bg-zinc-950"
+        className="font-mono text-lg tracking-widest text-center"
       />
     </div>
   );

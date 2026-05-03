@@ -1,6 +1,8 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getSession } from "@/lib/auth";
+import { Card, CardContent } from "@/components/ui/card";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { ChangePinForm } from "./_change-pin-form";
 
 export default async function ChildSettingsPage() {
@@ -8,16 +10,38 @@ export default async function ChildSettingsPage() {
   if (!user) redirect("/");
 
   return (
-    <div>
+    <div className="space-y-3">
       <Link
         href="/child"
-        className="text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100"
+        className="text-sm text-muted-foreground hover:text-foreground"
       >
         ← Zpět
       </Link>
-      <h1 className="mt-3 text-2xl font-semibold">Nastavení</h1>
-      <h2 className="mt-6 text-lg font-semibold">Změnit PIN</h2>
-      <ChangePinForm />
+
+      {/* PIN card */}
+      <Card>
+        <CardContent className="pt-4 space-y-3">
+          <div className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
+            ZMĚNIT PIN
+          </div>
+          <ChangePinForm />
+        </CardContent>
+      </Card>
+
+      {/* Theme card */}
+      <Card>
+        <CardContent className="pt-4">
+          <div className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground mb-3">
+            MOTIV
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-sm text-muted-foreground">
+              Přepnout světlý / tmavý režim
+            </span>
+            <ThemeToggle />
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }
