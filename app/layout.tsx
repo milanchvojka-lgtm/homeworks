@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import "./globals.css";
 import { Geist, Source_Sans_3 } from "next/font/google";
 import { cn } from "@/lib/utils";
@@ -38,10 +39,12 @@ export default function RootLayout({
       suppressHydrationWarning
       className={cn("h-full antialiased", "font-sans", sourceSans3.variable, sourceSans.variable)}
     >
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
-      </head>
       <body className="min-h-full flex flex-col bg-background text-foreground">
+        <Script
+          id="theme-init"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{ __html: themeInitScript }}
+        />
         <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
