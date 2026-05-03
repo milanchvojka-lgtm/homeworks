@@ -1,4 +1,6 @@
 import { redirect } from "next/navigation";
+import Link from "next/link";
+import { Trophy, ChevronRight } from "lucide-react";
 import { db } from "@/lib/db";
 import { getSession } from "@/lib/auth";
 import { getBonusStatus } from "@/lib/bonus";
@@ -13,7 +15,7 @@ export default async function ChildToday() {
   if (!user) redirect("/");
 
   const today = startOfDayPrague();
-  const [assignment, instances, bonusStatus, streakData] = await Promise.all([
+  const [assignment, instances, bonusStatus, streakData, totalMilestones, earnedMilestones] = await Promise.all([
     getCurrentAssignment(user.id),
     db.dailyCheckInstance.findMany({
       where: { userId: user.id, date: today },
@@ -25,6 +27,14 @@ export default async function ChildToday() {
       where: { id: user.id },
       select: { currentStreak: true, longestStreak: true },
     }),
+    db.streakMilestone.count(),
+    db.trophyEarned
+      .findMany({
+        where: { userId: user.id },
+        distinct: ["milestoneId"],
+        select: { id: true },
+      })
+      .then((r) => r.length),
   ]);
 
   return (
@@ -34,6 +44,27 @@ export default async function ChildToday() {
         longestStreak={streakData?.longestStreak ?? 0}
         bonus={bonusStatus}
       />
+
+      {/* Trofeje link */}
+      <Link href="/child/trofeje" className="block">
+        <Card className="transition hover:border-primary/50">
+          <CardContent className="flex items-center justify-between py-3">
+            <div className="flex items-center gap-3">
+              <Trophy
+                className="size-4"
+                style={{ color: "var(--chart-1)" }}
+              />
+              <div>
+                <div className="text-sm font-bold">Trofeje</div>
+                <div className="text-[10px] uppercase tracking-widest text-muted-foreground">
+                  {earnedMilestones} / {totalMilestones} získáno
+                </div>
+              </div>
+            </div>
+            <ChevronRight className="size-4 text-muted-foreground" />
+          </CardContent>
+        </Card>
+      </Link>
 
       {/* Current competency */}
       <Card>
