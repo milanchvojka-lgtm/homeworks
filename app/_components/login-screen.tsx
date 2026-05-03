@@ -2,7 +2,10 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
+import { ChevronLeft } from "lucide-react";
 import { loginAction } from "../actions/auth";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 
 type Profile = {
   id: string;
@@ -17,27 +20,31 @@ export function LoginScreen({ users }: { users: Profile[] }) {
   if (!selected) {
     return (
       <main className="flex flex-1 flex-col items-center justify-center px-6 py-12">
-        <h1 className="mb-2 text-3xl font-semibold tracking-tight">Homeworks</h1>
-        <p className="mb-10 text-sm text-zinc-500">Vyber svůj profil</p>
+        <h1 className="mb-1 text-3xl font-bold tracking-tight">Homeworks</h1>
+        <p className="mb-10 text-sm text-muted-foreground">Vyber svůj profil</p>
         <div className="grid w-full max-w-2xl grid-cols-2 gap-4 sm:grid-cols-3">
           {users.map((u) => (
             <button
               key={u.id}
               onClick={() => setSelected(u)}
-              className="flex flex-col items-center gap-3 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm transition hover:scale-[1.02] hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900"
+              className="group text-left"
             >
-              <div
-                className="flex h-20 w-20 items-center justify-center rounded-full text-3xl font-semibold text-white"
-                style={{ backgroundColor: u.avatarColor }}
-              >
-                {u.name[0]}
-              </div>
-              <div className="text-center">
-                <div className="text-base font-medium">{u.name}</div>
-                <div className="text-xs uppercase tracking-wide text-zinc-500">
-                  {u.role === "ADMIN" ? "Rodič" : "Dítě"}
-                </div>
-              </div>
+              <Card className="transition hover:border-foreground/30 hover:scale-[1.02]">
+                <CardContent className="flex flex-col items-center gap-3 pt-6 pb-5">
+                  <div
+                    className="flex h-20 w-20 items-center justify-center rounded-full text-3xl font-semibold text-white"
+                    style={{ backgroundColor: u.avatarColor }}
+                  >
+                    {u.name[0]}
+                  </div>
+                  <div className="text-center">
+                    <div className="text-base font-medium">{u.name}</div>
+                    <div className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
+                      {u.role === "ADMIN" ? "Rodič" : "Dítě"}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             </button>
           ))}
         </div>
@@ -99,20 +106,24 @@ function PinPad({
 
   return (
     <main className="flex flex-1 flex-col items-center justify-center px-6 py-12">
-      <button
+      <Button
+        variant="ghost"
+        size="sm"
         onClick={onCancel}
-        className="mb-6 text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100"
+        className="mb-6 self-start"
       >
-        ← Zpět
-      </button>
+        <ChevronLeft className="mr-1 size-4" />
+        Zpět
+      </Button>
+
       <div
-        className="flex h-20 w-20 items-center justify-center rounded-full text-3xl font-semibold text-white"
+        className="flex h-20 w-20 items-center justify-center rounded-full text-3xl font-semibold text-white ring-2 ring-border"
         style={{ backgroundColor: profile.avatarColor }}
       >
         {profile.name[0]}
       </div>
-      <h2 className="mt-4 text-xl font-medium">{profile.name}</h2>
-      <p className="mt-1 text-sm text-zinc-500">Zadej 4místný PIN</p>
+      <h2 className="mt-4 text-xl font-semibold">{profile.name}</h2>
+      <p className="mt-1 text-sm text-muted-foreground">Zadej 4místný PIN</p>
 
       <div
         className={`mt-8 flex gap-3 ${shake ? "animate-[shake_0.4s_ease-in-out]" : ""}`}
@@ -122,28 +133,44 @@ function PinPad({
             key={i}
             className={`h-4 w-4 rounded-full border-2 ${
               i < pin.length
-                ? "border-zinc-900 bg-zinc-900 dark:border-zinc-100 dark:bg-zinc-100"
-                : "border-zinc-300 dark:border-zinc-700"
+                ? "border-foreground bg-foreground"
+                : "border-border"
             }`}
           />
         ))}
       </div>
 
-      <div className="mt-4 h-5 text-sm text-red-600">{error}</div>
+      <div className="mt-4 h-5 text-sm text-destructive">{error}</div>
 
       <div className="mt-4 grid w-full max-w-xs grid-cols-3 gap-3">
         {["1", "2", "3", "4", "5", "6", "7", "8", "9"].map((d) => (
-          <KeyButton key={d} onClick={() => press(d)} disabled={isPending}>
+          <Button
+            key={d}
+            variant="outline"
+            onClick={() => press(d)}
+            disabled={isPending}
+            className="h-16 text-2xl font-medium"
+          >
             {d}
-          </KeyButton>
+          </Button>
         ))}
         <div />
-        <KeyButton onClick={() => press("0")} disabled={isPending}>
+        <Button
+          variant="outline"
+          onClick={() => press("0")}
+          disabled={isPending}
+          className="h-16 text-2xl font-medium"
+        >
           0
-        </KeyButton>
-        <KeyButton onClick={back} disabled={isPending || pin.length === 0}>
+        </Button>
+        <Button
+          variant="outline"
+          onClick={back}
+          disabled={isPending || pin.length === 0}
+          className="h-16 text-2xl font-medium"
+        >
           ⌫
-        </KeyButton>
+        </Button>
       </div>
 
       <style>{`
@@ -156,25 +183,5 @@ function PinPad({
         }
       `}</style>
     </main>
-  );
-}
-
-function KeyButton({
-  children,
-  onClick,
-  disabled,
-}: {
-  children: React.ReactNode;
-  onClick: () => void;
-  disabled?: boolean;
-}) {
-  return (
-    <button
-      onClick={onClick}
-      disabled={disabled}
-      className="flex h-16 items-center justify-center rounded-xl border border-zinc-200 bg-white text-2xl font-medium shadow-sm transition active:scale-95 disabled:opacity-40 dark:border-zinc-800 dark:bg-zinc-900"
-    >
-      {children}
-    </button>
   );
 }
