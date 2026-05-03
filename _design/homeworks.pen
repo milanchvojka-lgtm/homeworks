@@ -1,0 +1,2030 @@
+{
+  "version": "2.11",
+  "children": [
+    {
+      "type": "frame",
+      "id": "bi8Au",
+      "x": 0,
+      "y": 0,
+      "name": "Frame",
+      "clip": true,
+      "width": 800,
+      "height": 600,
+      "fill": "#FFFFFF",
+      "layout": "none"
+    },
+    {
+      "type": "frame",
+      "id": "Jh6Ut",
+      "x": 5248,
+      "y": -183,
+      "name": "Homeworks · one-pager",
+      "width": 430,
+      "fill": "$--hbg",
+      "layout": "vertical",
+      "gap": 56,
+      "padding": [
+        64,
+        28,
+        80,
+        28
+      ],
+      "children": [
+        {
+          "type": "frame",
+          "id": "Z7yc8",
+          "name": "hero",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 24,
+          "padding": [
+            8,
+            0
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "Uc682",
+              "fill": "$--hmuted",
+              "content": "HOMEWORKS",
+              "fontFamily": "Inter",
+              "fontSize": 11,
+              "fontWeight": "600",
+              "letterSpacing": 4
+            },
+            {
+              "type": "text",
+              "id": "osXNs",
+              "fill": "$--hink",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "3 týdny zkusíme jiný systém pro povinnosti a obrazovku.",
+              "lineHeight": 1.2,
+              "fontFamily": "Cormorant Garamond",
+              "fontSize": 34,
+              "fontWeight": "500",
+              "fontStyle": "italic"
+            },
+            {
+              "type": "frame",
+              "id": "lUddE",
+              "width": 36,
+              "height": 1,
+              "fill": "$--haccent"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "4waYC",
+          "name": "sec2",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 18,
+          "children": [
+            {
+              "type": "text",
+              "id": "cUPe0",
+              "fill": "$--hink",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Náš současný systém na domácí povinnosti nefunguje a oba to víme. Domlouváme se pořád dokola, holky netuší, co se po nich kdy chce a co za to dostanou, a my netušíme, jestli a kdy něco vážně udělaly.",
+              "lineHeight": 1.6,
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "qwIfj",
+              "fill": "$--hink",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Občas to dopadne hádkou. Často to končí tím, že to nakonec uděláme sami a holky o tom ani nevědí.",
+              "lineHeight": 1.6,
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "LGybP",
+              "fill": "$--hink",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Napadlo mě zkusit to jinak. Ne perfektně, jen jasněji. Aby všichni věděli, kdo má co na starosti, co za to dostane, a kdy.",
+              "lineHeight": 1.6,
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "AEtSh",
+          "name": "sec3",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 36,
+          "children": [
+            {
+              "type": "frame",
+              "id": "TI6An",
+              "name": "sec3h",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "NSQHB",
+                  "fill": "$--haccent",
+                  "content": "01",
+                  "fontFamily": "Cormorant Garamond",
+                  "fontSize": 14,
+                  "fontWeight": "normal",
+                  "letterSpacing": 2,
+                  "fontStyle": "italic"
+                },
+                {
+                  "type": "text",
+                  "id": "46QBZ",
+                  "fill": "$--hink",
+                  "content": "Co navrhuju",
+                  "fontFamily": "Cormorant Garamond",
+                  "fontSize": 34,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "vNRmU",
+              "name": "b3a",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "tS4XP",
+                  "name": "b3ah",
+                  "gap": 12,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "2CwCU",
+                      "width": 18,
+                      "height": 18,
+                      "iconFontName": "rotate-cw",
+                      "iconFontFamily": "lucide",
+                      "fill": "$--haccent"
+                    },
+                    {
+                      "type": "text",
+                      "id": "O3izG",
+                      "fill": "$--hink",
+                      "content": "Rotace kompetencí",
+                      "fontFamily": "Cormorant Garamond",
+                      "fontSize": 22,
+                      "fontWeight": "500"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "6zBlE",
+                  "fill": "$--hmuted",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Tři oblasti — kuchyň, obývák, koupelna. Každý týden je má jedna z holek na starost. Každá projde každou jednou za 3 týdny.",
+                  "lineHeight": 1.55,
+                  "fontFamily": "Inter",
+                  "fontSize": 15,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "IZO7h",
+              "name": "b3b",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "I0JhF",
+                  "name": "b3bh",
+                  "gap": 12,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "aXztp",
+                      "width": 18,
+                      "height": 18,
+                      "iconFontName": "list-checks",
+                      "iconFontFamily": "lucide",
+                      "fill": "$--haccent"
+                    },
+                    {
+                      "type": "text",
+                      "id": "Y50PD",
+                      "fill": "$--hink",
+                      "content": "Extra úkoly za peníze",
+                      "fontFamily": "Cormorant Garamond",
+                      "fontSize": 22,
+                      "fontWeight": "500"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "u6xmJ",
+                  "fill": "$--hmuted",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Větší věci (vyklidit půdu, umýt auto, posekat zahradu) si můžou holky vzít z poolu. Každý úkol má cenu v korunách. Ten, kdo to nezabere první, ho nedostane.",
+                  "lineHeight": 1.55,
+                  "fontFamily": "Inter",
+                  "fontSize": 15,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "yOZ9T",
+              "name": "b3c",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "hZ3oE",
+                  "name": "b3ch",
+                  "gap": 12,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "4Veex",
+                      "width": 18,
+                      "height": 18,
+                      "iconFontName": "wallet",
+                      "iconFontFamily": "lucide",
+                      "fill": "$--haccent"
+                    },
+                    {
+                      "type": "text",
+                      "id": "6fCxA",
+                      "fill": "$--hink",
+                      "content": "Kredit místo dohadování",
+                      "fontFamily": "Cormorant Garamond",
+                      "fontSize": 22,
+                      "fontWeight": "500"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "sMiqi",
+                  "fill": "$--hmuted",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Co holky udělají, vidí jako kredit na svém kontě v aplikaci. V neděli se to uzavře — část v hotovosti, část si můžou nechat na obrazovku. Místo dohadování mají číslo, které vyrostlo nebo nevyrostlo podle toho, co opravdu udělaly.",
+                  "lineHeight": 1.55,
+                  "fontFamily": "Inter",
+                  "fontSize": 15,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "5fKHF",
+              "name": "b3d",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "OmlhD",
+                  "name": "b3dh",
+                  "gap": 12,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "H67n1",
+                      "width": 18,
+                      "height": 18,
+                      "iconFontName": "monitor",
+                      "iconFontFamily": "lucide",
+                      "fill": "$--haccent"
+                    },
+                    {
+                      "type": "text",
+                      "id": "9mQOt",
+                      "fill": "$--hink",
+                      "content": "Obrazovka jako měna",
+                      "fontFamily": "Cormorant Garamond",
+                      "fontSize": 22,
+                      "fontWeight": "500"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "wladu",
+                  "fill": "$--hmuted",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Holky si můžou výdělek vyměnit za čas u obrazovky. 100 Kč = 30 minut. Aplikace nic nevynucuje (od toho je Apple Screen Time), jen eviduje. Volba je jejich: peníze, nebo Netflix.",
+                  "lineHeight": 1.55,
+                  "fontFamily": "Inter",
+                  "fontSize": 15,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "beqxN",
+          "name": "sec4",
+          "width": "fill_container",
+          "fill": "$--hpaper",
+          "cornerRadius": 8,
+          "layout": "vertical",
+          "gap": 24,
+          "padding": [
+            28,
+            24
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "ITejb",
+              "name": "sec4h",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "506X7",
+                  "fill": "$--haccent",
+                  "content": "02",
+                  "fontFamily": "Cormorant Garamond",
+                  "fontSize": 14,
+                  "fontWeight": "normal",
+                  "letterSpacing": 2,
+                  "fontStyle": "italic"
+                },
+                {
+                  "type": "text",
+                  "id": "ct9qu",
+                  "fill": "$--hink",
+                  "content": "Co bys dělala ty",
+                  "fontFamily": "Cormorant Garamond",
+                  "fontSize": 30,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "jo09u",
+              "name": "sec4list",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 14,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "oI8WL",
+                  "name": "b41",
+                  "width": "fill_container",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "CAacH",
+                      "fill": "$--haccent",
+                      "content": "·",
+                      "fontFamily": "Inter",
+                      "fontSize": 18,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "wliVl",
+                      "fill": "$--hink",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Společný admin účet — schvaluješ úkoly stejně jako já, nemáme oddělená oprávnění.",
+                      "lineHeight": 1.55,
+                      "fontFamily": "Inter",
+                      "fontSize": 15,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "P7pyi",
+                  "name": "b42",
+                  "width": "fill_container",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "sgqXG",
+                      "fill": "$--haccent",
+                      "content": "·",
+                      "fontFamily": "Inter",
+                      "fontSize": 18,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "s9r0W",
+                      "fill": "$--hink",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Pár kliknutí denně, nejvíc 5 minut. Holka klikne hotovo, ty (nebo já) klikneme schváleno nebo vrátit.",
+                      "lineHeight": 1.55,
+                      "fontFamily": "Inter",
+                      "fontSize": 15,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "8aqrb",
+                  "name": "b43",
+                  "width": "fill_container",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "rL3zd",
+                      "fill": "$--haccent",
+                      "content": "·",
+                      "fontFamily": "Inter",
+                      "fontSize": 18,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "hGEU6",
+                      "fill": "$--hink",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Můžeš kdykoliv změnit pravidla, ceny úkolů, sazbu obrazovky. Nic není zabetonované.",
+                      "lineHeight": 1.55,
+                      "fontFamily": "Inter",
+                      "fontSize": 15,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "HcLHh",
+                  "name": "b44",
+                  "width": "fill_container",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Rvtxc",
+                      "fill": "$--haccent",
+                      "content": "·",
+                      "fontFamily": "Inter",
+                      "fontSize": 18,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "H8ASS",
+                      "fill": "$--hink",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Cokoliv, co bys ráda viděla jinak, řekni — udělám to.",
+                      "lineHeight": 1.55,
+                      "fontFamily": "Inter",
+                      "fontSize": 15,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "CNISP",
+          "name": "sec5",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 18,
+          "children": [
+            {
+              "type": "frame",
+              "id": "jRtdn",
+              "name": "sec5h",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "SfUCw",
+                  "fill": "$--haccent",
+                  "content": "03",
+                  "fontFamily": "Cormorant Garamond",
+                  "fontSize": 14,
+                  "fontWeight": "normal",
+                  "letterSpacing": 2,
+                  "fontStyle": "italic"
+                },
+                {
+                  "type": "text",
+                  "id": "zXVFH",
+                  "fill": "$--hink",
+                  "content": "Co když to nezabere",
+                  "fontFamily": "Cormorant Garamond",
+                  "fontSize": 30,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "Qxk5H",
+              "fill": "$--hink",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Nečekám zázrak. Možná se atmosféra zlepší o 20 %, možná o 50 %, možná to vůbec nezabere a holky to po týdnu začnou ignorovat.",
+              "lineHeight": 1.6,
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "QLpVV",
+              "fill": "$--hink",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Proto navrhuju 3 týdny zkušebně. Pokud po 3 týdnech vidíme, že to atmosféru zhoršuje, ne zlepšuje, vypneme to a vrátíme se k tomu, co máme dnes. Žádný lock-in, žádné ale dali jsme do toho tolik práce.",
+              "lineHeight": 1.6,
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "1cNGO",
+              "fill": "$--hmuted",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Investice z mojí strany: 2–3 týdny stavby aplikace navíc po práci. Z tvojí strany: 30 minut dnes, 5 minut denně po dobu zkoušky, a upřímná zpětná vazba na konci.",
+              "lineHeight": 1.6,
+              "fontFamily": "Inter",
+              "fontSize": 15,
+              "fontWeight": "normal",
+              "fontStyle": "italic"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "zlPtW",
+          "name": "sec6",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 24,
+          "children": [
+            {
+              "type": "frame",
+              "id": "PLYpr",
+              "name": "sec6h",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "qYcg7",
+                  "fill": "$--haccent",
+                  "content": "04",
+                  "fontFamily": "Cormorant Garamond",
+                  "fontSize": 14,
+                  "fontWeight": "normal",
+                  "letterSpacing": 2,
+                  "fontStyle": "italic"
+                },
+                {
+                  "type": "text",
+                  "id": "5x5te",
+                  "fill": "$--hink",
+                  "content": "Co od tebe potřebuju",
+                  "fontFamily": "Cormorant Garamond",
+                  "fontSize": 30,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "JNIOg",
+              "name": "sec6list",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 18,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "hdZ69",
+                  "name": "i1",
+                  "width": "fill_container",
+                  "gap": 14,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "cbIbV",
+                      "fill": "$--haccent",
+                      "content": "1",
+                      "fontFamily": "Cormorant Garamond",
+                      "fontSize": 24,
+                      "fontWeight": "500",
+                      "fontStyle": "italic"
+                    },
+                    {
+                      "type": "text",
+                      "id": "EIUu9",
+                      "fill": "$--hink",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Říct, jestli to chceš zkusit, nebo ne.",
+                      "lineHeight": 1.55,
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "wgJqc",
+                  "name": "i2",
+                  "width": "fill_container",
+                  "gap": 14,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "VZrtS",
+                      "fill": "$--haccent",
+                      "content": "2",
+                      "fontFamily": "Cormorant Garamond",
+                      "fontSize": 24,
+                      "fontWeight": "500",
+                      "fontStyle": "italic"
+                    },
+                    {
+                      "type": "text",
+                      "id": "UNFyP",
+                      "fill": "$--hink",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Pokud ano — 30 minut spolu, ať napíšeme konkrétní denní úkoly pro kuchyň, obývák a koupelnu. Ty víš líp než já, co tam doopravdy potřebuje hlídat.",
+                      "lineHeight": 1.55,
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "9eMzI",
+                  "name": "i3",
+                  "width": "fill_container",
+                  "gap": 14,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "klfAd",
+                      "fill": "$--haccent",
+                      "content": "3",
+                      "fontFamily": "Cormorant Garamond",
+                      "fontSize": 24,
+                      "fontWeight": "500",
+                      "fontStyle": "italic"
+                    },
+                    {
+                      "type": "text",
+                      "id": "P5xl2",
+                      "fill": "$--hink",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Po 3 týdnech mi upřímně říct, jak to bylo.",
+                      "lineHeight": 1.55,
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "fODm6",
+          "name": "cta",
+          "width": "fill_container",
+          "fill": "$--hpaper",
+          "cornerRadius": 8,
+          "layout": "vertical",
+          "gap": 14,
+          "padding": [
+            36,
+            24
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "IKfKK",
+              "width": 24,
+              "height": 1,
+              "fill": "$--haccent"
+            },
+            {
+              "type": "text",
+              "id": "px4FL",
+              "fill": "$--hink",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Řekni mi do víkendu, jestli to chceš zkusit, nebo radši ne.",
+              "lineHeight": 1.3,
+              "fontFamily": "Cormorant Garamond",
+              "fontSize": 24,
+              "fontWeight": "500"
+            },
+            {
+              "type": "text",
+              "id": "mrh4b",
+              "fill": "$--haccent",
+              "content": "Obojí je v pohodě.",
+              "fontFamily": "Cormorant Garamond",
+              "fontSize": 24,
+              "fontWeight": "500",
+              "fontStyle": "italic"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "eCRlL",
+      "x": 5878,
+      "y": -183,
+      "name": "Homeworks · Tangerine v2",
+      "width": 430,
+      "fill": "$--w-bg",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "jX5Jg",
+          "name": "strip",
+          "width": "fill_container",
+          "fill": "$--w-accent",
+          "gap": 10,
+          "padding": [
+            10,
+            16
+          ],
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "icon_font",
+              "id": "73ulh",
+              "width": 14,
+              "height": 14,
+              "iconFontName": "sparkles",
+              "iconFontFamily": "lucide",
+              "fill": "#FFFFFF"
+            },
+            {
+              "type": "text",
+              "id": "0NDCl",
+              "fill": "#FFFFFF",
+              "content": "4-týdenní zkouška  ·  rodinný experiment",
+              "fontFamily": "Funnel Sans",
+              "fontSize": 12,
+              "fontWeight": "500",
+              "letterSpacing": 1
+            },
+            {
+              "type": "icon_font",
+              "id": "OWWyY",
+              "width": 14,
+              "height": 14,
+              "iconFontName": "sparkles",
+              "iconFontFamily": "lucide",
+              "fill": "#FFFFFF"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "qKMw5",
+          "name": "hero",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 24,
+          "padding": [
+            40,
+            28,
+            32,
+            28
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "O01l9",
+              "name": "heroPill",
+              "cornerRadius": 9999,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "#FFD9C2"
+              },
+              "gap": 8,
+              "padding": [
+                6,
+                12
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "X7Lh9",
+                  "width": 6,
+                  "height": 6,
+                  "fill": "$--w-accent",
+                  "cornerRadius": 9999
+                },
+                {
+                  "type": "text",
+                  "id": "5imws",
+                  "fill": "$--w-ink",
+                  "content": "HOMEWORKS",
+                  "fontFamily": "Funnel Sans",
+                  "fontSize": 11,
+                  "fontWeight": "600",
+                  "letterSpacing": 3
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "gq5I5",
+              "fill": "$--w-ink",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Péče o domácnost. \nNový systém na 4 týdny.",
+              "lineHeight": 1.15,
+              "fontFamily": "Newsreader",
+              "fontSize": 34,
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "Llskh",
+              "fill": "$--w-ink2",
+              "content": "Pitch od Milana — pro Teri.",
+              "lineHeight": 1.5,
+              "fontFamily": "Geist",
+              "fontSize": 15,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "SpaIk",
+              "name": "heroDeco",
+              "gap": 14,
+              "padding": [
+                4,
+                0
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "path",
+                  "id": "6DKDg",
+                  "geometry": "M10 0l2 8 8 2-8 2-2 8-2-8-8-2 8-2z",
+                  "viewBox": [
+                    0,
+                    0,
+                    20,
+                    20
+                  ],
+                  "fill": "$--w-accent",
+                  "width": 14,
+                  "height": 14
+                },
+                {
+                  "type": "frame",
+                  "id": "ySbTL",
+                  "width": 6,
+                  "height": 6,
+                  "fill": "$--w-accent2",
+                  "cornerRadius": 9999
+                },
+                {
+                  "type": "path",
+                  "id": "RFqCu",
+                  "geometry": "M10 0l2 8 8 2-8 2-2 8-2-8-8-2 8-2z",
+                  "viewBox": [
+                    0,
+                    0,
+                    20,
+                    20
+                  ],
+                  "fill": "$--w-accent2",
+                  "width": 10,
+                  "height": 10
+                },
+                {
+                  "type": "frame",
+                  "id": "P6Od0",
+                  "width": 8,
+                  "height": 8,
+                  "fill": "$--w-accent",
+                  "cornerRadius": 9999
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "jVq9f",
+          "name": "sec2",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 18,
+          "padding": [
+            8,
+            28,
+            32,
+            28
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "9gAKr",
+              "fill": "$--w-ink",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Náš současný systém na domácí povinnosti nefunguje a oba to víme. Domlouváme se pořád dokola, holky netuší, co se po nich kdy chce a co za to dostanou, a my netušíme, jestli a kdy něco vážně udělaly.",
+              "lineHeight": 1.6,
+              "fontFamily": "Geist",
+              "fontSize": 16,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "Y0Plp",
+              "fill": "$--w-ink",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Občas to dopadne hádkou. Často to končí tím, že to nakonec uděláme sami a holky o tom ani nevědí.",
+              "lineHeight": 1.6,
+              "fontFamily": "Geist",
+              "fontSize": 16,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "CI4vU",
+              "fill": "$--w-ink",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Napadlo mě zkusit to jinak. Aby všichni věděli, kdo má co na starosti, co za to dostane, a kdy.",
+              "lineHeight": 1.6,
+              "fontFamily": "Geist",
+              "fontSize": 16,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "s3zai",
+          "name": "sec3",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 28,
+          "padding": [
+            24,
+            28,
+            40,
+            28
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "Jvta2",
+              "name": "sec3h",
+              "width": "fill_container",
+              "gap": 10,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "OR7Pm",
+                  "fill": "$--w-accent",
+                  "content": "01",
+                  "fontFamily": "Funnel Sans",
+                  "fontSize": 11,
+                  "fontWeight": "600",
+                  "letterSpacing": 3
+                },
+                {
+                  "type": "frame",
+                  "id": "OoNrh",
+                  "width": "fill_container",
+                  "height": 1,
+                  "fill": "$--w-line"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "bYtQk",
+              "fill": "$--w-ink",
+              "content": "Co navrhuju",
+              "fontFamily": "Newsreader",
+              "fontSize": 30,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "Z7IZJ",
+              "name": "b3a",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "JGmAc",
+                  "name": "b3ah",
+                  "gap": 12,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "L35ms",
+                      "width": 32,
+                      "height": 32,
+                      "fill": "#FFEEDD",
+                      "cornerRadius": 9999,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "f8YHt",
+                          "width": 16,
+                          "height": 16,
+                          "iconFontName": "rotate-cw",
+                          "iconFontFamily": "lucide",
+                          "fill": "$--w-accent"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "sm9Ok",
+                      "fill": "$--w-ink",
+                      "content": "Rotace kompetencí",
+                      "fontFamily": "Newsreader",
+                      "fontSize": 20,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "QwkEN",
+                  "fill": "$--w-ink2",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Tři oblasti — kuchyň, obývák, koupelna. Každý týden je má jedna z holek na starost. Každá projde každou jednou za 3 týdny.",
+                  "lineHeight": 1.6,
+                  "fontFamily": "Geist",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "NLte7",
+              "name": "b3b",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "Xo8Hq",
+                  "name": "b3bh",
+                  "gap": 12,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "N6eJL",
+                      "width": 32,
+                      "height": 32,
+                      "fill": "#FFEEDD",
+                      "cornerRadius": 9999,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "xhvnd",
+                          "width": 16,
+                          "height": 16,
+                          "iconFontName": "list-checks",
+                          "iconFontFamily": "lucide",
+                          "fill": "$--w-accent"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "yt7uk",
+                      "fill": "$--w-ink",
+                      "content": "Extra úkoly za peníze",
+                      "fontFamily": "Newsreader",
+                      "fontSize": 20,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "wUqVc",
+                  "fill": "$--w-ink2",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Větší věci (vyklidit půdu, umýt auto, posekat zahradu) si můžou holky vzít z poolu. Každý úkol má cenu v korunách. Ten, kdo to nezabere první, ho nedostane.",
+                  "lineHeight": 1.6,
+                  "fontFamily": "Geist",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "zbpgG",
+              "name": "b3c",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "T2Grt",
+                  "name": "b3ch",
+                  "gap": 12,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "JL4hz",
+                      "width": 32,
+                      "height": 32,
+                      "fill": "#FFEEDD",
+                      "cornerRadius": 9999,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "3bcpc",
+                          "width": 16,
+                          "height": 16,
+                          "iconFontName": "wallet",
+                          "iconFontFamily": "lucide",
+                          "fill": "$--w-accent"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "ydk30",
+                      "fill": "$--w-ink",
+                      "content": "Kredit místo dohadování",
+                      "fontFamily": "Newsreader",
+                      "fontSize": 20,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "5DYw3",
+                  "fill": "$--w-ink2",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Co holky udělají, vidí jako kredit na svém kontě v aplikaci. V neděli se to uzavře — část v hotovosti, část si můžou nechat na screentime.",
+                  "lineHeight": 1.6,
+                  "fontFamily": "Geist",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "KomsC",
+              "name": "b3d",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "kjVBs",
+                  "name": "b3dh",
+                  "gap": 12,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "hS0VI",
+                      "width": 32,
+                      "height": 32,
+                      "fill": "#FFEEDD",
+                      "cornerRadius": 9999,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "HOTGX",
+                          "width": 16,
+                          "height": 16,
+                          "iconFontName": "monitor",
+                          "iconFontFamily": "lucide",
+                          "fill": "$--w-accent"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "0xzK8",
+                      "fill": "$--w-ink",
+                      "content": "Obrazovka jako měna",
+                      "fontFamily": "Newsreader",
+                      "fontSize": 20,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "bA52x",
+                  "fill": "$--w-ink2",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Holky si můžou výdělek vyměnit za čas u obrazovky. 100 Kč = 30 minut. Aplikace nic nevynucuje (od toho je Apple Screen Time), jen eviduje. Volba je jejich: peníze, nebo Instáč.",
+                  "lineHeight": 1.6,
+                  "fontFamily": "Geist",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "MufXD",
+          "name": "sec4",
+          "width": "fill_container",
+          "fill": "$--w-bg-soft",
+          "layout": "vertical",
+          "gap": 18,
+          "padding": 28,
+          "children": [
+            {
+              "type": "frame",
+              "id": "EXH9b",
+              "name": "sec4h",
+              "width": "fill_container",
+              "gap": 10,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "NhlrP",
+                  "fill": "$--w-accent",
+                  "content": "02",
+                  "fontFamily": "Funnel Sans",
+                  "fontSize": 11,
+                  "fontWeight": "600",
+                  "letterSpacing": 3
+                },
+                {
+                  "type": "frame",
+                  "id": "uqHZS",
+                  "width": "fill_container",
+                  "height": 1,
+                  "fill": "#E6E8EC"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "nhyUc",
+              "fill": "$--w-ink",
+              "content": "Co bys dělala ty",
+              "fontFamily": "Newsreader",
+              "fontSize": 28,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "ze74h",
+              "name": "sec4list",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 14,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "6VpQp",
+                  "name": "b41",
+                  "width": "fill_container",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "uVJeR",
+                      "width": 16,
+                      "height": 16,
+                      "iconFontName": "check",
+                      "iconFontFamily": "lucide",
+                      "fill": "$--w-accent"
+                    },
+                    {
+                      "type": "text",
+                      "id": "MYb9w",
+                      "fill": "$--w-ink",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Společný admin účet — schvaluješ úkoly stejně jako já, nemáme oddělená oprávnění.",
+                      "lineHeight": 1.55,
+                      "fontFamily": "Geist",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "DkOTm",
+                  "name": "b42",
+                  "width": "fill_container",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "YXP7T",
+                      "width": 16,
+                      "height": 16,
+                      "iconFontName": "check",
+                      "iconFontFamily": "lucide",
+                      "fill": "$--w-accent"
+                    },
+                    {
+                      "type": "text",
+                      "id": "VFlMC",
+                      "fill": "$--w-ink",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Pár kliknutí denně, nejvíc 5 minut. Jedna z holek klikne hotovo, ty (nebo já) klikneme schváleno nebo vrátit.",
+                      "lineHeight": 1.55,
+                      "fontFamily": "Geist",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "5JcUK",
+                  "name": "b43",
+                  "width": "fill_container",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "kA9SR",
+                      "width": 16,
+                      "height": 16,
+                      "iconFontName": "check",
+                      "iconFontFamily": "lucide",
+                      "fill": "$--w-accent"
+                    },
+                    {
+                      "type": "text",
+                      "id": "wyf08",
+                      "fill": "$--w-ink",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Můžeš kdykoliv změnit pravidla, ceny úkolů, sazbu obrazovky. Nic není zabetonované.",
+                      "lineHeight": 1.55,
+                      "fontFamily": "Geist",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "CUbVP",
+                  "name": "b44",
+                  "width": "fill_container",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "kQzLn",
+                      "width": 16,
+                      "height": 16,
+                      "iconFontName": "check",
+                      "iconFontFamily": "lucide",
+                      "fill": "$--w-accent"
+                    },
+                    {
+                      "type": "text",
+                      "id": "gzWoA",
+                      "fill": "$--w-ink",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Cokoliv, co bys ráda viděla jinak, řekni — udělám to.",
+                      "lineHeight": 1.55,
+                      "fontFamily": "Geist",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "QUias",
+          "name": "sec5",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 18,
+          "padding": [
+            40,
+            28
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "vIhrI",
+              "name": "sec5h",
+              "width": "fill_container",
+              "gap": 10,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "4slfF",
+                  "fill": "$--w-accent",
+                  "content": "03",
+                  "fontFamily": "Funnel Sans",
+                  "fontSize": 11,
+                  "fontWeight": "600",
+                  "letterSpacing": 3
+                },
+                {
+                  "type": "frame",
+                  "id": "VkAD2",
+                  "width": "fill_container",
+                  "height": 1,
+                  "fill": "$--w-line"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "Ef5Vf",
+              "fill": "$--w-ink",
+              "content": "Co když to nezabere",
+              "fontFamily": "Newsreader",
+              "fontSize": 28,
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "vreNa",
+              "fill": "$--w-ink",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Nečekám zázrak. Možná se atmosféra zlepší o 20 %, možná o 50 %, možná to vůbec nezabere a holky to po týdnu začnou ignorovat.",
+              "lineHeight": 1.6,
+              "fontFamily": "Geist",
+              "fontSize": 16,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "1n7qS",
+              "fill": "$--w-ink",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Proto navrhuju 4 týdny zkušebně. Pokud po 4 týdnech vidíme, že to atmosféru zhoršuje, ne zlepšuje, vypneme to a vrátíme se k tomu, co máme dnes. Žádný lock-in, žádné ale dali jsme do toho tolik práce.",
+              "lineHeight": 1.6,
+              "fontFamily": "Geist",
+              "fontSize": 16,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "jzpXo",
+              "name": "investBox",
+              "width": "fill_container",
+              "cornerRadius": 8,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1,
+                "fill": "#FFD9C2"
+              },
+              "layout": "vertical",
+              "gap": 8,
+              "padding": 18,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "nu8PT",
+                  "fill": "$--w-accent",
+                  "content": "Investice",
+                  "fontFamily": "Funnel Sans",
+                  "fontSize": 11,
+                  "fontWeight": "600",
+                  "letterSpacing": 3
+                },
+                {
+                  "type": "text",
+                  "id": "pgREj",
+                  "fill": "$--w-ink",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Z mojí strany: 2–3 týdny stavby aplikace navíc po práci. Z tvojí strany: 30 minut dnes, 5 minut denně po dobu zkoušky, a upřímná zpětná vazba na konci.",
+                  "lineHeight": 1.6,
+                  "fontFamily": "Geist",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "TJEEc",
+          "name": "sec6",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 24,
+          "padding": [
+            12,
+            28,
+            32,
+            28
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "RmAII",
+              "name": "sec6h",
+              "width": "fill_container",
+              "gap": 10,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "2fyoh",
+                  "fill": "$--w-accent",
+                  "content": "04",
+                  "fontFamily": "Funnel Sans",
+                  "fontSize": 11,
+                  "fontWeight": "600",
+                  "letterSpacing": 3
+                },
+                {
+                  "type": "frame",
+                  "id": "JMnfI",
+                  "width": "fill_container",
+                  "height": 1,
+                  "fill": "$--w-line"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "L116K",
+              "fill": "$--w-ink",
+              "content": "Co od tebe potřebuju",
+              "fontFamily": "Newsreader",
+              "fontSize": 28,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "r1xfO",
+              "name": "sec6list",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 16,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "6ycnJ",
+                  "name": "i1",
+                  "width": "fill_container",
+                  "gap": 14,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "0pzuG",
+                      "width": 26,
+                      "height": 26,
+                      "fill": "$--w-accent",
+                      "cornerRadius": 9999,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "oG1ut",
+                          "fill": "#FFFFFF",
+                          "content": "1",
+                          "fontFamily": "Funnel Sans",
+                          "fontSize": 13,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "kJDbd",
+                      "fill": "$--w-ink",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Říct, jestli to chceš zkusit, nebo ne.",
+                      "lineHeight": 1.55,
+                      "fontFamily": "Geist",
+                      "fontSize": 15,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "lxXoD",
+                  "name": "i2",
+                  "width": "fill_container",
+                  "gap": 14,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "OK412",
+                      "width": 26,
+                      "height": 26,
+                      "fill": "$--w-accent",
+                      "cornerRadius": 9999,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "nO4wY",
+                          "fill": "#FFFFFF",
+                          "content": "2",
+                          "fontFamily": "Funnel Sans",
+                          "fontSize": 13,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "aecJw",
+                      "fill": "$--w-ink",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Pokud ano — 30 minut spolu, ať napíšeme konkrétní denní úkoly pro kuchyň, obývák a koupelnu. ",
+                      "lineHeight": 1.55,
+                      "fontFamily": "Geist",
+                      "fontSize": 15,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "7f8JN",
+                  "name": "i3",
+                  "width": "fill_container",
+                  "gap": 14,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "0JzO7",
+                      "width": 26,
+                      "height": 26,
+                      "fill": "$--w-accent",
+                      "cornerRadius": 9999,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "jEezv",
+                          "fill": "#FFFFFF",
+                          "content": "3",
+                          "fontFamily": "Funnel Sans",
+                          "fontSize": 13,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "Glwf6",
+                      "fill": "$--w-ink",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Po 4 týdnech mi upřímně říct, jak to bylo.",
+                      "lineHeight": 1.55,
+                      "fontFamily": "Geist",
+                      "fontSize": 15,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "jcI6M",
+          "name": "cta",
+          "width": "fill_container",
+          "fill": "$--w-ink",
+          "layout": "vertical",
+          "gap": 14,
+          "padding": [
+            36,
+            28,
+            40,
+            28
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "0wYcw",
+              "name": "ctaPill",
+              "fill": "$--w-accent",
+              "cornerRadius": 9999,
+              "gap": 8,
+              "padding": [
+                6,
+                12
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "TIIpb",
+                  "width": 12,
+                  "height": 12,
+                  "iconFontName": "sparkles",
+                  "iconFontFamily": "lucide",
+                  "fill": "#FFFFFF"
+                },
+                {
+                  "type": "text",
+                  "id": "HZlq3",
+                  "fill": "#FFFFFF",
+                  "content": "FINÁLNÍ ZPRÁVA",
+                  "fontFamily": "Funnel Sans",
+                  "fontSize": 11,
+                  "fontWeight": "700",
+                  "letterSpacing": 2
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "Mb2pu",
+              "fill": "#FFFFFF",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Řekni mi do víkendu, jestli to chceš zkusit, nebo radši ne.",
+              "lineHeight": 1.25,
+              "fontFamily": "Newsreader",
+              "fontSize": 24,
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "9g1lQ",
+              "fill": "$--w-accent2",
+              "content": "Obojí je v pohodě.",
+              "fontFamily": "Newsreader",
+              "fontSize": 24,
+              "fontWeight": "600",
+              "fontStyle": "italic"
+            },
+            {
+              "type": "frame",
+              "id": "cm3GL",
+              "name": "ctaDeco",
+              "gap": 10,
+              "padding": [
+                8,
+                0,
+                0,
+                0
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "path",
+                  "id": "HJJrf",
+                  "geometry": "M10 0l2 8 8 2-8 2-2 8-2-8-8-2 8-2z",
+                  "viewBox": [
+                    0,
+                    0,
+                    20,
+                    20
+                  ],
+                  "fill": "$--w-accent",
+                  "width": 12,
+                  "height": 12
+                },
+                {
+                  "type": "frame",
+                  "id": "pEfjd",
+                  "width": 5,
+                  "height": 5,
+                  "fill": "$--w-accent2",
+                  "cornerRadius": 9999
+                },
+                {
+                  "type": "path",
+                  "id": "n7Zf3",
+                  "geometry": "M10 0l2 8 8 2-8 2-2 8-2-8-8-2 8-2z",
+                  "viewBox": [
+                    0,
+                    0,
+                    20,
+                    20
+                  ],
+                  "fill": "$--w-accent2",
+                  "width": 8,
+                  "height": 8
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "ZVgNd",
+          "name": "foot",
+          "width": "fill_container",
+          "gap": 10,
+          "padding": [
+            14,
+            28,
+            18,
+            28
+          ],
+          "justifyContent": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "5pCRZ",
+              "fill": "$--w-muted",
+              "content": "Homeworks  ·  domácí pitch  ·  v2",
+              "fontFamily": "Funnel Sans",
+              "fontSize": 10,
+              "fontWeight": "500",
+              "letterSpacing": 2
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variables": {
+    "--haccent": {
+      "type": "color",
+      "value": "#8C5A3C"
+    },
+    "--hbg": {
+      "type": "color",
+      "value": "#F4EDE2"
+    },
+    "--hink": {
+      "type": "color",
+      "value": "#2A211B"
+    },
+    "--hline": {
+      "type": "color",
+      "value": "#E1D5C1"
+    },
+    "--hmuted": {
+      "type": "color",
+      "value": "#6E5F52"
+    },
+    "--hpaper": {
+      "type": "color",
+      "value": "#FAF5EB"
+    },
+    "--hsoft": {
+      "type": "color",
+      "value": "#9C8775"
+    },
+    "--w-accent": {
+      "type": "color",
+      "value": "#FF5C00"
+    },
+    "--w-accent2": {
+      "type": "color",
+      "value": "#FF8533"
+    },
+    "--w-bg": {
+      "type": "color",
+      "value": "#FFFFFF"
+    },
+    "--w-bg-soft": {
+      "type": "color",
+      "value": "#F7F8FA"
+    },
+    "--w-ink": {
+      "type": "color",
+      "value": "#1A1A1A"
+    },
+    "--w-ink2": {
+      "type": "color",
+      "value": "#666666"
+    },
+    "--w-line": {
+      "type": "color",
+      "value": "#F3F4F6"
+    },
+    "--w-muted": {
+      "type": "color",
+      "value": "#888888"
+    }
+  }
+}

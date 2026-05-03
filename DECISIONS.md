@@ -112,3 +112,22 @@
 - Milan už má Supabase účet z jiného projektu = nula context-switchingu.
 - Free tier (500 MB) bohatě stačí pro 5 uživatelů a desítky zápisů týdně.
 - Používáme **jen Postgres connection** — ne Supabase Auth, Storage ani Realtime. Datový model je portable, případná migrace na Neon = změna `DATABASE_URL`.
+
+---
+
+## D8 — UI design system: shadcn/ui + dark mode přes next-themes
+
+**Rozhodnutí:** Pro v1.1 design pass se přechází z čistého Tailwindu na **shadcn/ui** (Radix primitiva + Tailwind styling, copy-paste do repa, ne dependency). Dark mode přes `next-themes` provider, theme tokens jako CSS proměnné.
+
+**Důvod:**
+- v1 child rozhraní bylo „minimal usable" (rámeček + text + emoji). Holky 11/14/15 jsou citlivé na vzhled, gamifikace bez polished UI ztratí účinek.
+- shadcn vlastníme ve zdrojáku — žádný vendor lock-in, žádný runtime overhead krom konkrétně použitých komponent.
+- Dark mode out of the box přes CSS proměnné. Přidat až dodatečně by vyžadovalo audit všech `bg-white` apod.
+- Stack se nemění — pořád Next.js + Tailwind. Jen přidá konzistentní component layer.
+
+**Důsledky:**
+- Nová deps: `next-themes`, `lucide-react` (ikony, používá shadcn), `class-variance-authority`, `clsx`, `tailwind-merge`. Všechno zhruba 10 KB gzipped dohromady.
+- Komponenty se přidávají selektivně přes `npx shadcn add <name>` — žádný blanket import.
+- Theme tokeny v `app/globals.css` jako CSS proměnné, light/dark varianty.
+- Admin rozhraní (M0–M6) zůstane funkčně beze změny, ale graficky se sjednotí do stejného design language při příležitostných úpravách (žádný explicit refactor pass na admin v rámci v1.1).
+- Existující `app/child/_components/*` komponenty se postupně přepíší na shadcn ekvivalenty (Card, Button, Progress, Badge, Dialog, Switch atd.).

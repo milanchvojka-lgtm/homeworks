@@ -1,5 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import { Geist, Source_Sans_3 } from "next/font/google";
+import { cn } from "@/lib/utils";
+import { ThemeProvider, themeInitScript } from "@/components/theme-provider";
+
+const sourceSans3 = Source_Sans_3({subsets:['latin'],variable:'--font-sans'});
+const sourceSans = Source_Sans_3({subsets:['latin'],variable:'--font-source-sans'});
 
 export const metadata: Metadata = {
   title: "Homeworks",
@@ -27,9 +33,16 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="cs" className="h-full antialiased">
-      <body className="min-h-full flex flex-col bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100">
-        {children}
+    <html
+      lang="cs"
+      suppressHydrationWarning
+      className={cn("h-full antialiased", "font-sans", sourceSans3.variable, sourceSans.variable)}
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
+      <body className="min-h-full flex flex-col bg-background text-foreground">
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );
