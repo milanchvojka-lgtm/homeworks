@@ -17,7 +17,7 @@ export default async function AdminUsersPage() {
   return (
     <div>
       <h1 className="text-2xl font-semibold">Uživatelé</h1>
-      <p className="mt-1 text-sm text-zinc-500">
+      <p className="mt-1 text-sm text-muted-foreground">
         Pět profilů. Reset PINu nastaví dočasný „0000" a vymaže aktivní session.
       </p>
 

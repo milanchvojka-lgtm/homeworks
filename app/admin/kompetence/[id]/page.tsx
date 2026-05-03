@@ -20,7 +20,7 @@ export default async function CompetencyDetailPage({
     <div>
       <Link
         href="/admin/kompetence"
-        className="text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100"
+        className="text-sm text-muted-foreground hover:text-foreground"
       >
         ← Kompetence
       </Link>

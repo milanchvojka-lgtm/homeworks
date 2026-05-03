@@ -19,7 +19,7 @@ export default async function KompetencePage() {
   return (
     <div>
       <h1 className="text-2xl font-semibold">Kompetence</h1>
-      <p className="mt-1 text-sm text-zinc-500">
+      <p className="mt-1 text-sm text-muted-foreground">
         Tento týden je přiřazené dle rotace.
       </p>
 
@@ -30,16 +30,16 @@ export default async function KompetencePage() {
             <li key={c.id}>
               <Link
                 href={`/admin/kompetence/${c.id}`}
-                className="flex items-center justify-between rounded-xl border border-zinc-200 bg-white p-4 transition hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800/50"
+                className="flex items-center justify-between rounded-xl border border-border bg-card p-4 transition hover:bg-muted"
               >
                 <div>
                   <div className="text-base font-medium">{c.name}</div>
                   {c.description && (
-                    <div className="mt-0.5 text-sm text-zinc-500">
+                    <div className="mt-0.5 text-sm text-muted-foreground">
                       {c.description}
                     </div>
                   )}
-                  <div className="mt-1 text-xs text-zinc-500">
+                  <div className="mt-1 text-xs text-muted-foreground">
                     {c._count.dailyChecks} denních checků
                   </div>
                 </div>

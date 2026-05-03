@@ -8,6 +8,10 @@ import {
   updateCompetencyAction,
   updateDailyCheckAction,
 } from "@/app/actions/competencies";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent } from "@/components/ui/card";
 
 type Competency = {
   id: string;
@@ -53,37 +57,42 @@ export function CompetencyEditor({
     <div className="mt-3">
       <h1 className="text-2xl font-semibold">{competency.name}</h1>
 
-      <div className="mt-6 space-y-3 rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900">
-        <label className="block text-xs font-medium uppercase tracking-wide text-zinc-500">
-          Název
-        </label>
-        <input
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-950"
-        />
-        <label className="block text-xs font-medium uppercase tracking-wide text-zinc-500">
-          Popis
-        </label>
-        <textarea
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          rows={2}
-          className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-950"
-        />
-        <div className="flex items-center gap-3">
-          <button
-            onClick={saveMeta}
-            disabled={isPending}
-            className="rounded-lg bg-zinc-900 px-4 py-1.5 text-sm font-medium text-white disabled:opacity-40 dark:bg-zinc-100 dark:text-zinc-900"
-          >
-            Uložit
-          </button>
-          {savedAt && (
-            <span className="text-xs text-emerald-600">Uloženo</span>
-          )}
-        </div>
-      </div>
+      <Card className="mt-6">
+        <CardContent className="space-y-3 pt-4">
+          <div className="space-y-1">
+            <Label className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              Název
+            </Label>
+            <Input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
+          <div className="space-y-1">
+            <Label className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              Popis
+            </Label>
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              rows={2}
+              className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            />
+          </div>
+          <div className="flex items-center gap-3">
+            <Button
+              onClick={saveMeta}
+              disabled={isPending}
+              size="sm"
+            >
+              Uložit
+            </Button>
+            {savedAt && (
+              <span className="text-xs text-emerald-600">Uloženo</span>
+            )}
+          </div>
+        </CardContent>
+      </Card>
 
       <h2 className="mt-8 text-lg font-semibold">Denní checky</h2>
       <ChecksList competencyId={competency.id} initial={initialChecks} />
@@ -145,52 +154,53 @@ function ChecksList({
   return (
     <div className="mt-3 space-y-2">
       {checks.map((c) => (
-        <div
-          key={c.id}
-          className="flex items-center gap-2 rounded-xl border border-zinc-200 bg-white p-3 dark:border-zinc-800 dark:bg-zinc-900"
-        >
-          <input
-            value={c.name}
-            onChange={(e) => update(c.id, { name: e.target.value })}
-            onBlur={() => persist(c)}
-            className="flex-1 rounded-lg border border-transparent bg-transparent px-2 py-1 text-sm focus:border-zinc-300 dark:focus:border-zinc-700"
-          />
-          <select
-            value={c.timeOfDay}
-            onChange={(e) => {
-              const next = { ...c, timeOfDay: e.target.value as TimeOfDay };
-              update(c.id, { timeOfDay: next.timeOfDay });
-              persist(next);
-            }}
-            className="rounded-lg border border-zinc-300 bg-white px-2 py-1 text-xs dark:border-zinc-700 dark:bg-zinc-950"
-          >
-            {(["MORNING", "EVENING", "ANYTIME"] as TimeOfDay[]).map((t) => (
-              <option key={t} value={t}>
-                {TIME_LABELS[t]}
-              </option>
-            ))}
-          </select>
-          <button
-            onClick={() => remove(c.id)}
-            disabled={isPending}
-            className="rounded-lg px-2 py-1 text-xs text-red-600 hover:bg-red-50 disabled:opacity-40 dark:hover:bg-red-950/30"
-          >
-            Smazat
-          </button>
-        </div>
+        <Card key={c.id}>
+          <CardContent className="flex items-center gap-2 p-3">
+            <Input
+              value={c.name}
+              onChange={(e) => update(c.id, { name: e.target.value })}
+              onBlur={() => persist(c)}
+              className="flex-1 border-transparent bg-transparent focus-visible:border-input"
+            />
+            <select
+              value={c.timeOfDay}
+              onChange={(e) => {
+                const next = { ...c, timeOfDay: e.target.value as TimeOfDay };
+                update(c.id, { timeOfDay: next.timeOfDay });
+                persist(next);
+              }}
+              className="rounded-md border border-input bg-background px-2 py-1 text-xs"
+            >
+              {(["MORNING", "EVENING", "ANYTIME"] as TimeOfDay[]).map((t) => (
+                <option key={t} value={t}>
+                  {TIME_LABELS[t]}
+                </option>
+              ))}
+            </select>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => remove(c.id)}
+              disabled={isPending}
+              className="text-destructive hover:text-destructive"
+            >
+              Smazat
+            </Button>
+          </CardContent>
+        </Card>
       ))}
 
-      <div className="flex items-center gap-2 rounded-xl border border-dashed border-zinc-300 p-3 dark:border-zinc-700">
-        <input
+      <div className="flex items-center gap-2 rounded-xl border border-dashed border-border p-3">
+        <Input
           value={newName}
           onChange={(e) => setNewName(e.target.value)}
           placeholder="Nový denní check"
-          className="flex-1 rounded-lg border border-zinc-300 bg-white px-2 py-1 text-sm dark:border-zinc-700 dark:bg-zinc-950"
+          className="flex-1"
         />
         <select
           value={newTime}
           onChange={(e) => setNewTime(e.target.value as TimeOfDay)}
-          className="rounded-lg border border-zinc-300 bg-white px-2 py-1 text-xs dark:border-zinc-700 dark:bg-zinc-950"
+          className="rounded-md border border-input bg-background px-2 py-1 text-xs"
         >
           {(["MORNING", "EVENING", "ANYTIME"] as TimeOfDay[]).map((t) => (
             <option key={t} value={t}>
@@ -198,13 +208,13 @@ function ChecksList({
             </option>
           ))}
         </select>
-        <button
+        <Button
+          size="sm"
           onClick={add}
           disabled={isPending || !newName.trim()}
-          className="rounded-lg bg-zinc-900 px-3 py-1 text-xs font-medium text-white disabled:opacity-40 dark:bg-zinc-100 dark:text-zinc-900"
         >
           Přidat
-        </button>
+        </Button>
       </div>
     </div>
   );

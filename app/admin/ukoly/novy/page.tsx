@@ -6,7 +6,7 @@ export default function NewTaskPage() {
     <div>
       <Link
         href="/admin/ukoly"
-        className="text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100"
+        className="text-sm text-muted-foreground hover:text-foreground"
       >
         ← Úkoly
       </Link>

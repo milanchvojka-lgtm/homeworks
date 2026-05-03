@@ -22,7 +22,7 @@ export default async function EditTaskPage({
     <div>
       <Link
         href="/admin/ukoly"
-        className="text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100"
+        className="text-sm text-muted-foreground hover:text-foreground"
       >
         ← Úkoly
       </Link>
@@ -44,15 +44,15 @@ export default async function EditTaskPage({
       <h2 className="mt-10 text-lg font-semibold">Posledních 10 instancí</h2>
       <ul className="mt-3 space-y-1 text-sm">
         {instances.length === 0 && (
-          <li className="text-zinc-500">Žádné instance.</li>
+          <li className="text-muted-foreground">Žádné instance.</li>
         )}
         {instances.map((i) => (
           <li
             key={i.id}
-            className="flex justify-between rounded-lg border border-zinc-200 bg-white px-3 py-2 dark:border-zinc-800 dark:bg-zinc-900"
+            className="flex justify-between rounded-lg border border-border bg-card px-3 py-2"
           >
             <span>{new Date(i.createdAt).toLocaleString("cs-CZ")}</span>
-            <span className="text-zinc-500">{i.status}</span>
+            <span className="text-muted-foreground">{i.status}</span>
           </li>
         ))}
       </ul>

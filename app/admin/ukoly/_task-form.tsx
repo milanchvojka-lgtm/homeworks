@@ -3,6 +3,10 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { createTaskAction, updateTaskAction } from "@/app/actions/tasks";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent } from "@/components/ui/card";
 
 type Mode =
   | { kind: "create" }
@@ -80,134 +84,127 @@ export function TaskForm({
   };
 
   return (
-    <div className="mt-6 max-w-xl space-y-4 rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900">
-      <Field label="Název">
-        <input
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className={inputCls}
-        />
-      </Field>
-
-      <Field label="Popis (volitelné)">
-        <textarea
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          rows={2}
-          className={inputCls}
-        />
-      </Field>
-
-      <div className="grid grid-cols-2 gap-3">
-        <Field label="Hodnota (Kč)">
-          <input
-            type="number"
-            min={0}
-            value={valueCzk}
-            onChange={(e) => setValueCzk(Number(e.target.value))}
-            className={inputCls}
+    <Card className="mt-6 max-w-xl">
+      <CardContent className="space-y-4 pt-5">
+        <Field label="Název">
+          <Input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
         </Field>
-        <Field label="Odhad času (min, volitelné)">
-          <input
-            type="number"
-            min={0}
-            value={timeEstimate ?? ""}
-            onChange={(e) =>
-              setTimeEstimate(e.target.value ? Number(e.target.value) : null)
-            }
-            className={inputCls}
+
+        <Field label="Popis (volitelné)">
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            rows={2}
+            className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           />
         </Field>
-      </div>
 
-      <Field label="Frekvence">
-        <div className="space-y-2">
-          <label className="flex items-center gap-2 text-sm">
-            <input
-              type="radio"
-              checked={!recurring}
-              onChange={() => setRecurring(false)}
+        <div className="grid grid-cols-2 gap-3">
+          <Field label="Hodnota (Kč)">
+            <Input
+              type="number"
+              min={0}
+              value={valueCzk}
+              onChange={(e) => setValueCzk(Number(e.target.value))}
             />
-            Jednorázový (ad hoc)
-          </label>
-          <label className="flex items-center gap-2 text-sm">
-            <input
-              type="radio"
-              checked={recurring}
-              onChange={() => setRecurring(true)}
+          </Field>
+          <Field label="Odhad času (min, volitelné)">
+            <Input
+              type="number"
+              min={0}
+              value={timeEstimate ?? ""}
+              onChange={(e) =>
+                setTimeEstimate(e.target.value ? Number(e.target.value) : null)
+              }
             />
-            Opakující se každých
-            <input
+          </Field>
+        </div>
+
+        <Field label="Frekvence">
+          <div className="space-y-2">
+            <label className="flex items-center gap-2 text-sm">
+              <input
+                type="radio"
+                checked={!recurring}
+                onChange={() => setRecurring(false)}
+              />
+              Jednorázový (ad hoc)
+            </label>
+            <label className="flex items-center gap-2 text-sm">
+              <input
+                type="radio"
+                checked={recurring}
+                onChange={() => setRecurring(true)}
+              />
+              Opakující se každých
+              <Input
+                type="number"
+                min={1}
+                value={frequencyDays}
+                disabled={!recurring}
+                onChange={(e) => setFrequencyDays(Number(e.target.value))}
+                className="w-16"
+              />
+              dní
+            </label>
+          </div>
+        </Field>
+
+        <div className="grid grid-cols-2 gap-3">
+          <Field label="Timeout claim (hodiny)">
+            <Input
               type="number"
               min={1}
-              value={frequencyDays}
-              disabled={!recurring}
-              onChange={(e) => setFrequencyDays(Number(e.target.value))}
-              className="w-16 rounded-lg border border-zinc-300 bg-white px-2 py-1 text-sm disabled:opacity-40 dark:border-zinc-700 dark:bg-zinc-950"
+              value={claimTimeout}
+              onChange={(e) => setClaimTimeout(Number(e.target.value))}
             />
-            dní
-          </label>
+          </Field>
+          <Field label="Timeout execute (hodiny)">
+            <Input
+              type="number"
+              min={1}
+              value={executeTimeout}
+              onChange={(e) => setExecuteTimeout(Number(e.target.value))}
+            />
+          </Field>
         </div>
-      </Field>
 
-      <div className="grid grid-cols-2 gap-3">
-        <Field label="Timeout claim (hodiny)">
-          <input
-            type="number"
-            min={1}
-            value={claimTimeout}
-            onChange={(e) => setClaimTimeout(Number(e.target.value))}
-            className={inputCls}
-          />
-        </Field>
-        <Field label="Timeout execute (hodiny)">
-          <input
-            type="number"
-            min={1}
-            value={executeTimeout}
-            onChange={(e) => setExecuteTimeout(Number(e.target.value))}
-            className={inputCls}
-          />
-        </Field>
-      </div>
+        {mode.kind === "edit" && (
+          <Field label="Stav">
+            <label className="flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={isActive}
+                onChange={(e) => setIsActive(e.target.checked)}
+              />
+              Aktivní (generuje další instance)
+            </label>
+          </Field>
+        )}
 
-      {mode.kind === "edit" && (
-        <Field label="Stav">
-          <label className="flex items-center gap-2 text-sm">
-            <input
-              type="checkbox"
-              checked={isActive}
-              onChange={(e) => setIsActive(e.target.checked)}
-            />
-            Aktivní (generuje další instance)
-          </label>
-        </Field>
-      )}
+        {error && <div className="text-sm text-destructive">Chyba: {error}</div>}
 
-      {error && <div className="text-sm text-red-600">Chyba: {error}</div>}
-
-      <div className="flex gap-2">
-        <button
-          onClick={submit}
-          disabled={isPending || !name.trim()}
-          className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-40 dark:bg-zinc-100 dark:text-zinc-900"
-        >
-          {mode.kind === "create" ? "Vytvořit" : "Uložit"}
-        </button>
-        <button
-          onClick={() => router.back()}
-          className="rounded-lg border border-zinc-300 px-4 py-2 text-sm dark:border-zinc-700"
-        >
-          Zrušit
-        </button>
-      </div>
-    </div>
+        <div className="flex gap-2">
+          <Button
+            onClick={submit}
+            disabled={isPending || !name.trim()}
+          >
+            {mode.kind === "create" ? "Vytvořit" : "Uložit"}
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => router.back()}
+          >
+            Zrušit
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
   );
 }
-
-const inputCls =
-  "w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-950";
 
 function Field({
   label,
@@ -218,9 +215,9 @@ function Field({
 }) {
   return (
     <div className="space-y-1">
-      <label className="block text-xs font-medium uppercase tracking-wide text-zinc-500">
+      <Label className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
         {label}
-      </label>
+      </Label>
       {children}
     </div>
   );

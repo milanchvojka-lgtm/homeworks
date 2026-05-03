@@ -14,7 +14,7 @@ export default async function AdminPayoutsPage() {
     <div>
       <h1 className="text-2xl font-semibold">Výplaty</h1>
       {payouts.length === 0 ? (
-        <p className="mt-4 text-sm text-zinc-500">Žádné uzavřené týdny.</p>
+        <p className="mt-4 text-sm text-muted-foreground">Žádné uzavřené týdny.</p>
       ) : (
         <PayoutsList
           payouts={payouts.map((p) => ({
