@@ -1,6 +1,8 @@
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { getSession } from "@/lib/auth";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
 
 export default async function ChildHistoryPage() {
   const user = await getSession();
@@ -13,45 +15,48 @@ export default async function ChildHistoryPage() {
   });
 
   return (
-    <div>
-      <h1 className="text-2xl font-semibold">Historie</h1>
+    <div className="space-y-3">
       {payouts.length === 0 ? (
-        <p className="mt-4 text-sm text-zinc-500">
-          Zatím žádný uzavřený týden.
-        </p>
+        <Card>
+          <CardContent className="py-8 text-center text-sm text-muted-foreground">
+            Zatím žádný uzavřený týden.
+          </CardContent>
+        </Card>
       ) : (
-        <ul className="mt-6 space-y-2">
+        <>
           {payouts.map((p) => (
-            <li
-              key={p.id}
-              className="rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900"
-            >
-              <div className="flex items-center justify-between">
-                <div className="text-sm font-medium">
-                  Týden {formatWeek(p.weekStart, p.weekEnd)}
+            <Card key={p.id}>
+              <CardContent className="pt-4">
+                <div className="flex items-center justify-between">
+                  <div className="text-sm font-medium">
+                    Týden {formatWeek(p.weekStart, p.weekEnd)}
+                  </div>
+                  {p.paidOutAt ? (
+                    <Badge
+                      style={{
+                        backgroundColor: "var(--chart-1)",
+                        color: "var(--background)",
+                      }}
+                    >
+                      Vyplaceno
+                    </Badge>
+                  ) : (
+                    <Badge variant="secondary">Čeká na výplatu</Badge>
+                  )}
                 </div>
-                <div
-                  className={`rounded-full px-2 py-0.5 text-xs font-medium ${
-                    p.paidOutAt
-                      ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300"
-                      : "bg-amber-100 text-amber-800 dark:bg-amber-950/40 dark:text-amber-300"
-                  }`}
-                >
-                  {p.paidOutAt ? "Vyplaceno" : "Čeká na výplatu"}
+                <div className="mt-3 grid grid-cols-3 gap-2 text-xs text-muted-foreground">
+                  <Stat label="Vyděláno" value={`${p.totalEarnedCzk} Kč`} />
+                  <Stat label="Obrazovka" value={`${p.totalScreenTimeCzk} Kč`} />
+                  <Stat
+                    label="V hotovosti"
+                    value={`${p.totalPayoutCzk} Kč`}
+                    highlight
+                  />
                 </div>
-              </div>
-              <div className="mt-2 grid grid-cols-3 gap-2 text-xs text-zinc-500">
-                <Stat label="Vyděláno" value={`${p.totalEarnedCzk} Kč`} />
-                <Stat label="Obrazovka" value={`${p.totalScreenTimeCzk} Kč`} />
-                <Stat
-                  label="V hotovosti"
-                  value={`${p.totalPayoutCzk} Kč`}
-                  highlight
-                />
-              </div>
-            </li>
+              </CardContent>
+            </Card>
           ))}
-        </ul>
+        </>
       )}
     </div>
   );
@@ -68,9 +73,12 @@ function Stat({
 }) {
   return (
     <div>
-      <div className="uppercase tracking-wide">{label}</div>
+      <div className="text-[10px] font-bold uppercase tracking-[0.18em]">
+        {label}
+      </div>
       <div
-        className={`mt-0.5 text-sm ${highlight ? "font-semibold text-zinc-900 dark:text-zinc-100" : ""}`}
+        className="mt-0.5 text-sm tabular-nums"
+        style={highlight ? { color: "var(--chart-1)" } : undefined}
       >
         {value}
       </div>

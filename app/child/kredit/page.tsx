@@ -9,6 +9,8 @@ import {
   getCurrentBalance,
   getWeekTotals,
 } from "@/lib/credit";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
 import { BonusBanner } from "../_components/bonus-banner";
 import { ScreenTimeRequester } from "../_components/screen-time-requester";
 
@@ -33,81 +35,101 @@ export default async function ChildCreditPage() {
     cost: computeScreenTimeCost(m, settings.screenTimeHourCostCzk),
   }));
 
+  const payout = Math.max(0, weekTotals.earnedCzk - weekTotals.screenTimeCzk);
+
   return (
-    <div>
-      <h1 className="text-2xl font-semibold">Kredit</h1>
-
-      <section className="mt-4 rounded-2xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900">
-        <div className="text-xs font-medium uppercase tracking-wide text-zinc-500">
-          Tento týden
-        </div>
-        <Row label="Vyděláno" value={`${weekTotals.earnedCzk} Kč`} />
-        <Row
-          label="Vyčerpáno na obrazovku"
-          value={`${weekTotals.screenTimeCzk} Kč`}
-        />
-        <div className="mt-3 border-t border-zinc-200 pt-3 dark:border-zinc-800">
-          <Row
-            label="K výplatě"
-            value={`${Math.max(0, weekTotals.earnedCzk - weekTotals.screenTimeCzk)} Kč`}
-            bold
-          />
-        </div>
-      </section>
-
-      <section className="mt-4 rounded-2xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900">
-        <div className="text-xs font-medium uppercase tracking-wide text-zinc-500">
-          Aktuální balanc
-        </div>
-        <div className="mt-1 text-3xl font-semibold">{balance} Kč</div>
-        <p className="mt-1 text-xs text-zinc-500">
-          Suma všech transakcí (vč. minulých týdnů). Z toho si můžeš nechat
-          poslat obrazovku.
-        </p>
-      </section>
-
-      <div className="mt-4">
-        <BonusBanner status={bonusStatus} amount={settings.monthlyBonusCzk} />
-      </div>
-
-      <section className="mt-4">
-        <h2 className="text-lg font-semibold">Chci obrazovku</h2>
-        {pendingRequest ? (
-          <div className="mt-2 rounded-xl border border-amber-300 bg-amber-50 p-3 text-sm text-amber-800 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-300">
-            ⏳ Žádost o {pendingRequest.minutes} min ({pendingRequest.costCzk}{" "}
-            Kč) čeká na schválení.
+    <div className="space-y-3">
+      {/* Tento týden */}
+      <Card>
+        <CardContent className="pt-4">
+          <div className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
+            Tento týden
           </div>
-        ) : (
-          <ScreenTimeRequester
-            offers={offers}
-            balance={balance}
-          />
-        )}
-      </section>
+          <div className="mt-3 space-y-1.5">
+            <Row label="Vyděláno" value={`${weekTotals.earnedCzk} Kč`} />
+            <Row
+              label="Vyčerpáno na obrazovku"
+              value={`${weekTotals.screenTimeCzk} Kč`}
+            />
+          </div>
+          <div className="mt-3 border-t border-border pt-3">
+            <div className="flex items-center justify-between text-sm">
+              <span className="text-muted-foreground">K výplatě</span>
+              <span
+                className="text-base font-bold tabular-nums"
+                style={{ color: "var(--chart-1)" }}
+              >
+                {payout} Kč
+              </span>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
-      <Link
-        href="/child/historie"
-        className="mt-6 inline-block text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100"
-      >
-        Historie minulých týdnů →
-      </Link>
+      {/* Aktuální balanc */}
+      <Card>
+        <CardContent className="pt-4">
+          <div className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
+            Aktuální balanc
+          </div>
+          <div
+            className="mt-2 text-3xl font-bold tabular-nums"
+            style={{ color: "var(--chart-1)" }}
+          >
+            {balance} Kč
+          </div>
+          <p className="mt-1 text-xs text-muted-foreground">
+            Suma všech transakcí (vč. minulých týdnů). Z toho si můžeš nechat
+            poslat obrazovku.
+          </p>
+        </CardContent>
+      </Card>
+
+      {/* Bonus banner */}
+      <BonusBanner status={bonusStatus} amount={settings.monthlyBonusCzk} />
+
+      {/* Chci obrazovku */}
+      <Card>
+        <CardContent className="pt-4">
+          <div className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
+            Chci obrazovku
+          </div>
+          {pendingRequest ? (
+            <div className="mt-3">
+              <Badge variant="secondary" className="mb-2">
+                Čeká na schválení
+              </Badge>
+              <p className="text-sm text-muted-foreground">
+                Žádost o {pendingRequest.minutes} min ({pendingRequest.costCzk}{" "}
+                Kč) čeká na schválení.
+              </p>
+            </div>
+          ) : (
+            <div className="mt-3">
+              <ScreenTimeRequester offers={offers} balance={balance} />
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Historie link */}
+      <div className="px-1">
+        <Link
+          href="/child/historie"
+          className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+        >
+          Historie minulých týdnů →
+        </Link>
+      </div>
     </div>
   );
 }
 
-function Row({
-  label,
-  value,
-  bold,
-}: {
-  label: string;
-  value: string;
-  bold?: boolean;
-}) {
+function Row({ label, value }: { label: string; value: string }) {
   return (
-    <div className="mt-1 flex items-center justify-between text-sm">
-      <span className="text-zinc-500">{label}</span>
-      <span className={bold ? "text-base font-semibold" : ""}>{value}</span>
+    <div className="flex items-center justify-between text-sm">
+      <span className="text-muted-foreground">{label}</span>
+      <span className="tabular-nums">{value}</span>
     </div>
   );
 }
