@@ -4,6 +4,7 @@ import { getSession } from "@/lib/auth";
 import { hasCompletedTodayChecks } from "@/lib/task-rotation";
 import { startOfDayPrague } from "@/lib/time";
 import { PoolSections } from "../_components/pool-sections";
+import { Card, CardContent } from "@/components/ui/card";
 
 export default async function ChildPoolPage() {
   const user = await getSession();
@@ -74,12 +75,15 @@ export default async function ChildPoolPage() {
   }
 
   return (
-    <div>
-      <h1 className="text-2xl font-semibold">Pool úkolů</h1>
+    <div className="space-y-3">
       {!checksOk && (
-        <p className="mt-2 rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-800 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-300">
-          Než si vezmeš úkol, dokonči nejdřív dnešní kompetenci.
-        </p>
+        <Card className="border-destructive/40">
+          <CardContent className="pt-4 pb-4">
+            <p className="text-sm text-destructive">
+              Než si vezmeš úkol, dokonči nejdřív dnešní kompetenci.
+            </p>
+          </CardContent>
+        </Card>
       )}
 
       <PoolSections
