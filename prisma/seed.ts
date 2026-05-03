@@ -75,6 +75,21 @@ const COMPETENCIES: {
   },
 ];
 
+const STREAK_MILESTONES: {
+  days: number;
+  rewardCzk: number;
+  trophyName: string;
+  emoji: string;
+  sortOrder: number;
+}[] = [
+  { days: 7, rewardCzk: 0, trophyName: "Iron Will", emoji: "🥉", sortOrder: 1 },
+  { days: 14, rewardCzk: 0, trophyName: "Steady", emoji: "🥈", sortOrder: 2 },
+  { days: 30, rewardCzk: 100, trophyName: "Flawless Month", emoji: "🥇", sortOrder: 3 },
+  { days: 60, rewardCzk: 200, trophyName: "Unbreakable", emoji: "💎", sortOrder: 4 },
+  { days: 100, rewardCzk: 500, trophyName: "Centurion", emoji: "👑", sortOrder: 5 },
+  { days: 365, rewardCzk: 2000, trophyName: "Legend", emoji: "⚡", sortOrder: 6 },
+];
+
 async function seedUsers() {
   const pinHash = await bcrypt.hash(DEFAULT_PIN, 10);
   for (const u of USERS) {
@@ -164,11 +179,24 @@ async function seedAppSettings() {
   console.log("created app settings (defaults)");
 }
 
+async function seedStreakMilestones() {
+  for (const m of STREAK_MILESTONES) {
+    const existing = await db.streakMilestone.findUnique({ where: { days: m.days } });
+    if (existing) {
+      console.log(`skip streak milestone ${m.days} (${m.trophyName})`);
+      continue;
+    }
+    await db.streakMilestone.create({ data: m });
+    console.log(`created streak milestone ${m.days} (${m.trophyName})`);
+  }
+}
+
 async function main() {
   await seedUsers();
   await seedCompetencies();
   await seedCurrentWeekAssignments();
   await seedAppSettings();
+  await seedStreakMilestones();
   console.log(`\nDefault PIN: ${DEFAULT_PIN}`);
 }
 
