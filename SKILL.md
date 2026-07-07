@@ -26,10 +26,10 @@ V repu jsou tři dokumenty, čti je v tomto pořadí:
 
 ## Tech stack (závazný)
 
-- **Next.js 15** (App Router) + **TypeScript** (strict mode)
-- **Tailwind CSS** pro styling
-- **Prisma** + **Postgres** (Neon nebo Supabase free tier)
-- **Vercel** pro hosting + cron
+- **Next.js 16** (App Router) + **TypeScript** (strict mode)
+- **Tailwind CSS 4** + **shadcn/ui** (komponenty vlastněné ve zdrojáku, viz D8/D12)
+- **Prisma** + **Postgres** (Supabase free tier, viz D4)
+- **Vercel** pro hosting; cron přes **GitHub Actions** (viz D1)
 - **Vlastní auth** (profile + PIN, bcrypt nebo argon2, httpOnly cookie session)
 - **`date-fns`** pro datetime, vše v `Europe/Prague` timezone
 - **PWA** (manifest + případně service worker)
@@ -37,7 +37,7 @@ V repu jsou tři dokumenty, čti je v tomto pořadí:
 **Co nepoužívat bez explicitního schválení:**
 - ❌ Žádný auth provider (NextAuth, Clerk, Supabase Auth, ...) — máme vlastní jednoduchý PIN login
 - ❌ Žádný state management library (Redux, Zustand, ...) — server actions + React state stačí
-- ❌ Žádný design system framework (MUI, Chakra, Mantine) — jen Tailwind, případně shadcn/ui sporadicky pro komplexní komponenty
+- ❌ Žádný design system framework (MUI, Chakra, Mantine) — component layer je shadcn/ui (copy-paste do `components/ui`, viz D8/D12), nic dalšího
 - ❌ Žádný analytics / tracking
 - ❌ Žádný error tracking service (Sentry, ...) — pro v1 stačí Vercel logs
 - ❌ Žádný real-time / WebSocket — vystačíme s page refresh + server actions
@@ -76,15 +76,21 @@ Postupuj **milestone po milestonu** podle `IMPLEMENTATION_PLAN.md`. Nepřeskakuj
 ### Struktura projektu
 ```
 /app
-  /(auth)           — login screen
+  page.tsx          — login screen (profil + PIN)
+  /_components      — login screen, child bottom nav, nav badge
+  /actions          — server actions (auth, checks, tasks, payouts, ...)
   /admin            — admin layout + pages
   /child            — child layout + pages
   /api/cron/*       — cron endpoints
-/components         — sdílené komponenty
-/lib                — business logika, helpers (auth.ts, week.ts, rotation.ts, ...)
-/prisma             — schema.prisma + seed.ts + migrations
+/components         — sdílené komponenty (/ui = shadcn, /streak, theme provider)
+/lib                — business logika (foo.ts = DB/server-only, foo-pure.ts = testovatelné)
+/prisma             — schema.prisma + seed.ts (db:push, bez migrations — viz TD3 v plánu)
+/tests              — Vitest testy pure logiky
 /public             — static assets, manifest.json, ikony
+proxy.ts            — Next 16 middleware (auth guard pro /admin a /child)
 ```
+
+> Pozn.: `app/lab|preview|showcase|mockup|slides|pitch` jsou dočasné demo routy pro interní prezentaci — před ostrým deployem se mažou (TD1 v plánu, LAUNCH_CHECKLIST §4.5). Nestav na nich.
 
 ### Pojmenování
 - **Soubory komponent:** PascalCase (`TaskCard.tsx`)
@@ -201,7 +207,7 @@ Když nevíš, jestli něco bude potřeba — **nedělej to**. Schéma se dá ro
 PRD a plán definují v1. Pokud máš nápad navíc, **napiš ho do summary jako návrh pro v2**, neimplementuj.
 
 ### UI bling
-Žádné výrazné animace, žádné gradient buttons, žádné dark/light theme switcher. Funkční, čisté UI. Vizuální polish ladí Milan.
+Žádné výrazné animace, žádné gradient buttons. Funkční, čisté UI v rámci shadcn design systému (D12) — dark/light mode existuje (vlastní theme provider, D8 update), další vizuální polish ladí Milan.
 
 ---
 
@@ -247,4 +253,4 @@ Když začínáš novou session, projdi tento checklist:
 
 ---
 
-*SKILL.md verze 1.0*
+*SKILL.md verze 1.1 (2026-07-07 — sladěno s realitou: Next 16, shadcn per D8/D12, GHA cron per D1, skutečná struktura repa)*

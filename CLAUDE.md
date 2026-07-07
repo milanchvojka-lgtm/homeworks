@@ -12,7 +12,7 @@
 4. Pokud Milan řeší ostrý launch v1, načti [`LAUNCH_CHECKLIST.md`](./LAUNCH_CHECKLIST.md) — open items mimo kód (ENV, secrets, reálná data, ikony).
 5. `git log --oneline -10` a `git status` pro orientaci, kde jsme.
 
-Při rozporu má přednost: **DECISIONS > PRD > Plán**. Pokud něco není pokryté → zeptej se Milana, nehádej.
+Při rozporu má přednost: **DECISIONS > PRD > Plán > SKILL**. SKILL.md popisuje konvence a může driftovat (stalo se: Next 15→16, shadcn, GHA cron) — když narazíš na rozpor SKILL vs DECISIONS/kód, platí DECISIONS a **SKILL.md rovnou patchni**. Pokud něco není pokryté → zeptej se Milana, nehádej.
 
 ---
 
@@ -21,7 +21,7 @@ Při rozporu má přednost: **DECISIONS > PRD > Plán**. Pokud něco není pokry
 **Závazný workflow** (nauč se z jednoho konkrétního průšvihu z 2026-04-26):
 
 1. **Nejdřív zapiš rozhodnutí** jako nový záznam v [`DECISIONS.md`](./DECISIONS.md) (`D5`, `D6`, …) ve stejném formátu: rozhodnutí / důvod / důsledky.
-2. **Patchni inline** dotčené sekce v `PRD.md` a `IMPLEMENTATION_PLAN.md`, ať fresh reader nemine změnu.
+2. **Patchni inline** dotčené sekce v `PRD.md`, `IMPLEMENTATION_PLAN.md` — a pokud rozhodnutí mění stack/konvence, i v `SKILL.md` (D8/D12 se v SKILL nepropsaly a drift se objevil až při review 2026-07-07).
 3. **Pak teprve** implementuj. Nikdy ne naopak.
 4. Commit doc změny zvlášť od kódových změn (snazší code review a revert).
 
@@ -62,4 +62,4 @@ To samé platí pro otevřené otázky z `PRD.md §8`: jakmile padne odpověď, 
 - Nepřeskakuj milestony. M3 nezačíná, dokud M2 není deployed a otestovaný.
 - Nezakládej PR review proces (Milan pracuje sám, push do `main`).
 - Nepřidávej dependencies bez explicitního souhlasu (deny-list v `SKILL.md`).
-- Nezakládej `*.md` dokumenty „pro pořádek“ mimo už definované — DECISIONS, PRD, plán a SKILL je celý okruh dokumentace pro v1.
+- Nezakládej `*.md` dokumenty „pro pořádek“ mimo už definované — okruh dokumentace je: README, CLAUDE, SKILL, DECISIONS, PRD, IMPLEMENTATION_PLAN, LAUNCH_CHECKLIST. (`TALKING_POINTS.md` a `pitch/` jsou jednorázové demo artefakty — mažou se spolu s demo routami, viz TD1.)
