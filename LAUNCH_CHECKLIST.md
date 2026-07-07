@@ -88,6 +88,17 @@ npx prisma db push --force-reset
 
 ---
 
+## 4.5 Demo routy — smazat nebo zamknout (blocker)
+
+**Co:** `app/lab`, `app/preview`, `app/showcase`, `app/mockup`, `app/slides`, `app/pitch` jsou veřejně dostupné (nejsou v matcheru `proxy.ts`) a showcase/slides obsahují jména dcer, reálné částky a interní pitch. Detail: IMPLEMENTATION_PLAN.md → Tech debt backlog TD1.
+
+**Jak:**
+1. Obsah, který chceš uchovat, přesuň do branche `demo-archive` (`git checkout -b demo-archive && git push`).
+2. V `main` smaž všech 6 adresářů (M7 Phase 7 už počítá s `lab` + `mockup`).
+3. Ověř build (`npm run build`) a že `/showcase` na preview deployi vrací 404.
+
+---
+
 ## 5. Smoke test produkčního deploye
 
 Po deploy + nastavení secrets:

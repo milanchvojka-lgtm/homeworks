@@ -828,3 +828,39 @@ Vše ostatní (sazby, bonus, timeouty) má v PRD/M0 sensible defaults a doladí 
 - Vercel preview → manuální smoke jako 5 různých uživatelů → push do main.
 
 **Status (2026-05-03):** Phase 1–5 hotové, RLS skript spuštěn v Supabase produkci. Phase 6 + 7 cleanup zbývají před production deployem.
+
+---
+
+## Tech debt backlog — architecture review (2026-07-07)
+
+> Zjištění z celkového architecture review (Claude, 2026-07-07). Nic z toho není funkční bug — appka běží správně. Seřazeno podle priority. Po dokončení položky ji označ ✅ s datem, ať se stejná věc neobjevuje znovu.
+
+### TD1 — Demo routy jsou veřejné a tvoří 51 % kódu v `app/` 🔴 (launch blocker — viz LAUNCH_CHECKLIST §4.5)
+
+`app/lab`, `app/preview`, `app/showcase`, `app/mockup`, `app/slides`, `app/pitch` = ~5 700 řádků, víc než produkční admin+child dohromady (~5 300). Nejsou v matcheru `proxy.ts`, takže po deployi jsou dostupné komukoli s URL — showcase obsahuje jména dcer a reálné částky, slides interní pitch.
+
+**Řešení:** před ostrým deployem smazat (obsah případně uchovat v samostatné branchi `demo-archive`), nebo minimálně přidat routy do matcheru v `proxy.ts`. M7 Phase 7 už plánuje smazat `lab` + `mockup` — rozšířit o `preview`, `showcase`, `slides`, `pitch`.
+
+### TD2 — Chybí `error.tsx` 🟡
+
+Když selže DB query, dítě uvidí generickou Next.js 500 v angličtině. Přidat root `app/error.tsx` s českou hláškou a tlačítkem „Zkusit znovu" (`reset()`). Volitelně `loading.tsx` (nižší priorita — RSC fetch je rychlý, rodina je na WiFi).
+
+### TD3 — `db:push` bez migrací 🟡 (od ostrého provozu)
+
+Bez `prisma/migrations/` není auditní stopa schématu a `db push` neumí bezpečně destruktivní změny nad ostrými daty. Jakmile jsou v produkci reálná data: jednorázový baseline přes `prisma migrate dev --create-only` a dál už jen `prisma migrate`.
+
+Související risk (zdokumentovaný v LAUNCH_CHECKLIST §4): `npm run db:seed` na produkci přepíše PINy na `1234`. Levná pojistka: guard na začátku `prisma/seed.ts`, který odmítne běžet, když `DATABASE_URL` obsahuje produkční host.
+
+### TD4 — Výplata trofejí ve `weekly-close` není atomická 🟢
+
+Smyčka v `app/api/cron/weekly-close/route.ts` platí trofeje po jedné (CreditTransaction + update TrophyEarned per iterace). Idempotence přes `rewardPaidAt` brání dvojité výplatě, ale pád uprostřed nechá částečný stav do dalšího runu. Obalit celou smyčku do jedné `db.$transaction`.
+
+### TD5 — `competencies.ts` porušuje result convention 🟢
+
+Jediný actions soubor, který hází výjimky místo `{ ok, error }` (viz SKILL.md konvence). Sjednotit s ostatními.
+
+### TD6 — Poznámky bez akce (vědomá rozhodnutí, jen ať se neztratí)
+
+- PIN lockout je in-memory mapa (`lib/auth.ts`) — na Vercelu se resetuje při cold startu, takže je efektivně skoro vždy prázdná. Vědomé v1 rozhodnutí ze SKILL.md; kdyby někdy vadilo, přesunout do DB.
+- `Session` model nemá `@@index([userId])` — token lookup (hot path) index má; jen případný batch cleanup per user by byl pomalý.
+- Manifest odkazuje na `/icon.svg` — pokrývá LAUNCH_CHECKLIST §1, jen ověřit po launchi.
