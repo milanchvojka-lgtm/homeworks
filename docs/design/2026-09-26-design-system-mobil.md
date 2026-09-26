@@ -16,17 +16,7 @@ Z OB briefu přechází celá paleta beze změny (`--hw-*` = `--ob-*`, viz `app/
 | `--hw-ink-35` `#A6AAB4` | 2,33 / 2,10 | kickery a tlumené labely |
 | `--hw-amber` `#B97F0F` | 3,44 / 3,10 | stav „čeká na schválení", nejčastější stav v appce |
 
-**Návrh:** nové tokeny jen pro **text**. Plochy a tečky si nechají původní barvu, takže vzhled zůstane stejný a změní se jen barva písma.
-
-| Nový token | Hex | Kontrast bílá / paper | Nahrazuje v textu |
-|---|---|---|---|
-| `--hw-pink-ink` | `#C4336E` | 5,19 / 4,68 | růžové číslo, kicker, aktivní odkaz |
-| `--hw-ink-45` | `#72767F` | 4,55 / 4,10 | kicker, meta, tlumený label (placeholder smí zůstat `ink-35`) |
-| `--hw-amber-ink` | `#8F620B` | 5,36 / 4,83 | text stavu „čeká" |
-
-Aliasy: `text-highlight` → `--hw-pink-ink`, `text-subtle` → `--hw-ink-45`, `text-warning` → `--hw-amber-ink`. Plocha `bg-highlight` zůstává `#FF77AA` (tmavý text na růžové má 7,09 : 1).
-
-**▶ rozhodni 1:** přijmout tři textové varianty (doporučuju), nebo držet originál Offer Buddyho kvůli věrnosti?
+**Rozhodnutí (Milan, 2026-09-26): barvy zůstávají podle originálu Offer Buddyho, žádné textové varianty.** Porovnání A (originál) a B (tmavší text) je v penu, framy `HW · Kontrast · A` a `HW · Kontrast · B` (B zamítnuto 26. 9.). Nízký kontrast růžové, `ink-35` a amberu v textu je vědomě přijatý. Kdyby se v pilotu ukázalo, že se to špatně čte, řeší se to jedním tokenem na jednom místě (`app/globals.css`).
 
 ---
 
