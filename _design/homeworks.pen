@@ -15501,7 +15501,7 @@
                   "id": "B4A5Nz",
                   "name": "Štítek",
                   "fill": "#17191E",
-                  "content": "B · DOMEČEK S FAJFKOU",
+                  "content": "B · DOMEČEK S FAJFKOU · SCHVÁLENO 26. 9.",
                   "fontFamily": "$hw-font-mono",
                   "fontSize": 30,
                   "fontWeight": "700",
@@ -15731,6 +15731,119 @@
                           "fontFamily": "Inter",
                           "fontSize": 22,
                           "fontWeight": "500"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "z3MNLq",
+                  "name": "Štítek export",
+                  "fill": "#17191E",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "EXPORT · SCHVÁLENO 26. 9. (čtverec pro iOS · maskable pro Android, motiv v bezpečné zóně 80 %)",
+                  "fontFamily": "$hw-font-mono",
+                  "fontSize": 24,
+                  "fontWeight": "700",
+                  "letterSpacing": 1.5
+                },
+                {
+                  "type": "frame",
+                  "id": "GYFm3",
+                  "name": "Exporty",
+                  "gap": 40,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "PqkLI",
+                      "name": "Ikona B · export · iOS 1024",
+                      "clip": true,
+                      "width": 1024,
+                      "height": 1024,
+                      "fill": "#FF77AA",
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "NnvQq",
+                          "x": 202,
+                          "y": 170,
+                          "name": "Domeček",
+                          "width": 620,
+                          "height": 620,
+                          "icon": "house",
+                          "library": "lucide",
+                          "fill": "#17191E"
+                        },
+                        {
+                          "type": "ellipse",
+                          "id": "eDSRO",
+                          "x": 600,
+                          "y": 600,
+                          "name": "Kolečko fajfky",
+                          "fill": "#17191E",
+                          "width": 330,
+                          "height": 330
+                        },
+                        {
+                          "type": "icon",
+                          "id": "Q11kq4",
+                          "x": 660,
+                          "y": 662,
+                          "name": "Fajfka",
+                          "width": 210,
+                          "height": 210,
+                          "icon": "check",
+                          "library": "lucide",
+                          "fill": "#FFFFFF"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "I2exg",
+                      "name": "Ikona B · export · maskable 1024",
+                      "clip": true,
+                      "width": 1024,
+                      "height": 1024,
+                      "fill": "#FF77AA",
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "Hw5zT",
+                          "x": 289,
+                          "y": 266,
+                          "name": "Domeček",
+                          "width": 446,
+                          "height": 446,
+                          "icon": "house",
+                          "library": "lucide",
+                          "fill": "#17191E"
+                        },
+                        {
+                          "type": "ellipse",
+                          "id": "NoSoj",
+                          "x": 575,
+                          "y": 575,
+                          "name": "Kolečko fajfky",
+                          "fill": "#17191E",
+                          "width": 238,
+                          "height": 238
+                        },
+                        {
+                          "type": "icon",
+                          "id": "A1bmU",
+                          "x": 619,
+                          "y": 620,
+                          "name": "Fajfka",
+                          "width": 151,
+                          "height": 151,
+                          "icon": "check",
+                          "library": "lucide",
+                          "fill": "#FFFFFF"
                         }
                       ]
                     }
