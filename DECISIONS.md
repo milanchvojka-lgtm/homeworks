@@ -235,3 +235,48 @@
 - Nový soubor `vercel.json` v rootu repa (jen `regions`).
 - Pokud se někdy DB přesune (jiný Supabase projekt/region), region funkcí musí jít s ní — vždy stejný nebo nejbližší region jako DB.
 - Cron (D1) se nemění — GitHub Actions jen volá URL, region funkcí je mu jedno.
+
+---
+
+## D15 — Design systém: vlastní kopie 2FRESH design systému (Offer Buddy), jen světlý režim
+
+**Rozhodnutí:** Homeworks přebírá design systém 2FRESH z Offer Buddyho (`offer-buddy/app/globals.css`, brief `2f-product/projects/offer-buddy/design/2026-08-31-design-system-brief.md`) jako **vlastní kopii**, nesdílenou a nesynchronizovanou s originálem. Nahrazuje vizuál z D12 (shadcn preset base-sera, fialová, Source Sans 3) a tmavý režim z D8.
+
+- **Dvě vrstvy tokenů v `app/globals.css`:** (1) zdrojové tokeny `--hw-*` (hodnoty zkopírované z `--ob-*`: paper, card, hair, rule, ink, ink-60, ink-35, pink, pink-bg a čtyři stavové páry amber/blue/green/red); (2) sémantické aliasy, které čtou shadcn komponenty (`--background`, `--primary`, `--muted-foreground`, `--border`, …) a nové stavové aliasy (`--success`, `--warning`, `--info`, `--danger` + `-soft`), mapované do Tailwindu přes `@theme inline`.
+- **shadcn komponenty zůstávají** (`components/ui/*`), přebarví se přes aliasy. Tvar komponent (radius, velikosti) se ladí v jejich zdrojovém souboru, ne na stránkách.
+- **Písmo:** IBM Plex Sans (UI) + IBM Plex Mono (čísla, kickery).
+- **Jen světlý režim.** Přepínač motivu a theme provider odcházejí.
+- **Mobilní úprava** (škála písma, dotykové plochy, spodní navigace, safe area, PWA) se popíše v `docs/design/…-design-system-mobil.md` a schválí před redesignem obrazovek.
+
+**Důvod:**
+- Milan chce vycházet ze systému, který zná a používá v 2FRESH produktech, a mít ho v repu jako vlastní hřiště, které se může od originálu vzdálit.
+- Dvě vrstvy tokenů = budoucí ladění na jednom místě (hodnota tokenu), bez přepisování komponent. Nahradit shadcn primitivy z Offer Buddyho by nic nepřidalo (jsou to taky Tailwind třídy nad tokeny) a ztratila by se přístupnost, kterou shadcn řeší (Dialog, focus).
+- Tmavý režim je pro rodinnou appku volitelný; kdyby se vrátil, doplní se jen druhá sada hodnot aliasů.
+
+**Jak to bude vypadat:** teplé papírové pozadí `#F4F3F0`, bílé karty, téměř černý text a hlavní tlačítko, růžová `#FF77AA` pro aktivní stav a zvýraznění čísel (streak, kredit), stavy checků a úkolů v amber (čeká), zelené (schváleno), červené (vráceno) a modré (info).
+
+**Co to neznamená:** nesdílíme kód ani pen s Offer Buddym, žádný kontrolní skript shody (`kontrola-design-systemu.py` sem nepatří). Tokeny se nasazují hned; redesign obrazovek (hierarchie, navigace) je samostatný krok podle D16.
+
+**Důsledky:**
+- `app/globals.css` přepsán, `app/layout.tsx` načítá IBM Plex, `components/theme-*` smazány, `dark:` třídy bez efektu (uklidí se při redesignu dané obrazovky).
+- D8 (dark mode) a vizuální část D12 neplatí; struktura shadcn z D12 platí dál.
+- Knihovna komponent v `_design/homeworks.pen` vznikne z `offer-buddy-design-system.pen` jako kopie.
+
+---
+
+## D16 — Postup návrhu rozhraní: scénáře → tok → smlouva rozsahu → pen → kód
+
+**Rozhodnutí:** UI změny, které mění obsah nebo tok obrazovek, se dělají postupem 2FRESH (Goodwinová, Goal-Directed Design): **kontextové scénáře → struktura a tok bez obrazovek (dvě varianty) → smlouva rozsahu „co měníme / co ne" → návrh v penu (`_design/homeworks.pen`) + průchod scénáři → kód → ověření v appce proti framu → dorovnání penu.** Každý krok schvaluje Milan; do penu se kreslí až po jeho „kresli".
+
+- Dokumenty žijí v `docs/design/` jako datované soubory: `RRRR-MM-DD-scenare.md`, `RRRR-MM-DD-struktura-a-tok.md`, `RRRR-MM-DD-<obrazovka>-co-menime-co-ne.md`, brief design systému.
+- Vlastní skilly v `.claude/skills/`: `design-to-code` (disciplína implementace designu, mapa tokenů a komponent Homeworks) a `kontextove-scenare` (jak psát scénáře a tabulku potřeb). Jsou to upravené kopie z `2f-product`, nesynchronizované.
+
+**Důvod:** Milan (2026-09-26): současné UI „nemá focus, všechno je naházené na jedné stránce" — rozložení informací neodpovídá tomu, jak appku rodina používá. Obrazovky se proto odvodí ze scénářů, ne z hlavy. Postup je ověřený v 2FRESH produktech.
+
+**Jak to bude vypadat:** redesign začne 4–6 scénáři (dítě ráno / odpoledne / chce vydělat / chce obrazovku; rodič schvaluje během dne / nedělní výplata), z tabulek potřeb vznikne tok a obsah každé obrazovky.
+
+**Co to neznamená:** drobné opravy (text, barva, bug) scénáře nepotřebují. Admin se redesignuje jen tam, kde to vyžadují rodičovské scénáře.
+
+**Důsledky:**
+- CLAUDE.md: okruh dokumentace rozšířen o `docs/` (design dokumenty); nové `.md` mimo `docs/` dál ne.
+- IMPLEMENTATION_PLAN: milník M8 — Redesign.

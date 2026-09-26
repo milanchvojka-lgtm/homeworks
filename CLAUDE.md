@@ -36,6 +36,7 @@ To samé platí pro otevřené otázky z `PRD.md §8`: jakmile padne odpověď, 
 - **Server actions** pro mutace, **API routes** jen pro `/api/cron/*`.
 - **Žádné externí auth providery, žádný state management framework** — viz `SKILL.md` deny-list.
 - **Cron přes GitHub Actions**, ne Vercel Cron — viz `DECISIONS.md` D1.
+- **UI / design práce** → skill `design-to-code` (postup D16: scénáře → tok → smlouva → pen → kód), design systém D15, pen `_design/homeworks.pen`.
 - **Commit konvence:** `<type>(scope): <message>` (např. `feat(m2): add daily check submission`).
 
 ---
@@ -62,4 +63,4 @@ To samé platí pro otevřené otázky z `PRD.md §8`: jakmile padne odpověď, 
 - Nepřeskakuj milestony. M3 nezačíná, dokud M2 není deployed a otestovaný.
 - Nezakládej PR review proces (Milan pracuje sám, push do `main`).
 - Nepřidávej dependencies bez explicitního souhlasu (deny-list v `SKILL.md`).
-- Nezakládej `*.md` dokumenty „pro pořádek“ mimo už definované — okruh dokumentace je: README, CLAUDE, SKILL, DECISIONS, PRD, IMPLEMENTATION_PLAN, LAUNCH_CHECKLIST. (Demo artefakty — `TALKING_POINTS.md`, `pitch/`, demo routy — žijí jen v branchi `demo-archive`, viz TD1.)
+- Nezakládej `*.md` dokumenty „pro pořádek“ mimo už definované — okruh dokumentace je: README, CLAUDE, SKILL, DECISIONS, PRD, IMPLEMENTATION_PLAN, LAUNCH_CHECKLIST + složka `docs/` pro pracovní dokumenty (design: `docs/design/` — scénáře, tok, smlouvy rozsahu, brief design systému; viz D16). (Demo artefakty — `TALKING_POINTS.md`, `pitch/`, demo routy — žijí jen v branchi `demo-archive`, viz TD1.)

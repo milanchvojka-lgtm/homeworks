@@ -27,7 +27,7 @@ V repu jsou tři dokumenty, čti je v tomto pořadí:
 ## Tech stack (závazný)
 
 - **Next.js 16** (App Router) + **TypeScript** (strict mode)
-- **Tailwind CSS 4** + **shadcn/ui** (komponenty vlastněné ve zdrojáku, viz D8/D12)
+- **Tailwind CSS 4** + **shadcn/ui** (komponenty vlastněné ve zdrojáku, D12) přebarvené 2FRESH design systémem přes tokeny v `app/globals.css` (D15), písmo IBM Plex Sans/Mono, jen světlý režim
 - **Prisma** + **Postgres** (Supabase free tier, viz D4)
 - **Vercel** pro hosting, funkce pinnuté na `fra1` ve `vercel.json` — vždy u DB regionu (D14); cron přes **GitHub Actions** (viz D1)
 - **Vlastní auth** (profile + PIN, bcrypt nebo argon2, httpOnly cookie session)
@@ -82,7 +82,7 @@ Postupuj **milestone po milestonu** podle `IMPLEMENTATION_PLAN.md`. Nepřeskakuj
   /admin            — admin layout + pages
   /child            — child layout + pages
   /api/cron/*       — cron endpoints
-/components         — sdílené komponenty (/ui = shadcn, /streak, theme provider)
+/components         — sdílené komponenty (/ui = shadcn, /streak)
 /lib                — business logika (foo.ts = DB/server-only, foo-pure.ts = testovatelné)
 /prisma             — schema.prisma + seed.ts (db:push, bez migrations — viz TD3 v plánu)
 /tests              — Vitest testy pure logiky
@@ -207,7 +207,7 @@ Když nevíš, jestli něco bude potřeba — **nedělej to**. Schéma se dá ro
 PRD a plán definují v1. Pokud máš nápad navíc, **napiš ho do summary jako návrh pro v2**, neimplementuj.
 
 ### UI bling
-Žádné výrazné animace, žádné gradient buttons. Funkční, čisté UI v rámci shadcn design systému (D12) — dark/light mode existuje (vlastní theme provider, D8 update), další vizuální polish ladí Milan.
+Žádné výrazné animace, žádné gradient buttons. Barvy, písmo a rozestupy jen z tokenů (D15); žádný hex ani oklch mimo `app/globals.css`. UI změny obsahu/toku obrazovek jdou přes skill `design-to-code` a postup D16 (scénáře → tok → smlouva → pen → kód).
 
 ---
 

@@ -864,3 +864,18 @@ Jediný actions soubor, který hází výjimky místo `{ ok, error }` (viz SKILL
 - PIN lockout je in-memory mapa (`lib/auth.ts`) — na Vercelu se resetuje při cold startu, takže je efektivně skoro vždy prázdná. Vědomé v1 rozhodnutí ze SKILL.md; kdyby někdy vadilo, přesunout do DB.
 - `Session` model nemá `@@index([userId])` — token lookup (hot path) index má; jen případný batch cleanup per user by byl pomalý.
 - Manifest odkazuje na `/icon.svg` — pokrývá LAUNCH_CHECKLIST §1, jen ověřit po launchi.
+
+---
+
+## Milestone 8 — Redesign (v1.2)
+
+> Rozhodnutí D15 (design systém) a D16 (postup). Spuštěno 2026-09-26 po pilotu na ostrých datech. Každý krok schvaluje Milan; kroky se nepřeskakují.
+
+**Vstup z brainstormu 2026-09-26** (ověří se scénáři, nejsou to hotová rozhodnutí): na „Dnes" mají být první dnešní checky; navigace spíš 4 záložky místo 5 + tří tlačítek v hlavičce; problémy — informační hierarchie, vizuální styl, počet kroků. Admin mimo hlavní rozsah.
+
+- **8.0 Základ** — D15/D16, vlastní skilly `design-to-code` + `kontextove-scenare`, tokeny `--hw-*` + aliasy v `app/globals.css`, IBM Plex, odstranění dark mode.
+- **8.1 Design systém pro mobil** — `docs/design/RRRR-MM-DD-design-system-mobil.md` (škála písma, dotykové plochy 44 px, spodní navigace + safe area, PWA) + knihovna komponent v `_design/homeworks.pen` (kopie z `offer-buddy-design-system.pen`, upravená). Schvaluje Milan.
+- **8.2 Kontextové scénáře** — `docs/design/RRRR-MM-DD-scenare.md`, osnovu předloží Claude, obsah doplní Milan podle reality domácnosti.
+- **8.3 Struktura a tok** — dvě varianty bez obrazovek, pak smlouva rozsahu per obrazovka.
+- **8.4 Pen** — framy se skutečnými daty z pilotu, stavy, průchod scénáři.
+- **8.5 Kód** — per obrazovka podle smlouvy, ověření v běžící appce proti framu, dorovnání penu, úklid `dark:` tříd.
