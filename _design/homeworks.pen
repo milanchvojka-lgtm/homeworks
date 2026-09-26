@@ -5908,7 +5908,7 @@
                     {
                       "type": "frame",
                       "id": "hkONr",
-                      "name": "StatusHeader C · barevná",
+                      "name": "StatusHeader C · barevná (zamítnuto 26. 9., historie iterace 7–8)",
                       "reusable": true,
                       "width": 390,
                       "fill": "$hw-pink",
@@ -6367,6 +6367,231 @@
                               "fontFamily": "$hw-font-sans",
                               "fontSize": 12,
                               "fontWeight": "500"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "SBJyG",
+                      "name": "AppHeader C6",
+                      "reusable": true,
+                      "width": 390,
+                      "fill": "$hw-card",
+                      "stroke": "$hw-rule",
+                      "strokeWidth": {
+                        "bottom": 1
+                      },
+                      "layout": "vertical",
+                      "gap": 2,
+                      "padding": [
+                        0,
+                        16,
+                        18,
+                        16
+                      ],
+                      "children": [
+                        {
+                          "id": "ZHzMm",
+                          "type": "ref",
+                          "ref": "tX7pr",
+                          "name": "Status bar",
+                          "width": "fill_container"
+                        },
+                        {
+                          "type": "text",
+                          "id": "w1kRs",
+                          "name": "Logo",
+                          "fill": "$hw-ink",
+                          "content": "HOMEWORKS",
+                          "fontFamily": "$hw-font-mono",
+                          "fontSize": 11,
+                          "fontWeight": "700",
+                          "letterSpacing": 2
+                        },
+                        {
+                          "type": "text",
+                          "id": "K0DUDo",
+                          "name": "Pozdrav",
+                          "fill": "$hw-ink",
+                          "content": "Ahoj, Test 👋",
+                          "fontFamily": "$hw-font-sans",
+                          "fontSize": 26,
+                          "fontWeight": "700",
+                          "letterSpacing": -0.5
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "dW95X",
+                      "name": "StatusTiles",
+                      "reusable": true,
+                      "width": 358,
+                      "gap": 10,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "j4Yxnm",
+                          "name": "Dlaždice peníze",
+                          "width": "fill_container",
+                          "fill": "$hw-card",
+                          "cornerRadius": "$hw-radius-card",
+                          "stroke": "$hw-rule",
+                          "strokeWidth": 1,
+                          "layout": "vertical",
+                          "gap": 4,
+                          "padding": 14,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "FJ7y6",
+                              "name": "Kicker řádek",
+                              "width": "fill_container",
+                              "gap": 6,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "ti6K0",
+                                  "name": "Ikona",
+                                  "width": 13,
+                                  "height": 13,
+                                  "icon": "wallet",
+                                  "library": "lucide",
+                                  "fill": "$hw-ink-35"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "pDmfc",
+                                  "name": "Kicker",
+                                  "fill": "$hw-ink-35",
+                                  "content": "TENTO TÝDEN",
+                                  "fontFamily": "$hw-font-mono",
+                                  "fontSize": 11,
+                                  "fontWeight": "700",
+                                  "letterSpacing": 1.2
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "csJq4",
+                                  "name": "Spacer",
+                                  "width": "fill_container",
+                                  "height": 1
+                                },
+                                {
+                                  "type": "icon",
+                                  "id": "oImKA",
+                                  "name": "Šipka",
+                                  "width": 14,
+                                  "height": 14,
+                                  "icon": "chevron-right",
+                                  "library": "lucide",
+                                  "fill": "$hw-ink-35"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "ylRNx",
+                              "name": "Hodnota",
+                              "fill": "$hw-pink",
+                              "content": "380 Kč",
+                              "fontFamily": "$hw-font-mono",
+                              "fontSize": 26,
+                              "fontWeight": "700"
+                            },
+                            {
+                              "type": "text",
+                              "id": "MdGKJ",
+                              "name": "Pod",
+                              "fill": "$hw-ink-60",
+                              "content": "Screen time: 1 h",
+                              "fontFamily": "$hw-font-sans",
+                              "fontSize": 14
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "AOX6l",
+                          "name": "Dlaždice řada",
+                          "width": "fill_container",
+                          "fill": "$hw-card",
+                          "cornerRadius": "$hw-radius-card",
+                          "stroke": "$hw-rule",
+                          "strokeWidth": 1,
+                          "layout": "vertical",
+                          "gap": 4,
+                          "padding": 14,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "WNgsp",
+                              "name": "Kicker řádek",
+                              "width": "fill_container",
+                              "gap": 6,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "tQQAP",
+                                  "name": "Ikona",
+                                  "width": 13,
+                                  "height": 13,
+                                  "icon": "flame",
+                                  "library": "lucide",
+                                  "fill": "$hw-ink-35"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "R8DxKM",
+                                  "name": "Kicker",
+                                  "fill": "$hw-ink-35",
+                                  "content": "ŘADA",
+                                  "fontFamily": "$hw-font-mono",
+                                  "fontSize": 11,
+                                  "fontWeight": "700",
+                                  "letterSpacing": 1.2
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "Owm3D",
+                                  "name": "Spacer",
+                                  "width": "fill_container",
+                                  "height": 1
+                                },
+                                {
+                                  "type": "icon",
+                                  "id": "geh7p",
+                                  "name": "Šipka",
+                                  "width": 14,
+                                  "height": 14,
+                                  "icon": "chevron-right",
+                                  "library": "lucide",
+                                  "fill": "$hw-ink-35"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "Dmi98",
+                              "name": "Hodnota",
+                              "fill": "$hw-ink",
+                              "content": "12 dní",
+                              "fontFamily": "$hw-font-mono",
+                              "fontSize": 26,
+                              "fontWeight": "700"
+                            },
+                            {
+                              "type": "text",
+                              "id": "fQMGh",
+                              "name": "Pod",
+                              "fill": "$hw-ink-60",
+                              "content": "Bonus +200 Kč",
+                              "fontFamily": "$hw-font-sans",
+                              "fontSize": 14
                             }
                           ]
                         }
@@ -8064,19 +8289,11 @@
                   "layout": "vertical",
                   "children": [
                     {
-                      "id": "m9hyv3",
+                      "id": "Qgst7",
                       "type": "ref",
-                      "ref": "hkONr",
-                      "name": "Stavová hlavička",
-                      "width": "fill_container",
-                      "descendants": {
-                        "vVA5K": {
-                          "content": "Screen time: 1 h"
-                        },
-                        "yQKgx": {
-                          "content": "Bonus +200 Kč"
-                        }
-                      }
+                      "ref": "SBJyG",
+                      "name": "Hlavička C6",
+                      "width": "fill_container"
                     },
                     {
                       "type": "frame",
@@ -8093,6 +8310,13 @@
                         16
                       ],
                       "children": [
+                        {
+                          "id": "iXS4s",
+                          "type": "ref",
+                          "ref": "dW95X",
+                          "name": "Dlaždice",
+                          "width": "fill_container"
+                        },
                         {
                           "type": "text",
                           "id": "OKEU7",
@@ -8210,19 +8434,11 @@
                   "layout": "vertical",
                   "children": [
                     {
-                      "id": "hW1Oo",
+                      "id": "yUEHO",
                       "type": "ref",
-                      "ref": "hkONr",
-                      "name": "Stavová hlavička",
-                      "width": "fill_container",
-                      "descendants": {
-                        "vVA5K": {
-                          "content": "Screen time: 1 h"
-                        },
-                        "yQKgx": {
-                          "content": "Bonus +200 Kč"
-                        }
-                      }
+                      "ref": "SBJyG",
+                      "name": "Hlavička C6",
+                      "width": "fill_container"
                     },
                     {
                       "type": "frame",
@@ -8239,6 +8455,13 @@
                         16
                       ],
                       "children": [
+                        {
+                          "id": "OdmbW",
+                          "type": "ref",
+                          "ref": "dW95X",
+                          "name": "Dlaždice",
+                          "width": "fill_container"
+                        },
                         {
                           "type": "text",
                           "id": "dmupY",
@@ -8362,10 +8585,10 @@
                   "layout": "vertical",
                   "children": [
                     {
-                      "id": "AkpDZ",
+                      "id": "UKlnv",
                       "type": "ref",
-                      "ref": "hkONr",
-                      "name": "Stavová hlavička",
+                      "ref": "SBJyG",
+                      "name": "Hlavička C6",
                       "width": "fill_container"
                     },
                     {
@@ -8383,6 +8606,13 @@
                         16
                       ],
                       "children": [
+                        {
+                          "id": "t6FR01",
+                          "type": "ref",
+                          "ref": "dW95X",
+                          "name": "Dlaždice",
+                          "width": "fill_container"
+                        },
                         {
                           "type": "text",
                           "id": "p00dHs",
@@ -8503,10 +8733,10 @@
                   "layout": "vertical",
                   "children": [
                     {
-                      "id": "vozRn",
+                      "id": "kg5dp",
                       "type": "ref",
-                      "ref": "hkONr",
-                      "name": "Stavová hlavička",
+                      "ref": "SBJyG",
+                      "name": "Hlavička C6",
                       "width": "fill_container"
                     },
                     {
@@ -8524,6 +8754,13 @@
                         16
                       ],
                       "children": [
+                        {
+                          "id": "yvB37",
+                          "type": "ref",
+                          "ref": "dW95X",
+                          "name": "Dlaždice",
+                          "width": "fill_container"
+                        },
                         {
                           "id": "CKX6C",
                           "type": "ref",
@@ -8688,10 +8925,10 @@
                   "layout": "vertical",
                   "children": [
                     {
-                      "id": "NtG7z",
+                      "id": "UraTH",
                       "type": "ref",
-                      "ref": "hkONr",
-                      "name": "Stavová hlavička",
+                      "ref": "SBJyG",
+                      "name": "Hlavička C6",
                       "width": "fill_container"
                     },
                     {
@@ -8709,6 +8946,13 @@
                         16
                       ],
                       "children": [
+                        {
+                          "id": "MbdMg",
+                          "type": "ref",
+                          "ref": "dW95X",
+                          "name": "Dlaždice",
+                          "width": "fill_container"
+                        },
                         {
                           "type": "text",
                           "id": "hxUkJ",
@@ -8856,10 +9100,10 @@
                   "layout": "vertical",
                   "children": [
                     {
-                      "id": "o1sAr",
+                      "id": "u98pe",
                       "type": "ref",
-                      "ref": "hkONr",
-                      "name": "Stavová hlavička",
+                      "ref": "SBJyG",
+                      "name": "Hlavička C6",
                       "width": "fill_container"
                     },
                     {
@@ -8877,6 +9121,13 @@
                         16
                       ],
                       "children": [
+                        {
+                          "id": "PytxT",
+                          "type": "ref",
+                          "ref": "dW95X",
+                          "name": "Dlaždice",
+                          "width": "fill_container"
+                        },
                         {
                           "type": "text",
                           "id": "H8KbY",
@@ -9019,10 +9270,10 @@
                   "layout": "vertical",
                   "children": [
                     {
-                      "id": "q2kQX",
+                      "id": "YCaBG",
                       "type": "ref",
-                      "ref": "hkONr",
-                      "name": "Stavová hlavička",
+                      "ref": "SBJyG",
+                      "name": "Hlavička C6",
                       "width": "fill_container"
                     },
                     {
@@ -9040,6 +9291,13 @@
                         16
                       ],
                       "children": [
+                        {
+                          "id": "Z2ay8J",
+                          "type": "ref",
+                          "ref": "dW95X",
+                          "name": "Dlaždice",
+                          "width": "fill_container"
+                        },
                         {
                           "type": "text",
                           "id": "ENt9w",
@@ -9206,10 +9464,10 @@
                   "layout": "vertical",
                   "children": [
                     {
-                      "id": "H0sEA",
+                      "id": "Q7nkh",
                       "type": "ref",
-                      "ref": "hkONr",
-                      "name": "Stavová hlavička",
+                      "ref": "SBJyG",
+                      "name": "Hlavička C6",
                       "width": "fill_container"
                     },
                     {
@@ -9227,6 +9485,13 @@
                         16
                       ],
                       "children": [
+                        {
+                          "id": "sXknU",
+                          "type": "ref",
+                          "ref": "dW95X",
+                          "name": "Dlaždice",
+                          "width": "fill_container"
+                        },
                         {
                           "id": "ZKLe2",
                           "type": "ref",
@@ -9381,10 +9646,10 @@
                   "layout": "vertical",
                   "children": [
                     {
-                      "id": "A2oFrq",
+                      "id": "W9KIRJ",
                       "type": "ref",
-                      "ref": "hkONr",
-                      "name": "Stavová hlavička",
+                      "ref": "SBJyG",
+                      "name": "Hlavička C6",
                       "width": "fill_container"
                     },
                     {
@@ -9402,6 +9667,13 @@
                         16
                       ],
                       "children": [
+                        {
+                          "id": "H8Kfw4",
+                          "type": "ref",
+                          "ref": "dW95X",
+                          "name": "Dlaždice",
+                          "width": "fill_container"
+                        },
                         {
                           "type": "text",
                           "id": "y8Gtw7",
@@ -9568,10 +9840,10 @@
                   "layout": "vertical",
                   "children": [
                     {
-                      "id": "tTQwn",
+                      "id": "k2dDS",
                       "type": "ref",
-                      "ref": "hkONr",
-                      "name": "Stavová hlavička",
+                      "ref": "SBJyG",
+                      "name": "Hlavička C6",
                       "width": "fill_container"
                     },
                     {
@@ -9589,6 +9861,13 @@
                         16
                       ],
                       "children": [
+                        {
+                          "id": "xUXyH",
+                          "type": "ref",
+                          "ref": "dW95X",
+                          "name": "Dlaždice",
+                          "width": "fill_container"
+                        },
                         {
                           "type": "frame",
                           "id": "H8fT24",
@@ -9923,10 +10202,10 @@
                   "layout": "vertical",
                   "children": [
                     {
-                      "id": "zaS9H",
+                      "id": "aZMjE",
                       "type": "ref",
-                      "ref": "hkONr",
-                      "name": "Stavová hlavička",
+                      "ref": "SBJyG",
+                      "name": "Hlavička C6",
                       "width": "fill_container"
                     },
                     {
@@ -9944,6 +10223,13 @@
                         16
                       ],
                       "children": [
+                        {
+                          "id": "calVF",
+                          "type": "ref",
+                          "ref": "dW95X",
+                          "name": "Dlaždice",
+                          "width": "fill_container"
+                        },
                         {
                           "type": "frame",
                           "id": "Xqzxm",
@@ -10226,10 +10512,10 @@
                   "layout": "vertical",
                   "children": [
                     {
-                      "id": "KMfA5",
+                      "id": "kmYdy",
                       "type": "ref",
-                      "ref": "hkONr",
-                      "name": "Stavová hlavička",
+                      "ref": "SBJyG",
+                      "name": "Hlavička C6",
                       "width": "fill_container"
                     },
                     {
@@ -10247,6 +10533,13 @@
                         16
                       ],
                       "children": [
+                        {
+                          "id": "jB0Pd",
+                          "type": "ref",
+                          "ref": "dW95X",
+                          "name": "Dlaždice",
+                          "width": "fill_container"
+                        },
                         {
                           "type": "frame",
                           "id": "hM4ZA",
@@ -10651,10 +10944,10 @@
                   "layout": "vertical",
                   "children": [
                     {
-                      "id": "GiGP2",
+                      "id": "egLGV",
                       "type": "ref",
-                      "ref": "hkONr",
-                      "name": "Stavová hlavička",
+                      "ref": "SBJyG",
+                      "name": "Hlavička C6",
                       "width": "fill_container"
                     },
                     {
@@ -10672,6 +10965,13 @@
                         16
                       ],
                       "children": [
+                        {
+                          "id": "U17bH",
+                          "type": "ref",
+                          "ref": "dW95X",
+                          "name": "Dlaždice",
+                          "width": "fill_container"
+                        },
                         {
                           "type": "frame",
                           "id": "rLT7n",
