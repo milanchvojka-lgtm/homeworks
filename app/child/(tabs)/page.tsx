@@ -1,129 +1,128 @@
 import { redirect } from "next/navigation";
-import Link from "next/link";
-import { Trophy, ChevronRight, CalendarDays } from "lucide-react";
+import { ChevronDown } from "lucide-react";
+import type { CheckStatus } from "@prisma/client";
 import { db } from "@/lib/db";
 import { getSession } from "@/lib/auth";
-import { getBonusStatus } from "@/lib/bonus";
 import { getCurrentAssignment } from "@/lib/rotation";
 import { startOfDayPrague } from "@/lib/time";
-import { Card, CardContent } from "@/components/ui/card";
-import { StreakBanner } from "@/components/streak/streak-banner";
-import { TodayChecks } from "./_components/today-checks";
+import { CheckCard, type CheckCardData } from "../_components/check-card";
+import { DayDone } from "../_components/day-done";
+import { TaskCard } from "../_components/task-card";
 
+const ORDER: Record<CheckStatus, number> = {
+  REJECTED: 0,
+  PENDING: 1,
+  SUBMITTED: 2,
+  APPROVED: 3,
+  MISSED: 4,
+};
+
+/** Dnes (návrh 2, frames 01A6, 01b, 01c, 01d). */
 export default async function ChildToday() {
   const user = await getSession();
   if (!user) redirect("/");
 
   const today = startOfDayPrague();
-  const [assignment, instances, bonusStatus, streakData, totalMilestones, earnedMilestones] = await Promise.all([
+  const [assignment, instances, running] = await Promise.all([
     getCurrentAssignment(user.id),
     db.dailyCheckInstance.findMany({
       where: { userId: user.id, date: today },
-      include: { dailyCheck: true },
-      orderBy: [{ dailyCheck: { order: "asc" } }],
+      include: {
+        dailyCheck: true,
+        reviewer: { select: { name: true } },
+      },
     }),
-    getBonusStatus(user.id),
-    db.user.findUnique({
-      where: { id: user.id },
-      select: { currentStreak: true, longestStreak: true },
+    db.taskInstance.findMany({
+      where: { claimedById: user.id, status: "CLAIMED" },
+      include: { task: true },
+      orderBy: { executeDeadline: "asc" },
     }),
-    db.streakMilestone.count(),
-    db.trophyEarned
-      .findMany({
-        where: { userId: user.id },
-        distinct: ["milestoneId"],
-        select: { id: true },
-      })
-      .then((r) => r.length),
   ]);
+  const nowIso = new Date().toISOString();
+
+  const checks: CheckCardData[] = instances
+    .sort(
+      (a, b) =>
+        ORDER[a.status] - ORDER[b.status] ||
+        (a.dailyCheck.dueTime ?? "23:59").localeCompare(b.dailyCheck.dueTime ?? "23:59") ||
+        a.dailyCheck.order - b.dailyCheck.order,
+    )
+    .map((i) => ({
+      id: i.id,
+      name: i.dailyCheck.name,
+      status: i.status,
+      dueTime: i.dailyCheck.dueTime,
+      note: i.note,
+      submittedAt: i.submittedAt?.toISOString() ?? null,
+      reviewerName: i.reviewer?.name ?? null,
+    }));
+
+  const open = checks.filter((c) => c.status === "PENDING" || c.status === "REJECTED");
+  const allSent = checks.length > 0 && open.length === 0;
+  const waiting = checks.filter((c) => c.status === "SUBMITTED").length;
+
+  const label = (
+    <h2 className="font-mono text-xs font-bold tracking-[0.12em] uppercase">
+      Kompetence: {assignment?.competency.name ?? "—"}
+    </h2>
+  );
 
   return (
-    <div className="space-y-3">
-      <StreakBanner
-        currentStreak={streakData?.currentStreak ?? 0}
-        longestStreak={streakData?.longestStreak ?? 0}
-        bonus={bonusStatus}
-      />
-
-      {/* Trofeje link */}
-      <Link href="/child/trofeje" className="block">
-        <Card className="transition hover:border-primary/50">
-          <CardContent className="flex items-center justify-between py-3">
-            <div className="flex items-center gap-3">
-              <Trophy
-                className="size-4"
-                style={{ color: "var(--chart-1)" }}
-              />
-              <div>
-                <div className="text-sm font-bold">Trofeje</div>
-                <div className="text-[11px] uppercase tracking-widest text-muted-foreground">
-                  {earnedMilestones} / {totalMilestones} získáno
-                </div>
-              </div>
+    <div className="flex flex-col gap-3">
+      {checks.length === 0 ? (
+        <p className="rounded-tile border border-border bg-card px-[18px] py-6 text-center text-muted-foreground">
+          {assignment
+            ? "Na dnešek nemáš žádné povinnosti."
+            : "Tento týden nemáš přiřazenou povinnost."}
+        </p>
+      ) : allSent ? (
+        <>
+          <DayDone waitingCount={waiting} />
+          <details className="group">
+            <summary className="flex h-12 cursor-pointer list-none items-center gap-2 px-1 text-[15px] font-semibold text-muted-foreground">
+              <ChevronDown className="size-[18px] transition-transform group-open:rotate-180" />
+              Ukázat dnešní povinnosti ({checks.length})
+            </summary>
+            <div className="mt-2 flex flex-col gap-3">
+              {label}
+              {checks.map((c) => (
+                <CheckCard key={c.id} check={c} nowIso={nowIso} />
+              ))}
             </div>
-            <ChevronRight className="size-4 text-muted-foreground" />
-          </CardContent>
-        </Card>
-      </Link>
-
-      {/* Streak history link */}
-      <Link href="/child/streak" className="block">
-        <Card className="transition hover:border-primary/50">
-          <CardContent className="flex items-center justify-between py-3">
-            <div className="flex items-center gap-3">
-              <CalendarDays
-                className="size-4"
-                style={{ color: "var(--chart-1)" }}
-              />
-              <div>
-                <div className="text-sm font-bold">Můj streak</div>
-                <div className="text-[11px] uppercase tracking-widest text-muted-foreground">
-                  posledních 12 týdnů
-                </div>
-              </div>
-            </div>
-            <ChevronRight className="size-4 text-muted-foreground" />
-          </CardContent>
-        </Card>
-      </Link>
-
-      {/* Current competency */}
-      <Card>
-        <CardContent className="pt-4 pb-3">
-          <div className="text-[11px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
-            Aktuální kompetence
-          </div>
-          {assignment ? (
-            <div className="mt-1 text-sm font-semibold tracking-tight">
-              {assignment.competency.name}
-            </div>
-          ) : (
-            <div className="mt-1 text-sm text-muted-foreground">
-              Tento týden nemáš přiřazenou kompetenci.
-            </div>
-          )}
-        </CardContent>
-      </Card>
-
-      {/* Today checks */}
-      {instances.length === 0 ? (
-        <Card>
-          <CardContent className="py-6 text-center">
-            <p className="text-sm text-muted-foreground">
-              Žádné checky pro dnešek. Zkontroluj to později.
-            </p>
-          </CardContent>
-        </Card>
+          </details>
+        </>
       ) : (
-        <TodayChecks
-          instances={instances.map((i) => ({
-            id: i.id,
-            name: i.dailyCheck.name,
-            timeOfDay: i.dailyCheck.timeOfDay,
-            status: i.status,
-            note: i.note,
-          }))}
-        />
+        <>
+          {label}
+          {checks.map((c) => (
+            <CheckCard key={c.id} check={c} nowIso={nowIso} />
+          ))}
+        </>
+      )}
+
+      {running.length > 0 && (
+        <>
+          <h2 className="mt-2 font-mono text-xs font-bold tracking-[0.12em] uppercase">
+            Rozdělaný úkol
+          </h2>
+          {running.map((t) => (
+            <TaskCard
+              key={t.id}
+              nowIso={nowIso}
+              task={{
+                id: t.id,
+                name: t.task.name,
+                valueCzk: t.task.valueCzk,
+                timeEstimateMinutes: t.task.timeEstimateMinutes,
+                status: t.status,
+                executeDeadline: t.executeDeadline?.toISOString() ?? null,
+                submittedAt: t.submittedAt?.toISOString() ?? null,
+                reviewNote: t.reviewNote,
+                lockedReason: null,
+              }}
+            />
+          ))}
+        </>
       )}
     </div>
   );

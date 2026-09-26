@@ -44,7 +44,7 @@ export async function requestScreenTimeAction(
     costCzk: cost,
   });
 
-  revalidatePath("/child/kredit");
+  revalidatePath("/child", "layout");
   revalidatePath("/admin");
   return { ok: true };
 }
@@ -83,7 +83,7 @@ export async function approveScreenTimeAction(
   ]);
 
   revalidatePath("/admin");
-  revalidatePath("/child/kredit");
+  revalidatePath("/child", "layout");
   return { ok: true };
 }
 
@@ -107,6 +107,6 @@ export async function rejectScreenTimeAction(
   });
 
   revalidatePath("/admin");
-  revalidatePath("/child/kredit");
+  revalidatePath("/child", "layout");
   return { ok: true };
 }

@@ -6,10 +6,9 @@
  * Design systém Homeworks = vlastní kopie 2FRESH design systému z Offer Buddyho (DECISIONS D15).
  * Vrstva 1: zdrojové tokeny `--hw-*` (hodnoty z `--ob-*`). Vrstva 2: sémantické aliasy, které čtou
  * shadcn komponenty a Tailwind třídy. Ladí se hodnota tokenu, komponenty se nepřepisují.
- * Jen světlý režim. `dark` varianta je vázaná na třídu `.dark`, kterou nikdo nenastavuje,
- * takže zbylé `dark:` třídy nemají efekt (a nereagují na systémový tmavý režim).
+ * Světlý i tmavý režim podle nastavení telefonu (D17): tmavý režim přepisuje jen zdrojové tokeny `--hw-*`.
  */
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (@media (prefers-color-scheme: dark));
 
 :root {
   /* povrchy */
@@ -33,6 +32,8 @@
   --hw-green-bg: #e3f1e8;
   --hw-red: #c2453b;
   --hw-red-bg: #f1e4e3;
+
+  color-scheme: light dark;
 
   /* aliasy pro shadcn komponenty */
   --background: var(--hw-paper);
@@ -68,6 +69,27 @@
   --danger-soft: var(--hw-red-bg);
   /* přechodový alias: dřív limetkové zvýraznění z D12, používá se inline jako var(--chart-1) */
   --chart-1: var(--highlight);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --hw-paper: #141518;
+    --hw-card: #1e2024;
+    --hw-hair: #2a2c31;
+    --hw-rule: #34363c;
+    --hw-ink: #f2f1ed;
+    --hw-ink-60: #a7aab2;
+    --hw-ink-35: #6f737c;
+    --hw-pink-bg: #3a2130;
+    --hw-amber: #e2ac45;
+    --hw-amber-bg: #332a14;
+    --hw-blue: #7da6ec;
+    --hw-blue-bg: #1b2639;
+    --hw-green: #5cc592;
+    --hw-green-bg: #15301f;
+    --hw-red: #f07a6f;
+    --hw-red-bg: #3a1f1d;
+  }
 }
 
 @theme inline {
@@ -110,6 +132,8 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+  /* karty povinností a úkolů v dětské části (návrh 2 v penu) */
+  --radius-tile: 18px;
 }
 
 @layer base {

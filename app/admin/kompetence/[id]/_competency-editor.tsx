@@ -23,6 +23,7 @@ type Check = {
   id: string;
   name: string;
   timeOfDay: TimeOfDay;
+  dueTime: string | null;
 };
 
 const TIME_LABELS: Record<TimeOfDay, string> = {
@@ -110,6 +111,7 @@ function ChecksList({
   const [checks, setChecks] = useState<Check[]>(initial);
   const [newName, setNewName] = useState("");
   const [newTime, setNewTime] = useState<TimeOfDay>("MORNING");
+  const [newDue, setNewDue] = useState("");
   const [isPending, startTransition] = useTransition();
 
   const add = () => {
@@ -118,12 +120,19 @@ function ChecksList({
       await createDailyCheckAction(competencyId, {
         name: newName,
         timeOfDay: newTime,
+        dueTime: newDue || null,
       });
       setChecks((prev) => [
         ...prev,
-        { id: `tmp-${Date.now()}`, name: newName.trim(), timeOfDay: newTime },
+        {
+          id: `tmp-${Date.now()}`,
+          name: newName.trim(),
+          timeOfDay: newTime,
+          dueTime: newDue || null,
+        },
       ]);
       setNewName("");
+      setNewDue("");
     });
   };
 
@@ -139,6 +148,7 @@ function ChecksList({
       await updateDailyCheckAction(c.id, {
         name: c.name,
         timeOfDay: c.timeOfDay,
+        dueTime: c.dueTime,
       });
     });
   };
@@ -177,6 +187,15 @@ function ChecksList({
                 </option>
               ))}
             </select>
+            <input
+              type="time"
+              aria-label="Termín (do kolika)"
+              title="Termín (do kolika) – volitelné"
+              value={c.dueTime ?? ""}
+              onChange={(e) => update(c.id, { dueTime: e.target.value || null })}
+              onBlur={(e) => persist({ ...c, dueTime: e.target.value || null })}
+              className="rounded-md border border-input bg-background px-2 py-1 text-xs"
+            />
             <Button
               variant="ghost"
               size="sm"
@@ -208,6 +227,14 @@ function ChecksList({
             </option>
           ))}
         </select>
+        <input
+          type="time"
+          aria-label="Termín (do kolika)"
+          title="Termín (do kolika) – volitelné"
+          value={newDue}
+          onChange={(e) => setNewDue(e.target.value)}
+          className="rounded-md border border-input bg-background px-2 py-1 text-xs"
+        />
         <Button
           size="sm"
           onClick={add}

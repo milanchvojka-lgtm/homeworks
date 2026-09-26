@@ -34,7 +34,6 @@ export async function markPayoutPaidAction(
   ]);
 
   revalidatePath("/admin/vyplaty");
-  revalidatePath("/child/kredit");
-  revalidatePath("/child/historie");
+  revalidatePath("/child", "layout");
   return { ok: true };
 }

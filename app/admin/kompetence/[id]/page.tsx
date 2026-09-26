@@ -34,6 +34,7 @@ export default async function CompetencyDetailPage({
           id: c.id,
           name: c.name,
           timeOfDay: c.timeOfDay,
+          dueTime: c.dueTime,
         }))}
       />
     </div>

@@ -75,6 +75,8 @@ model DailyCheck {
   competency   Competency @relation(fields: [competencyId], references: [id], onDelete: Cascade)
   name         String
   timeOfDay    TimeOfDay
+  /// Optional due time "HH:mm" (Europe/Prague) shown to the child; missing = end of day (D18).
+  dueTime      String?
   order        Int
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt

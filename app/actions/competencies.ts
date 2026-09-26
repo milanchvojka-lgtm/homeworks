@@ -13,6 +13,12 @@ async function requireAdmin() {
   return user;
 }
 
+/** "HH:mm" or null; anything else is dropped (D18). */
+function normalizeDueTime(v: string | null | undefined): string | null {
+  if (!v) return null;
+  return /^([01]\d|2[0-3]):[0-5]\d$/.test(v) ? v : null;
+}
+
 export async function updateCompetencyAction(
   id: string,
   data: { name: string; description: string | null },
@@ -30,7 +36,7 @@ export async function updateCompetencyAction(
 
 export async function createDailyCheckAction(
   competencyId: string,
-  data: { name: string; timeOfDay: TimeOfDay },
+  data: { name: string; timeOfDay: TimeOfDay; dueTime?: string | null },
 ): Promise<void> {
   await requireAdmin();
   const last = await db.dailyCheck.findFirst({
@@ -42,6 +48,7 @@ export async function createDailyCheckAction(
       competencyId,
       name: data.name.trim(),
       timeOfDay: data.timeOfDay,
+      dueTime: normalizeDueTime(data.dueTime),
       order: (last?.order ?? 0) + 1,
     },
   });
@@ -51,12 +58,16 @@ export async function createDailyCheckAction(
 
 export async function updateDailyCheckAction(
   id: string,
-  data: { name: string; timeOfDay: TimeOfDay },
+  data: { name: string; timeOfDay: TimeOfDay; dueTime?: string | null },
 ): Promise<void> {
   await requireAdmin();
   const updated = await db.dailyCheck.update({
     where: { id },
-    data: { name: data.name.trim(), timeOfDay: data.timeOfDay },
+    data: {
+      name: data.name.trim(),
+      timeOfDay: data.timeOfDay,
+      dueTime: normalizeDueTime(data.dueTime),
+    },
   });
   revalidatePath(`/admin/kompetence/${updated.competencyId}`);
   revalidatePath("/admin/kompetence");

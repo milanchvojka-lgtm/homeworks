@@ -36,7 +36,7 @@ export async function submitCheckAction(
     competencyName: instance.dailyCheck.competency.name,
   });
 
-  revalidatePath("/child");
+  revalidatePath("/child", "layout");
   revalidatePath("/admin");
   return { ok: true };
 }
@@ -66,7 +66,7 @@ export async function approveCheckAction(
   });
 
   revalidatePath("/admin");
-  revalidatePath("/child");
+  revalidatePath("/child", "layout");
   return { ok: true };
 }
 
@@ -97,6 +97,6 @@ export async function rejectCheckAction(
   });
 
   revalidatePath("/admin");
-  revalidatePath("/child");
+  revalidatePath("/child", "layout");
   return { ok: true };
 }

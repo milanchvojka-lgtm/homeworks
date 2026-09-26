@@ -50,7 +50,7 @@ export async function createTaskAction(input: {
   await createTaskInstance(task.id);
 
   revalidatePath("/admin/ukoly");
-  revalidatePath("/child/pool");
+  revalidatePath("/child", "layout");
   return { ok: true, taskId: task.id };
 }
 
@@ -124,8 +124,7 @@ export async function claimTaskAction(
   });
   if (updated.count === 0) return { ok: false, error: "race" };
 
-  revalidatePath("/child/pool");
-  revalidatePath("/child/me-ukoly");
+  revalidatePath("/child", "layout");
   return { ok: true };
 }
 
@@ -156,7 +155,7 @@ export async function reportTaskDoneAction(
     valueCzk: inst.task.valueCzk,
   });
 
-  revalidatePath("/child/me-ukoly");
+  revalidatePath("/child", "layout");
   revalidatePath("/admin");
   return { ok: true };
 }
@@ -203,8 +202,7 @@ export async function approveTaskAction(
   ]);
 
   revalidatePath("/admin");
-  revalidatePath("/child/me-ukoly");
-  revalidatePath("/child/kredit");
+  revalidatePath("/child", "layout");
   return { ok: true };
 }
 
@@ -239,7 +237,6 @@ export async function rejectTaskAction(
   });
 
   revalidatePath("/admin");
-  revalidatePath("/child/pool");
-  revalidatePath("/child/me-ukoly");
+  revalidatePath("/child", "layout");
   return { ok: true };
 }
