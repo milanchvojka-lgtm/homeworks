@@ -1,6 +1,6 @@
 # Dětská část (varianta B): co měníme, co ne
 
-**Datum:** 2026-09-26 · **Stav:** návrh, čeká na Milana · **Podle:** scénáře 1–4 (`2026-09-26-scenare.md`), tok varianta B + §5 (`2026-09-26-struktura-a-tok.md`), brief `2026-09-26-design-system-mobil.md`
+**Datum:** 2026-09-26 · **Stav:** schváleno 2026-09-26 (smlouva i šest nových komponent), Milan: „kresli" · **Podle:** scénáře 1–4 (`2026-09-26-scenare.md`), tok varianta B + §5 (`2026-09-26-struktura-a-tok.md`), brief `2026-09-26-design-system-mobil.md`
 
 Jedna smlouva pro celou dětskou část, po obrazovkách. Podklad je dnešní kód (`app/child/*`, `app/_components/*`, `components/streak/*`).
 
@@ -92,18 +92,22 @@ Každá existuje v jednom souboru a v knihovně v penu. Znovupoužité místo du
 
 Sekce „HW · Redesign · návrh 1 (2026-09-26) · tok varianta B". Framy 390 px, skutečná data z pilotu (Test, Myčka, Kuchyň připravená na ráno, Půdička 75 Kč · ~30 min, Umýt okna 300 Kč · ~120 min, Umýt auto 450 Kč · ~180 min).
 
-| Frame | Co ukazuje |
-|---|---|
-| HW1 · 01 | Dnes: zbývá povinnost, řádek ve hře |
-| HW1 · 01b | Dnes: vrácená povinnost s poznámkou nahoře |
-| HW1 · 01c | Dnes: rozdělaný úkol s odpočtem |
-| HW1 · 01d | Dnes: hotovo na dnešek |
-| HW1 · 02 | Vydělat: nabídka + zamčený úkol s důvodem |
-| HW1 · 02b | Vydělat: moje rozdělané a čekající nahoře |
-| HW1 · 03 | Obrazovka: na kolik mám, volba, požádat |
-| HW1 · 03b | Obrazovka: žádost čeká |
-| HW1 · 04 | Já |
-| HW1 · 05 | Týdenní výpis |
+Sekce v penu: `CwTY4`. Čísla jsou napříč framy konzistentní (vyděláno 580 Kč, obrazovka 200 Kč = 1 h, k výplatě 380 Kč, na obrazovku zbývá 1 h 30 min, řada 12 dní). Jsou ilustrativní pro stav po dvou týdnech provozu, pilot zatím historii nemá.
+
+| Frame | Id | Co ukazuje |
+|---|---|---|
+| HW1 · 01 | `g2zaZ` | Dnes: zbývá „Kuchyň připravená na ráno", odpolední čeká, řádek ve hře |
+| HW1 · 01b | `P6lKE` | Dnes: vrácená odpolední povinnost s poznámkou nahoře |
+| HW1 · 01c | `F5Jl4` | Dnes: obě povinnosti odeslané, rozdělaná Půdička s odpočtem |
+| HW1 · 01d | `FwqKI` | Dnes: hotovo na dnešek, sbalené povinnosti |
+| HW1 · 02 | `z7Z4h` | Vydělat: nabídka (okna, půdička) + auto zamčené „na řadě je sestra" |
+| HW1 · 02b | `pwhPB` | Vydělat: moje rozdělané a čekající nahoře, pod nimi nabídka |
+| HW1 · 03 | `k4Gme` | Obrazovka: 1 h 30 min, volba 60 min, Požádat |
+| HW1 · 03b | `WE56Y` | Obrazovka: žádost o 60 min čeká |
+| HW1 · 04 | `oKTGl` | Já: řada, bonus, trofeje, historie řady, PIN, odhlásit |
+| HW1 · 05 | `J68Jp7` | Týdenní výpis: tento týden + předchozí týdny |
+
+Knihovna (`Dluso`), složené komponenty: MoneyBar `BMPD6`, CheckRow · k splnění `iIiHE`, CheckRow · stav `rn2uD`, Callout · vráceno `M4dPqn`, DayDone `lEwnf`, TaskRow · nabídka `w2mXO` / zamčeno `hymyT` / rozdělaný `grgyK` / čeká `ijprN`, BottomNav `IhnZG`, AppHeader `duHT8`.
 
 Nové složené komponenty se nejdřív přidají do „HW · Knihovna", obrazovky z nich vzniknou jako instance.
 
@@ -111,10 +115,19 @@ Nové složené komponenty se nejdřív přidají do „HW · Knihovna", obrazov
 
 ## Průchod scénáři
 
-*(vyplní se nad framy před schválením návrhu)*
-
 | Scénář | Začátek | Kroky | Konec | Díry |
 |---|---|---|---|---|
+| 1 · večer kuchyň na ráno | 01 | ťukne na „Kuchyň připravená na ráno" → čeká | 01d „Na dnešek máš hotovo" | žádné |
+| 2 · odpoledne | 01b | přečte poznámku → „Nahlásit znovu" → ťukne na odpolední povinnost; peníze vidí v pruhu | 01 / 01d | žádné |
+| 3 · vydělat navíc | 02 | porovná odměnu a čas → „Vzít" → úkol v 02b i na Dnes (01c) s odpočtem → „Hotovo" → čeká (02b) | 02b | **D1**, **D2** |
+| 4 · obrazovka | 03 | vybere 60 min → „Požádat" | 03b „čeká" | **D3** |
+
+**Díry k rozhodnutí (Milan):**
+- **D1 · Vzít úkol jde až po všech dnešních povinnostech, včetně večerní „Kuchyň připravená na ráno"** (`hasCompletedTodayChecks`). Dítě si tedy odpoledne extra úkol nevezme, dokud předem neodškrtne i večerní úklid. Možnosti: (a) nechat, extra práce až po všem; (b) změnit pravidlo, aby večerní checky nebránily. To je změna kódu mimo tuhle smlouvu.
+- **D2 · Stav „povinnosti ještě nejsou hotové" na Vydělat nemá frame.** Návrh: jeden pruh nahoře „Úkol si vezmeš, až odešleš dnešní povinnosti" a akce „Vzít" u všech úkolů zašedlá, ne stejný důvod u každého řádku (žádná informace dvakrát).
+- **D3 · Zamítnutá žádost o obrazovku dnes jen zmizí** a dítě se nedozví proč. Návrh: po zamítnutí krátká hláška na Obrazovce („Rodič žádost zamítl"). Schválená žádost se projeví jako vyšší „odehráno" v pruhu a méně minut na Obrazovce.
+
+---|---|---|---|---|
 | 1 · večer kuchyň na ráno | | | | |
 | 2 · odpoledne | | | | |
 | 3 · vydělat navíc | | | | |
