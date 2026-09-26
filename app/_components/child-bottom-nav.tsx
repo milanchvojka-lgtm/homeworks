@@ -45,12 +45,15 @@ export function ChildBottomNav({
             <span
               className={`h-0.5 w-[18px] rounded-full ${active ? "bg-highlight" : "bg-transparent"}`}
             />
-            <span className="flex items-start">
+            {/* Badge sits on the icon's corner, out of flow, so the icon stays centred. */}
+            <span className="relative">
               <Icon
                 className={`size-[22px] ${active ? "text-foreground" : "text-subtle"}`}
               />
-              {href === "/child" && <NavBadge count={todayBadge} />}
-              {href === "/child/vydelat" && <NavBadge count={earnBadge} />}
+              <NavBadge
+                count={href === "/child" ? todayBadge : href === "/child/vydelat" ? earnBadge : 0}
+                className="absolute -top-1.5 left-4 ml-0"
+              />
             </span>
             <span
               className={`text-xs ${active ? "font-semibold text-foreground" : "font-medium text-subtle"}`}
