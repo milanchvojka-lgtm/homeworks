@@ -27,7 +27,7 @@ V repu jsou tři dokumenty, čti je v tomto pořadí:
 ## Tech stack (závazný)
 
 - **Next.js 16** (App Router) + **TypeScript** (strict mode)
-- **Tailwind CSS 4** + **shadcn/ui** (komponenty vlastněné ve zdrojáku, D12) přebarvené 2FRESH design systémem přes tokeny v `app/globals.css` (D15), písmo IBM Plex Sans/Mono, jen světlý režim
+- **Tailwind CSS 4** + **shadcn/ui** (komponenty vlastněné ve zdrojáku, D12) přebarvené 2FRESH design systémem přes tokeny v `app/globals.css` (D15), písmo IBM Plex Sans/Mono, světlý i tmavý režim podle nastavení telefonu (D17)
 - **Prisma** + **Postgres** (Supabase free tier, viz D4)
 - **Vercel** pro hosting, funkce pinnuté na `fra1` ve `vercel.json` — vždy u DB regionu (D14); cron přes **GitHub Actions** (viz D1)
 - **Vlastní auth** (profile + PIN, bcrypt nebo argon2, httpOnly cookie session)

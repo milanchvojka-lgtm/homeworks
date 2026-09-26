@@ -18,6 +18,25 @@ Z OB briefu přechází celá paleta beze změny (`--hw-*` = `--ob-*`, viz `app/
 
 **Rozhodnutí (Milan, 2026-09-26): barvy zůstávají podle originálu Offer Buddyho, žádné textové varianty.** Porovnání A (originál) a B (tmavší text) je v penu, framy `HW · Kontrast · A` a `HW · Kontrast · B` (B zamítnuto 26. 9.). Nízký kontrast růžové, `ink-35` a amberu v textu je vědomě přijatý. Kdyby se v pilotu ukázalo, že se to špatně čte, řeší se to jedním tokenem na jednom místě (`app/globals.css`).
 
+### Tmavý režim (D17, 2026-09-26)
+
+Přepíná se podle nastavení telefonu. Druhá sada hodnot `--hw-*`, aliasy beze změny.
+
+| Token | Světlý | Tmavý |
+|---|---|---|
+| paper | `#F4F3F0` | `#141518` |
+| card | `#FFFFFF` | `#1E2024` |
+| hair | `#EEECE7` | `#2A2C31` |
+| rule | `#DFDDD7` | `#34363C` |
+| ink | `#17191E` | `#F2F1ED` |
+| ink-60 | `#5B5F68` | `#A7AAB2` |
+| ink-35 | `#A6AAB4` | `#6F737C` |
+| pink / pink-bg | `#FF77AA` / `#FFEEF5` | `#FF77AA` / `#3A2130` |
+| amber / -bg | `#B97F0F` / `#FBF6EA` | `#E2AC45` / `#332A14` |
+| blue / -bg | `#2E5FA8` / `#E9F0FA` | `#7DA6EC` / `#1B2639` |
+| green / -bg | `#1B7A45` / `#E3F1E8` | `#5CC592` / `#15301F` |
+| red / -bg | `#C2453B` / `#F1E4E3` | `#F07A6F` / `#3A1F1D` |
+
 ---
 
 ## 2 · Typografie

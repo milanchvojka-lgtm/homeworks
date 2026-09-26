@@ -238,7 +238,7 @@
 
 ---
 
-## D15 — Design systém: vlastní kopie 2FRESH design systému (Offer Buddy), jen světlý režim
+## D15 — Design systém: vlastní kopie 2FRESH design systému (Offer Buddy), jen světlý režim *(tmavý režim změněn v D17)*
 
 **Rozhodnutí:** Homeworks přebírá design systém 2FRESH z Offer Buddyho (`offer-buddy/app/globals.css`, brief `2f-product/projects/offer-buddy/design/2026-08-31-design-system-brief.md`) jako **vlastní kopii**, nesdílenou a nesynchronizovanou s originálem. Nahrazuje vizuál z D12 (shadcn preset base-sera, fialová, Source Sans 3) a tmavý režim z D8.
 
@@ -280,3 +280,20 @@
 **Důsledky:**
 - CLAUDE.md: okruh dokumentace rozšířen o `docs/` (design dokumenty); nové `.md` mimo `docs/` dál ne.
 - IMPLEMENTATION_PLAN: milník M8 — Redesign.
+
+---
+
+## D17 — Tmavý režim: ano, podle nastavení telefonu (mění D15)
+
+**Rozhodnutí:** Homeworks dostane tmavý režim. Přepíná se automaticky podle nastavení telefonu (`prefers-color-scheme`), bez přepínače v appce. Realizace přes druhou sadu hodnot zdrojových tokenů `--hw-*` v `app/globals.css` (aliasy a komponenty se nemění, D15 dvě vrstvy tokenů). Tmavá paleta je v penu jako proměnné `hw-*` s motivem `mode: dark` (návrh 2026-09-26, frame `HW1 · 01A4 · dark`).
+
+**Důvod:** Milan (2026-09-26) po zkoušce v penu: „dark mode chci, vypadá to skvěle". Dvouvrstvé tokeny z D15 dělají tmavý režim levným: jedna sada hodnot navíc.
+
+**Jak to bude vypadat:** tmavé pozadí `#141518`, karty `#1E2024`, světlý text `#F2F1ED`, růžová beze změny, stavové barvy zesvětlené pro čitelnost na tmavém (amber `#E2AC45`, zelená `#5CC592`, červená `#F07A6F`, modrá `#7DA6EC`).
+
+**Co to neznamená:** žádný přepínač v appce (to byl D8, zůstává zrušený) a žádná knihovna (`next-themes` ne). Zbylé `dark:` třídy ze shadcn se uklidí při redesignu obrazovek (M8.5), protože `dark` varianta se napojí na `prefers-color-scheme`.
+
+**Důsledky:**
+- D15 „jen světlý režim" neplatí; zbytek D15 platí.
+- `@custom-variant dark` v `globals.css` se přepne z třídy `.dark` na `@media (prefers-color-scheme: dark)`, stavový řádek PWA dostane `theme-color` pro oba režimy.
+- Brief `docs/design/2026-09-26-design-system-mobil.md` doplněn o tmavou paletu.
