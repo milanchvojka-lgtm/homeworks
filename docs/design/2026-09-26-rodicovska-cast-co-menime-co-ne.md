@@ -63,18 +63,21 @@ Rozsah: admin (`app/admin/*`) předělaný pro telefon v design systému D15, se
 6. **Výběr délky obrazovky:** znovupoužije volbu 30 / 60 / 90 z dětské záložky Obrazovka, pokud to jde bez úprav. Když ne, nahlásím.
 
 ## Návrh v penu
+
+Sekce „HW · Rodič · návrh 1 (26. 9.) · tok varianta B“ (`fYwO8`). Nové komponenty v knihovně `Dluso`, řada „Složené komponenty · rodičovská část“: ApprovalRow `OHnMw`, ApprovalRow · vracení `tYf7a`, ChildSummaryRow `jxF1R`, DayRow `e4MxJr`, DayRow · rozbalený `rHz8X`. Spodní lišta a hlavička jsou instance dětských `BottomNav` a `AppHeader C6` s přepsanými popisky.
+
 | Frame | Id | Co ukazuje |
 |---|---|---|
-| HWR · 01 Schválit | — | 2 děti, 4 položky (povinnost, úkol, obrazovka) |
-| HWR · 01b Schválit · vracení | — | rozbalená poznámka u povinnosti |
-| HWR · 01c Schválit · nic nevisí | — | prázdný stav |
-| HWR · 02 Děti | — | 3 řádky |
-| HWR · 03 Detail dítěte | — | tento týden + dny, jeden den rozbalený |
-| HWR · 03b Detail · zapsat obrazovku | — | výběr délky |
-| HWR · 03c Detail · zmeškaný den | — | rozbalený zmeškaný den s „Uznat den" (D20) |
-| HWR · 04 Výplaty | — | nevyplacený + vyplacený týden |
-| HWR · 05 Víc | — | rozcestník |
-| HWR · 05b Formulář úkolu | — | vzor přestylovaného formuláře |
+| HWR · 01 Schválit | `J5zfMx` | 2 děti, 4 položky (povinnost, úkol, obrazovka) |
+| HWR · 01b Schválit · vracení | `aSOch` | rozbalená poznámka u povinnosti |
+| HWR · 01c Schválit · nic nevisí | `z1Ap69` | prázdný stav |
+| HWR · 02 Děti | `f2sDnR` | 3 řádky |
+| HWR · 03 Detail dítěte | `gu1EO` | tento týden + dny, jeden den rozbalený |
+| HWR · 03b Detail · zapsat obrazovku | `sX9Zj` | výběr délky |
+| HWR · 03c Detail · zmeškaný den | `Z7Bwf` | rozbalený zmeškaný den s „Uznat den" (D20) |
+| HWR · 04 Výplaty | `Mriz6` | nevyplacený + vyplacený týden |
+| HWR · 05 Víc | `qBKcD` | rozcestník |
+| HWR · 05b Formulář úkolu | `hg83X` | vzor přestylovaného formuláře |
 
 ## Průchod scénáři
 | Scénář | Začátek | Kroky | Konec | Díry |
