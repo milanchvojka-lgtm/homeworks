@@ -32,6 +32,8 @@
   /* akcent */
   --hw-pink: #ff77aa;
   --hw-pink-bg: #ffeef5;
+  /* text na růžové ploše (barevná hlavička) — tmavý v obou režimech */
+  --hw-on-pink: #17191e;
   /* stavy (fg / bg) */
   --hw-amber: #b97f0f;
   --hw-amber-bg: #fbf6ea;
@@ -69,6 +71,7 @@
   --subtle: var(--hw-ink-35);
   --highlight: var(--hw-pink);
   --highlight-soft: var(--hw-pink-bg);
+  --on-highlight: var(--hw-on-pink);
   --success: var(--hw-green);
   --success-soft: var(--hw-green-bg);
   --warning: var(--hw-amber);
@@ -149,6 +152,7 @@
   --color-subtle: var(--subtle);
   --color-highlight: var(--highlight);
   --color-highlight-soft: var(--highlight-soft);
+  --color-on-highlight: var(--on-highlight);
   --color-success: var(--success);
   --color-success-soft: var(--success-soft);
   --color-warning: var(--warning);

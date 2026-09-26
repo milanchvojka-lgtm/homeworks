@@ -3,23 +3,28 @@ import { ChevronRight, Flame, Wallet } from "lucide-react";
 import { formatMinutes } from "./format";
 
 /**
- * Status header on every child tab (návrh 2, pen `StatusHeader v2 · dlaždice`):
- * this week's payout + screen time, streak + monthly bonus. The only place these numbers live on a tab.
+ * Status header on every child tab (header C, iteration 7; pen `StatusHeader C · barevná`):
+ * brand pink block with wordmark + greeting, then this week's payout + screen time and streak + bonus.
+ * The only place these numbers live on a tab. Text on pink stays dark in both themes (`on-highlight`).
  */
 export function StatusHeader({
+  name,
   payoutCzk,
   screenMinutes,
   streakDays,
   bonusCzk,
 }: {
+  name: string;
   payoutCzk: number;
   screenMinutes: number;
   streakDays: number;
   bonusCzk: number;
 }) {
   return (
-    <header className="border-b border-border bg-card px-4 pt-[max(0.75rem,env(safe-area-inset-top))] pb-4">
-      <div className="grid grid-cols-2 gap-2.5">
+    <header className="rounded-b-3xl bg-highlight px-4 pt-[max(0.75rem,env(safe-area-inset-top))] pb-[18px] text-on-highlight">
+      <p className="font-mono text-[11px] font-bold tracking-[0.18em]">HOMEWORKS</p>
+      <h1 className="mt-0.5 text-[26px] font-bold tracking-tight">Ahoj, {name} 👋</h1>
+      <div className="mt-3.5 grid grid-cols-2 gap-2.5">
         <Tile
           href="/child/vypis"
           icon={<Wallet className="size-3.5" />}
@@ -59,7 +64,7 @@ function Tile({
   return (
     <Link
       href={href}
-      className="flex flex-col gap-1 rounded-xl bg-background p-3.5 transition-colors active:bg-muted"
+      className="flex flex-col gap-1 rounded-xl bg-card p-3.5 transition-colors active:bg-muted"
     >
       <span className="flex items-center gap-1.5 text-subtle">
         {icon}

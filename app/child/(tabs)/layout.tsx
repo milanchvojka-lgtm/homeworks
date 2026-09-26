@@ -1,3 +1,4 @@
+import type { Viewport } from "next";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { getSession } from "@/lib/auth";
@@ -5,6 +6,9 @@ import { getBonusStatus } from "@/lib/bonus";
 import { getAppSettings, getWeekTotals } from "@/lib/credit";
 import { StatusHeader } from "../_components/status-header";
 import { czkToMinutes } from "../_components/format";
+
+/** PWA status bar matches the pink header on tabs (header C, iteration 7). */
+export const viewport: Viewport = { themeColor: "#ff77aa" };
 
 /** Tabs (Dnes, Vydělat, Obrazovka, Já + their subpages) carry the status header. */
 export default async function ChildTabsLayout({
@@ -28,6 +32,7 @@ export default async function ChildTabsLayout({
   return (
     <>
       <StatusHeader
+        name={user.name}
         payoutCzk={Math.max(0, week.earnedCzk - week.screenTimeCzk)}
         screenMinutes={czkToMinutes(
           week.screenTimeCzk,
