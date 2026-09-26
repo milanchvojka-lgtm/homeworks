@@ -1,6 +1,6 @@
 # Rodičovská část — co měníme, co ne
 
-**Datum:** 2026-09-26 · **Stav:** schváleno 2026-09-26 (Milan: „kresli“), D19 a D20 zapsány · **Podle:** scénáře 5, 6, 7 (`2026-09-26-scenare.md`); tok varianta B (`2026-09-26-struktura-a-tok-rodic.md`)
+**Datum:** 2026-09-26 · **Stav:** schváleno 2026-09-26 (Milan: „kresli“), D19 a D20 zapsány; návrh v penu schválen 2026-09-26 s úpravami (pozdrav, popisky formuláře) · **Podle:** scénáře 5, 6, 7 (`2026-09-26-scenare.md`); tok varianta B (`2026-09-26-struktura-a-tok-rodic.md`)
 
 Rozsah: admin (`app/admin/*`) předělaný pro telefon v design systému D15, se spodní navigací Schválit · Děti · Výplaty · Víc. Data jsou v příkladech ilustrační, ve framech budou skutečná data z pilotu.
 
@@ -8,7 +8,7 @@ Rozsah: admin (`app/admin/*`) předělaný pro telefon v design systému D15, se
 
 ### 0 · Kostra (`app/admin/layout.tsx`)
 - Auth zůstává (bez session → `/`, dítě → `/child`).
-- **Hlavička:** tichý bílý pruh jako u dětí: wordmark HOMEWORKS a název záložky. Horní textové záložky (`AdminTopNav`) a tlačítko Odhlásit v hlavičce odcházejí.
+- **Hlavička:** stejná jako u dětí (`AppHeader`): wordmark HOMEWORKS a pozdrav „Ahoj, Milane 👋“ (Milan 2026-09-26). Oslovení v 5. pádě: Milan → Milane, Teri beze změny, jinak jméno, jak je. Horní textové záložky (`AdminTopNav`) a tlačítko Odhlásit v hlavičce odcházejí. Podobrazovky (detail dítěte, formuláře) mají hlavičku se šipkou zpět.
 - **Spodní navigace:** Schválit · Děti · Výplaty · Víc, s ikonami lucide. Odznak počtu je jen na Schválit (dnešní `getAdminInboxCount`). Safe area jako u dětí.
 - Po přihlášení rodiče se otevře Schválit (`/admin`, jako dnes).
 - Obsah má okraje 16 px (dnes 24 px).
@@ -42,6 +42,7 @@ Rozsah: admin (`app/admin/*`) předělaný pro telefon v design systému D15, se
 - Seznam: Úkoly · Kompetence · Uživatelé · Nastavení, pod nimi Odhlásit.
 - Úkoly (`/admin/ukoly`) mají nahoře „Nový úkol" (R9).
 - **Formuláře Úkoly, Kompetence, Uživatelé, Nastavení:** jen přestylování do design systému a pro šířku telefonu (Input 48 px, tlačítka z `button.tsx`, karty, okraje 16 px, hlavička se šipkou zpět do Víc). Pole, validace a akce se nemění.
+- **Popisky formuláře úkolu podle Google tabulky** (Milan 2026-09-26): „Hodnota (Kč)“ → „Odměna (Kč)“, „Frekvence“ → „Opakování“, „Timeout claim (hodiny)“ → „Na převzetí (hodin)“, „Timeout execute (hodiny)“ → „Na splnění (hodin)“. Jen texty, pole a validace beze změny.
 
 ### 6 · Opravy v kódu bez vlivu na vzhled
 - **Souběžné schválení** úkolu a obrazovky: stav se ověří a změní uvnitř transakce (podmíněný update `where status = PENDING_REVIEW / PENDING`, při 0 změněných řádcích `invalid_state`), aby se peníze nepřipsaly nebo neodečetly dvakrát. U povinností totéž kvůli jednotnému chování.
@@ -56,7 +57,7 @@ Rozsah: admin (`app/admin/*`) předělaný pro telefon v design systému D15, se
 
 ## Nové složené komponenty (rozhoduje Milan)
 1. **BottomNav obecná:** dnešní `ChildBottomNav` se upraví tak, aby brala záložky jako parametr. Dítě i rodič tak používají jednu komponentu, žádná paralelní kopie.
-2. **AppHeader s názvem:** `AppHeader` dostane variantu s názvem záložky místo pozdravu („Schválit" místo „Ahoj, Milane 👋").
+2. **AppHeader:** beze změny, jen dostane oslovení v 5. pádě (viz Kostra).
 3. **ApprovalRow (nová):** řádek ke schválení s akcemi Schválit / Vrátit a rozbalenou poznámkou.
 4. **ChildSummaryRow (nová):** řádek dítěte na záložce Děti.
 5. **DayRow (nová):** den v detailu dítěte se stavem a rozbalením povinností.

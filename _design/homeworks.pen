@@ -16765,7 +16765,7 @@
                       "fill": "#DFDDD7",
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
-                      "content": "Schválit · výchozí obrazovka rodiče. Čekající položky po dětech, schválit jedním ťuknutím, vrátit rozbalí poznámku.",
+                      "content": "Schválit · výchozí obrazovka rodiče. Hlavička s pozdravem jako u dětí. Čekající položky po dětech, schválit jedním ťuknutím, vrátit rozbalí poznámku.",
                       "fontFamily": "$hw-font-sans",
                       "fontSize": 13,
                       "fontWeight": "normal"
@@ -16790,7 +16790,7 @@
                       "width": "fill_container",
                       "descendants": {
                         "K0DUDo": {
-                          "content": "Schválit"
+                          "content": "Ahoj, Milane 👋"
                         }
                       }
                     },
@@ -17128,7 +17128,7 @@
                       "width": "fill_container",
                       "descendants": {
                         "K0DUDo": {
-                          "content": "Schválit"
+                          "content": "Ahoj, Milane 👋"
                         }
                       }
                     },
@@ -17426,7 +17426,7 @@
                       "width": "fill_container",
                       "descendants": {
                         "K0DUDo": {
-                          "content": "Schválit"
+                          "content": "Ahoj, Milane 👋"
                         }
                       }
                     },
@@ -17622,7 +17622,7 @@
                       "width": "fill_container",
                       "descendants": {
                         "K0DUDo": {
-                          "content": "Děti"
+                          "content": "Ahoj, Milane 👋"
                         }
                       }
                     },
@@ -19845,7 +19845,7 @@
                       "width": "fill_container",
                       "descendants": {
                         "K0DUDo": {
-                          "content": "Výplaty"
+                          "content": "Ahoj, Milane 👋"
                         }
                       }
                     },
@@ -20427,7 +20427,7 @@
                       "width": "fill_container",
                       "descendants": {
                         "K0DUDo": {
-                          "content": "Víc"
+                          "content": "Ahoj, Milane 👋"
                         }
                       }
                     },
@@ -20907,7 +20907,7 @@
                       "fill": "#DFDDD7",
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
-                      "content": "Vzor přestylovaného formuláře (Víc → Úkoly → Nový úkol). Pole a popisky jako dnes v kódu, jen design systém a šířka telefonu.",
+                      "content": "Vzor přestylovaného formuláře (Víc → Úkoly → Nový úkol). Pole jako dnes v kódu, popisky podle Google tabulky.",
                       "fontFamily": "$hw-font-sans",
                       "fontSize": 13,
                       "fontWeight": "normal"
@@ -21053,7 +21053,7 @@
                               "width": "fill_container",
                               "descendants": {
                                 "KFV5D": {
-                                  "content": "HODNOTA (KČ)",
+                                  "content": "ODMĚNA (KČ)",
                                   "textGrowth": "fixed-width",
                                   "width": "fill_container"
                                 },
@@ -21098,7 +21098,7 @@
                               "id": "kuwNW",
                               "name": "Label",
                               "fill": "$hw-ink-35",
-                              "content": "FREKVENCE",
+                              "content": "OPAKOVÁNÍ",
                               "fontFamily": "$hw-font-mono",
                               "fontSize": "$hw-fs-kicker",
                               "fontWeight": "700",
@@ -21182,7 +21182,7 @@
                               "width": "fill_container",
                               "descendants": {
                                 "KFV5D": {
-                                  "content": "TIMEOUT CLAIM (HODINY)",
+                                  "content": "NA PŘEVZETÍ (HODIN)",
                                   "textGrowth": "fixed-width",
                                   "width": "fill_container"
                                 },
@@ -21201,7 +21201,7 @@
                               "width": "fill_container",
                               "descendants": {
                                 "KFV5D": {
-                                  "content": "TIMEOUT EXECUTE (HODINY)",
+                                  "content": "NA SPLNĚNÍ (HODIN)",
                                   "textGrowth": "fixed-width",
                                   "width": "fill_container"
                                 },
