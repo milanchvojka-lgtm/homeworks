@@ -1,10 +1,13 @@
 import Link from "next/link";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { CalendarDays, ChevronRight, KeyRound, LogOut, Trophy } from "lucide-react";
 import { db } from "@/lib/db";
 import { getSession } from "@/lib/auth";
 import { getBonusStatus } from "@/lib/bonus";
 import { logoutAction } from "@/app/actions/auth";
+import { THEME_COOKIE, parseThemePref } from "@/lib/theme";
+import { ThemeSwitch } from "./_theme-switch";
 
 /**
  * Já (návrh 2, frame 04). Shows only what the status header doesn't: next trophy, record,
@@ -28,6 +31,7 @@ export default async function ChildMePage() {
     getBonusStatus(user.id),
   ]);
 
+  const themePref = parseThemePref((await cookies()).get(THEME_COOKIE)?.value);
   const streak = me?.currentStreak ?? 0;
   const next = milestones.find((m) => m.days > streak) ?? null;
   const prevDays = [...milestones].reverse().find((m) => m.days <= streak)?.days ?? 0;
@@ -83,6 +87,8 @@ export default async function ChildMePage() {
         <Row href="/child/trofeje" icon={<Trophy />} label="Trofeje" meta={`${earned.length} / ${milestones.length}`} />
         <Row href="/child/streak" icon={<CalendarDays />} label="Historie řady" />
       </nav>
+
+      <ThemeSwitch current={themePref} />
 
       <div className="overflow-hidden rounded-tile border border-border bg-card">
         <Row href="/child/ja/pin" icon={<KeyRound />} label="Změnit PIN" />

@@ -12,8 +12,14 @@ const TABS = [
   { href: "/child/ja", label: "Já", Icon: User },
 ] as const;
 
-/** Four tabs (návrh 2, pen `BottomNav`). Badge on Vydělat = tasks I can take + my active tasks. */
-export function ChildBottomNav({ earnBadge }: { earnBadge: number }) {
+/** Four tabs (návrh 2, pen `BottomNav`). Badges = what the child can do now: open checks on Dnes, takeable + active tasks on Vydělat. */
+export function ChildBottomNav({
+  todayBadge,
+  earnBadge,
+}: {
+  todayBadge: number;
+  earnBadge: number;
+}) {
   const pathname = usePathname();
 
   function isActive(href: string) {
@@ -43,6 +49,7 @@ export function ChildBottomNav({ earnBadge }: { earnBadge: number }) {
               <Icon
                 className={`size-[22px] ${active ? "text-foreground" : "text-subtle"}`}
               />
+              {href === "/child" && <NavBadge count={todayBadge} />}
               {href === "/child/vydelat" && <NavBadge count={earnBadge} />}
             </span>
             <span

@@ -8,7 +8,16 @@
  * shadcn komponenty a Tailwind třídy. Ladí se hodnota tokenu, komponenty se nepřepisují.
  * Světlý i tmavý režim podle nastavení telefonu (D17): tmavý režim přepisuje jen zdrojové tokeny `--hw-*`.
  */
-@custom-variant dark (@media (prefers-color-scheme: dark));
+@custom-variant dark {
+  @media (prefers-color-scheme: dark) {
+    &:where(:root:not([data-theme="light"]) *) {
+      @slot;
+    }
+  }
+  &:where([data-theme="dark"] *) {
+    @slot;
+  }
+}
 
 :root {
   /* povrchy */
@@ -71,8 +80,10 @@
   --chart-1: var(--highlight);
 }
 
+/* Tmavé hodnoty: systémový tmavý režim (když uživatel nevybral Světlý) nebo ruční volba Tmavý (D17). */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
     --hw-paper: #141518;
     --hw-card: #1e2024;
     --hw-hair: #2a2c31;
@@ -90,6 +101,30 @@
     --hw-red: #f07a6f;
     --hw-red-bg: #3a1f1d;
   }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --hw-paper: #141518;
+  --hw-card: #1e2024;
+  --hw-hair: #2a2c31;
+  --hw-rule: #34363c;
+  --hw-ink: #f2f1ed;
+  --hw-ink-60: #a7aab2;
+  --hw-ink-35: #6f737c;
+  --hw-pink-bg: #3a2130;
+  --hw-amber: #e2ac45;
+  --hw-amber-bg: #332a14;
+  --hw-blue: #7da6ec;
+  --hw-blue-bg: #1b2639;
+  --hw-green: #5cc592;
+  --hw-green-bg: #15301f;
+  --hw-red: #f07a6f;
+  --hw-red-bg: #3a1f1d;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
 }
 
 @theme inline {

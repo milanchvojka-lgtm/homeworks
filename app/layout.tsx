@@ -1,7 +1,9 @@
 import type { Metadata, Viewport } from "next";
+import { cookies } from "next/headers";
 import "./globals.css";
 import { IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
 import { cn } from "@/lib/utils";
+import { THEME_COOKIE, parseThemePref } from "@/lib/theme";
 
 // Písmo podle design systému (D15): IBM Plex Sans pro text, IBM Plex Mono pro čísla a kickery.
 const plexSans = IBM_Plex_Sans({
@@ -30,22 +32,35 @@ export const metadata: Metadata = {
   },
 };
 
-export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#1e2024" },
-  ],
-  width: "device-width",
-  initialScale: 1,
-  viewportFit: "cover",
-};
+const LIGHT_BAR = "#ffffff";
+const DARK_BAR = "#1e2024";
 
-export default function RootLayout({
+export async function generateViewport(): Promise<Viewport> {
+  const pref = parseThemePref((await cookies()).get(THEME_COOKIE)?.value);
+  return {
+    themeColor:
+      pref === "light"
+        ? LIGHT_BAR
+        : pref === "dark"
+          ? DARK_BAR
+          : [
+              { media: "(prefers-color-scheme: light)", color: LIGHT_BAR },
+              { media: "(prefers-color-scheme: dark)", color: DARK_BAR },
+            ],
+    width: "device-width",
+    initialScale: 1,
+    viewportFit: "cover",
+  };
+}
+
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const pref = parseThemePref((await cookies()).get(THEME_COOKIE)?.value);
   return (
     <html
       lang="cs"
+      data-theme={pref === "system" ? undefined : pref}
       className={cn("h-full antialiased", "font-sans", plexSans.variable, plexMono.variable)}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">

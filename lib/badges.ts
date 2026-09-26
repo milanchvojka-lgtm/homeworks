@@ -11,6 +11,13 @@ export async function getAdminInboxCount(): Promise<number> {
   return checks + tasks + screen;
 }
 
+/** Počet dnešních povinností, které dítě ještě musí odeslat (PENDING nebo vrácené). */
+export async function getChildOpenChecksCount(userId: string, date: Date): Promise<number> {
+  return db.dailyCheckInstance.count({
+    where: { userId, date, status: { in: ["PENDING", "REJECTED"] } },
+  });
+}
+
 /** Počet úkolů, které si může dítě vzít teď (unlocked pro mě nebo open phase). */
 export async function getChildPoolCount(userId: string): Promise<number> {
   return db.taskInstance.count({
