@@ -90,7 +90,7 @@ Postupuj **milestone po milestonu** podle `IMPLEMENTATION_PLAN.md`. Nepřeskakuj
 proxy.ts            — Next 16 middleware (auth guard pro /admin a /child)
 ```
 
-> Pozn.: `app/lab|preview|showcase|mockup|slides|pitch` jsou dočasné demo routy pro interní prezentaci — před ostrým deployem se mažou (TD1 v plánu, LAUNCH_CHECKLIST §4.5). Nestav na nich.
+> Pozn.: Demo routy (`lab|preview|showcase|mockup|slides|pitch`) byly z `main` smazány 2026-09-26 (TD1); archiv je v branchi `demo-archive`. Nové demo routy do `main` nepřidávej.
 
 ### Pojmenování
 - **Soubory komponent:** PascalCase (`TaskCard.tsx`)

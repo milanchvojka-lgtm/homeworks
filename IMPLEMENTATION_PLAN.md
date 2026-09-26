@@ -822,7 +822,7 @@ Vše ostatní (sazby, bonus, timeouty) má v PRD/M0 sensible defaults a doladí 
 **Phase 6 — Admin design pass** (lighter): refactor admin obrazovek na shadcn primitiva. Žádné funkční změny.
 
 **Phase 7 — Cleanup + deploy:**
-- Smazání `app/lab/*` a `app/mockup/*` (reference během vývoje).
+- ✅ (2026-09-26) Smazání `app/lab/*` a `app/mockup/*` (reference během vývoje) — spolu s ostatními demo routami, viz TD1.
 - DECISIONS.md D9–D13, PRD §4.8 + §4.10, tento plán M7 doplněno.
 - LAUNCH_CHECKLIST — Supabase RLS skript (`prisma/security/enable-rls.sql`) jako blocker.
 - Vercel preview → manuální smoke jako 5 různých uživatelů → push do main.
@@ -835,7 +835,7 @@ Vše ostatní (sazby, bonus, timeouty) má v PRD/M0 sensible defaults a doladí 
 
 > Zjištění z celkového architecture review (Claude, 2026-07-07). Nic z toho není funkční bug — appka běží správně. Seřazeno podle priority. Po dokončení položky ji označ ✅ s datem, ať se stejná věc neobjevuje znovu.
 
-### TD1 — Demo routy jsou veřejné a tvoří 51 % kódu v `app/` 🔴 (launch blocker — viz LAUNCH_CHECKLIST §4.5)
+### TD1 — Demo routy jsou veřejné a tvoří 51 % kódu v `app/` 🔴 (launch blocker — viz LAUNCH_CHECKLIST §4.5) — ✅ 2026-09-26: všech 6 rout + `pitch/` + `TALKING_POINTS.md` smazáno, záloha v branchi `demo-archive`
 
 `app/lab`, `app/preview`, `app/showcase`, `app/mockup`, `app/slides`, `app/pitch` = ~5 700 řádků, víc než produkční admin+child dohromady (~5 300). Nejsou v matcheru `proxy.ts`, takže po deployi jsou dostupné komukoli s URL — showcase obsahuje jména dcer a reálné částky, slides interní pitch.
 

@@ -62,4 +62,4 @@ To samé platí pro otevřené otázky z `PRD.md §8`: jakmile padne odpověď, 
 - Nepřeskakuj milestony. M3 nezačíná, dokud M2 není deployed a otestovaný.
 - Nezakládej PR review proces (Milan pracuje sám, push do `main`).
 - Nepřidávej dependencies bez explicitního souhlasu (deny-list v `SKILL.md`).
-- Nezakládej `*.md` dokumenty „pro pořádek“ mimo už definované — okruh dokumentace je: README, CLAUDE, SKILL, DECISIONS, PRD, IMPLEMENTATION_PLAN, LAUNCH_CHECKLIST. (`TALKING_POINTS.md` a `pitch/` jsou jednorázové demo artefakty — mažou se spolu s demo routami, viz TD1.)
+- Nezakládej `*.md` dokumenty „pro pořádek“ mimo už definované — okruh dokumentace je: README, CLAUDE, SKILL, DECISIONS, PRD, IMPLEMENTATION_PLAN, LAUNCH_CHECKLIST. (Demo artefakty — `TALKING_POINTS.md`, `pitch/`, demo routy — žijí jen v branchi `demo-archive`, viz TD1.)

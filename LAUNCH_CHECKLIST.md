@@ -90,6 +90,8 @@ npx prisma db push --force-reset
 
 ## 4.5 Demo routy — smazat nebo zamknout (blocker)
 
+**Status:** ✅ Hotovo (2026-09-26) — smazáno z `main`, obsah zálohovaný v branchi `demo-archive`. Po příštím deployi ověř, že `/showcase` vrací 404.
+
 **Co:** `app/lab`, `app/preview`, `app/showcase`, `app/mockup`, `app/slides`, `app/pitch` jsou veřejně dostupné (nejsou v matcheru `proxy.ts`) a showcase/slides obsahují jména dcer, reálné částky a interní pitch. Detail: IMPLEMENTATION_PLAN.md → Tech debt backlog TD1.
 
 **Jak:**
