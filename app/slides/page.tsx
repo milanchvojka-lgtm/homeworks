@@ -33,7 +33,7 @@ function TitleSlide() {
         Rodinný systém pro domácí úkoly
       </p>
       <p className="absolute bottom-8 left-1/2 -translate-x-1/2 font-mono text-[11px] text-muted-foreground/50">
-        Milan Chvojka · milan@2fresh.cz
+        Milan Chvojka
       </p>
     </SlideContainer>
   );
@@ -47,9 +47,9 @@ function ProblemSlide() {
       </h2>
       <div className="space-y-4 text-left">
         {[
-          "Magnetická tabule",
-          "Tabulka v Excelu",
-          'WhatsApp výzvy „uklidíš pokoj?"',
+          "Korková nástěnka & Post-ity",
+          "Bordel všude",
+          "Děti čuměj do telefonu",
         ].map((item) => (
           <p
             key={item}
@@ -64,7 +64,7 @@ function ProblemSlide() {
         className="mt-10 text-3xl font-bold"
         style={{ color: "var(--chart-1)" }}
       >
-        To už ne.
+        Naval kapesný! Tým sport?
       </p>
     </SlideContainer>
   );
@@ -75,23 +75,25 @@ function WhatSlide() {
     {
       icon: "🧹",
       title: "Denní povinnosti",
-      desc: "Kompetence, checky ráno/večer, schválení rodičem",
+      desc: "Kompetence → kapesný",
     },
     {
       icon: "🎯",
       title: "Pool úkolů",
-      desc: "Extra úkoly v rotační frontě — kdo dřív přijde",
+      desc: "Extra úkoly v rotační frontě → odměna",
     },
     {
       icon: "💰",
-      title: "Kredit + obrazovka",
-      desc: "Vše v Kč — holka si koupí čas nebo dostane kapesné",
+      title: "Kredity",
+      desc: "Odměna → Kč nebo screentime",
     },
   ];
 
   return (
     <SlideContainer>
-      <h2 className="mb-10 text-5xl font-bold tracking-tight">Tři věci.</h2>
+      <h2 className="mb-10 text-5xl font-bold tracking-tight">
+        Nově: tři věci.
+      </h2>
       <div className="grid w-full grid-cols-3 gap-4">
         {cards.map((c) => (
           <Card key={c.title}>
@@ -140,12 +142,6 @@ function ComparisonSlide() {
       oursLime: true,
     },
     {
-      label: "Region dat",
-      commercial: "US cloud",
-      ours: "EU (Frankfurt)",
-      oursLime: true,
-    },
-    {
       label: "UI pro 11–15letý",
       commercial: "dětské",
       ours: "fitness/sport vibe",
@@ -186,12 +182,21 @@ function ComparisonSlide() {
             </thead>
             <tbody>
               {rows.map((row) => (
-                <tr key={row.label} className="border-b border-border/40 last:border-0">
-                  <td className="py-3 pr-4 text-muted-foreground">{row.label}</td>
-                  <td className="py-3 pr-4 text-muted-foreground">{row.commercial}</td>
+                <tr
+                  key={row.label}
+                  className="border-b border-border/40 last:border-0"
+                >
+                  <td className="py-3 pr-4 text-muted-foreground">
+                    {row.label}
+                  </td>
+                  <td className="py-3 pr-4 text-muted-foreground">
+                    {row.commercial}
+                  </td>
                   <td
                     className="py-3 font-semibold"
-                    style={row.oursLime ? { color: "var(--chart-1)" } : undefined}
+                    style={
+                      row.oursLime ? { color: "var(--chart-1)" } : undefined
+                    }
                   >
                     {row.ours}
                   </td>
@@ -278,7 +283,10 @@ function StackSlide() {
           </Badge>
         ))}
       </div>
-      <p className="mt-8 text-sm font-semibold" style={{ color: "var(--chart-1)" }}>
+      <p
+        className="mt-8 text-sm font-semibold"
+        style={{ color: "var(--chart-1)" }}
+      >
         0 Kč/měsíc TCO · EU data
       </p>
     </SlideContainer>
@@ -287,15 +295,13 @@ function StackSlide() {
 
 function NumbersSlide() {
   const stats = [
-    { value: "21", label: "commitů" },
-    { value: "87 / 87", label: "testů zelených" },
-    { value: "~4 h", label: "v1.1 sprint" },
-    { value: "0 Kč", label: "/ měsíc" },
+    { value: "~5 h", label: "mojí práce" },
+    { value: "0 Kč", label: "náklady/měsíc" },
   ];
 
   return (
     <SlideContainer>
-      <h2 className="mb-10 text-5xl font-bold tracking-tight">Tahle session.</h2>
+      <h2 className="mb-10 text-5xl font-bold tracking-tight">Náročnost.</h2>
       <div className="grid w-full max-w-2xl grid-cols-2 gap-4">
         {stats.map((s) => (
           <Card key={s.label}>
@@ -306,7 +312,9 @@ function NumbersSlide() {
               >
                 {s.value}
               </span>
-              <span className="mt-3 text-sm text-muted-foreground">{s.label}</span>
+              <span className="mt-3 text-sm text-muted-foreground">
+                {s.label}
+              </span>
             </CardContent>
           </Card>
         ))}
@@ -321,7 +329,7 @@ function NumbersSlide() {
 function DemoSlide() {
   return (
     <SlideContainer>
-      <p className="mb-6 text-lg text-muted-foreground">Pojďme to vidět.</p>
+      <p className="mb-6 text-lg text-muted-foreground">Pojďme to omrknout</p>
       <div
         className="font-mono text-8xl font-bold tracking-tight"
         style={{ color: "var(--chart-1)" }}
@@ -341,7 +349,7 @@ function ThanksSlide() {
       <h2 className="text-8xl font-bold tracking-tight">Díky.</h2>
       <p className="mt-6 text-2xl text-muted-foreground">Otázky?</p>
       <p className="mt-10 font-mono text-sm text-muted-foreground/60">
-        Milan Chvojka · milan@2fresh.cz
+        Milan Chvojka
       </p>
     </SlideContainer>
   );
@@ -378,7 +386,7 @@ export default function SlideDeck() {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "ArrowRight" || e.key === " ") next();
       else if (e.key === "ArrowLeft" || e.key === "Backspace") prev();
-      else if (e.key === "Escape") (window.location.href = "/");
+      else if (e.key === "Escape") window.location.href = "/";
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
