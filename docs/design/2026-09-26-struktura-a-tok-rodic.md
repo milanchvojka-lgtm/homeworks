@@ -1,6 +1,6 @@
 # Struktura a tok: rodičovská část Homeworks (M8.3)
 
-**Datum:** 2026-09-26 · **Stav:** návrh · **Podle:** `2026-09-26-scenare.md` (scénáře 5–7 rodič), brief `2026-09-26-design-system-mobil.md`, dětská část `2026-09-26-struktura-a-tok.md` (varianta B)
+**Datum:** 2026-09-26 · **Stav:** schváleno 2026-09-26: **varianta B** + společné body §5 · **Podle:** `2026-09-26-scenare.md` (scénáře 5–7 rodič), brief `2026-09-26-design-system-mobil.md`, dětská část `2026-09-26-struktura-a-tok.md` (varianta B)
 
 Bez obrazovek a bez vzhledu. Jen to, co rodič dělá a co přitom vidí, a kde co žije. Až vybereš variantu, napíše se k ní smlouva rozsahu per obrazovka. Kreslit se začne až po tvém „kresli".
 
@@ -100,7 +100,11 @@ Hlavička se jménem a tlačítkem Odhlásit, pod ní šest textových záložek
 - **Každá informace žije na jednom místě** (design-to-code §5).
 - **Zpětné uznání dne (R10)** je v toku jen jako místo. Kreslit se může, až bude rozhodnutí v DECISIONS (jak daleko zpátky, přepočet řady a trofejí, uzavřený bonus).
 
-## 6 · Otázky
+## 6 · Rozhodnutí
+
+**Milan, 2026-09-26: varianta B, společné body z §5 platí.** Na otázku 3 (počítač) neodpověděl, navrhuje se jen pro telefon podle bodu „mobil napřed“. Pokračuje se smlouvou rozsahu `2026-09-26-rodicovska-cast-co-menime-co-ne.md`.
+
+*Původní otázky:*
 
 1. **Varianta A, nebo B?** Doporučuju **B**. Obrazovka za dítě, souhrn týdne i dohledání dne mají v ní jedno přirozené místo a scénář 7 je nejkratší. Cenou je čtvrtá záložka a nová obrazovka detail dítěte.
 2. **Souhlasíš se společnými body z §5?** Hlavně s tím, že formuláře pod „Víc" se jen přestylují a obsahově nemění.
