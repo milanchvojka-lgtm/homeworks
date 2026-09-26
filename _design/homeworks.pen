@@ -15211,6 +15211,808 @@
           ]
         }
       ]
+    },
+    {
+      "type": "frame",
+      "id": "XVvrH",
+      "x": 13297,
+      "y": -1043,
+      "name": "HW · Ikona appky (26. 9.) · směry A, B, C",
+      "fill": "#E9E7E1",
+      "layout": "vertical",
+      "gap": 40,
+      "padding": 60,
+      "children": [
+        {
+          "type": "text",
+          "id": "f34sOB",
+          "name": "Nadpis",
+          "fill": "#17191E",
+          "content": "IKONA APPKY · A MONOGRAM · B DOMEČEK S FAJFKOU · C JEZDEC Z POSUVNÍKU · NÁHLED 1024 + NA PLOŠE 60 PX",
+          "fontFamily": "$hw-font-mono",
+          "fontSize": 28,
+          "fontWeight": "700",
+          "letterSpacing": 2
+        },
+        {
+          "type": "frame",
+          "id": "WpZi8",
+          "name": "Směry",
+          "gap": 80,
+          "children": [
+            {
+              "type": "frame",
+              "id": "y9wuOm",
+              "name": "Směr A",
+              "width": 1024,
+              "layout": "vertical",
+              "gap": 28,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "otWwb",
+                  "name": "Štítek",
+                  "fill": "#17191E",
+                  "content": "A · MONOGRAM „H“",
+                  "fontFamily": "$hw-font-mono",
+                  "fontSize": 30,
+                  "fontWeight": "700",
+                  "letterSpacing": 2
+                },
+                {
+                  "type": "text",
+                  "id": "zfMuT",
+                  "name": "Popis",
+                  "fill": "#5B5F68",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Tmavé pozadí, bílé H v IBM Plex Mono, růžová tečka. Sedí k „HOMEWORKS“ v hlavičce.",
+                  "fontFamily": "$hw-font-sans",
+                  "fontSize": 26,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "NwWNR",
+                  "name": "Ikona A · 1024",
+                  "clip": true,
+                  "width": 1024,
+                  "height": 1024,
+                  "fill": "#17191E",
+                  "cornerRadius": 229,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "qTJc5",
+                      "x": 0,
+                      "y": 0,
+                      "name": "Monogram",
+                      "width": 1024,
+                      "height": 1024,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "i7Y4Je",
+                          "name": "H",
+                          "fill": "#FFFFFF",
+                          "content": "H",
+                          "fontFamily": "IBM Plex Mono",
+                          "fontSize": 640,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "HY3B7",
+                      "x": 740,
+                      "y": 700,
+                      "name": "Tečka",
+                      "fill": "#FF77AA",
+                      "width": 120,
+                      "height": 120
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "TblGU",
+                  "name": "Na ploše",
+                  "width": "fill_container",
+                  "fill": "#3B5A7A",
+                  "cornerRadius": 40,
+                  "gap": 48,
+                  "padding": [
+                    40,
+                    48
+                  ],
+                  "justifyContent": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Q6p5k",
+                      "name": "Appka Zprávy",
+                      "layout": "vertical",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "mrrsb",
+                          "name": "Ikona",
+                          "width": 120,
+                          "height": 120,
+                          "fill": "#34C759",
+                          "cornerRadius": 27
+                        },
+                        {
+                          "type": "text",
+                          "id": "EF1nc",
+                          "name": "Název",
+                          "fill": "#FFFFFF",
+                          "content": "Zprávy",
+                          "fontFamily": "Inter",
+                          "fontSize": 22,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "oirzR",
+                      "name": "Appka Homeworks",
+                      "layout": "vertical",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "f1sDiL",
+                          "name": "Ikona A · 60 pt",
+                          "clip": true,
+                          "width": 120,
+                          "height": 120,
+                          "fill": "#17191E",
+                          "cornerRadius": 27,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "ul59K",
+                              "x": 0,
+                              "y": 0,
+                              "name": "Monogram",
+                              "width": 120,
+                              "height": 120,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "StSOC",
+                                  "name": "H",
+                                  "fill": "#FFFFFF",
+                                  "content": "H",
+                                  "fontFamily": "IBM Plex Mono",
+                                  "fontSize": 75,
+                                  "fontWeight": "700"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "ellipse",
+                              "id": "aVcjQ",
+                              "x": 87,
+                              "y": 82,
+                              "name": "Tečka",
+                              "fill": "#FF77AA",
+                              "width": 14,
+                              "height": 14
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "u53l9G",
+                          "name": "Název",
+                          "fill": "#FFFFFF",
+                          "content": "Homeworks",
+                          "fontFamily": "Inter",
+                          "fontSize": 22,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "VY89t",
+                      "name": "Appka Kalendář",
+                      "layout": "vertical",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "l4sNw",
+                          "name": "Ikona",
+                          "width": 120,
+                          "height": 120,
+                          "fill": "#FFFFFF",
+                          "cornerRadius": 27
+                        },
+                        {
+                          "type": "text",
+                          "id": "X6ruC",
+                          "name": "Název",
+                          "fill": "#FFFFFF",
+                          "content": "Kalendář",
+                          "fontFamily": "Inter",
+                          "fontSize": 22,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "QWBDw",
+                      "name": "Appka Fotky",
+                      "layout": "vertical",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "vQNs0",
+                          "name": "Ikona",
+                          "width": 120,
+                          "height": 120,
+                          "fill": "#FFCC00",
+                          "cornerRadius": 27
+                        },
+                        {
+                          "type": "text",
+                          "id": "GtGUR",
+                          "name": "Název",
+                          "fill": "#FFFFFF",
+                          "content": "Fotky",
+                          "fontFamily": "Inter",
+                          "fontSize": 22,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "V8w8ky",
+              "name": "Směr B",
+              "width": 1024,
+              "layout": "vertical",
+              "gap": 28,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "B4A5Nz",
+                  "name": "Štítek",
+                  "fill": "#17191E",
+                  "content": "B · DOMEČEK S FAJFKOU",
+                  "fontFamily": "$hw-font-mono",
+                  "fontSize": 30,
+                  "fontWeight": "700",
+                  "letterSpacing": 2
+                },
+                {
+                  "type": "text",
+                  "id": "U9wnak",
+                  "name": "Popis",
+                  "fill": "#5B5F68",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Růžové pozadí, tmavý domeček a fajfka v kolečku: „domácí práce hotová“. Nejsrozumitelnější pro děti.",
+                  "fontFamily": "$hw-font-sans",
+                  "fontSize": 26,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "a1i0G",
+                  "name": "Ikona B · 1024",
+                  "clip": true,
+                  "width": 1024,
+                  "height": 1024,
+                  "fill": "#FF77AA",
+                  "cornerRadius": 229,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "VEXim",
+                      "x": 202,
+                      "y": 170,
+                      "name": "Domeček",
+                      "width": 620,
+                      "height": 620,
+                      "icon": "house",
+                      "library": "lucide",
+                      "fill": "#17191E"
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "FMQWz",
+                      "x": 600,
+                      "y": 600,
+                      "name": "Kolečko fajfky",
+                      "fill": "#17191E",
+                      "width": 330,
+                      "height": 330
+                    },
+                    {
+                      "type": "icon",
+                      "id": "oNCO6",
+                      "x": 660,
+                      "y": 662,
+                      "name": "Fajfka",
+                      "width": 210,
+                      "height": 210,
+                      "icon": "check",
+                      "library": "lucide",
+                      "fill": "#FFFFFF"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "kGK1l",
+                  "name": "Na ploše",
+                  "width": "fill_container",
+                  "fill": "#3B5A7A",
+                  "cornerRadius": 40,
+                  "gap": 48,
+                  "padding": [
+                    40,
+                    48
+                  ],
+                  "justifyContent": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "FX56N",
+                      "name": "Appka Zprávy",
+                      "layout": "vertical",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "b3VhMu",
+                          "name": "Ikona",
+                          "width": 120,
+                          "height": 120,
+                          "fill": "#34C759",
+                          "cornerRadius": 27
+                        },
+                        {
+                          "type": "text",
+                          "id": "ftnpF",
+                          "name": "Název",
+                          "fill": "#FFFFFF",
+                          "content": "Zprávy",
+                          "fontFamily": "Inter",
+                          "fontSize": 22,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "UXSrM",
+                      "name": "Appka Homeworks",
+                      "layout": "vertical",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "lssXH",
+                          "name": "Ikona B · 60 pt",
+                          "clip": true,
+                          "width": 120,
+                          "height": 120,
+                          "fill": "#FF77AA",
+                          "cornerRadius": 27,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "aDzZJ",
+                              "x": 24,
+                              "y": 20,
+                              "name": "Domeček",
+                              "width": 73,
+                              "height": 73,
+                              "icon": "house",
+                              "library": "lucide",
+                              "fill": "#17191E"
+                            },
+                            {
+                              "type": "ellipse",
+                              "id": "xD3ui",
+                              "x": 70,
+                              "y": 70,
+                              "name": "Kolečko fajfky",
+                              "fill": "#17191E",
+                              "width": 39,
+                              "height": 39
+                            },
+                            {
+                              "type": "icon",
+                              "id": "W8JUT",
+                              "x": 77,
+                              "y": 78,
+                              "name": "Fajfka",
+                              "width": 25,
+                              "height": 25,
+                              "icon": "check",
+                              "library": "lucide",
+                              "fill": "#FFFFFF"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "x0iS4",
+                          "name": "Název",
+                          "fill": "#FFFFFF",
+                          "content": "Homeworks",
+                          "fontFamily": "Inter",
+                          "fontSize": 22,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "h31rYH",
+                      "name": "Appka Kalendář",
+                      "layout": "vertical",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "ZmQDZ",
+                          "name": "Ikona",
+                          "width": 120,
+                          "height": 120,
+                          "fill": "#FFFFFF",
+                          "cornerRadius": 27
+                        },
+                        {
+                          "type": "text",
+                          "id": "pzge6",
+                          "name": "Název",
+                          "fill": "#FFFFFF",
+                          "content": "Kalendář",
+                          "fontFamily": "Inter",
+                          "fontSize": 22,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "SVqEc",
+                      "name": "Appka Fotky",
+                      "layout": "vertical",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "ihubH",
+                          "name": "Ikona",
+                          "width": 120,
+                          "height": 120,
+                          "fill": "#FFCC00",
+                          "cornerRadius": 27
+                        },
+                        {
+                          "type": "text",
+                          "id": "GQsLw",
+                          "name": "Název",
+                          "fill": "#FFFFFF",
+                          "content": "Fotky",
+                          "fontFamily": "Inter",
+                          "fontSize": 22,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "dOLfa",
+              "name": "Směr C",
+              "width": 1024,
+              "layout": "vertical",
+              "gap": 28,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "VK8Mz",
+                  "name": "Štítek",
+                  "fill": "#17191E",
+                  "content": "C · JEZDEC Z POSUVNÍKU",
+                  "fontFamily": "$hw-font-mono",
+                  "fontSize": 30,
+                  "fontWeight": "700",
+                  "letterSpacing": 2
+                },
+                {
+                  "type": "text",
+                  "id": "WQqdN",
+                  "name": "Popis",
+                  "fill": "#5B5F68",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Tmavé pozadí, dráha posuvníku a růžový jezdec se šipkou: hlavní akce appky.",
+                  "fontFamily": "$hw-font-sans",
+                  "fontSize": 26,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "yoeJe",
+                  "name": "Ikona C · 1024",
+                  "clip": true,
+                  "width": 1024,
+                  "height": 1024,
+                  "fill": "#17191E",
+                  "cornerRadius": 229,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "hbaiP",
+                      "x": 122,
+                      "y": 362,
+                      "name": "Dráha",
+                      "width": 780,
+                      "height": 300,
+                      "fill": "#34363C",
+                      "cornerRadius": 150
+                    },
+                    {
+                      "type": "ellipse",
+                      "id": "OIl4R",
+                      "x": 622,
+                      "y": 382,
+                      "name": "Jezdec",
+                      "fill": "#FF77AA",
+                      "width": 260,
+                      "height": 260
+                    },
+                    {
+                      "type": "icon",
+                      "id": "r1LNQi",
+                      "x": 677,
+                      "y": 437,
+                      "name": "Šipka",
+                      "width": 150,
+                      "height": 150,
+                      "icon": "arrow-right",
+                      "library": "lucide",
+                      "fill": "#17191E"
+                    },
+                    {
+                      "type": "icon",
+                      "id": "XbAbA",
+                      "x": 210,
+                      "y": 452,
+                      "name": "Fajfky stopa",
+                      "width": 120,
+                      "height": 120,
+                      "icon": "check",
+                      "library": "lucide",
+                      "fill": "#6F737C"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "eQsoB",
+                  "name": "Na ploše",
+                  "width": "fill_container",
+                  "fill": "#3B5A7A",
+                  "cornerRadius": 40,
+                  "gap": 48,
+                  "padding": [
+                    40,
+                    48
+                  ],
+                  "justifyContent": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "lD44l",
+                      "name": "Appka Zprávy",
+                      "layout": "vertical",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "NLhqk",
+                          "name": "Ikona",
+                          "width": 120,
+                          "height": 120,
+                          "fill": "#34C759",
+                          "cornerRadius": 27
+                        },
+                        {
+                          "type": "text",
+                          "id": "N1XlXW",
+                          "name": "Název",
+                          "fill": "#FFFFFF",
+                          "content": "Zprávy",
+                          "fontFamily": "Inter",
+                          "fontSize": 22,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "S9jytR",
+                      "name": "Appka Homeworks",
+                      "layout": "vertical",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "yd1O1",
+                          "name": "Ikona C · 60 pt",
+                          "clip": true,
+                          "width": 120,
+                          "height": 120,
+                          "fill": "#17191E",
+                          "cornerRadius": 27,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "lZyWf",
+                              "x": 14,
+                              "y": 42,
+                              "name": "Dráha",
+                              "width": 91,
+                              "height": 35,
+                              "fill": "#34363C",
+                              "cornerRadius": 18
+                            },
+                            {
+                              "type": "ellipse",
+                              "id": "bR1gH",
+                              "x": 73,
+                              "y": 45,
+                              "name": "Jezdec",
+                              "fill": "#FF77AA",
+                              "width": 30,
+                              "height": 30
+                            },
+                            {
+                              "type": "icon",
+                              "id": "rbdJh",
+                              "x": 79,
+                              "y": 51,
+                              "name": "Šipka",
+                              "width": 18,
+                              "height": 18,
+                              "icon": "arrow-right",
+                              "library": "lucide",
+                              "fill": "#17191E"
+                            },
+                            {
+                              "type": "icon",
+                              "id": "zfE5q",
+                              "x": 25,
+                              "y": 53,
+                              "name": "Fajfky stopa",
+                              "width": 14,
+                              "height": 14,
+                              "icon": "check",
+                              "library": "lucide",
+                              "fill": "#6F737C"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "nRlLw",
+                          "name": "Název",
+                          "fill": "#FFFFFF",
+                          "content": "Homeworks",
+                          "fontFamily": "Inter",
+                          "fontSize": 22,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "WESSR",
+                      "name": "Appka Kalendář",
+                      "layout": "vertical",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "hibz0",
+                          "name": "Ikona",
+                          "width": 120,
+                          "height": 120,
+                          "fill": "#FFFFFF",
+                          "cornerRadius": 27
+                        },
+                        {
+                          "type": "text",
+                          "id": "VCObt",
+                          "name": "Název",
+                          "fill": "#FFFFFF",
+                          "content": "Kalendář",
+                          "fontFamily": "Inter",
+                          "fontSize": 22,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "bRyOj",
+                      "name": "Appka Fotky",
+                      "layout": "vertical",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "kMwVC",
+                          "name": "Ikona",
+                          "width": 120,
+                          "height": 120,
+                          "fill": "#FFCC00",
+                          "cornerRadius": 27
+                        },
+                        {
+                          "type": "text",
+                          "id": "rCrUX",
+                          "name": "Název",
+                          "fill": "#FFFFFF",
+                          "content": "Fotky",
+                          "fontFamily": "Inter",
+                          "fontSize": 22,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "themes": {
