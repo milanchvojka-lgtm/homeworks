@@ -59,6 +59,8 @@ Spojuje dnešní `/child/kredit` (část Tento týden) a `/child/historie`.
 
 ## Změny po iteracích v penu (2026-09-26, Milan)
 
+> **Úklid penu 26. 9.:** sekce návrh 1 a iterace 2–4 a jejich komponenty jsou smazané (historie v gitu `f8599b7`). Platný vzor je sekce „HW · Redesign · návrh 2 (26. 9.) · schválený vzor" (`Lu7MG`) a knihovna `Dluso`, aktuální id komponent jsou ve skillu `design-to-code` §6. Id framů a komponent v tabulce „Návrh v penu" níže patří smazanému návrhu 1.
+
 Iterace 2–5 v penu (sekce `u7Xdg`, `D0oFH`, `GKM6d`, `Lu7MG`) mění část „Co vzniká" takto. Platí přednostně před textem výše.
 
 - **Stavová hlavička místo pruhu s penězi, nadpisu obrazovky a řádku ve hře** (frame `HW1 · 01A4`, komponenta `StatusHeader v2 · dlaždice` `hkONr`): pod stavovým řádkem iOS dvě dlaždice „Tento týden 380 Kč · odehráno 1 h" (→ týdenní výpis) a „Řada 12 dní · bonus 200 Kč" (→ Já). Bez avataru, jména, data a nadpisu záložky (ten opakoval spodní lištu). Hlavička je na všech čtyřech záložkách.
