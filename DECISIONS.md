@@ -283,7 +283,7 @@
 
 ---
 
-## D17 — Tmavý režim: ano, podle nastavení telefonu (mění D15)
+## D17 — Tmavý režim: ano, podle nastavení telefonu (mění D15) *(přepínač doplněn 2026-09-26, viz Update D17)*
 
 **Rozhodnutí:** Homeworks dostane tmavý režim. Přepíná se automaticky podle nastavení telefonu (`prefers-color-scheme`), bez přepínače v appce. Realizace přes druhou sadu hodnot zdrojových tokenů `--hw-*` v `app/globals.css` (aliasy a komponenty se nemění, D15 dvě vrstvy tokenů). Tmavá paleta je v penu jako proměnné `hw-*` s motivem `mode: dark` (návrh 2026-09-26, frame `HW1 · 01A4 · dark`).
 
@@ -315,3 +315,5 @@
 - Admin formulář kompetencí: pole termín.
 - `timeOfDay` zůstává kvůli řazení; v UI dítěte se už nezobrazuje.
 - Názvy povinností v pilotní DB bez času v závorce („Linka prázdná", „Stůl čistý").
+
+**Update D17 (2026-09-26, Milan po vyzkoušení na telefonu):** v appce bude i ruční přepínač **Vzhled: Automaticky / Světlý / Tmavý** v záložce Já (výchozí Automaticky = podle telefonu). Volba se ukládá do cookie `hw_theme` (bez knihovny, bez skriptu před hydratací), root layout podle ní nastaví `data-theme` na `<html>` už na serveru, takže nebliká. CSS: tmavé hodnoty platí pro `[data-theme=dark]` a pro systémový tmavý režim, pokud není `[data-theme=light]`. Věta „žádný přepínač v appce" výše tím neplatí; `next-themes` dál ne.
