@@ -878,4 +878,4 @@ Jediný actions soubor, který hází výjimky místo `{ ok, error }` (viz SKILL
 - **8.2 Kontextové scénáře** — `docs/design/RRRR-MM-DD-scenare.md`, osnovu předloží Claude, obsah doplní Milan podle reality domácnosti.
 - **8.3 Struktura a tok** — dvě varianty bez obrazovek, pak smlouva rozsahu per obrazovka.
 - **8.4 Pen** — framy se skutečnými daty z pilotu, stavy, průchod scénáři.
-- **8.5 Kód** — per obrazovka podle smlouvy, ověření v běžící appce proti framu, dorovnání penu, úklid `dark:` tříd.
+- **8.5 Kód** — per obrazovka podle smlouvy, ověření v běžící appce proti framu, dorovnání penu, úklid `dark:` tříd. ✅ 2026-09-26 dětská část podle návrhu 2 + tmavý režim (D17) + `DailyCheck.dueTime` (D18).
