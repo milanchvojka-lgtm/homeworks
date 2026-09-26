@@ -65,7 +65,10 @@ Iterace 2–5 v penu (sekce `u7Xdg`, `D0oFH`, `GKM6d`, `Lu7MG`) mění část �
 - **Řádek povinnosti E** (komponenty `W5oLN` k splnění, `zYhYo` termín blízko, `FAYbR` čeká, `ajGhI` schváleno; frame `HW1 · 01A6`): karta s monospace nadpisem „DO 23:59" / „DO 17:00" a zbývajícím časem vpravo („zbývá 3 h 12 min", pod 1 h amber), velký název bez času, posuvník „Přejeď, až bude hotovo". Čeká = posuvník v amber + „odesláno 16:52", schváleno = zelený + „schválil Milan". Nahrazuje CheckRow.
 - **Nadpis sekce povinností:** „KOMPETENCE: {název}".
 - **Tmavý režim** podle telefonu (D17), frame `HW1 · 01A6 · dark`.
-- **Otevřené:** termín „DO 17:00" potřebuje v datech čas termínu u povinnosti (návrh D18, čeká na Milana). Bez něj jde jen „DO 23:59" a odpočet do půlnoci.
+- **Termín povinnosti (D18, schváleno 2026-09-26):** nové volitelné pole `DailyCheck.dueTime` + pole „Termín" v adminu kompetencí. **Výjimka z „Co neměníme"** (datový model a admin kompetencí) schválená Milanem.
+- **D1 rozhodnuto (Milan):** úkol z poolu jde vzít až po všech dnešních povinnostech včetně večerní. Pravidlo zůstává.
+- **D3 rozhodnuto (Milan):** po zamítnutí žádosti o obrazovku krátká hláška na záložce Obrazovka („Rodič žádost zamítl"). Potřebuje přečíst poslední vyřízenou žádost, akce se nemění.
+- **D2:** stav Vydělat, když povinnosti nejsou hotové, frame `HW1 · 02c` (čeká na Milana).
 
 ## Co NEMĚNÍME
 

@@ -297,3 +297,21 @@
 - D15 „jen světlý režim" neplatí; zbytek D15 platí.
 - `@custom-variant dark` v `globals.css` se přepne z třídy `.dark` na `@media (prefers-color-scheme: dark)`, stavový řádek PWA dostane `theme-color` pro oba režimy.
 - Brief `docs/design/2026-09-26-design-system-mobil.md` doplněn o tmavou paletu.
+
+---
+
+## D18 — Volitelný čas termínu u denní povinnosti (`DailyCheck.dueTime`)
+
+**Rozhodnutí:** `DailyCheck` dostane volitelné pole `dueTime` (text `HH:mm`, Europe/Prague), které nastaví admin u každé povinnosti. Dítě vidí na kartě povinnosti „DO {dueTime}" a zbývající čas; bez `dueTime` se zobrazí „DO 23:59" a odpočet do půlnoci.
+
+**Důvod:** Milan (2026-09-26, iterace 5 v penu): rodinný rytmus má dva checkpointy (kuchyň připravená na večeři v 17:00, kuchyň připravená na ráno do večera) a dítěti pomůže vidět, kolik mu zbývá. Dnes „17:00" existovalo jen jako text v názvu povinnosti, což vedlo k duplicitě na kartě.
+
+**Jak to bude vypadat:** karta povinnosti „DO 17:00 · zbývá 25 min" (pod hodinu amber), název „Linka prázdná" bez času. V adminu u povinnosti volitelné pole „Termín (do kolika)".
+
+**Co to neznamená:** termín **nemění pravidla**. Zmeškání (`MISSED`) je dál ve 23:59 (`daily-close`), streak, bonus a pravidlo „úkol z poolu až po všech dnešních povinnostech" se nemění. Po termínu karta ukáže, že termín prošel, ale povinnost jde splnit do půlnoci.
+
+**Důsledky:**
+- Prisma: `dueTime String?` na `DailyCheck`, `db push` (bez migrací, TD3).
+- Admin formulář kompetencí: pole termín.
+- `timeOfDay` zůstává kvůli řazení; v UI dítěte se už nezobrazuje.
+- Názvy povinností v pilotní DB bez času v závorce („Linka prázdná", „Stůl čistý").
