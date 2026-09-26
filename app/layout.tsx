@@ -26,10 +26,6 @@ export const metadata: Metadata = {
     title: "Homeworks",
     statusBarStyle: "default",
   },
-  icons: {
-    icon: "/icon.svg",
-    apple: "/icon.svg",
-  },
 };
 
 const LIGHT_BAR = "#ffffff";
