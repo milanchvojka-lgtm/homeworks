@@ -68,7 +68,7 @@ Iterace 2–5 v penu (sekce `u7Xdg`, `D0oFH`, `GKM6d`, `Lu7MG`) mění část �
 - **Termín povinnosti (D18, schváleno 2026-09-26):** nové volitelné pole `DailyCheck.dueTime` + pole „Termín" v adminu kompetencí. **Výjimka z „Co neměníme"** (datový model a admin kompetencí) schválená Milanem.
 - **D1 rozhodnuto (Milan):** úkol z poolu jde vzít až po všech dnešních povinnostech včetně večerní. Pravidlo zůstává.
 - **D3 rozhodnuto (Milan):** po zamítnutí žádosti o obrazovku krátká hláška na záložce Obrazovka („Rodič žádost zamítl"). Potřebuje přečíst poslední vyřízenou žádost, akce se nemění.
-- **D2:** stav Vydělat, když povinnosti nejsou hotové, frame `HW1 · 02c` (čeká na Milana).
+- **D2 (Milan: „to tam chceme"):** stav Vydělat, když povinnosti nejsou odeslané = karta „Nejdřív povinnosti" nahoře (ikona zámku, postup „1 ze 2 hotovo", co zbývá, tlačítko „Dokončit na Dnes") a pod ní utlumené karty úkolů se zámkem; důvod se u úkolů neopakuje. Frame `HW1 · 02c2`, komponenty `PovinnostiBanner` `b9xTML`, `TaskCard · nabídka` `M9gF8J`, `TaskCard · zamčeno` `ZE6Iw` (karta úkolu ve stylu karty povinnosti: čas nahoře, název + odměna, „Vzít úkol" přes celou šířku). Frame `HW1 · 02-2` = odemčená nabídka. `02c` je historie.
 
 ## Co NEMĚNÍME
 
