@@ -117,7 +117,7 @@ function buildSubject(
     parts.push(`${grouped.TASK_PENDING_REVIEW.length}× úkol`);
   }
   if (grouped.SCREEN_TIME_REQUESTED?.length) {
-    parts.push(`${grouped.SCREEN_TIME_REQUESTED.length}× obrazovka`);
+    parts.push(`${grouped.SCREEN_TIME_REQUESTED.length}× screen time`);
   }
   return `Homeworks — ${parts.join(", ") || `${total} nových položek`} ke schválení`;
 }

@@ -65,7 +65,7 @@ export default async function AdminChildPage({ params }: { params: Promise<{ id:
           </span>
           <Row label="Vyděláno" value={`${week.earnedCzk} Kč`} />
           <Row
-            label={`Obrazovka · ${formatMinutes(screenMin)}`}
+            label={`Screen time · ${formatMinutes(screenMin)}`}
             value={week.screenTimeCzk > 0 ? `−${week.screenTimeCzk} Kč` : "0 Kč"}
           />
           <div className="flex items-center justify-between border-t border-muted pt-2.5">

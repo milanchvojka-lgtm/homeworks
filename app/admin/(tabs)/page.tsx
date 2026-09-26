@@ -51,8 +51,8 @@ export default async function AdminApprovePage() {
         .map((s) => ({
           id: s.id,
           kind: "screen" as const,
-          title: `${s.minutes} min obrazovky`,
-          meta: `Obrazovka · ${s.costCzk} Kč · požádala ${formatTimePrague(s.createdAt)}`,
+          title: `${s.minutes} min screen time`,
+          meta: `Screen time · ${s.costCzk} Kč · požádala ${formatTimePrague(s.createdAt)}`,
         })),
     ],
   }));

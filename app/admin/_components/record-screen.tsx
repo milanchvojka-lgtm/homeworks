@@ -52,7 +52,7 @@ export function RecordScreen({
   return (
     <>
       <Button className="w-full" onClick={() => setOpen(true)}>
-        Zapsat obrazovku
+        Zapsat screen time
       </Button>
 
       {open && (
@@ -65,12 +65,12 @@ export function RecordScreen({
           />
           <div
             role="dialog"
-            aria-label={`Zapsat obrazovku · ${name}`}
+            aria-label={`Zapsat screen time · ${name}`}
             className="relative flex flex-col gap-4 rounded-t-3xl bg-card px-4 pt-3 pb-[max(2.125rem,env(safe-area-inset-bottom))]"
           >
             <span className="mx-auto h-1 w-10 rounded-full bg-border" />
             <div className="flex flex-col gap-1">
-              <h2 className="text-[22px] font-bold tracking-tight">Zapsat obrazovku · {name}</h2>
+              <h2 className="text-[22px] font-bold tracking-tight">Zapsat screen time · {name}</h2>
               <p className="text-[15px] text-muted-foreground">
                 Má kredit {balanceCzk} Kč
                 {affordableLabel ? `, to je ${affordableLabel}.` : ", to nestačí ani na nejkratší blok."}

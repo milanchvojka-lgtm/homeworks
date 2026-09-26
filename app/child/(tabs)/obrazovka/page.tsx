@@ -8,7 +8,7 @@ import { ScreenPicker } from "./_screen-picker";
 
 const REJECTED_NOTICE_MS = 24 * 60 * 60 * 1000;
 
-/** Obrazovka (návrh 2, frames 03, 03b, 03c). */
+/** Screen time tab (návrh 2, frames 03, 03b, 03c). */
 export default async function ChildScreenPage() {
   const user = await getSession();
   if (!user) redirect("/");

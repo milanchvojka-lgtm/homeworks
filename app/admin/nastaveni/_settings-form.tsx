@@ -73,12 +73,12 @@ export function SettingsForm({ initial }: { initial: Settings }) {
               onChange={(v) => upd("hourlyRateCzk", v)}
             />
             <NumField
-              label="Cena za hodinu obrazovky (Kč)"
+              label="Cena za hodinu screen time (Kč)"
               value={s.screenTimeHourCostCzk}
               onChange={(v) => upd("screenTimeHourCostCzk", v)}
             />
             <NumField
-              label="Granularita obrazovky (min)"
+              label="Granularita screen time (min)"
               value={s.screenTimeMinGranularity}
               onChange={(v) => upd("screenTimeMinGranularity", v)}
             />

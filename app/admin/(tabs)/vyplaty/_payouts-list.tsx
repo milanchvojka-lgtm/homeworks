@@ -137,7 +137,7 @@ export function PayoutsList({ payouts }: { payouts: Payout[] }) {
 function breakdown(p: Payout): string {
   return [
     `vyděláno ${p.totalEarnedCzk}`,
-    p.totalScreenTimeCzk > 0 ? `obrazovka −${p.totalScreenTimeCzk}` : null,
+    p.totalScreenTimeCzk > 0 ? `screen time −${p.totalScreenTimeCzk}` : null,
     p.bonusCzk > 0 ? `bonus +${p.bonusCzk}` : null,
   ]
     .filter(Boolean)

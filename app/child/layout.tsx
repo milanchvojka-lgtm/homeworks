@@ -32,7 +32,7 @@ export default async function ChildLayout({
         tabs={[
           { href: "/child", label: "Dnes", icon: "sun", badge: openChecks },
           { href: "/child/vydelat", label: "Vydělat", icon: "list-checks", badge: earnBadge },
-          { href: "/child/obrazovka", label: "Obrazovka", icon: "monitor-play" },
+          { href: "/child/obrazovka", label: "Screen time", icon: "monitor-play" },
           { href: "/child/ja", label: "Já", icon: "user", match: ["/child/trofeje", "/child/streak"] },
         ]}
       />
