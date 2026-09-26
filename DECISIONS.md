@@ -317,3 +317,37 @@
 - Názvy povinností v pilotní DB bez času v závorce („Linka prázdná", „Stůl čistý").
 
 **Update D17 (2026-09-26, Milan po vyzkoušení na telefonu):** v appce bude i ruční přepínač **Vzhled: Automaticky / Světlý / Tmavý** v záložce Já (výchozí Automaticky = podle telefonu). Volba se ukládá do cookie `hw_theme` (bez knihovny, bez skriptu před hydratací), root layout podle ní nastaví `data-theme` na `<html>` už na serveru, takže nebliká. CSS: tmavé hodnoty platí pro `[data-theme=dark]` a pro systémový tmavý režim, pokud není `[data-theme=light]`. Věta „žádný přepínač v appce" výše tím neplatí; `next-themes` dál ne.
+
+---
+
+## D19 — Rodič zapíše obrazovku za dítě
+
+**Rozhodnutí:** rodič může v detailu dítěte zapsat čas u obrazovky, o který dítě požádalo mimo appku (ústně, jinou appkou). Zápis vznikne rovnou jako schválený `ScreenTimeRequest` (`status APPROVED`, `reviewerId` = rodič, `reviewedAt` = teď) a transakce `SCREEN_TIME`, stejně jako po schválení žádosti dítěte. **Platí stejné pravidlo kreditu jako u žádosti dítěte:** když dítě nemá dost kreditu, zápis nejde (`insufficient_credit`), kredit nejde do mínusu.
+
+**Důvod:** Milan (2026-09-26, scénář 5): o obrazovku se žádá „ústně nebo jinou appkou, ale chceme to evidovat tam". Varianta s mínusem (odečíst z příští výplaty) zamítnuta, aby platilo jedno pravidlo pro obě cesty.
+
+**Důsledky:**
+- Nová server action `recordScreenTimeAction(userId, minutes)` jen pro admina, validace granularity a kreditu jako `requestScreenTimeAction`.
+- Bez změny schématu, bez notifikace (rodič ji zapisuje sám).
+- UI: tlačítko „Zapsat obrazovku" v detailu dítěte (`/admin/deti/[id]`), viz `docs/design/2026-09-26-rodicovska-cast-co-menime-co-ne.md`.
+
+---
+
+## D20 — Zpětné uznání zmeškaného dne
+
+**Rozhodnutí:** rodič může v detailu dítěte zpětně uznat povinnost, která den uzavřela jako neúspěšný (`MISSED`, nebo `REJECTED`, která zůstala vrácená do půlnoci). Uznání převede instanci na `APPROVED` (`reviewerId` = rodič, `reviewedAt` = teď, `note` „Uznáno zpětně"). Den se pak počítá, jako by nikdy nebyl zmeškaný.
+
+- **Jak daleko zpátky:** jen dny **běžícího týdne** (od pondělí do včerejška), dokud neproběhl `weekly-close`. Den z měsíce, který už uzavřel `monthly-close`, uznat nejde.
+- **Řada a trofeje:** po uznání se `currentStreak` přepočítá z historie dnů (zpětně od posledního uzavřeného dne po první neúspěšný den), `longestStreak` se případně zvýší, `brokenStreaksCount` se sníží, pokud uznání spojilo přerušenou řadu. Trofeje, na které nová řada dosáhne, se udělí stejnou logikou jako v `daily-close` (cycle-aware dedup).
+- **Měsíční bonus:** srážka se vrátí sama, protože `getBonusStatus` / `monthly-close` počítají neúspěšné dny z instancí.
+
+**Důvod:** Milan (2026-09-26, scénář 7) „zní jako fajn nápad"; hranice podle Claudových návrhů, které Milan odsouhlasil. Architecture review 7. 7. označil ztrátu řady za největší UX riziko. Omezení na běžící týden drží stranou výplaty, které už jsou uzavřené.
+
+**Co to neznamená:** není to pauza (nemoc, výlet), ta zůstává mimo rozsah (PRD §7). Nelze uznat den mimo běžící týden. Dítě o uznání nežádá v appce, řeší se to ústně.
+
+**Důsledky:**
+- Nová server action `excuseDayAction(userId, date)` jen pro admina, v jedné transakci: přepnutí instancí dne + přepočet řady; trofeje jako v `daily-close`.
+- Přepočet řady jako čistá funkce v `lib/streak.ts` (testovatelná), sdílená s `daily-close`.
+- Bez změny schématu.
+- UI: „Uznat den" u neúspěšného dne v detailu dítěte.
+

@@ -57,7 +57,7 @@ Hlavička se jménem a tlačítkem Odhlásit, pod ní šest textových záložek
 
 **Scénář 6 (výplata):** ① přepne na Výplaty ② vidí nevyplacený týden a u každé holky částku ③ pošle převody v bance ④ u každé ťukne „vyplaceno" ⑤ občas ťukne na dítě a vidí souhrn týdne. **1 přepnutí + 1 ťuknutí na dítě.**
 
-**Scénář 7 (přišla o řadu):** ① přepne na Výplaty ② ťukne na dítě v aktuálním týdnu ③ v souhrnu vidí zmeškaný den ④ ťukne na něj a vidí, co se s povinností stalo (nenahlášeno / vráceno / neschváleno do půlnoci) ⑤ uzná. **1 přepnutí + 3 ťuknutí.** Háček: aktuální týden ještě není uzavřený, takže ve Výplatách by musel být jako „probíhá".
+**Scénář 7 (přišla o řadu):** ① přepne na Výplaty ② ťukne na dítě v aktuálním týdnu ③ v souhrnu vidí zmeškaný den ④ ťukne na něj a vidí, co se s povinností stalo (nenahlášeno / vráceno a nenahlášeno znovu) ⑤ uzná. **1 přepnutí + 3 ťuknutí.** Háček: aktuální týden ještě není uzavřený, takže ve Výplatách by musel být jako „probíhá".
 
 **Silné stránky:** nejjednodušší, jen tři záložky. Denní činnost (Schválit) je hned po otevření. Nejblíž tomu, co je dnes, jen seřazené podle četnosti.
 **Slabiny:** obrazovka za dítě je v záložce Schválit, i když nic neschvaluje. Dohledání dne je schované ve Výplatách, i když s penězi souvisí jen nepřímo. Otázka „jak je na tom ta nejmladší?" nemá kde žít.
@@ -81,7 +81,7 @@ Hlavička se jménem a tlačítkem Odhlásit, pod ní šest textových záložek
 
 **Scénář 6 (výplata):** ① přepne na Výplaty ② vidí částky ③ pošle převody ④ ťukne „vyplaceno" ⑤ souhrn týdne: ťukne na dítě a skončí v detailu dítěte. **1 přepnutí.**
 
-**Scénář 7 (přišla o řadu):** ① přepne na Děti ② ťukne na dítě ③ vidí dny týdne a u středy „zmeškáno" ④ ťukne na středu a vidí, že kuchyň byla nahlášená ve 23:50 a nikdo ji do půlnoci neschválil ⑤ uzná. **1 přepnutí + 2 ťuknutí.** Funguje i pro běžící týden.
+**Scénář 7 (přišla o řadu):** ① přepne na Děti ② ťukne na dítě ③ vidí dny týdne a u středy „zmeškáno" ④ ťukne na středu a vidí, že „Kuchyň připravená na ráno“ nebyla nahlášená ⑤ uzná. **1 přepnutí + 2 ťuknutí.** Funguje i pro běžící týden.
 
 **Silné stránky:** každá akce, která se týká jednoho dítěte (obrazovka, souhrn, dohledání dne), má jedno přirozené místo. Scénář 7 je v ní nejkratší a nepotřebuje „probíhající" týden ve Výplatách. Otázka „jak je na tom ta nejmladší?" má odpověď.
 **Slabiny:** o záložku víc. Zapsání obrazovky trvá o jedno přepnutí déle než ve variantě A. Detail dítěte je nová obrazovka, kterou je potřeba navrhnout a postavit.

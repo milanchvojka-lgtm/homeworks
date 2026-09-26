@@ -1,6 +1,6 @@
 # Rodičovská část — co měníme, co ne
 
-**Datum:** 2026-09-26 · **Stav:** návrh · **Podle:** scénáře 5, 6, 7 (`2026-09-26-scenare.md`); tok varianta B (`2026-09-26-struktura-a-tok-rodic.md`)
+**Datum:** 2026-09-26 · **Stav:** schváleno 2026-09-26 (Milan: „kresli“), D19 a D20 zapsány · **Podle:** scénáře 5, 6, 7 (`2026-09-26-scenare.md`); tok varianta B (`2026-09-26-struktura-a-tok-rodic.md`)
 
 Rozsah: admin (`app/admin/*`) předělaný pro telefon v design systému D15, se spodní navigací Schválit · Děti · Výplaty · Víc. Data jsou v příkladech ilustrační, ve framech budou skutečná data z pilotu.
 
@@ -28,9 +28,9 @@ Rozsah: admin (`app/admin/*`) předělaný pro telefon v design systému D15, se
 ### 3 · Detail dítěte (`/admin/deti/[id]`, nová)
 - Hlavička se šipkou zpět a jménem dítěte (vzor Týdenní výpis u dětí).
 - **Tento týden:** vyděláno, obrazovka (Kč a minuty), k výplatě, řada (dní), měsíční bonus ve hře (Kč). Zdroje: `getWeekTotals`, `User.currentStreak`, `getBonusStatus`.
-- **Hlavní tlačítko „Zapsat obrazovku"** (R5), **čeká na D19.** Otevře výběr délky po krocích granularity (30 / 60 / 90 min) s cenou a potvrzení. Po zapsání se sníží „k výplatě" a přibude obrazovka.
+- **Hlavní tlačítko „Zapsat obrazovku"** (R5), **D19**: když dítě nemá dost kreditu, zapsat nejde (hláška „Nemá dost kreditu, má na N min“). Otevře výběr délky po krocích granularity (30 / 60 / 90 min) s cenou a potvrzení. Po zapsání se sníží „k výplatě" a přibude obrazovka.
 - **Dny týdne** (po–ne do dneška): u každého dne stav povinností jedním slovem (hotovo / čeká / vráceno / zmeškáno / zbývá). Ťuknutím na den se rozbalí povinnosti toho dne se stavem, časem nahlášení a poznámkou při vrácení (R10, dohledání).
-- **„Uznat den"** u zmeškaného dne (R10), **čeká na D20.** Do rozhodnutí se ve framu kreslí jen místo, v kódu nevzniká.
+- **„Uznat den"** u zmeškaného dne (R10), **D20**: jen u neúspěšného dne běžícího týdne (zmeškáno nebo vráceno do půlnoci), s potvrzením „Uznat den? Řada a bonus se vrátí.“. Dny starších týdnů tlačítko nemají.
 
 ### 4 · Výplaty (`/admin/vyplaty`)
 - Nevyplacené týdny nahoře, pod nimi vyplacené, sbalené po týdnech.
@@ -48,7 +48,7 @@ Rozsah: admin (`app/admin/*`) předělaný pro telefon v design systému D15, se
 - **Odznak na Vydělat u dětí** počítá i zamčené úkoly (otevřená položka z dětské části). Opraví se ve stejném kole.
 
 ## Co NEMĚNÍME
-- Datový model. D19 (obrazovka za dítě) se obejde bez změny schématu. Zapíše se jako schválený `ScreenTimeRequest` s `reviewerId` rodiče a transakcí `SCREEN_TIME`. D20 (uznání dne) se posoudí zvlášť.
+- Datový model. D19 i D20 se obejdou bez změny schématu. Nové server actions `recordScreenTimeAction` a `excuseDayAction` (viz DECISIONS).
 - Pravidla kreditu, řady, bonusu, rotace a cronů.
 - Obsah formulářů pod Víc (pole, validace, server actions).
 - Dětskou část a login.
@@ -71,7 +71,7 @@ Rozsah: admin (`app/admin/*`) předělaný pro telefon v design systému D15, se
 | HWR · 02 Děti | — | 3 řádky |
 | HWR · 03 Detail dítěte | — | tento týden + dny, jeden den rozbalený |
 | HWR · 03b Detail · zapsat obrazovku | — | výběr délky |
-| HWR · 03c Detail · zmeškaný den | — | místo pro „Uznat den" (čeká D20) |
+| HWR · 03c Detail · zmeškaný den | — | rozbalený zmeškaný den s „Uznat den" (D20) |
 | HWR · 04 Výplaty | — | nevyplacený + vyplacený týden |
 | HWR · 05 Víc | — | rozcestník |
 | HWR · 05b Formulář úkolu | — | vzor přestylovaného formuláře |
@@ -79,9 +79,9 @@ Rozsah: admin (`app/admin/*`) předělaný pro telefon v design systému D15, se
 ## Průchod scénáři
 | Scénář | Začátek | Kroky | Konec | Díry |
 |---|---|---|---|---|
-| 5 večer doma | Schválit | schválit 1 ťuknutí; vrátit 3 kroky; obrazovka: Děti → dítě → Zapsat → délka → potvrdit | „Nic nevisí" | obrazovka čeká na D19 |
+| 5 večer doma | Schválit | schválit 1 ťuknutí; vrátit 3 kroky; obrazovka: Děti → dítě → Zapsat → délka → potvrdit | „Nic nevisí" | — |
 | 6 výplata | Výplaty | vidí částky → převod v bance → Vyplaceno | týden vyplacený | — |
-| 7 přišla o řadu | Děti | dítě → den → vidí, co se stalo → uznat | řada zpět | uznání čeká na D20 |
+| 7 přišla o řadu | Děti | dítě → den → vidí, co se stalo → uznat | řada zpět | — |
 
 ## Pravidlo
 Implementuje se přesně to, co je v části „Co vzniká". Cokoli mimo seznam se zastaví a zeptá.

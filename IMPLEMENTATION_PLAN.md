@@ -879,3 +879,4 @@ Jediný actions soubor, který hází výjimky místo `{ ok, error }` (viz SKILL
 - **8.3 Struktura a tok** — dvě varianty bez obrazovek, pak smlouva rozsahu per obrazovka.
 - **8.4 Pen** — framy se skutečnými daty z pilotu, stavy, průchod scénáři.
 - **8.5 Kód** — per obrazovka podle smlouvy, ověření v běžící appce proti framu, dorovnání penu, úklid `dark:` tříd. ✅ 2026-09-26 dětská část podle návrhu 2 + tmavý režim (D17) + `DailyCheck.dueTime` (D18).
+- **8.6 Rodičovská část** — scénáře 5–7, tok varianta B (Schválit · Děti · Výplaty · Víc), smlouva `docs/design/2026-09-26-rodicovska-cast-co-menime-co-ne.md`. Nové funkce D19 (rodič zapíše obrazovku) a D20 (zpětné uznání dne v běžícím týdnu). Opravy: souběžné schválení bez dvojího připsání peněz, odznak Vydělat bez zamčených úkolů.
