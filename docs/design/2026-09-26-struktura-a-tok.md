@@ -1,6 +1,6 @@
 # Struktura a tok: dětská část Homeworks (M8.3)
 
-**Datum:** 2026-09-26 · **Stav:** návrh, dvě varianty, čeká na Milana · **Podle:** `2026-09-26-scenare.md` (scénáře 1–4 dítě, 5–6 rodič), brief `2026-09-26-design-system-mobil.md`
+**Datum:** 2026-09-26 · **Stav:** schváleno 2026-09-26: **varianta B** + společné body §5 · **Podle:** `2026-09-26-scenare.md` (scénáře 1–4 dítě, 5–6 rodič), brief `2026-09-26-design-system-mobil.md`
 
 Bez obrazovek a bez vzhledu. Jen to, co dítě dělá a co přitom vidí, a kde co žije. Až vybereš variantu, napíše se k ní smlouva rozsahu per obrazovka. Kreslit se začne až po tvém „kresli".
 
@@ -66,13 +66,13 @@ Bez obrazovek a bez vzhledu. Jen to, co dítě dělá a co přitom vidí, a kde 
 
 **Záložky:** Dnes · Vydělat · Obrazovka · Já, plus **pruh s penězi nahoře na každé záložce**
 
-**Pruh nahoře (všude stejný, jedna řádka):** „Tento týden **380 Kč** · obrazovka 1 h". Ťuknutím se otevře týdenní výpis (vyděláno, obrazovka, k výplatě, historie týdnů). Je to jediné místo, kde žije kredit (P5). Žádná záložka ho neopakuje.
+**Pruh nahoře (všude stejný, jedna řádka):** „Tento týden **380 Kč** · odehráno 1 h" (upraveno ve smlouvě rozsahu, aby se „na kolik mám" neopakovalo se záložkou Obrazovka). Ťuknutím se otevře týdenní výpis (vyděláno, obrazovka, k výplatě, historie týdnů). Je to jediné místo, kde žije kredit (P5). Žádná záložka ho neopakuje.
 
 | Záložka | Odpovídá na otázku | Obsah (potřeby) |
 |---|---|---|
 | **Dnes** | „Co mám dnes ještě udělat?" | Stejné jako ve variantě A: vrácené, povinnosti jedním ťuknutím, rozdělaný úkol s odpočtem, „hotovo na dnešek", řádek ve hře (P1–P4, P9, P10). |
 | **Vydělat** | „Co si teď můžu vydělat?" | Stejné jako Úkoly ve variantě A (P7–P9). |
-| **Obrazovka** | „Kolik si můžu zahrát?" | Na kolik obrazovky máš (v minutách, ne v Kč), požádat o 30 / 60 / 90 min, stav žádosti, kolik obrazovky už tento týden padlo (P6, Milanovo „co nejmíň odehraného času"). |
+| **Obrazovka** | „Kolik si můžu zahrát?" | Na kolik obrazovky máš (v minutách, ne v Kč), požádat o 30 / 60 / 90 min, stav žádosti (P6). Odehraný čas tento týden je v pruhu (Milanovo „co nejmíň odehraného času"). |
 | **Já** | „Jak se mi daří + nastavení" | Stejné jako ve variantě A (P10–P12). Historie týdnů je v týdenním výpisu z pruhu, ne tady. |
 
 ### Tok ve variantě B
@@ -106,7 +106,11 @@ Admin není v hlavním rozsahu M8 (Milan ho nevybral jako problém). Scénáře 
 - vrácení s poznámkou funguje, **vrácení po schválení (undo) nejde** (v2 podle PRD),
 - **souhrn týdne per dítě** (zmeškané, řada, bonus) u výplaty dnes chybí, výplaty ukazují jen částky.
 
-## 7 · Rozhodni
+## 7 · Rozhodnutí
+
+**Milan, 2026-09-26: varianta B, společné body z §5 platí.** Pokračuje se smlouvou rozsahu `2026-09-26-detska-cast-co-menime-co-ne.md`.
+
+*Původní otázky:*
 
 1. **Varianta A, nebo B?** Doporučuju **B**. Je blíž tvému „pořád vidět, jak na tom jsem" a obrazovka je v ní denní činnost s vlastním místem. Cenou je jedna řádka pruhu na každé obrazovce.
 2. **Souhlasíš se společnými body z §5?**
