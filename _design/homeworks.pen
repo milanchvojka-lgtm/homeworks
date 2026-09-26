@@ -11515,6 +11515,1106 @@
               ]
             }
           ]
+        },
+        {
+          "type": "text",
+          "id": "bxLBi",
+          "name": "Nadpis iterace 7",
+          "fill": "$hw-ink",
+          "content": "ITERACE 7 (26. 9.) · HLAVIČKA · MILAN: „APPCE CHYBÍ HLAVIČKA, NAHOŘE NIC NENÍ“ · A LIŠTA S LOGEM · B VELKÝ NADPIS · C BAREVNÁ HLAVIČKA",
+          "fontFamily": "$hw-font-mono",
+          "fontSize": 13,
+          "fontWeight": "700",
+          "letterSpacing": 1.2
+        },
+        {
+          "type": "frame",
+          "id": "NuMZM",
+          "name": "Obrazovky · iterace 7 hlavička",
+          "gap": 40,
+          "children": [
+            {
+              "type": "frame",
+              "id": "uZllW",
+              "name": "HW1 · 01H-A",
+              "width": 390,
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "zhxUI",
+                  "name": "Štítek framu",
+                  "width": "fill_container",
+                  "fill": "#17191E",
+                  "cornerRadius": 8,
+                  "layout": "vertical",
+                  "gap": 2,
+                  "padding": [
+                    8,
+                    12
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "SNeKT",
+                      "name": "Kód",
+                      "fill": "#FFFFFF",
+                      "content": "HW1 · 01H-A",
+                      "fontFamily": "$hw-font-mono",
+                      "fontSize": 12,
+                      "fontWeight": "700",
+                      "letterSpacing": 1.2
+                    },
+                    {
+                      "type": "text",
+                      "id": "vsU8J",
+                      "name": "Popis",
+                      "fill": "#DFDDD7",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "A · Aplikační lišta s logem nad dlaždicemi (textové logo, vpravo volné místo na upozornění).",
+                      "fontFamily": "$hw-font-sans",
+                      "fontSize": 13
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "adudm",
+                  "name": "Obrazovka 01H-A",
+                  "clip": true,
+                  "width": 390,
+                  "height": 844,
+                  "fill": "$hw-paper",
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "XU6Mz",
+                      "name": "Hlavička A",
+                      "width": "fill_container",
+                      "fill": "$hw-card",
+                      "stroke": "$hw-rule",
+                      "strokeWidth": {
+                        "bottom": 1
+                      },
+                      "layout": "vertical",
+                      "gap": 12,
+                      "padding": [
+                        0,
+                        16,
+                        16,
+                        16
+                      ],
+                      "children": [
+                        {
+                          "id": "v76Fi",
+                          "type": "ref",
+                          "ref": "tX7pr",
+                          "name": "Status bar",
+                          "width": "fill_container"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "g9wrA3",
+                          "name": "Aplikační lišta",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "FgMxU",
+                              "name": "Logo (textové)",
+                              "gap": 6,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "EjJyJ",
+                                  "name": "Tečka značky",
+                                  "width": 10,
+                                  "height": 10,
+                                  "fill": "$hw-pink",
+                                  "cornerRadius": 5
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "YJjgH",
+                                  "name": "Název",
+                                  "fill": "$hw-ink",
+                                  "content": "Homeworks",
+                                  "fontFamily": "$hw-font-sans",
+                                  "fontSize": 20,
+                                  "fontWeight": "700",
+                                  "letterSpacing": -0.4
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "R9NHw4",
+                              "name": "Upozornění (místo)",
+                              "width": 40,
+                              "height": 40,
+                              "fill": "$hw-paper",
+                              "cornerRadius": 20,
+                              "justifyContent": "center",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "B9WVe",
+                                  "name": "Ikona",
+                                  "width": 18,
+                                  "height": 18,
+                                  "icon": "bell",
+                                  "library": "lucide",
+                                  "fill": "$hw-ink-60"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "T7hJP",
+                          "name": "Dlaždice",
+                          "width": "fill_container",
+                          "gap": 10,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "ibnxD",
+                              "name": "Dlaždice peníze",
+                              "width": "fill_container",
+                              "fill": "$hw-paper",
+                              "cornerRadius": "$hw-radius-card",
+                              "layout": "vertical",
+                              "gap": 4,
+                              "padding": 14,
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "Yoi3U",
+                                  "name": "Kicker řádek",
+                                  "width": "fill_container",
+                                  "gap": 6,
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "icon",
+                                      "id": "ihUrG",
+                                      "name": "Ikona",
+                                      "width": 13,
+                                      "height": 13,
+                                      "icon": "wallet",
+                                      "library": "lucide",
+                                      "fill": "$hw-ink-35"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "wQPts",
+                                      "name": "Kicker",
+                                      "fill": "$hw-ink-35",
+                                      "content": "TENTO TÝDEN",
+                                      "fontFamily": "$hw-font-mono",
+                                      "fontSize": 11,
+                                      "fontWeight": "700",
+                                      "letterSpacing": 1.2
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "spexV",
+                                      "name": "Spacer",
+                                      "width": "fill_container",
+                                      "height": 1
+                                    },
+                                    {
+                                      "type": "icon",
+                                      "id": "iYp1w",
+                                      "name": "Šipka",
+                                      "width": 14,
+                                      "height": 14,
+                                      "icon": "chevron-right",
+                                      "library": "lucide",
+                                      "fill": "$hw-ink-35"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "oY559",
+                                  "name": "Hodnota",
+                                  "fill": "$hw-pink",
+                                  "content": "380 Kč",
+                                  "fontFamily": "$hw-font-mono",
+                                  "fontSize": 26,
+                                  "fontWeight": "700"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "OOwTy",
+                                  "name": "Pod",
+                                  "fill": "$hw-ink-60",
+                                  "content": "Screen time: 1 h",
+                                  "fontFamily": "$hw-font-sans",
+                                  "fontSize": 14
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "y7dmHu",
+                              "name": "Dlaždice řada",
+                              "width": "fill_container",
+                              "fill": "$hw-paper",
+                              "cornerRadius": "$hw-radius-card",
+                              "layout": "vertical",
+                              "gap": 4,
+                              "padding": 14,
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "xdTl1",
+                                  "name": "Kicker řádek",
+                                  "width": "fill_container",
+                                  "gap": 6,
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "icon",
+                                      "id": "bwxlh",
+                                      "name": "Ikona",
+                                      "width": 13,
+                                      "height": 13,
+                                      "icon": "flame",
+                                      "library": "lucide",
+                                      "fill": "$hw-ink-35"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "Sl1Xo",
+                                      "name": "Kicker",
+                                      "fill": "$hw-ink-35",
+                                      "content": "ŘADA",
+                                      "fontFamily": "$hw-font-mono",
+                                      "fontSize": 11,
+                                      "fontWeight": "700",
+                                      "letterSpacing": 1.2
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "sMCzW",
+                                      "name": "Spacer",
+                                      "width": "fill_container",
+                                      "height": 1
+                                    },
+                                    {
+                                      "type": "icon",
+                                      "id": "sxVYh",
+                                      "name": "Šipka",
+                                      "width": 14,
+                                      "height": 14,
+                                      "icon": "chevron-right",
+                                      "library": "lucide",
+                                      "fill": "$hw-ink-35"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "w1q1q",
+                                  "name": "Hodnota",
+                                  "fill": "$hw-ink",
+                                  "content": "12 dní",
+                                  "fontFamily": "$hw-font-mono",
+                                  "fontSize": 26,
+                                  "fontWeight": "700"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "nFlbB",
+                                  "name": "Pod",
+                                  "fill": "$hw-ink-60",
+                                  "content": "Bonus +200 Kč",
+                                  "fontFamily": "$hw-font-sans",
+                                  "fontSize": 14
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "K0H6O",
+                      "name": "Obsah",
+                      "width": "fill_container",
+                      "height": "fill_container",
+                      "layout": "vertical",
+                      "gap": 12,
+                      "padding": [
+                        20,
+                        16,
+                        16,
+                        16
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Ql74Y",
+                          "name": "Section label",
+                          "fill": "$hw-ink",
+                          "content": "KOMPETENCE: KUCHYŇ",
+                          "fontFamily": "$hw-font-mono",
+                          "fontSize": 12,
+                          "fontWeight": "700",
+                          "letterSpacing": 1.4
+                        },
+                        {
+                          "id": "bkJyF",
+                          "type": "ref",
+                          "ref": "zYhYo",
+                          "name": "Linka prázdná",
+                          "width": "fill_container"
+                        },
+                        {
+                          "id": "d0uJj6",
+                          "type": "ref",
+                          "ref": "W5oLN",
+                          "name": "Kuchyň na ráno",
+                          "width": "fill_container"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "bmwzX",
+                      "type": "ref",
+                      "ref": "IhnZG",
+                      "name": "Spodní lišta",
+                      "width": "fill_container",
+                      "descendants": {
+                        "jAKxs": {
+                          "fill": "$hw-pink"
+                        },
+                        "DHwxF": {
+                          "fill": "$hw-ink"
+                        },
+                        "P8fVZ": {
+                          "fill": "$hw-ink",
+                          "fontWeight": "600"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "D8xc1X",
+              "name": "HW1 · 01H-B",
+              "width": 390,
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "DQTia",
+                  "name": "Štítek framu",
+                  "width": "fill_container",
+                  "fill": "#17191E",
+                  "cornerRadius": 8,
+                  "layout": "vertical",
+                  "gap": 2,
+                  "padding": [
+                    8,
+                    12
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "ZClzu",
+                      "name": "Kód",
+                      "fill": "#FFFFFF",
+                      "content": "HW1 · 01H-B",
+                      "fontFamily": "$hw-font-mono",
+                      "fontSize": 12,
+                      "fontWeight": "700",
+                      "letterSpacing": 1.2
+                    },
+                    {
+                      "type": "text",
+                      "id": "sHohN",
+                      "name": "Popis",
+                      "fill": "#DFDDD7",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "B · Velký nadpis záložky (iOS styl) + datum; nadpis opakuje záložku = vědomá výjimka (konvence).",
+                      "fontFamily": "$hw-font-sans",
+                      "fontSize": 13
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "TnVMK",
+                  "name": "Obrazovka 01H-B",
+                  "clip": true,
+                  "width": 390,
+                  "height": 844,
+                  "fill": "$hw-paper",
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "mh51Q",
+                      "name": "Hlavička B",
+                      "width": "fill_container",
+                      "fill": "$hw-card",
+                      "stroke": "$hw-rule",
+                      "strokeWidth": {
+                        "bottom": 1
+                      },
+                      "layout": "vertical",
+                      "gap": 14,
+                      "padding": [
+                        0,
+                        16,
+                        16,
+                        16
+                      ],
+                      "children": [
+                        {
+                          "id": "VNJwB",
+                          "type": "ref",
+                          "ref": "tX7pr",
+                          "name": "Status bar",
+                          "width": "fill_container"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "qD7MT",
+                          "name": "Nadpis",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "AgRrg",
+                              "name": "Datum",
+                              "fill": "$hw-ink-35",
+                              "content": "SOBOTA 26. ZÁŘÍ",
+                              "fontFamily": "$hw-font-mono",
+                              "fontSize": 11,
+                              "fontWeight": "700",
+                              "letterSpacing": 1.2
+                            },
+                            {
+                              "type": "text",
+                              "id": "OAu4l",
+                              "name": "H1",
+                              "fill": "$hw-ink",
+                              "content": "Dnes",
+                              "fontFamily": "$hw-font-sans",
+                              "fontSize": 34,
+                              "fontWeight": "700",
+                              "letterSpacing": -0.8
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "S2zYgB",
+                          "name": "Dlaždice",
+                          "width": "fill_container",
+                          "gap": 10,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "SLNrL",
+                              "name": "Dlaždice peníze",
+                              "width": "fill_container",
+                              "fill": "$hw-paper",
+                              "cornerRadius": "$hw-radius-card",
+                              "layout": "vertical",
+                              "gap": 4,
+                              "padding": 14,
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "v2Xivs",
+                                  "name": "Kicker řádek",
+                                  "width": "fill_container",
+                                  "gap": 6,
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "icon",
+                                      "id": "EtGVF",
+                                      "name": "Ikona",
+                                      "width": 13,
+                                      "height": 13,
+                                      "icon": "wallet",
+                                      "library": "lucide",
+                                      "fill": "$hw-ink-35"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "NZ76S",
+                                      "name": "Kicker",
+                                      "fill": "$hw-ink-35",
+                                      "content": "TENTO TÝDEN",
+                                      "fontFamily": "$hw-font-mono",
+                                      "fontSize": 11,
+                                      "fontWeight": "700",
+                                      "letterSpacing": 1.2
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "NjGne",
+                                      "name": "Spacer",
+                                      "width": "fill_container",
+                                      "height": 1
+                                    },
+                                    {
+                                      "type": "icon",
+                                      "id": "FIeZI",
+                                      "name": "Šipka",
+                                      "width": 14,
+                                      "height": 14,
+                                      "icon": "chevron-right",
+                                      "library": "lucide",
+                                      "fill": "$hw-ink-35"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "Lt0sf",
+                                  "name": "Hodnota",
+                                  "fill": "$hw-pink",
+                                  "content": "380 Kč",
+                                  "fontFamily": "$hw-font-mono",
+                                  "fontSize": 26,
+                                  "fontWeight": "700"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "e3rgNK",
+                                  "name": "Pod",
+                                  "fill": "$hw-ink-60",
+                                  "content": "Screen time: 1 h",
+                                  "fontFamily": "$hw-font-sans",
+                                  "fontSize": 14
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "IkV34",
+                              "name": "Dlaždice řada",
+                              "width": "fill_container",
+                              "fill": "$hw-paper",
+                              "cornerRadius": "$hw-radius-card",
+                              "layout": "vertical",
+                              "gap": 4,
+                              "padding": 14,
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "jFDUk",
+                                  "name": "Kicker řádek",
+                                  "width": "fill_container",
+                                  "gap": 6,
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "icon",
+                                      "id": "q4OHk",
+                                      "name": "Ikona",
+                                      "width": 13,
+                                      "height": 13,
+                                      "icon": "flame",
+                                      "library": "lucide",
+                                      "fill": "$hw-ink-35"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "NTeGC",
+                                      "name": "Kicker",
+                                      "fill": "$hw-ink-35",
+                                      "content": "ŘADA",
+                                      "fontFamily": "$hw-font-mono",
+                                      "fontSize": 11,
+                                      "fontWeight": "700",
+                                      "letterSpacing": 1.2
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "J0Fyx",
+                                      "name": "Spacer",
+                                      "width": "fill_container",
+                                      "height": 1
+                                    },
+                                    {
+                                      "type": "icon",
+                                      "id": "hSjZU",
+                                      "name": "Šipka",
+                                      "width": 14,
+                                      "height": 14,
+                                      "icon": "chevron-right",
+                                      "library": "lucide",
+                                      "fill": "$hw-ink-35"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "bblRo",
+                                  "name": "Hodnota",
+                                  "fill": "$hw-ink",
+                                  "content": "12 dní",
+                                  "fontFamily": "$hw-font-mono",
+                                  "fontSize": 26,
+                                  "fontWeight": "700"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "L9Rt0",
+                                  "name": "Pod",
+                                  "fill": "$hw-ink-60",
+                                  "content": "Bonus +200 Kč",
+                                  "fontFamily": "$hw-font-sans",
+                                  "fontSize": 14
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "wPf1B",
+                      "name": "Obsah",
+                      "width": "fill_container",
+                      "height": "fill_container",
+                      "layout": "vertical",
+                      "gap": 12,
+                      "padding": [
+                        20,
+                        16,
+                        16,
+                        16
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "IFBtm",
+                          "name": "Section label",
+                          "fill": "$hw-ink",
+                          "content": "KOMPETENCE: KUCHYŇ",
+                          "fontFamily": "$hw-font-mono",
+                          "fontSize": 12,
+                          "fontWeight": "700",
+                          "letterSpacing": 1.4
+                        },
+                        {
+                          "id": "EI9DX",
+                          "type": "ref",
+                          "ref": "zYhYo",
+                          "name": "Linka prázdná",
+                          "width": "fill_container"
+                        },
+                        {
+                          "id": "ycsXo",
+                          "type": "ref",
+                          "ref": "W5oLN",
+                          "name": "Kuchyň na ráno",
+                          "width": "fill_container"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "k3TG9u",
+                      "type": "ref",
+                      "ref": "IhnZG",
+                      "name": "Spodní lišta",
+                      "width": "fill_container",
+                      "descendants": {
+                        "jAKxs": {
+                          "fill": "$hw-pink"
+                        },
+                        "DHwxF": {
+                          "fill": "$hw-ink"
+                        },
+                        "P8fVZ": {
+                          "fill": "$hw-ink",
+                          "fontWeight": "600"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Z1P4m",
+              "name": "HW1 · 01H-C",
+              "width": 390,
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "o1zIBG",
+                  "name": "Štítek framu",
+                  "width": "fill_container",
+                  "fill": "#17191E",
+                  "cornerRadius": 8,
+                  "layout": "vertical",
+                  "gap": 2,
+                  "padding": [
+                    8,
+                    12
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "AaJrG",
+                      "name": "Kód",
+                      "fill": "#FFFFFF",
+                      "content": "HW1 · 01H-C",
+                      "fontFamily": "$hw-font-mono",
+                      "fontSize": 12,
+                      "fontWeight": "700",
+                      "letterSpacing": 1.2
+                    },
+                    {
+                      "type": "text",
+                      "id": "m3yRT",
+                      "name": "Popis",
+                      "fill": "#DFDDD7",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "C · Barevná hlavička v barvě značky: logo + pozdrav, dlaždice na barevném pozadí.",
+                      "fontFamily": "$hw-font-sans",
+                      "fontSize": 13
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "fgcrd",
+                  "name": "Obrazovka 01H-C",
+                  "clip": true,
+                  "width": 390,
+                  "height": 844,
+                  "fill": "$hw-paper",
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "aosEQ",
+                      "name": "Hlavička C",
+                      "width": "fill_container",
+                      "fill": "$hw-pink",
+                      "cornerRadius": [
+                        0,
+                        0,
+                        24,
+                        24
+                      ],
+                      "layout": "vertical",
+                      "gap": 14,
+                      "padding": [
+                        0,
+                        16,
+                        18,
+                        16
+                      ],
+                      "children": [
+                        {
+                          "id": "mDDCb",
+                          "type": "ref",
+                          "ref": "tX7pr",
+                          "name": "Status bar",
+                          "width": "fill_container"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "wT5aX",
+                          "name": "Logo a pozdrav",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "sQ0zl",
+                              "name": "Logo",
+                              "fill": "#17191E",
+                              "content": "HOMEWORKS",
+                              "fontFamily": "$hw-font-mono",
+                              "fontSize": 11,
+                              "fontWeight": "700",
+                              "letterSpacing": 2
+                            },
+                            {
+                              "type": "text",
+                              "id": "Fy6pC",
+                              "name": "Pozdrav",
+                              "fill": "#17191E",
+                              "content": "Ahoj, Test 👋",
+                              "fontFamily": "$hw-font-sans",
+                              "fontSize": 26,
+                              "fontWeight": "700",
+                              "letterSpacing": -0.5
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "bvWX9",
+                          "name": "Dlaždice",
+                          "width": "fill_container",
+                          "gap": 10,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "cvgcf",
+                              "name": "Dlaždice peníze",
+                              "width": "fill_container",
+                              "fill": "$hw-card",
+                              "cornerRadius": "$hw-radius-card",
+                              "layout": "vertical",
+                              "gap": 4,
+                              "padding": 14,
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "vy8xU",
+                                  "name": "Kicker řádek",
+                                  "width": "fill_container",
+                                  "gap": 6,
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "icon",
+                                      "id": "gEbLv",
+                                      "name": "Ikona",
+                                      "width": 13,
+                                      "height": 13,
+                                      "icon": "wallet",
+                                      "library": "lucide",
+                                      "fill": "$hw-ink-35"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "ASpwv",
+                                      "name": "Kicker",
+                                      "fill": "$hw-ink-35",
+                                      "content": "TENTO TÝDEN",
+                                      "fontFamily": "$hw-font-mono",
+                                      "fontSize": 11,
+                                      "fontWeight": "700",
+                                      "letterSpacing": 1.2
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "cgwvx",
+                                      "name": "Spacer",
+                                      "width": "fill_container",
+                                      "height": 1
+                                    },
+                                    {
+                                      "type": "icon",
+                                      "id": "sWhLb",
+                                      "name": "Šipka",
+                                      "width": 14,
+                                      "height": 14,
+                                      "icon": "chevron-right",
+                                      "library": "lucide",
+                                      "fill": "$hw-ink-35"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "A4Tps2",
+                                  "name": "Hodnota",
+                                  "fill": "$hw-pink",
+                                  "content": "380 Kč",
+                                  "fontFamily": "$hw-font-mono",
+                                  "fontSize": 26,
+                                  "fontWeight": "700"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "l0yoH",
+                                  "name": "Pod",
+                                  "fill": "$hw-ink-60",
+                                  "content": "Screen time: 1 h",
+                                  "fontFamily": "$hw-font-sans",
+                                  "fontSize": 14
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "Bmoap",
+                              "name": "Dlaždice řada",
+                              "width": "fill_container",
+                              "fill": "$hw-card",
+                              "cornerRadius": "$hw-radius-card",
+                              "layout": "vertical",
+                              "gap": 4,
+                              "padding": 14,
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "whMan",
+                                  "name": "Kicker řádek",
+                                  "width": "fill_container",
+                                  "gap": 6,
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "icon",
+                                      "id": "B3f5Ed",
+                                      "name": "Ikona",
+                                      "width": 13,
+                                      "height": 13,
+                                      "icon": "flame",
+                                      "library": "lucide",
+                                      "fill": "$hw-ink-35"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "kl6sF",
+                                      "name": "Kicker",
+                                      "fill": "$hw-ink-35",
+                                      "content": "ŘADA",
+                                      "fontFamily": "$hw-font-mono",
+                                      "fontSize": 11,
+                                      "fontWeight": "700",
+                                      "letterSpacing": 1.2
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "YuXAp",
+                                      "name": "Spacer",
+                                      "width": "fill_container",
+                                      "height": 1
+                                    },
+                                    {
+                                      "type": "icon",
+                                      "id": "X8qE5Q",
+                                      "name": "Šipka",
+                                      "width": 14,
+                                      "height": 14,
+                                      "icon": "chevron-right",
+                                      "library": "lucide",
+                                      "fill": "$hw-ink-35"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "JOXE1",
+                                  "name": "Hodnota",
+                                  "fill": "$hw-ink",
+                                  "content": "12 dní",
+                                  "fontFamily": "$hw-font-mono",
+                                  "fontSize": 26,
+                                  "fontWeight": "700"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "HEtla",
+                                  "name": "Pod",
+                                  "fill": "$hw-ink-60",
+                                  "content": "Bonus +200 Kč",
+                                  "fontFamily": "$hw-font-sans",
+                                  "fontSize": 14
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "hSSC4",
+                      "name": "Obsah",
+                      "width": "fill_container",
+                      "height": "fill_container",
+                      "layout": "vertical",
+                      "gap": 12,
+                      "padding": [
+                        20,
+                        16,
+                        16,
+                        16
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "YZEL5",
+                          "name": "Section label",
+                          "fill": "$hw-ink",
+                          "content": "KOMPETENCE: KUCHYŇ",
+                          "fontFamily": "$hw-font-mono",
+                          "fontSize": 12,
+                          "fontWeight": "700",
+                          "letterSpacing": 1.4
+                        },
+                        {
+                          "id": "tDXJJ",
+                          "type": "ref",
+                          "ref": "zYhYo",
+                          "name": "Linka prázdná",
+                          "width": "fill_container"
+                        },
+                        {
+                          "id": "DplcE",
+                          "type": "ref",
+                          "ref": "W5oLN",
+                          "name": "Kuchyň na ráno",
+                          "width": "fill_container"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "WV0M4",
+                      "type": "ref",
+                      "ref": "IhnZG",
+                      "name": "Spodní lišta",
+                      "width": "fill_container",
+                      "descendants": {
+                        "jAKxs": {
+                          "fill": "$hw-pink"
+                        },
+                        "DHwxF": {
+                          "fill": "$hw-ink"
+                        },
+                        "P8fVZ": {
+                          "fill": "$hw-ink",
+                          "fontWeight": "600"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
         }
       ]
     }
