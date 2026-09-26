@@ -57,6 +57,16 @@ Spojuje dnešní `/child/kredit` (část Tento týden) a `/child/historie`.
 
 ---
 
+## Změny po iteracích v penu (2026-09-26, Milan)
+
+Iterace 2–5 v penu (sekce `u7Xdg`, `D0oFH`, `GKM6d`, `Lu7MG`) mění část „Co vzniká" takto. Platí přednostně před textem výše.
+
+- **Stavová hlavička místo pruhu s penězi, nadpisu obrazovky a řádku ve hře** (frame `HW1 · 01A4`, komponenta `StatusHeader v2 · dlaždice` `hkONr`): pod stavovým řádkem iOS dvě dlaždice „Tento týden 380 Kč · odehráno 1 h" (→ týdenní výpis) a „Řada 12 dní · bonus 200 Kč" (→ Já). Bez avataru, jména, data a nadpisu záložky (ten opakoval spodní lištu). Hlavička je na všech čtyřech záložkách.
+- **Řádek povinnosti E** (komponenty `W5oLN` k splnění, `zYhYo` termín blízko, `FAYbR` čeká, `ajGhI` schváleno; frame `HW1 · 01A6`): karta s monospace nadpisem „DO 23:59" / „DO 17:00" a zbývajícím časem vpravo („zbývá 3 h 12 min", pod 1 h amber), velký název bez času, posuvník „Přejeď, až bude hotovo". Čeká = posuvník v amber + „odesláno 16:52", schváleno = zelený + „schválil Milan". Nahrazuje CheckRow.
+- **Nadpis sekce povinností:** „KOMPETENCE: {název}".
+- **Tmavý režim** podle telefonu (D17), frame `HW1 · 01A6 · dark`.
+- **Otevřené:** termín „DO 17:00" potřebuje v datech čas termínu u povinnosti (návrh D18, čeká na Milana). Bez něj jde jen „DO 23:59" a odpočet do půlnoci.
+
 ## Co NEMĚNÍME
 
 - **Datový model, Prisma schéma, migrace.**
