@@ -1,16 +1,12 @@
-import type { Viewport } from "next";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { getSession } from "@/lib/auth";
 import { getBonusStatus } from "@/lib/bonus";
 import { getAppSettings, getWeekTotals } from "@/lib/credit";
-import { StatusHeader } from "../_components/status-header";
+import { AppHeader, StatusTiles } from "../_components/status-header";
 import { czkToMinutes } from "../_components/format";
 
-/** PWA status bar matches the pink header on tabs (header C, iteration 7). */
-export const viewport: Viewport = { themeColor: "#ff77aa" };
-
-/** Tabs (Dnes, Vydělat, Obrazovka, Já + their subpages) carry the status header. */
+/** Tabs (Dnes, Vydělat, Obrazovka, Já + their subpages) carry the app header and status tiles. */
 export default async function ChildTabsLayout({
   children,
 }: {
@@ -31,17 +27,16 @@ export default async function ChildTabsLayout({
 
   return (
     <>
-      <StatusHeader
-        name={user.name}
-        payoutCzk={Math.max(0, week.earnedCzk - week.screenTimeCzk)}
-        screenMinutes={czkToMinutes(
-          week.screenTimeCzk,
-          settings.screenTimeHourCostCzk,
-        )}
-        streakDays={streak?.currentStreak ?? 0}
-        bonusCzk={bonus.currentBonusCzk}
-      />
-      <main className="flex-1 px-4 pt-5 pb-4">{children}</main>
+      <AppHeader name={user.name} />
+      <main className="flex flex-1 flex-col gap-5 px-4 pt-4 pb-4">
+        <StatusTiles
+          payoutCzk={Math.max(0, week.earnedCzk - week.screenTimeCzk)}
+          screenMinutes={czkToMinutes(week.screenTimeCzk, settings.screenTimeHourCostCzk)}
+          streakDays={streak?.currentStreak ?? 0}
+          bonusCzk={bonus.currentBonusCzk}
+        />
+        <div>{children}</div>
+      </main>
     </>
   );
 }
