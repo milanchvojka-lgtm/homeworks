@@ -1,0 +1,110 @@
+---
+name: design-to-code
+description: Použij VŽDY, když jde o návrh nebo úpravu rozhraní Homeworks — obrazovky dítěte i admina, komponenty, barvy, typografie, rozestupy, tlačítka, navigace, stavy checků a úkolů — nebo když Milan zmíní pen / pen.dev / .pen soubor / frame. Platí i na drobné vizuální úpravy. Řídí postup scénáře → tok → smlouva rozsahu → pen → kód (DECISIONS D16) a drží pen a kód v souladu bez driftu.
+---
+
+# Implementace designu (Homeworks)
+
+Vlastní kopie skillu `design-to-code` z 2FRESH (`2f-product`), upravená pro Homeworks: rodinná PWA na iPhonu, Next.js + Tailwind 4 + shadcn/ui přebarvené 2FRESH design systémem (D15). S originálem se nesynchronizuje.
+
+**Na začátku každé práce na rozhraní tenhle skill nahlas použij** („používám design-to-code") a veď postup skrz něj.
+
+## 0 · Zlaté pravidlo: nejdřív rozsah, pak teprve kreslení a kód
+
+Postup (D16), každý krok schvaluje Milan, kroky se nepřeskakují:
+
+1. **Kontextové scénáře** — `docs/design/RRRR-MM-DD-scenare.md` (skill `kontextove-scenare`). Bez scénářů se nová obrazovka ani tok nekreslí; když chybí, řekni to.
+2. **Struktura a tok bez obrazovek** — `docs/design/RRRR-MM-DD-struktura-a-tok.md`: potřeby ze scénářů, co se přetahuje, tok jako číslované kroky „co člověk dělá a co vidí", **ve dvou variantách**.
+3. **Smlouva rozsahu** — `docs/design/RRRR-MM-DD-<obrazovka>-co-menime-co-ne.md` (šablona níže), grounded v reálném kódu.
+4. **Pen** — až po Milanově výslovném „kresli". Framy se skutečnými daty, stavy, průchod scénáři.
+5. **Kód** → ověření v běžící appce proti framu → dorovnání penu.
+
+Schválený text scénářů není schválený tok a souhlas s opravou toku není pokyn ke kreslení. Když při práci narazíš na něco mimo smlouvu, **nech to být a zeptej se**; rozšíření rozsahu dopiš do smlouvy.
+
+Drobné opravy (text, barva, bug) scénáře ani tok nepotřebují — stačí krátká smlouva nebo věta v chatu, co se mění a co ne.
+
+### Šablona smlouvy rozsahu
+
+```markdown
+# <Obrazovka / tok> — co měníme, co ne
+
+**Datum:** RRRR-MM-DD · **Stav:** návrh / schváleno RRRR-MM-DD · **Podle:** scénáře X, Y; tok varianta Z
+
+## Co VZNIKÁ
+(per krok toku: pole, akce, hlášky, prázdný stav, chyba, konkrétní komponenty)
+
+## Co NEMĚNÍME
+(datový model, server actions, jiné obrazovky, …)
+
+## Nové složené komponenty (rozhoduje Milan)
+
+## Návrh v penu
+| Frame | Id | Co ukazuje |
+
+## Průchod scénáři
+| Scénář | Začátek | Kroky | Konec | Díry |
+
+## Pravidlo
+Implementuje se přesně to, co je v části „Co vzniká". Cokoli mimo seznam se zastaví a zeptá.
+```
+
+## 1 · Explorační skica ≠ pravda
+
+Pen skica je **zdroj nápadu, ne předloha k obtažení.** Skládej věrně podle **skutečné aplikace + design systému**. Když se smlouva a předloha rozcházejí, řekni rozpor nahlas předem a nech Milana rozhodnout.
+
+## 2 · Zdroj pravdy: kód vyhrává u postaveného
+
+- Co je postavené v kódu, řídí kód; pen se dorovná (dělá to Claude Code).
+- Pen vyhrává jen tam, kde se něco teprve navrhuje.
+- Rozpor mezi kódem, penem a briefem **nahlas Milanovi, neopravuj potají.**
+
+## 3 · Postup při změně
+
+1. **Čti návrh ze zdroje, ne ze screenshotu.** Pencil MCP `execute` → `Get(frameId)`; hodnoty (padding, gap, fontSize, fill) ber z dat.
+2. **Zařaď změnu na nejnižší úroveň:** token (`app/globals.css`, propíše se všude) → komponenta (`components/ui/*` nebo složená komponenta, propíše se do všech použití) → složení obrazovky. Nikdy nestyluj na stránce to, co patří do komponenty.
+3. **U větší změny pošli plán složení** (které komponenty, pořadí, co odchází, co je nové). Nová komponenta je Milanovo rozhodnutí; znovupoužití má přednost. Odchylku od rozhraní, na které jsou lidé zvyklí (iOS konvence, spodní navigace), nahlas jako rozhodnutí.
+4. **Frame plň skutečnými daty z pilotu** v reálném počtu a délce (skutečné názvy checků, úkolů, částky, jména), ne vymyšlenými ukázkami.
+5. **Implementuj** podle map §6.
+6. **Ověř v běžící appce** na šířce iPhonu (390 px): dev server, přihlášení jako dítě / admin, screenshot cílové obrazovky proti framu. Zkontroluj i stavy (prázdno, čeká na schválení, vráceno, chyba).
+7. **Dorovnej pen (§4).**
+
+## 4 · Pen a kód drží krok
+
+Změny přes pencil MCP žijí v běžící aplikaci pen.dev; **před commitem ověř, že se `_design/homeworks.pen` na disku změnil** (`git status` M, dnešní čas v `stat`), jinak nejdřív uložit v pen.dev. Commit nepopisuj obsahem, který nebyl vidět v `git diff --stat`. Když změníš token nebo komponentu v kódu, propiš to do knihovny v penu; když to nejde hned, napiš to Milanovi jako otevřenou položku.
+
+**Pojmenování v penu:** sekce na každé kolo návrhu („HW · Redesign · návrh 1 (RRRR-MM-DD) · tok varianta A"), framy `HW1 · 01`, `01b` (stav), `02A/02B` (varianty), podvarianty `02A2…` mění jen jednu věc. Štítek varianty je vidět přímo ve framu. Zamítnuté návrhy zůstávají vedle s označením „zamítnuto RRRR-MM-DD". Nové komponenty patří do knihovny, ne do sekce obrazovek.
+
+## 5 · Co nedělat
+
+- Nezaváděj barvy, fonty, radiusy ani rozestupy mimo tokeny a škálu. Žádný hex ani `oklch` mimo `app/globals.css`. Na netokenovou hodnotu se zastav a nahlas ji.
+- Nesahej na datový model, server actions, auth ani cron kvůli vzhledu.
+- Nerozhoduj o designu sám. Nejasnost v návrhu je otázka pro Milana.
+- **Žádná informace na obrazovce dvakrát.** Před odesláním framu nebo snímku ke schválení vypiš každou informaci na obrazovce (stav, počet, částka, jméno, čas, streak) a u každé jedno místo, kde žije. Když má dvě, jedno zruš. Výjimka jen záměrná redundance pro přístupnost (barva + text u stavu), i tu nahlas.
+- **Jedno hlavní tlačítko na sekci.** Růžová jen pro aktivní stav a zvýraznění čísla, ne jako druhé hlavní tlačítko.
+- Když se něco ukáže jako slepá ulička, zapiš ponaučení do `DECISIONS.md` (rozhodnutí) nebo do dokumentu v `docs/design/` týž den.
+
+## 6 · Mapa Homeworks
+
+**Soubory:** tokeny `app/globals.css`; písmo `app/layout.tsx` (IBM Plex Sans `--font-plex-sans`, IBM Plex Mono `--font-plex-mono`); shadcn komponenty `components/ui/*`; streak komponenty `components/streak/*`; obrazovky `app/child/*`, `app/admin/*`, jejich složené komponenty v `app/child/_components`, `app/_components`; pen `_design/homeworks.pen`; design dokumenty `docs/design/`.
+
+**Mapa tokenů** (zdroj `--hw-*` → alias → Tailwind třída; **v kódu piš Tailwind třídu, ne `--hw-*`**):
+
+| Zdroj | Hex | Alias / Tailwind | Použití |
+|---|---|---|---|
+| `--hw-paper` | `#F4F3F0` | `bg-background` | pozadí stránky |
+| `--hw-card` | `#FFFFFF` | `bg-card`, `bg-popover` | karty, dialogy |
+| `--hw-hair` | `#EEECE7` | `bg-muted`, `bg-secondary` | jemné plochy, neutrální chip |
+| `--hw-rule` | `#DFDDD7` | `border-border`, `border-input` | obrysy, linky |
+| `--hw-ink` | `#17191E` | `text-foreground`, `bg-primary` | text, nadpisy, hlavní tlačítko |
+| `--hw-ink-60` | `#5B5F68` | `text-muted-foreground` | sekundární text |
+| `--hw-ink-35` | `#A6AAB4` | `text-subtle` | tlumené labely, kickery, placeholder |
+| `--hw-pink` | `#FF77AA` | `text-highlight`, `bg-highlight`, `ring` | aktivní stav, zvýrazněné číslo (streak, kredit) |
+| `--hw-pink-bg` | `#FFEEF5` | `bg-accent`, `bg-highlight-soft` | hover, aktivní chip |
+| `--hw-amber` / `-bg` | `#B97F0F` / `#FBF6EA` | `text-warning` / `bg-warning-soft` | čeká na schválení |
+| `--hw-green` / `-bg` | `#1B7A45` / `#E3F1E8` | `text-success` / `bg-success-soft` | schváleno, hotovo |
+| `--hw-red` / `-bg` | `#C2453B` / `#F1E4E3` | `text-destructive` / `bg-danger-soft` | vráceno, zmeškáno, chyba |
+| `--hw-blue` / `-bg` | `#2E5FA8` / `#E9F0FA` | `text-info` / `bg-info-soft` | informace |
+
+Stavy checků a úkolů: `PENDING` bez barvy, `SUBMITTED`/`PENDING_REVIEW` warning, `APPROVED`/`DONE` success, `REJECTED`/`MISSED`/`EXPIRED` danger — vždy barva + text.
+
+**Mapa komponent (pen → soubor):** doplní se v kroku M8.1, až vznikne knihovna v penu. **Zákon proti duplikátům:** než uděláš složenou komponentu, projdi `components/` a `app/*/_components`; když komponenta s tou rolí existuje, uprav ji, nestav paralelní variantu. Novou komponentu jen na Milanův pokyn a pak ji dopiš sem.
