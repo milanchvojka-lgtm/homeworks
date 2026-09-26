@@ -1,6 +1,6 @@
 # Rodičovská část — co měníme, co ne
 
-**Datum:** 2026-09-26 · **Stav:** schváleno 2026-09-26 (Milan: „kresli“), D19 a D20 zapsány; návrh v penu schválen 2026-09-26 s úpravami (pozdrav, popisky formuláře) · **Podle:** scénáře 5, 6, 7 (`2026-09-26-scenare.md`); tok varianta B (`2026-09-26-struktura-a-tok-rodic.md`)
+**Datum:** 2026-09-26 · **Stav:** schváleno 2026-09-26 (Milan: „kresli“), D19 a D20 zapsány; návrh v penu schválen 2026-09-26 s úpravami (pozdrav, popisky formuláře); implementováno 2026-09-26 (commit `3e65e33`) · **Podle:** scénáře 5, 6, 7 (`2026-09-26-scenare.md`); tok varianta B (`2026-09-26-struktura-a-tok-rodic.md`)
 
 Rozsah: admin (`app/admin/*`) předělaný pro telefon v design systému D15, se spodní navigací Schválit · Děti · Výplaty · Víc. Data jsou v příkladech ilustrační, ve framech budou skutečná data z pilotu.
 
@@ -42,11 +42,21 @@ Rozsah: admin (`app/admin/*`) předělaný pro telefon v design systému D15, se
 - Seznam: Úkoly · Kompetence · Uživatelé · Nastavení, pod nimi Odhlásit.
 - Úkoly (`/admin/ukoly`) mají nahoře „Nový úkol" (R9).
 - **Formuláře Úkoly, Kompetence, Uživatelé, Nastavení:** jen přestylování do design systému a pro šířku telefonu (Input 48 px, tlačítka z `button.tsx`, karty, okraje 16 px, hlavička se šipkou zpět do Víc). Pole, validace a akce se nemění.
-- **Popisky formuláře úkolu podle Google tabulky** (Milan 2026-09-26): „Hodnota (Kč)“ → „Odměna (Kč)“, „Frekvence“ → „Opakování“, „Timeout claim (hodiny)“ → „Na převzetí (hodin)“, „Timeout execute (hodiny)“ → „Na splnění (hodin)“. Jen texty, pole a validace beze změny.
+- **Popisky formuláře úkolu podle Google tabulky** (Milan 2026-09-26): „Hodnota (Kč)“ → „Odměna (Kč)“, „Frekvence“ → „Opakování“, „Timeout claim (hodiny)“ → „Na převzetí (hod)“, „Timeout execute (hodiny)“ → „Na splnění (hod)“. Jen texty, pole a validace beze změny.
 
 ### 6 · Opravy v kódu bez vlivu na vzhled
 - **Souběžné schválení** úkolu a obrazovky: stav se ověří a změní uvnitř transakce (podmíněný update `where status = PENDING_REVIEW / PENDING`, při 0 změněných řádcích `invalid_state`), aby se peníze nepřipsaly nebo neodečetly dvakrát. U povinností totéž kvůli jednotnému chování.
-- **Odznak na Vydělat u dětí** počítá i zamčené úkoly (otevřená položka z dětské části). Opraví se ve stejném kole.
+- ~~Odznak na Vydělat u dětí počítá i zamčené úkoly~~ — už opraveno dřív (commit `da243e7`), poznámka byla zastaralá.
+- **Označení výplaty „Vyplaceno“** má stejnou díru (dvě kliknutí = dvojí odečtení). Opraveno stejně, podmíněný update v transakci (zjištěno při implementaci 2026-09-26).
+
+## Pojmenování (Milan 2026-09-26, po nakreslení)
+- **„Screen time“ místo „Obrazovka“** v celé appce (dětská záložka, rodičovské texty, nastavení, e-mailový souhrn) i v penu. Adresa `/child/obrazovka` a názvy v kódu zůstávají.
+
+## Odchylky při implementaci (2026-09-26)
+- Výběr 30 / 60 / 90 min se nedal použít bez úprav, proto se z dětské obrazovky vytáhl jako `ScreenOptions` (`app/child/(tabs)/obrazovka/_screen-picker.tsx`). Dětská obrazovka vypadá stejně.
+- Nový primitivní `components/ui/textarea.tsx` (stejný styl jako `Input`) pro popis úkolu a kompetence.
+- „Už vyřízeno“ je bez jména rodiče (akce vrací jen stav). U schválené povinnosti v detailu dne: „schváleno · Milan“ (bez rodu). Pen dorovnán.
+- Uznat den má potvrzovací krok „Zrušit / Ano, uznat“ místo samostatného dialogu.
 
 ## Co NEMĚNÍME
 - Datový model. D19 i D20 se obejdou bez změny schématu. Nové server actions `recordScreenTimeAction` a `excuseDayAction` (viz DECISIONS).
