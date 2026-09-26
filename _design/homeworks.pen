@@ -6315,7 +6315,7 @@
                               "id": "uBEES",
                               "name": "Popisek",
                               "fill": "$hw-ink-35",
-                              "content": "Obrazovka",
+                              "content": "Screen time",
                               "fontFamily": "$hw-font-sans",
                               "fontSize": 12,
                               "fontWeight": "500"
@@ -8673,7 +8673,7 @@
                                   "fill": "$hw-ink-60",
                                   "textGrowth": "fixed-width",
                                   "width": "fill_container",
-                                  "content": "nahlášeno 16:52 · schválil Milan",
+                                  "content": "nahlášeno 16:52 · schváleno · Milan",
                                   "fontFamily": "$hw-font-sans",
                                   "fontSize": 13,
                                   "fontWeight": "normal"
@@ -10393,7 +10393,7 @@
                       "fill": "#DFDDD7",
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
-                      "content": "Obrazovka · kolik si můžeš zahrát, volba délky, požádat.",
+                      "content": "Screen time · kolik si můžeš zahrát, volba délky, požádat.",
                       "fontFamily": "$hw-font-sans",
                       "fontSize": 13
                     }
@@ -10755,7 +10755,7 @@
                       "fill": "#DFDDD7",
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
-                      "content": "Obrazovka · žádost čeká na rodiče (místo volby).",
+                      "content": "Screen time · žádost čeká na rodiče (místo volby).",
                       "fontFamily": "$hw-font-sans",
                       "fontSize": 13
                     }
@@ -11065,7 +11065,7 @@
                       "fill": "#DFDDD7",
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
-                      "content": "Obrazovka · rodič žádost zamítl: krátká hláška nahoře, volba je zpět (D3).",
+                      "content": "Screen time · rodič žádost zamítl: krátká hláška nahoře, volba je zpět (D3).",
                       "fontFamily": "$hw-font-sans",
                       "fontSize": 13
                     }
@@ -16965,10 +16965,10 @@
                           "width": "fill_container",
                           "descendants": {
                             "o0XorU": {
-                              "content": "60 min obrazovky"
+                              "content": "60 min screen time"
                             },
                             "q3GkvM": {
-                              "content": "Obrazovka · 200 Kč · požádala 19:02"
+                              "content": "Screen time · 200 Kč · požádala 19:02"
                             }
                           }
                         }
@@ -17103,7 +17103,7 @@
                       "fill": "#DFDDD7",
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
-                      "content": "Schválit · vracení. „Vrátit“ rozbalí na místě poznámku. Druhý řádek: položku mezitím vyřídila Teri → „Už vyřízeno“ místo chyby.",
+                      "content": "Schválit · vracení. „Vrátit“ rozbalí na místě poznámku. Druhý řádek: položku mezitím vyřídil druhý rodič → „Už vyřízeno“ místo chyby.",
                       "fontFamily": "$hw-font-sans",
                       "fontSize": 13,
                       "fontWeight": "normal"
@@ -17251,7 +17251,7 @@
                                   "id": "S91NZ9",
                                   "name": "Meta",
                                   "fill": "$hw-ink-60",
-                                  "content": "Už vyřízeno · schválila Teri",
+                                  "content": "Už vyřízeno",
                                   "fontFamily": "$hw-font-mono",
                                   "fontSize": 12,
                                   "fontWeight": "700"
@@ -17854,7 +17854,7 @@
                       "fill": "#DFDDD7",
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
-                      "content": "Detail dítěte · tento týden, zapsat obrazovku (D19), dny týdne. Ťuknutí na den ukáže povinnosti.",
+                      "content": "Detail dítěte · tento týden, zapsat screen time (D19), dny týdne. Ťuknutí na den ukáže povinnosti.",
                       "fontFamily": "$hw-font-sans",
                       "fontSize": 13,
                       "fontWeight": "normal"
@@ -18016,7 +18016,7 @@
                                   "id": "A5f1uo",
                                   "name": "Label",
                                   "fill": "$hw-ink-60",
-                                  "content": "Obrazovka · 1 h",
+                                  "content": "Screen time · 1 h",
                                   "fontFamily": "$hw-font-sans",
                                   "fontSize": 15
                                 },
@@ -18146,7 +18146,7 @@
                           "width": "fill_container",
                           "descendants": {
                             "FCFit": {
-                              "content": "Zapsat obrazovku"
+                              "content": "Zapsat screen time"
                             }
                           }
                         },
@@ -18430,7 +18430,7 @@
                       "fill": "#DFDDD7",
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
-                      "content": "Detail · zapsat obrazovku (D19). Výběr délky jako u dětí. Na víc, než má kreditu, zapsat nejde.",
+                      "content": "Detail · zapsat screen time (D19). Výběr délky jako u dětí. Na víc, než má kreditu, zapsat nejde.",
                       "fontFamily": "$hw-font-sans",
                       "fontSize": 13,
                       "fontWeight": "normal"
@@ -18592,7 +18592,7 @@
                                   "id": "S2CAs",
                                   "name": "Label",
                                   "fill": "$hw-ink-60",
-                                  "content": "Obrazovka · 1 h",
+                                  "content": "Screen time · 1 h",
                                   "fontFamily": "$hw-font-sans",
                                   "fontSize": 15
                                 },
@@ -18722,7 +18722,7 @@
                           "width": "fill_container",
                           "descendants": {
                             "FCFit": {
-                              "content": "Zapsat obrazovku"
+                              "content": "Zapsat screen time"
                             }
                           }
                         },
@@ -19028,7 +19028,7 @@
                               "id": "XCymy",
                               "name": "Titulek",
                               "fill": "$hw-ink",
-                              "content": "Zapsat obrazovku · Neli",
+                              "content": "Zapsat screen time · Neli",
                               "fontFamily": "$hw-font-sans",
                               "fontSize": 22,
                               "fontWeight": "700",
@@ -19421,7 +19421,7 @@
                                   "id": "bfddT",
                                   "name": "Label",
                                   "fill": "$hw-ink-60",
-                                  "content": "Obrazovka · 1 h",
+                                  "content": "Screen time · 1 h",
                                   "fontFamily": "$hw-font-sans",
                                   "fontSize": 15
                                 },
@@ -19552,7 +19552,7 @@
                           "width": "fill_container(358)",
                           "descendants": {
                             "FCFit": {
-                              "content": "Zapsat obrazovku"
+                              "content": "Zapsat screen time"
                             }
                           }
                         },
@@ -19963,7 +19963,7 @@
                               "fill": "$hw-ink-60",
                               "textGrowth": "fixed-width",
                               "width": "fill_container",
-                              "content": "vyděláno 450 · obrazovka −100 · bonus +50",
+                              "content": "vyděláno 450 · screen time −100 · bonus +50",
                               "fontFamily": "$hw-font-mono",
                               "fontSize": 12,
                               "fontWeight": "normal"
@@ -20070,7 +20070,7 @@
                               "fill": "$hw-ink-60",
                               "textGrowth": "fixed-width",
                               "width": "fill_container",
-                              "content": "vyděláno 360 · obrazovka −100",
+                              "content": "vyděláno 360 · screen time −100",
                               "fontFamily": "$hw-font-mono",
                               "fontSize": 12,
                               "fontWeight": "normal"
@@ -20177,7 +20177,7 @@
                               "fill": "$hw-ink-60",
                               "textGrowth": "fixed-width",
                               "width": "fill_container",
-                              "content": "vyděláno 400 · obrazovka −100",
+                              "content": "vyděláno 400 · screen time −100",
                               "fontFamily": "$hw-font-mono",
                               "fontSize": 12,
                               "fontWeight": "normal"
@@ -20509,7 +20509,7 @@
                                       "id": "qZACd",
                                       "name": "Pod",
                                       "fill": "$hw-ink-60",
-                                      "content": "3 v nabídce",
+                                      "content": "3 aktivní",
                                       "fontFamily": "$hw-font-sans",
                                       "fontSize": 13,
                                       "fontWeight": "normal"
@@ -21182,7 +21182,7 @@
                               "width": "fill_container",
                               "descendants": {
                                 "KFV5D": {
-                                  "content": "NA PŘEVZETÍ (HODIN)",
+                                  "content": "NA PŘEVZETÍ (HOD)",
                                   "textGrowth": "fixed-width",
                                   "width": "fill_container"
                                 },
@@ -21201,7 +21201,7 @@
                               "width": "fill_container",
                               "descendants": {
                                 "KFV5D": {
-                                  "content": "NA SPLNĚNÍ (HODIN)",
+                                  "content": "NA SPLNĚNÍ (HOD)",
                                   "textGrowth": "fixed-width",
                                   "width": "fill_container"
                                 },
