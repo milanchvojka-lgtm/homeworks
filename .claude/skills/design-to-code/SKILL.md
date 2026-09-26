@@ -115,4 +115,6 @@ Stavy checků a úkolů: `PENDING` bez barvy, `SUBMITTED`/`PENDING_REVIEW` warni
 - Input = `components/ui/input.tsx` (48 px, písmo 16, rámeček, focus růžový ring 2 px).
 - Karta = `components/ui/card.tsx` (radius ≈12, rámeček `ring-border`, tělo 16).
 - Callout: zatím neexistuje, nová komponenta čeká na Milana.
-- Knihovna v penu (frame „HW · Knihovna") doplní id komponent, až vznikne. **Zákon proti duplikátům:** než uděláš složenou komponentu, projdi `components/` a `app/*/_components`; když komponenta s tou rolí existuje, uprav ji, nestav paralelní variantu. Novou komponentu jen na Milanův pokyn a pak ji dopiš sem.
+- **Knihovna v penu:** frame „HW · Knihovna" (`Dluso`), proměnné `hw-*` (barvy, písmo, velikosti písma, radiusy). Komponenty: PrimaryButton `xz14g`, OutlineButton `OPnr1`, OutlineButton · malé `B0Ngt`, StateChip · warning `t7gInv` / success `qsdJm` / danger `pMUaT` / danger-missed `f4c7b` / info `aW4Vx` / neutral `WyHcn`, CountBadge `XsnzY`, Input `DW6kr`, Input · focus `v4Xzc`, Card `nPD3U`. Obrazovky skládej z instancí (`ref`), ne z kopií.
+
+**Zákon proti duplikátům:** než uděláš složenou komponentu, projdi `components/` a `app/*/_components`; když komponenta s tou rolí existuje, uprav ji, nestav paralelní variantu. Novou komponentu jen na Milanův pokyn a pak ji dopiš sem.
