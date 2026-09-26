@@ -103,7 +103,7 @@ Každá existuje v jednom souboru a v knihovně v penu. Znovupoužité místo du
 
 ---
 
-## Návrh v penu (návrh 2, schválený vzor)
+## Návrh v penu (návrh 2, schválený vzor — Milan schválil 2026-09-26, jde se na kód)
 
 Sekce „HW · Redesign · návrh 2 (26. 9.) · schválený vzor" (`Lu7MG`). Framy 390 px, data z pilotu, čísla konzistentní a ilustrativní (vyděláno 580 Kč, screen time 200 Kč = 1 h, k výplatě 380 Kč, zbývá 1 h 30 min obrazovky, řada 12 dní, bonus 200 Kč). Id komponent jsou ve skillu `design-to-code` §6.
 
