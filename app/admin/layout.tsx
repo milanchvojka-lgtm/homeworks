@@ -2,8 +2,6 @@ import { redirect } from "next/navigation";
 import { getSession } from "@/lib/auth";
 import { getAdminInboxCount } from "@/lib/badges";
 import { logoutAction } from "../actions/auth";
-import { ThemeToggle } from "@/components/theme-toggle";
-import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { AdminTopNav } from "./_components/admin-top-nav";
 
@@ -40,8 +38,6 @@ export default async function AdminLayout({
           <span className="text-sm font-medium">{user.name}</span>
         </div>
         <div className="flex items-center gap-2">
-          <ThemeToggle />
-          <Separator orientation="vertical" className="h-5" />
           <form action={logoutAction}>
             <Button variant="ghost" size="sm" type="submit">
               Odhlásit

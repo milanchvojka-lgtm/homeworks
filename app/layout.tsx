@@ -1,12 +1,19 @@
 import type { Metadata, Viewport } from "next";
-import Script from "next/script";
 import "./globals.css";
-import { Geist, Source_Sans_3 } from "next/font/google";
+import { IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
 import { cn } from "@/lib/utils";
-import { ThemeProvider, themeInitScript } from "@/components/theme-provider";
 
-const sourceSans3 = Source_Sans_3({subsets:['latin'],variable:'--font-sans'});
-const sourceSans = Source_Sans_3({subsets:['latin'],variable:'--font-source-sans'});
+// Písmo podle design systému (D15): IBM Plex Sans pro text, IBM Plex Mono pro čísla a kickery.
+const plexSans = IBM_Plex_Sans({
+  subsets: ["latin", "latin-ext"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-plex-sans",
+});
+const plexMono = IBM_Plex_Mono({
+  subsets: ["latin", "latin-ext"],
+  weight: ["400", "500", "700"],
+  variable: "--font-plex-mono",
+});
 
 export const metadata: Metadata = {
   title: "Homeworks",
@@ -15,7 +22,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     title: "Homeworks",
-    statusBarStyle: "black-translucent",
+    statusBarStyle: "default",
   },
   icons: {
     icon: "/icon.svg",
@@ -24,7 +31,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0a0a0a",
+  themeColor: "#f4f3f0",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
@@ -36,16 +43,10 @@ export default function RootLayout({
   return (
     <html
       lang="cs"
-      suppressHydrationWarning
-      className={cn("h-full antialiased", "font-sans", sourceSans3.variable, sourceSans.variable)}
+      className={cn("h-full antialiased", "font-sans", plexSans.variable, plexMono.variable)}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
-        <Script
-          id="theme-init"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{ __html: themeInitScript }}
-        />
-        <ThemeProvider>{children}</ThemeProvider>
+        {children}
       </body>
     </html>
   );

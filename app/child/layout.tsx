@@ -5,7 +5,6 @@ import { getChildMyTasksCount, getChildPoolCount } from "@/lib/badges";
 import { logoutAction } from "../actions/auth";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { ChildBottomNav } from "../_components/child-bottom-nav";
 
 export default async function ChildLayout({
@@ -52,8 +51,6 @@ export default async function ChildLayout({
           >
             Nastavení
           </Link>
-          <Separator orientation="vertical" className="h-4" />
-          <ThemeToggle />
           <Separator orientation="vertical" className="h-4" />
           <form action={logoutAction}>
             <Button variant="ghost" size="sm" type="submit" className="text-[0.8rem] font-medium uppercase tracking-widest text-muted-foreground hover:text-foreground px-2">
