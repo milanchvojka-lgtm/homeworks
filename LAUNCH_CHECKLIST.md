@@ -32,6 +32,8 @@
 
 ## 2. Vercel — production ENV
 
+> Region funkcí je pinnutý na `fra1` ve `vercel.json` (D14) — v dashboardu nic nenastavuj. Ověření: hlavička `x-vercel-id` musí končit `…::fra1::…`, ne `iad1`.
+
 V Vercel projektu → Settings → Environment Variables (Production):
 
 - `DATABASE_URL` — Supabase pooler URL (port 6543, `?pgbouncer=true&connection_limit=1`)

@@ -29,7 +29,7 @@ V repu jsou tři dokumenty, čti je v tomto pořadí:
 - **Next.js 16** (App Router) + **TypeScript** (strict mode)
 - **Tailwind CSS 4** + **shadcn/ui** (komponenty vlastněné ve zdrojáku, viz D8/D12)
 - **Prisma** + **Postgres** (Supabase free tier, viz D4)
-- **Vercel** pro hosting; cron přes **GitHub Actions** (viz D1)
+- **Vercel** pro hosting, funkce pinnuté na `fra1` ve `vercel.json` — vždy u DB regionu (D14); cron přes **GitHub Actions** (viz D1)
 - **Vlastní auth** (profile + PIN, bcrypt nebo argon2, httpOnly cookie session)
 - **`date-fns`** pro datetime, vše v `Europe/Prague` timezone
 - **PWA** (manifest + případně service worker)

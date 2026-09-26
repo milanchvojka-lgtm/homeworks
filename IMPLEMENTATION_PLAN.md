@@ -24,7 +24,7 @@
 - **DB:** Postgres přes **Supabase** (free tier) — D4
 - **ORM:** Prisma 6
 - **Auth:** vlastní implementace (profile + PIN), session přes httpOnly cookie
-- **Hosting:** Vercel (free tier)
+- **Hosting:** Vercel (free tier), funkce v regionu `fra1` blízko DB (Supabase `eu-central-2`) — D14
 - **Cron:** **GitHub Actions** workflow → volá `/api/cron/*` na Vercelu s `CRON_SECRET` headerem — D1
 - **E-mail:** Resend (free tier) pro admin digest — D3
 - **PWA:** manuální manifest + service worker

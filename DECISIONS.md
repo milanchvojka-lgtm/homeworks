@@ -219,3 +219,19 @@
 - Skript `prisma/security/enable-rls.sql` v repu, jednorázově spuštěn v Supabase SQL Editoru před production deployem.
 - LAUNCH_CHECKLIST má RLS jako blocker.
 - Pokud se v budoucnu přidá frontend přístup přes `@supabase/supabase-js` s anon klíčem (např. realtime subscriptions), RLS policies pro `authenticated` se musí dopsat per use case.
+
+---
+
+## D14 — Vercel function region: `fra1` (Frankfurt), pinnuto ve `vercel.json`
+
+**Rozhodnutí:** Serverless funkce (RSC render, server actions, `/api/cron/*`) běží v regionu `fra1`. Nastaveno v `vercel.json` (`"regions": ["fra1"]`), ne v dashboardu — ať je to verzované a přežije případný re-import projektu.
+
+**Důvod:**
+- Vercel default je `iad1` (Washington). Supabase DB je v `eu-central-2` (Curych). Každý Prisma dotaz tak dělal round-trip přes Atlantik (~100 ms).
+- Jedna interakce = server action + re-render (session lookup, badges v layoutu, page data) = 10–15 sekvenčních dotazů → 1–2 s latence na klik. Naměřeno při pilotu 2026-09-26 (`x-vercel-id: fra1::iad1::…`, TTFB 0,75–1,4 s i na login screenu).
+- `fra1` je nejbližší Vercel region k Curychu (~5–10 ms RTT). Na Hobby plánu je volba jednoho regionu zdarma.
+
+**Důsledky:**
+- Nový soubor `vercel.json` v rootu repa (jen `regions`).
+- Pokud se někdy DB přesune (jiný Supabase projekt/region), region funkcí musí jít s ní — vždy stejný nebo nejbližší region jako DB.
+- Cron (D1) se nemění — GitHub Actions jen volá URL, region funkcí je mu jedno.
