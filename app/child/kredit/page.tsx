@@ -46,7 +46,7 @@ export default async function ChildCreditPage() {
       {/* Tento týden */}
       <Card>
         <CardContent className="pt-4">
-          <div className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
+          <div className="text-[11px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
             Tento týden
           </div>
           <div className="mt-3 space-y-1.5">
@@ -73,7 +73,7 @@ export default async function ChildCreditPage() {
       {/* Aktuální balanc */}
       <Card>
         <CardContent className="pt-4">
-          <div className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
+          <div className="text-[11px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
             Aktuální balanc
           </div>
           <div
@@ -99,7 +99,7 @@ export default async function ChildCreditPage() {
       {/* Chci obrazovku */}
       <Card>
         <CardContent className="pt-4">
-          <div className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
+          <div className="text-[11px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
             Chci obrazovku
           </div>
           {pendingRequest ? (

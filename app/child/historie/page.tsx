@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { getSession } from "@/lib/auth";
+import { Check } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -32,16 +33,12 @@ export default async function ChildHistoryPage() {
                     Týden {formatWeek(p.weekStart, p.weekEnd)}
                   </div>
                   {p.paidOutAt ? (
-                    <Badge
-                      style={{
-                        backgroundColor: "var(--chart-1)",
-                        color: "var(--background)",
-                      }}
-                    >
+                    <Badge variant="success">
+                      <Check />
                       Vyplaceno
                     </Badge>
                   ) : (
-                    <Badge variant="secondary">Čeká na výplatu</Badge>
+                    <Badge variant="warning">Čeká na výplatu</Badge>
                   )}
                 </div>
                 <div className="mt-3 grid grid-cols-3 gap-2 text-xs text-muted-foreground">
@@ -73,7 +70,7 @@ function Stat({
 }) {
   return (
     <div>
-      <div className="text-[10px] font-bold uppercase tracking-[0.18em]">
+      <div className="text-[11px] font-bold uppercase tracking-[0.18em]">
         {label}
       </div>
       <div

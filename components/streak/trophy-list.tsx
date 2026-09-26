@@ -58,7 +58,7 @@ function TrophyRow({ trophy }: { trophy: TrophyItem }) {
         <div className="flex-1 min-w-0">
           <div className="flex items-baseline gap-2">
             <span className="text-sm font-semibold">{milestone.trophyName}</span>
-            <span className="text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
+            <span className="text-[11px] uppercase tracking-[0.15em] text-muted-foreground">
               {milestone.days} {pluralizeDays(milestone.days)}
             </span>
           </div>
@@ -94,7 +94,7 @@ function TrophyRow({ trophy }: { trophy: TrophyItem }) {
         <div className="flex-1 min-w-0">
           <div className="flex items-baseline gap-2">
             <span className="text-sm font-semibold">{milestone.trophyName}</span>
-            <span className="text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
+            <span className="text-[11px] uppercase tracking-[0.15em] text-muted-foreground">
               {milestone.days} {pluralizeDays(milestone.days)}
             </span>
           </div>
@@ -128,7 +128,7 @@ function TrophyRow({ trophy }: { trophy: TrophyItem }) {
           <span className="text-sm font-semibold text-muted-foreground">
             {milestone.trophyName}
           </span>
-          <span className="text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
+          <span className="text-[11px] uppercase tracking-[0.15em] text-muted-foreground">
             {milestone.days} {pluralizeDays(milestone.days)}
           </span>
         </div>

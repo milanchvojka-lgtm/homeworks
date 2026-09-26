@@ -91,7 +91,7 @@ export default async function TrofejeePage() {
 
       {/* Page heading */}
       <div>
-        <div className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
+        <div className="text-[11px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
           Trofeje
         </div>
         <h1 className="text-2xl font-bold tracking-tight">Trophy Room</h1>
@@ -100,7 +100,7 @@ export default async function TrofejeePage() {
       {/* Stats card */}
       <Card>
         <CardContent className="pt-4">
-          <div className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
+          <div className="text-[11px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
             Statistiky
           </div>
           <div className="mt-3 flex justify-between text-sm">

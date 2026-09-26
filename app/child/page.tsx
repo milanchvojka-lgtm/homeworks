@@ -56,7 +56,7 @@ export default async function ChildToday() {
               />
               <div>
                 <div className="text-sm font-bold">Trofeje</div>
-                <div className="text-[10px] uppercase tracking-widest text-muted-foreground">
+                <div className="text-[11px] uppercase tracking-widest text-muted-foreground">
                   {earnedMilestones} / {totalMilestones} získáno
                 </div>
               </div>
@@ -77,7 +77,7 @@ export default async function ChildToday() {
               />
               <div>
                 <div className="text-sm font-bold">Můj streak</div>
-                <div className="text-[10px] uppercase tracking-widest text-muted-foreground">
+                <div className="text-[11px] uppercase tracking-widest text-muted-foreground">
                   posledních 12 týdnů
                 </div>
               </div>
@@ -90,7 +90,7 @@ export default async function ChildToday() {
       {/* Current competency */}
       <Card>
         <CardContent className="pt-4 pb-3">
-          <div className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
+          <div className="text-[11px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
             Aktuální kompetence
           </div>
           {assignment ? (

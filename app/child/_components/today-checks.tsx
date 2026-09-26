@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import type { CheckStatus, TimeOfDay } from "@prisma/client";
 import { submitCheckAction } from "@/app/actions/checks";
+import { Check, Hourglass, Undo2, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -39,7 +40,7 @@ export function TodayChecks({ instances }: { instances: Instance[] }) {
           <section key={s.key}>
             {idx > 0 && <Separator />}
             <div className="px-5 pt-4 pb-1">
-              <div className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
+              <div className="text-[11px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
                 {s.label}
               </div>
             </div>
@@ -117,26 +118,12 @@ function StatusBadge({ status }: { status: CheckStatus }) {
     case "PENDING":
       return null;
     case "SUBMITTED":
-      return <Badge variant="secondary">⏳ Čeká</Badge>;
+      return <Badge variant="warning"><Hourglass />Čeká</Badge>;
     case "APPROVED":
-      return (
-        <Badge
-          style={{
-            backgroundColor: "var(--chart-1)",
-            color: "var(--background)",
-            borderColor: "var(--chart-1)",
-          }}
-        >
-          ✅ OK
-        </Badge>
-      );
+      return <Badge variant="success"><Check />Schváleno</Badge>;
     case "REJECTED":
-      return <Badge variant="destructive">⚠️ Vráceno</Badge>;
+      return <Badge variant="danger"><Undo2 />Vráceno</Badge>;
     case "MISSED":
-      return (
-        <Badge variant="outline" className="text-muted-foreground">
-          Zmeškáno
-        </Badge>
-      );
+      return <Badge variant="danger"><X />Zmeškáno</Badge>;
   }
 }

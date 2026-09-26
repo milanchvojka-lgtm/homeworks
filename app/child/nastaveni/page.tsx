@@ -20,7 +20,7 @@ export default async function ChildSettingsPage() {
       {/* PIN card */}
       <Card>
         <CardContent className="pt-4 space-y-3">
-          <div className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
+          <div className="text-[11px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
             ZMĚNIT PIN
           </div>
           <ChangePinForm />

@@ -107,4 +107,12 @@ Změny přes pencil MCP žijí v běžící aplikaci pen.dev; **před commitem o
 
 Stavy checků a úkolů: `PENDING` bez barvy, `SUBMITTED`/`PENDING_REVIEW` warning, `APPROVED`/`DONE` success, `REJECTED`/`MISSED`/`EXPIRED` danger — vždy barva + text.
 
-**Mapa komponent (pen → soubor):** doplní se v kroku M8.1, až vznikne knihovna v penu. **Zákon proti duplikátům:** než uděláš složenou komponentu, projdi `components/` a `app/*/_components`; když komponenta s tou rolí existuje, uprav ji, nestav paralelní variantu. Novou komponentu jen na Milanův pokyn a pak ji dopiš sem.
+**Mapa komponent (brief `docs/design/2026-09-26-design-system-mobil.md` §5 → soubor):**
+- PrimaryButton = `components/ui/button.tsx` `variant="default"` (pilulka, 48 px přes `compoundVariants`, sans 16/600). Jedna velikost primary.
+- OutlineButton = `button.tsx` `variant="outline"` (pilulka, 44 px). `size="sm"` (36 px) jen přechodně pro řádkové akce a hlavičku, do redesignu obrazovek.
+- StateChip = `components/ui/badge.tsx` `variant="warning|success|danger|info|neutral"` + lucide ikona jako první dítě (čeká `Hourglass`, schváleno/hotovo `Check`, vráceno `Undo2`, zmeškáno `X`).
+- Odznak počtu = `badge.tsx` `variant="count"` (růžová plocha, tmavé číslo) přes `app/_components/nav-badge.tsx`.
+- Input = `components/ui/input.tsx` (48 px, písmo 16, rámeček, focus růžový ring 2 px).
+- Karta = `components/ui/card.tsx` (radius ≈12, rámeček `ring-border`, tělo 16).
+- Callout: zatím neexistuje, nová komponenta čeká na Milana.
+- Knihovna v penu (frame „HW · Knihovna") doplní id komponent, až vznikne. **Zákon proti duplikátům:** než uděláš složenou komponentu, projdi `components/` a `app/*/_components`; když komponenta s tou rolí existuje, uprav ji, nestav paralelní variantu. Novou komponentu jen na Milanův pokyn a pak ji dopiš sem.

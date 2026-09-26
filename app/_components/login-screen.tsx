@@ -39,7 +39,7 @@ export function LoginScreen({ users }: { users: Profile[] }) {
                   </div>
                   <div className="text-center">
                     <div className="text-base font-medium">{u.name}</div>
-                    <div className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
+                    <div className="text-[11px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
                       {u.role === "ADMIN" ? "Rodič" : "Dítě"}
                     </div>
                   </div>

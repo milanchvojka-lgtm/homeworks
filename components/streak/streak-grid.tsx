@@ -41,7 +41,7 @@ export function StreakGrid({ cells }: StreakGridProps) {
     <div className="rounded-xl border bg-card p-4">
       {/* Header */}
       <div className="mb-3 flex items-center justify-between">
-        <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+        <span className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground">
           Posledních 12 týdnů
         </span>
         <div className="flex items-center gap-2.5 text-[9px] text-muted-foreground">

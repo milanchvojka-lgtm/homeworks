@@ -69,7 +69,7 @@ function Section({
 }) {
   return (
     <section>
-      <h2 className="mb-2 text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
+      <h2 className="mb-2 text-[11px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
         {title}
       </h2>
       <div className="space-y-2">{children}</div>
@@ -196,7 +196,7 @@ function LockedCard({ item }: { item: Item }) {
           {item.unlockedForName && (
             <>
               <div
-                className="flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-semibold text-white"
+                className="flex h-5 w-5 items-center justify-center rounded-full text-[11px] font-semibold text-white"
                 style={{ backgroundColor: item.unlockedForColor ?? "#888" }}
               >
                 {item.unlockedForName[0]}

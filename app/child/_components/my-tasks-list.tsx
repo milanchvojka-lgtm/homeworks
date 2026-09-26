@@ -4,6 +4,7 @@ import { useEffect, useState, useTransition } from "react";
 import type { TaskStatus } from "@prisma/client";
 import { reportTaskDoneAction } from "@/app/actions/tasks";
 import { Card, CardContent } from "@/components/ui/card";
+import { Check, Hourglass, Undo2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
@@ -109,21 +110,12 @@ function StatusBadge({ status }: { status: TaskStatus }) {
     case "CLAIMED":
       return <Badge variant="secondary">Vzal jsi</Badge>;
     case "PENDING_REVIEW":
-      return <Badge variant="secondary">⏳ Čeká</Badge>;
+      return <Badge variant="warning"><Hourglass />Čeká</Badge>;
     case "DONE":
-      return (
-        <Badge
-          style={{
-            backgroundColor: "var(--chart-1)",
-            color: "var(--background)",
-          }}
-        >
-          ✅ Hotovo
-        </Badge>
-      );
+      return <Badge variant="success"><Check />Hotovo</Badge>;
     case "EXPIRED":
-      return <Badge variant="outline">Vypršelo</Badge>;
+      return <Badge variant="neutral">Vypršelo</Badge>;
     case "REJECTED":
-      return <Badge variant="destructive">⚠️ Vráceno</Badge>;
+      return <Badge variant="danger"><Undo2 />Vráceno</Badge>;
   }
 }

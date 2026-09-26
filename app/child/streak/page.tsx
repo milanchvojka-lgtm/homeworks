@@ -106,7 +106,7 @@ export default async function StreakHistoryPage() {
       {/* Stats card */}
       <Card>
         <CardContent className="py-4">
-          <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-3">
+          <div className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground mb-3">
             Přehled streaku
           </div>
           <div className="grid grid-cols-3 gap-2 text-center">
@@ -114,7 +114,7 @@ export default async function StreakHistoryPage() {
               <div className="text-2xl font-extrabold tabular-nums" style={{ color: "var(--chart-1)" }}>
                 {currentStreak}
               </div>
-              <div className="text-[10px] uppercase tracking-wider text-muted-foreground mt-0.5">
+              <div className="text-[11px] uppercase tracking-wider text-muted-foreground mt-0.5">
                 aktuální
               </div>
             </div>
@@ -122,7 +122,7 @@ export default async function StreakHistoryPage() {
               <div className="text-2xl font-extrabold tabular-nums">
                 {longestStreak}
               </div>
-              <div className="text-[10px] uppercase tracking-wider text-muted-foreground mt-0.5">
+              <div className="text-[11px] uppercase tracking-wider text-muted-foreground mt-0.5">
                 nejdelší
               </div>
             </div>
@@ -130,7 +130,7 @@ export default async function StreakHistoryPage() {
               <div className="text-2xl font-extrabold tabular-nums">
                 {brokenStreaksCount}
               </div>
-              <div className="text-[10px] uppercase tracking-wider text-muted-foreground mt-0.5">
+              <div className="text-[11px] uppercase tracking-wider text-muted-foreground mt-0.5">
                 rozbito
               </div>
             </div>

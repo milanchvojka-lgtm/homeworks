@@ -50,10 +50,10 @@ export function StreakBanner({ currentStreak, longestStreak, bonus }: StreakBann
       <CardContent className="space-y-4 pt-5">
         {/* Header row */}
         <div className="flex items-center justify-between">
-          <div className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
+          <div className="text-[11px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
             STREAK
           </div>
-          <div className="text-[10px] uppercase tracking-widest text-muted-foreground tabular-nums">
+          <div className="text-[11px] uppercase tracking-widest text-muted-foreground tabular-nums">
             REKORD · {longestStreak} DNŮ
           </div>
         </div>
@@ -88,7 +88,7 @@ export function StreakBanner({ currentStreak, longestStreak, bonus }: StreakBann
               <span className="text-2xl">{currentTier.emoji}</span>
             </div>
             <div>
-              <div className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
+              <div className="text-[11px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
                 AKTUÁLNÍ TIER
               </div>
               <div className="text-xl font-bold">{currentTier.name}</div>
@@ -103,7 +103,7 @@ export function StreakBanner({ currentStreak, longestStreak, bonus }: StreakBann
             </div>
           ) : (
             <div className="text-right">
-              <div className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
+              <div className="text-[11px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
                 DALŠÍ
               </div>
               <div className="flex items-center gap-1.5 justify-end">
@@ -144,7 +144,7 @@ export function StreakBanner({ currentStreak, longestStreak, bonus }: StreakBann
           <Separator />
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
+              <div className="text-[11px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
                 BONUS TENTO MĚSÍC
               </div>
               <div className="mt-1 flex items-baseline gap-1.5">
@@ -161,7 +161,7 @@ export function StreakBanner({ currentStreak, longestStreak, bonus }: StreakBann
                 </span>
               </div>
               {bonusLost && lostOn && (
-                <div className="text-[10px] text-muted-foreground">
+                <div className="text-[11px] text-muted-foreground">
                   ztráceno {formatDateShort(lostOn)}
                 </div>
               )}
@@ -183,7 +183,7 @@ export function StreakBanner({ currentStreak, longestStreak, bonus }: StreakBann
                   />
                 ))}
               </div>
-              <span className="text-[10px] uppercase tracking-widest text-muted-foreground">
+              <span className="text-[11px] uppercase tracking-widest text-muted-foreground">
                 {misses}× zaváhání
               </span>
             </div>
