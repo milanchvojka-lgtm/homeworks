@@ -90,13 +90,11 @@ function PinPad({
   };
 
   const press = (digit: string) => {
-    if (isPending) return;
-    setPin((prev) => {
-      if (prev.length >= 4) return prev;
-      const next = prev + digit;
-      if (next.length === 4) submit(next);
-      return next;
-    });
+    if (isPending || pin.length >= 4) return;
+    // Submit outside the state updater: updaters may run during render (and twice in dev).
+    const next = pin + digit;
+    setPin(next);
+    if (next.length === 4) submit(next);
   };
 
   const back = () => {

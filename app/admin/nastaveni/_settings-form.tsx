@@ -153,17 +153,17 @@ export function SettingsForm({ initial }: { initial: Settings }) {
       {/* TIMEOUTY */}
       <div>
         <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-          Timeouty
+          Úkoly
         </p>
         <Card>
           <CardContent className="space-y-4 pt-5">
             <NumField
-              label="Default timeout claim (h)"
+              label="Výchozí doba na převzetí (hod)"
               value={s.defaultClaimTimeoutHours}
               onChange={(v) => upd("defaultClaimTimeoutHours", v)}
             />
             <NumField
-              label="Default timeout execute (h)"
+              label="Výchozí doba na splnění (hod)"
               value={s.defaultExecuteTimeoutHours}
               onChange={(v) => upd("defaultExecuteTimeoutHours", v)}
             />
