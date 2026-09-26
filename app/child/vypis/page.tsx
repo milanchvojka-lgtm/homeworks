@@ -6,7 +6,7 @@ import { getAppSettings, getWeekTotals } from "@/lib/credit";
 import { endOfWeekPrague, startOfWeekPrague } from "@/lib/time";
 import { Badge } from "@/components/ui/badge";
 import { czkToMinutes, formatMinutes } from "../_components/format";
-import { BackButton } from "./_back-button";
+import { BackHeader } from "@/app/_components/app-header";
 
 /**
  * Týdenní výpis (návrh 2, frame 05) = former Kredit (this week) + Historie.
@@ -30,12 +30,7 @@ export default async function ChildStatementPage() {
 
   return (
     <>
-      <header className="border-b border-border bg-card px-4 pt-[max(0.75rem,env(safe-area-inset-top))] pb-3">
-        <div className="flex items-center gap-1">
-          <BackButton />
-          <h1 className="text-[22px] font-bold tracking-tight">Týdenní výpis</h1>
-        </div>
-      </header>
+      <BackHeader title="Týdenní výpis" fallbackHref="/child" />
       <main className="flex flex-1 flex-col gap-3 px-4 pt-5 pb-4">
         <section className="flex flex-col gap-3 rounded-tile border border-border bg-card p-[18px]">
           <span className="font-mono text-[11px] font-bold tracking-wider text-subtle uppercase">

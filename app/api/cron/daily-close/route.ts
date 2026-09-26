@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { checkCronAuth } from "@/lib/cron";
 import { db } from "@/lib/db";
 import { startOfDayPrague } from "@/lib/time";
-import { applyDayOutcome } from "@/lib/streak";
+import { applyDayOutcome, dayResult } from "@/lib/streak";
 
 /**
  * Denní uzavření: PENDING checky pro dnešní den se označí jako MISSED.
@@ -50,7 +50,7 @@ export async function GET(request: Request) {
     }
 
     const statuses = todayInstances.map((i) => i.status);
-    const hasFail = statuses.some((s) => s === "MISSED" || s === "REJECTED");
+    const hasFail = dayResult(statuses) === "FAIL";
     // SUBMITTED counts as APPROVED (child did their part, admin hasn't reviewed yet)
     const allDone = statuses.every((s) => s === "APPROVED" || s === "SUBMITTED");
 

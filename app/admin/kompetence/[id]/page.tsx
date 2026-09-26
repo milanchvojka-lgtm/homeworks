@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
-import Link from "next/link";
 import { db } from "@/lib/db";
 import { CompetencyEditor } from "./_competency-editor";
+import { AdminSubpage } from "../../_components/subpage";
 
 export default async function CompetencyDetailPage({
   params,
@@ -17,13 +17,7 @@ export default async function CompetencyDetailPage({
   if (!competency) notFound();
 
   return (
-    <div>
-      <Link
-        href="/admin/kompetence"
-        className="text-sm text-muted-foreground hover:text-foreground"
-      >
-        ← Kompetence
-      </Link>
+    <AdminSubpage title={competency.name} back="/admin/kompetence">
       <CompetencyEditor
         competency={{
           id: competency.id,
@@ -37,6 +31,6 @@ export default async function CompetencyDetailPage({
           dueTime: c.dueTime,
         }))}
       />
-    </div>
+    </AdminSubpage>
   );
 }

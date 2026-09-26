@@ -36,3 +36,37 @@ export type DayOutcome = "APPROVED" | "MISSED" | "REJECTED";
 export function applyDayOutcome(prevStreak: number, outcome: DayOutcome): number {
   return outcome === "APPROVED" ? prevStreak + 1 : 0;
 }
+
+export type DayResult = "OK" | "FAIL";
+
+/** Outcome of a closed day (daily-close rule): any MISSED/REJECTED check fails it, SUBMITTED counts as done. */
+export function dayResult(statuses: string[]): DayResult {
+  return statuses.some((s) => s === "MISSED" || s === "REJECTED") ? "FAIL" : "OK";
+}
+
+/**
+ * Replays closed days (oldest first, days without checks left out) the way daily-close applies them.
+ * `breaks` counts FAIL days that ended a running streak; `cycleStart` is the index where the current streak began.
+ */
+export function replayStreak(days: DayResult[]): {
+  current: number;
+  longest: number;
+  breaks: number;
+  cycleStart: number;
+} {
+  let current = 0;
+  let longest = 0;
+  let breaks = 0;
+  let cycleStart = 0;
+  days.forEach((d, i) => {
+    if (d === "FAIL") {
+      if (current > 0) breaks++;
+      current = 0;
+      cycleStart = i + 1;
+    } else {
+      current = applyDayOutcome(current, "APPROVED");
+      longest = Math.max(longest, current);
+    }
+  });
+  return { current, longest, breaks, cycleStart: Math.min(cycleStart, days.length) };
+}

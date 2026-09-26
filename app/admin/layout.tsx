@@ -1,19 +1,9 @@
 import { redirect } from "next/navigation";
 import { getSession } from "@/lib/auth";
 import { getAdminInboxCount } from "@/lib/badges";
-import { logoutAction } from "../actions/auth";
-import { Button } from "@/components/ui/button";
-import { AdminTopNav } from "./_components/admin-top-nav";
+import { BottomNav } from "../_components/bottom-nav";
 
-const TABS = [
-  { href: "/admin", label: "Inbox", badge: "inbox" as const },
-  { href: "/admin/kompetence", label: "Kompetence" },
-  { href: "/admin/ukoly", label: "Úkoly" },
-  { href: "/admin/vyplaty", label: "Výplaty" },
-  { href: "/admin/uzivatele", label: "Uživatelé" },
-  { href: "/admin/nastaveni", label: "Nastavení" },
-];
-
+/** Parent part (M8.6, tok varianta B): Schválit · Děti · Výplaty · Víc, same frame as the child part. */
 export default async function AdminLayout({
   children,
 }: {
@@ -26,29 +16,21 @@ export default async function AdminLayout({
   const inboxCount = await getAdminInboxCount();
 
   return (
-    <div className="flex min-h-screen flex-1 flex-col">
-      <header className="flex items-center justify-between border-b border-border bg-card px-6 py-3">
-        <div className="flex items-center gap-3">
-          <div
-            className="flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold text-white"
-            style={{ backgroundColor: user.avatarColor }}
-          >
-            {user.name[0]}
-          </div>
-          <span className="text-sm font-medium">{user.name}</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <form action={logoutAction}>
-            <Button variant="ghost" size="sm" type="submit">
-              Odhlásit
-            </Button>
-          </form>
-        </div>
-      </header>
-
-      <AdminTopNav tabs={TABS} inboxCount={inboxCount} />
-
-      <main className="flex-1 px-6 py-6">{children}</main>
+    <div className="flex min-h-screen flex-1 flex-col pb-24">
+      {children}
+      <BottomNav
+        tabs={[
+          { href: "/admin", label: "Schválit", icon: "check-check", badge: inboxCount },
+          { href: "/admin/deti", label: "Děti", icon: "users" },
+          { href: "/admin/vyplaty", label: "Výplaty", icon: "wallet" },
+          {
+            href: "/admin/vic",
+            label: "Víc",
+            icon: "menu",
+            match: ["/admin/ukoly", "/admin/kompetence", "/admin/uzivatele", "/admin/nastaveni"],
+          },
+        ]}
+      />
     </div>
   );
 }

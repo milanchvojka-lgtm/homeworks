@@ -1,6 +1,8 @@
 import { describe, it, expect } from "vitest";
 import {
   applyDayOutcome,
+  dayResult,
+  replayStreak,
   nextTierProgress,
   tierFromStreak,
 } from "@/lib/streak";
@@ -59,5 +61,38 @@ describe("nextTierProgress", () => {
     expect(p.current.name).toBe("Gold");
     expect(p.progress).toBe(0);
     expect(p.remaining).toBe(30); // 60 - 30
+  });
+});
+
+describe("dayResult", () => {
+  it("any MISSED or REJECTED fails the day", () => {
+    expect(dayResult(["APPROVED", "MISSED"])).toBe("FAIL");
+    expect(dayResult(["SUBMITTED", "REJECTED"])).toBe("FAIL");
+  });
+  it("APPROVED and SUBMITTED only is OK (daily-close rule)", () => {
+    expect(dayResult(["APPROVED", "SUBMITTED"])).toBe("OK");
+  });
+});
+
+describe("replayStreak", () => {
+  it("empty history", () => {
+    expect(replayStreak([])).toEqual({ current: 0, longest: 0, breaks: 0, cycleStart: 0 });
+  });
+  it("counts trailing OK days as current streak", () => {
+    expect(replayStreak(["OK", "FAIL", "OK", "OK"])).toEqual({
+      current: 2,
+      longest: 2,
+      breaks: 1,
+      cycleStart: 2,
+    });
+  });
+  it("a FAIL with streak 0 is not a break", () => {
+    expect(replayStreak(["FAIL", "FAIL", "OK"]).breaks).toBe(0);
+  });
+  it("excusing a day joins the streak and removes the break", () => {
+    const before = replayStreak(["OK", "OK", "FAIL", "OK", "OK"]);
+    const after = replayStreak(["OK", "OK", "OK", "OK", "OK"]);
+    expect(before).toMatchObject({ current: 2, longest: 2, breaks: 1 });
+    expect(after).toMatchObject({ current: 5, longest: 5, breaks: 0, cycleStart: 0 });
   });
 });

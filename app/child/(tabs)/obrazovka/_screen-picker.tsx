@@ -4,7 +4,7 @@ import { useState, useTransition } from "react";
 import { Send } from "lucide-react";
 import { requestScreenTimeAction } from "@/app/actions/screen-time";
 
-type Offer = { minutes: number; cost: number; affordable: boolean };
+export type Offer = { minutes: number; cost: number; affordable: boolean };
 
 /** Choose 30/60/90 min and ask a parent (návrh 2, frame 03). */
 export function ScreenPicker({ offers }: { offers: Offer[] }) {
@@ -35,28 +35,12 @@ export function ScreenPicker({ offers }: { offers: Offer[] }) {
   return (
     <div className="flex flex-col gap-3">
       <h2 className="font-mono text-xs font-bold tracking-[0.12em] uppercase">Kolik chceš?</h2>
-      <div className="grid grid-cols-3 gap-2">
-        {offers.map((o) => {
-          const active = selected === o.minutes;
-          return (
-            <button
-              key={o.minutes}
-              type="button"
-              disabled={!o.affordable || isPending}
-              onClick={() => setSelected(o.minutes)}
-              aria-pressed={active}
-              className={`flex h-[72px] flex-col items-center justify-center gap-0.5 rounded-2xl border bg-card transition-colors disabled:opacity-40 ${
-                active ? "border-2 border-highlight bg-highlight-soft" : "border-border"
-              }`}
-            >
-              <span className={`text-[17px] ${active ? "font-bold" : "font-semibold"}`}>
-                {o.minutes} min
-              </span>
-              <span className="font-mono text-sm text-muted-foreground">{o.cost} Kč</span>
-            </button>
-          );
-        })}
-      </div>
+      <ScreenOptions
+        offers={offers}
+        selected={selected}
+        onSelect={setSelected}
+        disabled={isPending}
+      />
       {firstAffordable === null ? (
         <p className="text-sm text-muted-foreground">Potřebuješ aspoň {minCost} Kč.</p>
       ) : (
@@ -71,6 +55,49 @@ export function ScreenPicker({ offers }: { offers: Offer[] }) {
         </button>
       )}
       {error && <p className="text-sm text-destructive">{error}</p>}
+    </div>
+  );
+}
+
+/** The 30/60/90 option grid; also used by a parent recording screen time (D19, pen HWR · 03b). */
+export function ScreenOptions({
+  offers,
+  selected,
+  onSelect,
+  disabled,
+  unaffordableLabel,
+}: {
+  offers: Offer[];
+  selected: number | null;
+  onSelect: (minutes: number) => void;
+  disabled?: boolean;
+  /** Replaces the price on options the child cannot afford. */
+  unaffordableLabel?: string;
+}) {
+  return (
+    <div className="grid grid-cols-3 gap-2">
+      {offers.map((o) => {
+        const active = selected === o.minutes;
+        return (
+          <button
+            key={o.minutes}
+            type="button"
+            disabled={!o.affordable || disabled}
+            onClick={() => onSelect(o.minutes)}
+            aria-pressed={active}
+            className={`flex h-[72px] flex-col items-center justify-center gap-0.5 rounded-2xl border bg-card transition-colors disabled:opacity-40 ${
+              active ? "border-2 border-highlight bg-highlight-soft" : "border-border"
+            }`}
+          >
+            <span className={`text-[17px] ${active ? "font-bold" : "font-semibold"}`}>
+              {o.minutes} min
+            </span>
+            <span className="font-mono text-sm text-muted-foreground">
+              {!o.affordable && unaffordableLabel ? unaffordableLabel : `${o.cost} Kč`}
+            </span>
+          </button>
+        );
+      })}
     </div>
   );
 }

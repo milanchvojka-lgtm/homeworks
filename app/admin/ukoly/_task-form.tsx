@@ -6,7 +6,7 @@ import { createTaskAction, updateTaskAction } from "@/app/actions/tasks";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent } from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
 
 type Mode =
   | { kind: "create" }
@@ -84,8 +84,7 @@ export function TaskForm({
   };
 
   return (
-    <Card className="mt-6 max-w-xl">
-      <CardContent className="space-y-4 pt-5">
+    <div className="flex flex-col gap-4">
         <Field label="Název">
           <Input
             value={name}
@@ -94,16 +93,15 @@ export function TaskForm({
         </Field>
 
         <Field label="Popis (volitelné)">
-          <textarea
+          <Textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows={2}
-            className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           />
         </Field>
 
-        <div className="grid grid-cols-2 gap-3">
-          <Field label="Hodnota (Kč)">
+        <div className="grid grid-cols-2 items-end gap-3">
+          <Field label="Odměna (Kč)">
             <Input
               type="number"
               min={0}
@@ -123,38 +121,44 @@ export function TaskForm({
           </Field>
         </div>
 
-        <Field label="Frekvence">
-          <div className="space-y-2">
-            <label className="flex items-center gap-2 text-sm">
-              <input
-                type="radio"
-                checked={!recurring}
-                onChange={() => setRecurring(false)}
-              />
-              Jednorázový (ad hoc)
-            </label>
-            <label className="flex items-center gap-2 text-sm">
-              <input
-                type="radio"
-                checked={recurring}
-                onChange={() => setRecurring(true)}
-              />
-              Opakující se každých
+        <Field label="Opakování">
+          <div className="flex h-11 gap-1 rounded-full bg-muted p-1">
+            {[
+              { value: false, label: "Jednorázový" },
+              { value: true, label: "Opakovaný" },
+            ].map((o) => (
+              <button
+                key={o.label}
+                type="button"
+                aria-pressed={recurring === o.value}
+                onClick={() => setRecurring(o.value)}
+                className={`flex-1 rounded-full text-[15px] ${
+                  recurring === o.value
+                    ? "border border-border bg-card font-semibold"
+                    : "font-medium text-muted-foreground"
+                }`}
+              >
+                {o.label}
+              </button>
+            ))}
+          </div>
+          {recurring && (
+            <label className="mt-2 flex items-center gap-2 text-[15px]">
+              Každých
               <Input
                 type="number"
                 min={1}
                 value={frequencyDays}
-                disabled={!recurring}
                 onChange={(e) => setFrequencyDays(Number(e.target.value))}
-                className="w-16"
+                className="w-20"
               />
               dní
             </label>
-          </div>
+          )}
         </Field>
 
-        <div className="grid grid-cols-2 gap-3">
-          <Field label="Timeout claim (hodiny)">
+        <div className="grid grid-cols-2 items-end gap-3">
+          <Field label="Na převzetí (hod)">
             <Input
               type="number"
               min={1}
@@ -162,7 +166,7 @@ export function TaskForm({
               onChange={(e) => setClaimTimeout(Number(e.target.value))}
             />
           </Field>
-          <Field label="Timeout execute (hodiny)">
+          <Field label="Na splnění (hod)">
             <Input
               type="number"
               min={1}
@@ -174,8 +178,9 @@ export function TaskForm({
 
         {mode.kind === "edit" && (
           <Field label="Stav">
-            <label className="flex items-center gap-2 text-sm">
+            <label className="flex items-center gap-2 text-[15px]">
               <input
+                className="size-5 accent-foreground"
                 type="checkbox"
                 checked={isActive}
                 onChange={(e) => setIsActive(e.target.checked)}
@@ -187,22 +192,23 @@ export function TaskForm({
 
         {error && <div className="text-sm text-destructive">Chyba: {error}</div>}
 
-        <div className="flex gap-2">
+        <div className="mt-2 flex flex-col gap-2.5">
           <Button
+            className="w-full"
             onClick={submit}
             disabled={isPending || !name.trim()}
           >
-            {mode.kind === "create" ? "Vytvořit" : "Uložit"}
+            {mode.kind === "create" ? "Vytvořit úkol" : "Uložit úkol"}
           </Button>
           <Button
             variant="outline"
+            className="h-12 w-full"
             onClick={() => router.back()}
           >
             Zrušit
           </Button>
         </div>
-      </CardContent>
-    </Card>
+    </div>
   );
 }
 
@@ -214,8 +220,8 @@ function Field({
   children: React.ReactNode;
 }) {
   return (
-    <div className="space-y-1">
-      <Label className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+    <div className="flex flex-col gap-1.5">
+      <Label className="font-mono text-[11px] font-bold tracking-wider text-subtle uppercase">
         {label}
       </Label>
       {children}

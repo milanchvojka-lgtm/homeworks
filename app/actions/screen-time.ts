@@ -65,12 +65,14 @@ export async function approveScreenTimeAction(
 
   const weekStart = startOfWeekPrague();
 
-  await db.$transaction([
-    db.screenTimeRequest.update({
-      where: { id },
+  // Conditional update inside the transaction: a concurrent approval must not deduct twice.
+  const approved = await db.$transaction(async (tx) => {
+    const updated = await tx.screenTimeRequest.updateMany({
+      where: { id, status: "PENDING" },
       data: { status: "APPROVED", reviewedAt: new Date(), reviewerId: user.id },
-    }),
-    db.creditTransaction.create({
+    });
+    if (updated.count === 0) return false;
+    await tx.creditTransaction.create({
       data: {
         userId: req.userId,
         amountCzk: -req.costCzk,
@@ -79,8 +81,10 @@ export async function approveScreenTimeAction(
         weekStart,
         note: `${req.minutes} min`,
       },
-    }),
-  ]);
+    });
+    return true;
+  });
+  if (!approved) return { ok: false, error: "invalid_state" };
 
   revalidatePath("/admin");
   revalidatePath("/child", "layout");
@@ -101,12 +105,64 @@ export async function rejectScreenTimeAction(
     return { ok: false, error: "invalid_state" };
   }
 
-  await db.screenTimeRequest.update({
-    where: { id },
+  const updated = await db.screenTimeRequest.updateMany({
+    where: { id, status: "PENDING" },
     data: { status: "REJECTED", reviewedAt: new Date(), reviewerId: user.id },
   });
+  if (updated.count === 0) return { ok: false, error: "invalid_state" };
 
   revalidatePath("/admin");
+  revalidatePath("/child", "layout");
+  return { ok: true };
+}
+
+/** D19: a parent records screen time the child asked for outside the app. Same credit rule as a request. */
+export async function recordScreenTimeAction(
+  userId: string,
+  minutes: number,
+): Promise<ScreenTimeResult> {
+  const admin = await getSession();
+  if (!admin || admin.role !== "ADMIN") {
+    return { ok: false, error: "forbidden" };
+  }
+
+  const child = await db.user.findUnique({ where: { id: userId }, select: { role: true } });
+  if (!child || child.role !== "CHILD") return { ok: false, error: "not_found" };
+
+  const settings = await getAppSettings();
+  if (!isValidScreenTimeMinutes(minutes, settings.screenTimeMinGranularity)) {
+    return { ok: false, error: "invalid_minutes" };
+  }
+
+  const cost = computeScreenTimeCost(minutes, settings.screenTimeHourCostCzk);
+  const balance = await getCurrentBalance(userId);
+  if (balance < cost) return { ok: false, error: "insufficient_credit" };
+
+  const now = new Date();
+  await db.$transaction(async (tx) => {
+    const req = await tx.screenTimeRequest.create({
+      data: {
+        userId,
+        minutes,
+        costCzk: cost,
+        status: "APPROVED",
+        reviewedAt: now,
+        reviewerId: admin.id,
+      },
+    });
+    await tx.creditTransaction.create({
+      data: {
+        userId,
+        amountCzk: -cost,
+        type: "SCREEN_TIME",
+        referenceId: req.id,
+        weekStart: startOfWeekPrague(now),
+        note: `${minutes} min`,
+      },
+    });
+  });
+
+  revalidatePath("/admin", "layout");
   revalidatePath("/child", "layout");
   return { ok: true };
 }

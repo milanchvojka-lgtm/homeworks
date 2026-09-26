@@ -3,19 +3,6 @@ import { ChevronRight, Flame, Wallet } from "lucide-react";
 import { formatMinutes } from "./format";
 
 /**
- * App header on every child tab (header C6, iteration 8; pen `AppHeader C6`): quiet white bar with
- * wordmark + greeting so attention stays on the content below.
- */
-export function AppHeader({ name }: { name: string }) {
-  return (
-    <header className="border-b border-border bg-card px-4 pt-[max(0.75rem,env(safe-area-inset-top))] pb-[18px]">
-      <p className="font-mono text-[11px] font-bold tracking-[0.18em]">HOMEWORKS</p>
-      <h1 className="mt-0.5 text-[26px] font-bold tracking-tight">Ahoj, {name} 👋</h1>
-    </header>
-  );
-}
-
-/**
  * Status tiles, first thing in a tab's content (pen `StatusTiles`): this week's payout + screen time,
  * streak + bonus. The only place these numbers live on a tab.
  */

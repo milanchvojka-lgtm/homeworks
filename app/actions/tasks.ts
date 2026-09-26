@@ -178,19 +178,22 @@ export async function approveTaskAction(
   const claimerId = inst.claimedById;
   const weekStart = startOfWeekPrague();
 
-  await db.$transaction([
-    db.taskInstance.update({
-      where: { id: instanceId },
+  // Status change and reward in one transaction; the conditional update stops a second
+  // parent's concurrent approval from paying the reward twice.
+  const approved = await db.$transaction(async (tx) => {
+    const updated = await tx.taskInstance.updateMany({
+      where: { id: instanceId, status: "PENDING_REVIEW" },
       data: {
         status: "DONE",
         reviewedAt: new Date(),
         reviewerId: admin.id,
       },
-    }),
-    db.taskRotationLog.create({
+    });
+    if (updated.count === 0) return false;
+    await tx.taskRotationLog.create({
       data: { taskId: inst.taskId, userId: claimerId },
-    }),
-    db.creditTransaction.create({
+    });
+    await tx.creditTransaction.create({
       data: {
         userId: claimerId,
         amountCzk: inst.task.valueCzk,
@@ -198,8 +201,10 @@ export async function approveTaskAction(
         referenceId: instanceId,
         weekStart,
       },
-    }),
-  ]);
+    });
+    return true;
+  });
+  if (!approved) return { ok: false, error: "invalid_state" };
 
   revalidatePath("/admin");
   revalidatePath("/child", "layout");
@@ -221,8 +226,8 @@ export async function rejectTaskAction(
   }
   if (!inst.claimedById) return { ok: false, error: "no_claimer" };
 
-  await db.taskInstance.update({
-    where: { id: instanceId },
+  const updated = await db.taskInstance.updateMany({
+    where: { id: instanceId, status: "PENDING_REVIEW" },
     data: {
       status: "REJECTED",
       reviewedAt: new Date(),
@@ -230,6 +235,7 @@ export async function rejectTaskAction(
       reviewNote: note.trim() || null,
     },
   });
+  if (updated.count === 0) return { ok: false, error: "invalid_state" };
 
   // Vytvoří se nová instance s rotací, která vynechá toho, kdo zfušoval.
   await createTaskInstance(inst.taskId, {

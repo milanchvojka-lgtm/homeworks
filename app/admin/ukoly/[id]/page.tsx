@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
-import Link from "next/link";
 import { db } from "@/lib/db";
 import { TaskForm } from "../_task-form";
+import { AdminSubpage } from "../../_components/subpage";
 
 export default async function EditTaskPage({
   params,
@@ -19,15 +19,7 @@ export default async function EditTaskPage({
   });
 
   return (
-    <div>
-      <Link
-        href="/admin/ukoly"
-        className="text-sm text-muted-foreground hover:text-foreground"
-      >
-        ← Úkoly
-      </Link>
-      <h1 className="mt-3 text-2xl font-semibold">{task.name}</h1>
-
+    <AdminSubpage title={task.name} back="/admin/ukoly">
       <TaskForm
         mode={{ kind: "edit", id: task.id, isActive: task.isActive }}
         initial={{
@@ -41,21 +33,21 @@ export default async function EditTaskPage({
         }}
       />
 
-      <h2 className="mt-10 text-lg font-semibold">Posledních 10 instancí</h2>
-      <ul className="mt-3 space-y-1 text-sm">
+      <h2 className="mt-6 font-mono text-xs font-bold tracking-[0.12em] uppercase">Posledních 10 instancí</h2>
+      <ul className="flex flex-col gap-1.5 text-sm">
         {instances.length === 0 && (
           <li className="text-muted-foreground">Žádné instance.</li>
         )}
         {instances.map((i) => (
           <li
             key={i.id}
-            className="flex justify-between rounded-lg border border-border bg-card px-3 py-2"
+            className="flex justify-between rounded-lg border border-border bg-card px-3.5 py-2.5"
           >
             <span>{new Date(i.createdAt).toLocaleString("cs-CZ")}</span>
             <span className="text-muted-foreground">{i.status}</span>
           </li>
         ))}
       </ul>
-    </div>
+    </AdminSubpage>
   );
 }

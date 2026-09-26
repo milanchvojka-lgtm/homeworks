@@ -1,5 +1,6 @@
 import { db } from "@/lib/db";
 import { UserRow } from "./_user-row";
+import { AdminSubpage } from "../_components/subpage";
 
 export default async function AdminUsersPage() {
   const users = await db.user.findMany({
@@ -15,17 +16,16 @@ export default async function AdminUsersPage() {
   });
 
   return (
-    <div>
-      <h1 className="text-2xl font-semibold">Uživatelé</h1>
-      <p className="mt-1 text-sm text-muted-foreground">
+    <AdminSubpage title="Uživatelé" back="/admin/vic">
+      <p className="text-sm text-muted-foreground">
         Pět profilů. Reset PINu nastaví dočasný „0000" a vymaže aktivní session.
       </p>
 
-      <ul className="mt-6 space-y-2">
+      <ul className="flex flex-col gap-2.5">
         {users.map((u) => (
           <UserRow key={u.id} user={u} />
         ))}
       </ul>
-    </div>
+    </AdminSubpage>
   );
 }

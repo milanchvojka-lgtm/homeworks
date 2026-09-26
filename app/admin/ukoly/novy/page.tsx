@@ -1,16 +1,9 @@
-import Link from "next/link";
+import { AdminSubpage } from "../../_components/subpage";
 import { TaskForm } from "../_task-form";
 
 export default function NewTaskPage() {
   return (
-    <div>
-      <Link
-        href="/admin/ukoly"
-        className="text-sm text-muted-foreground hover:text-foreground"
-      >
-        ← Úkoly
-      </Link>
-      <h1 className="mt-3 text-2xl font-semibold">Nový úkol</h1>
+    <AdminSubpage title="Nový úkol" back="/admin/ukoly">
       <TaskForm
         mode={{ kind: "create" }}
         initial={{
@@ -23,6 +16,6 @@ export default function NewTaskPage() {
           executeTimeoutHours: 3,
         }}
       />
-    </div>
+    </AdminSubpage>
   );
 }

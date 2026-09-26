@@ -6,7 +6,7 @@ import {
   getChildPoolCount,
 } from "@/lib/badges";
 import { startOfDayPrague } from "@/lib/time";
-import { ChildBottomNav } from "../_components/child-bottom-nav";
+import { BottomNav } from "../_components/bottom-nav";
 
 export default async function ChildLayout({
   children,
@@ -28,7 +28,14 @@ export default async function ChildLayout({
   return (
     <div className="flex min-h-screen flex-1 flex-col pb-24">
       {children}
-      <ChildBottomNav todayBadge={openChecks} earnBadge={earnBadge} />
+      <BottomNav
+        tabs={[
+          { href: "/child", label: "Dnes", icon: "sun", badge: openChecks },
+          { href: "/child/vydelat", label: "Vydělat", icon: "list-checks", badge: earnBadge },
+          { href: "/child/obrazovka", label: "Obrazovka", icon: "monitor-play" },
+          { href: "/child/ja", label: "Já", icon: "user", match: ["/child/trofeje", "/child/streak"] },
+        ]}
+      />
     </div>
   );
 }

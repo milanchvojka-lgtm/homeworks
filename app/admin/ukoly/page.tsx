@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { db } from "@/lib/db";
 import { buttonVariants } from "@/components/ui/button";
+import { AdminSubpage } from "../_components/subpage";
 
 export default async function AdminTasksPage() {
   const tasks = await db.task.findMany({
@@ -15,15 +16,12 @@ export default async function AdminTasksPage() {
   });
 
   return (
-    <div>
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold">Úkoly</h1>
-        <Link href="/admin/ukoly/novy" className={buttonVariants({ size: "sm" })}>
-          + Nový
-        </Link>
-      </div>
+    <AdminSubpage title="Úkoly" back="/admin/vic">
+      <Link href="/admin/ukoly/novy" className={buttonVariants({ className: "w-full" })}>
+        Nový úkol
+      </Link>
 
-      <ul className="mt-6 space-y-2">
+      <ul className="mt-1 flex flex-col gap-2.5">
         {tasks.length === 0 && (
           <li className="text-sm text-muted-foreground">Zatím nic. Vytvoř první úkol.</li>
         )}
@@ -31,20 +29,20 @@ export default async function AdminTasksPage() {
           <li key={t.id}>
             <Link
               href={`/admin/ukoly/${t.id}`}
-              className={`flex items-center justify-between rounded-xl border border-border p-4 transition ${
+              className={`flex items-center justify-between gap-3 rounded-tile border border-border px-[18px] py-4 transition ${
                 t.isActive
                   ? "bg-card hover:bg-muted"
                   : "bg-muted opacity-60"
               }`}
             >
               <div>
-                <div className="text-base font-medium">
+                <div className="text-[17px] font-semibold">
                   {t.name}
                   {!t.isActive && (
                     <span className="ml-2 text-xs text-muted-foreground">(neaktivní)</span>
                   )}
                 </div>
-                <div className="mt-0.5 text-xs text-muted-foreground">
+                <div className="mt-0.5 text-sm text-muted-foreground">
                   {t.valueCzk} Kč
                   {t.timeEstimateMinutes
                     ? ` • ~${t.timeEstimateMinutes} min`
@@ -63,6 +61,6 @@ export default async function AdminTasksPage() {
           </li>
         ))}
       </ul>
-    </div>
+    </AdminSubpage>
   );
 }

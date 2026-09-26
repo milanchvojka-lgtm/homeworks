@@ -53,7 +53,7 @@ export function UserRow({ user }: { user: User }) {
             </div>
 
             {tempPin ? (
-              <div className="text-xs text-emerald-700 dark:text-emerald-400">
+              <div className="text-xs text-success">
                 Nový PIN: <span className="font-mono font-semibold">{tempPin}</span>
               </div>
             ) : confirming ? (

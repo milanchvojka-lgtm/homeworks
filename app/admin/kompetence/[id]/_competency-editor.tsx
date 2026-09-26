@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
 
 type Competency = {
   id: string;
@@ -55,10 +56,8 @@ export function CompetencyEditor({
   };
 
   return (
-    <div className="mt-3">
-      <h1 className="text-2xl font-semibold">{competency.name}</h1>
-
-      <Card className="mt-6">
+    <div className="flex flex-col gap-3">
+      <Card>
         <CardContent className="space-y-3 pt-4">
           <div className="space-y-1">
             <Label className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
@@ -73,11 +72,10 @@ export function CompetencyEditor({
             <Label className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
               Popis
             </Label>
-            <textarea
+            <Textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               rows={2}
-              className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             />
           </div>
           <div className="flex items-center gap-3">
@@ -95,7 +93,7 @@ export function CompetencyEditor({
         </CardContent>
       </Card>
 
-      <h2 className="mt-8 text-lg font-semibold">Denní checky</h2>
+      <h2 className="mt-4 font-mono text-xs font-bold tracking-[0.12em] uppercase">Denní checky</h2>
       <ChecksList competencyId={competency.id} initial={initialChecks} />
     </div>
   );

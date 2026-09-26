@@ -2,6 +2,7 @@ import { db } from "@/lib/db";
 import { getAppSettings } from "@/lib/credit";
 import { SettingsForm } from "./_settings-form";
 import { MilestonesForm } from "./_milestones-form";
+import { AdminSubpage } from "../_components/subpage";
 
 export default async function AdminSettingsPage() {
   const [settings, milestones] = await Promise.all([
@@ -12,13 +13,8 @@ export default async function AdminSettingsPage() {
   ]);
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold">Nastavení</h1>
-        <p className="mt-1 text-sm text-zinc-500">
-          Ekonomické parametry. Změny platí okamžitě.
-        </p>
-      </div>
+    <AdminSubpage title="Nastavení" back="/admin/vic">
+      <p className="text-sm text-muted-foreground">Ekonomické parametry. Změny platí okamžitě.</p>
 
       <SettingsForm
         initial={{
@@ -33,6 +29,6 @@ export default async function AdminSettingsPage() {
       />
 
       <MilestonesForm milestones={milestones} />
-    </div>
+    </AdminSubpage>
   );
 }

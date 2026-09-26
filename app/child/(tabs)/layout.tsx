@@ -3,7 +3,8 @@ import { db } from "@/lib/db";
 import { getSession } from "@/lib/auth";
 import { getBonusStatus } from "@/lib/bonus";
 import { getAppSettings, getWeekTotals } from "@/lib/credit";
-import { AppHeader, StatusTiles } from "../_components/status-header";
+import { AppHeader } from "@/app/_components/app-header";
+import { StatusTiles } from "../_components/status-header";
 import { czkToMinutes } from "../_components/format";
 
 /** Tabs (Dnes, Vydělat, Obrazovka, Já + their subpages) carry the app header and status tiles. */

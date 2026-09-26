@@ -16,12 +16,14 @@ export async function markPayoutPaidAction(
   if (!payout) return { ok: false, error: "not_found" };
   if (payout.paidOutAt) return { ok: false, error: "already_paid" };
 
-  await db.$transaction([
-    db.weeklyPayout.update({
-      where: { id: payoutId },
+  // Conditional update in the transaction: the other parent marking it at the same time must not deduct twice.
+  const paid = await db.$transaction(async (tx) => {
+    const updated = await tx.weeklyPayout.updateMany({
+      where: { id: payoutId, paidOutAt: null },
       data: { paidOutAt: new Date(), paidOutById: user.id },
-    }),
-    db.creditTransaction.create({
+    });
+    if (updated.count === 0) return false;
+    await tx.creditTransaction.create({
       data: {
         userId: payout.userId,
         amountCzk: -payout.totalPayoutCzk,
@@ -30,10 +32,12 @@ export async function markPayoutPaidAction(
         weekStart: payout.weekStart,
         note: `Hotovostní výplata`,
       },
-    }),
-  ]);
+    });
+    return true;
+  });
+  if (!paid) return { ok: false, error: "already_paid" };
 
-  revalidatePath("/admin/vyplaty");
+  revalidatePath("/admin", "layout");
   revalidatePath("/child", "layout");
   return { ok: true };
 }

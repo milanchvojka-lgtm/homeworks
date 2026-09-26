@@ -1,0 +1,105 @@
+import { notFound } from "next/navigation";
+import { db } from "@/lib/db";
+import { getBonusStatus } from "@/lib/bonus";
+import { computeScreenTimeCost } from "@/lib/credit-pure";
+import { getAppSettings, getCurrentBalance, getWeekTotals } from "@/lib/credit";
+import { endOfWeekPrague, startOfWeekPrague } from "@/lib/time";
+import { BackHeader } from "@/app/_components/app-header";
+import { affordableMinutes, czkToMinutes, formatMinutes } from "@/app/child/_components/format";
+import { getChildWeek } from "../../_components/child-days";
+import { DayRow } from "../../_components/day-row";
+import { RecordScreen } from "../../_components/record-screen";
+
+/** "2 dny", "1 den", "5 dní". */
+function days(n: number): string {
+  if (n === 1) return "1 den";
+  if (n >= 2 && n <= 4) return `${n} dny`;
+  return `${n} dní`;
+}
+
+/** Detail dítěte (pen HWR · 03): this week, record screen time (D19), days of the week with excuse (D20). */
+export default async function AdminChildPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const child = await db.user.findUnique({
+    where: { id },
+    select: { id: true, name: true, role: true, currentStreak: true },
+  });
+  if (!child || child.role !== "CHILD") notFound();
+
+  const [week, settings, bonus, balance, weekDays] = await Promise.all([
+    getWeekTotals(id),
+    getAppSettings(),
+    getBonusStatus(id),
+    getCurrentBalance(id),
+    getChildWeek(id),
+  ]);
+  const payout = Math.max(0, week.earnedCzk - week.screenTimeCzk);
+  const screenMin = czkToMinutes(week.screenTimeCzk, settings.screenTimeHourCostCzk);
+  const offers = [30, 60, 90].map((m) => {
+    const cost = computeScreenTimeCost(m, settings.screenTimeHourCostCzk);
+    return { minutes: m, cost, affordable: balance >= cost };
+  });
+  const canAfford = affordableMinutes(
+    balance,
+    settings.screenTimeHourCostCzk,
+    settings.screenTimeMinGranularity,
+  );
+
+  const f = (d: Date) =>
+    d
+      .toLocaleDateString("cs-CZ", { day: "numeric", month: "numeric", timeZone: "Europe/Prague" })
+      .replace(/\s/g, "");
+  const [sd, sm] = f(startOfWeekPrague()).split(".");
+  const end = f(endOfWeekPrague());
+  // "21.–27. 9." within a month, "28. 9.–4. 10." across two.
+  const weekLabel =
+    sm === end.split(".")[1] ? `${sd}.–${end.replace(".", ". ")}` : `${f(startOfWeekPrague())}–${end}`;
+
+  return (
+    <>
+      <BackHeader title={child.name} fallbackHref="/admin/deti" />
+      <main className="flex flex-1 flex-col gap-3 px-4 pt-5 pb-4">
+        <section className="flex flex-col gap-2.5 rounded-tile border border-border bg-card p-[18px]">
+          <span className="font-mono text-[11px] font-bold tracking-wider text-subtle uppercase">
+            Tento týden · {weekLabel}
+          </span>
+          <Row label="Vyděláno" value={`${week.earnedCzk} Kč`} />
+          <Row
+            label={`Obrazovka · ${formatMinutes(screenMin)}`}
+            value={week.screenTimeCzk > 0 ? `−${week.screenTimeCzk} Kč` : "0 Kč"}
+          />
+          <div className="flex items-center justify-between border-t border-muted pt-2.5">
+            <span className="font-bold">K výplatě</span>
+            <span className="font-mono text-xl font-bold">{payout} Kč</span>
+          </div>
+          <div className="flex flex-col gap-2.5 border-t border-muted pt-2.5">
+            <Row label="Řada" value={days(child.currentStreak)} />
+            <Row label="Měsíční bonus ve hře" value={`${bonus.currentBonusCzk} Kč`} />
+          </div>
+        </section>
+
+        <RecordScreen
+          userId={child.id}
+          name={child.name}
+          balanceCzk={balance}
+          affordableLabel={canAfford > 0 ? `na ${formatMinutes(canAfford)}` : null}
+          offers={offers}
+        />
+
+        <h2 className="mt-1 font-mono text-xs font-bold tracking-[0.12em] uppercase">Dny týdne</h2>
+        {weekDays.map((d) => (
+          <DayRow key={d.iso} day={d} userId={child.id} />
+        ))}
+      </main>
+    </>
+  );
+}
+
+function Row({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex items-center justify-between">
+      <span className="text-[15px] text-muted-foreground">{label}</span>
+      <span className="font-mono text-[15px] font-bold">{value}</span>
+    </div>
+  );
+}

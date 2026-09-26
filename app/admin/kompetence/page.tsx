@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { db } from "@/lib/db";
 import { startOfWeekPrague } from "@/lib/time";
+import { AdminSubpage } from "../_components/subpage";
 
 export default async function KompetencePage() {
   const weekStart = startOfWeekPrague();
@@ -17,23 +18,20 @@ export default async function KompetencePage() {
   });
 
   return (
-    <div>
-      <h1 className="text-2xl font-semibold">Kompetence</h1>
-      <p className="mt-1 text-sm text-muted-foreground">
-        Tento týden je přiřazené dle rotace.
-      </p>
+    <AdminSubpage title="Kompetence" back="/admin/vic">
+      <p className="text-sm text-muted-foreground">Tento týden je přiřazené dle rotace.</p>
 
-      <ul className="mt-6 space-y-2">
+      <ul className="flex flex-col gap-2.5">
         {competencies.map((c) => {
           const a = c.assignments[0];
           return (
             <li key={c.id}>
               <Link
                 href={`/admin/kompetence/${c.id}`}
-                className="flex items-center justify-between rounded-xl border border-border bg-card p-4 transition hover:bg-muted"
+                className="flex items-center justify-between gap-3 rounded-tile border border-border bg-card px-[18px] py-4 transition hover:bg-muted"
               >
                 <div>
-                  <div className="text-base font-medium">{c.name}</div>
+                  <div className="text-[17px] font-semibold">{c.name}</div>
                   {c.description && (
                     <div className="mt-0.5 text-sm text-muted-foreground">
                       {c.description}
@@ -59,6 +57,6 @@ export default async function KompetencePage() {
           );
         })}
       </ul>
-    </div>
+    </AdminSubpage>
   );
 }
