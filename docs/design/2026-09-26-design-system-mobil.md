@@ -1,8 +1,8 @@
 # Design systém Homeworks: úprava pro mobil
 
-**Datum:** 2026-09-26 · **Stav:** návrh, čeká na Milana · **Podle:** D15, brief Offer Buddyho `2f-product/projects/offer-buddy/design/2026-08-31-design-system-brief.md` (dál jen „OB brief")
+**Datum:** 2026-09-26 · **Stav:** schváleno 2026-09-26 (rozhodnutí 1–3 níže) · **Podle:** D15, brief Offer Buddyho `2f-product/projects/offer-buddy/design/2026-08-31-design-system-brief.md` (dál jen „OB brief")
 
-Homeworks přebírá tokeny, typografii a pravidla z OB briefu. Tenhle dokument popisuje jen **rozdíly pro mobilní PWA** (iPhone, šířka 390 px, ovládání palcem, spuštění z plochy). Co tu není, platí podle OB briefu. Body označené **▶ rozhodni** čekají na Milana.
+Homeworks přebírá tokeny, typografii a pravidla z OB briefu. Tenhle dokument popisuje jen **rozdíly pro mobilní PWA** (iPhone, šířka 390 px, ovládání palcem, spuštění z plochy). Co tu není, platí podle OB briefu. Rozhodnutí 1–3 padla 2026-09-26.
 
 ---
 
@@ -38,7 +38,7 @@ OB brief má tělo textu 13,5 px a H1 34 px, protože jde o hustý pracovní ná
 
 Minimum na telefonu je 11 px, a to jen pro mono kicker v kapitálkách. Dnešní popisky `text-[10px]` zmizí.
 
-**▶ rozhodni 2:** škála vyhovuje, nebo chceš celkově větší nebo menší písmo?
+**Rozhodnutí 2 (Milan, 2026-09-26): mobilní škála platí.** Porovnání v penu: `HW · Písmo · A · WEB` (zamítnuto) a `HW · Písmo · B · MOBIL` (schváleno).
 
 ---
 
@@ -61,7 +61,7 @@ Minimum na telefonu je 11 px, a to jen pro mono kicker v kapitálkách. Dnešní
 - **Horní okraj:** `env(safe-area-inset-top)`, protože PWA běží na celou obrazovku (`viewportFit: cover`).
 - **Hlavní akce na dosah palce:** hlavní akce obrazovky patří do spodní poloviny nebo do seznamu, ne do hlavičky.
 
-**▶ rozhodni 3:** lucide ikony na liště a u stavů (doporučuju), nebo unicode jako Offer Buddy?
+**Rozhodnutí 3 (Milan, 2026-09-26): lucide ikony** na spodní liště a ve stavových štítcích (čeká `hourglass`, schváleno `check`, vráceno `undo-2`). Porovnání v penu: `HW · Ikony · lucide vs unicode`.
 
 ---
 
