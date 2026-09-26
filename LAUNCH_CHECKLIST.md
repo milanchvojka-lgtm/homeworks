@@ -10,6 +10,8 @@
 
 ## 1. PWA ikony
 
+**Status:** ✅ Hotovo (2026-09-26) — ikona „domeček s fajfkou" (růžové pozadí), návrh v `_design/homeworks.pen` (sekce „HW · Ikona appky"). `app/icon.png` + `app/apple-icon.png` (Next file convention), v manifestu `icon-192/512.png` + `icon-maskable-512.png` (motiv v bezpečné zóně). Na telefonu appku z plochy smazat a přidat znovu, iOS si jinak ikonu nepřenačte.
+
 **Co:** SVG placeholder v `public/icon.svg` zafunguje na většině zařízení, ale iOS Safari pro „Add to Home Screen" oficiálně chce PNG. Před ostrým launchem nahraď reálnými.
 
 **Jak:**
