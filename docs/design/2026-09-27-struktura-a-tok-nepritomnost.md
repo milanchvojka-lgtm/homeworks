@@ -1,6 +1,6 @@
 # Struktura a tok: nepřítomnost (D24)
 
-**Datum:** 2026-09-27 · **Stav:** návrh · **Podle:** scénáře 8–10 (`2026-09-26-scenare.md`), D24, rodičovská část tok B (Schválit · Děti · Výplaty · Víc)
+**Datum:** 2026-09-27 · **Stav:** schváleno 2026-09-27: **varianta B** + společné body §4 · **Podle:** scénáře 8–10 (`2026-09-26-scenare.md`), D24, rodičovská část tok B (Schválit · Děti · Výplaty · Víc)
 
 Bez obrazovek a bez vzhledu. Kreslit se začne až po „kresli“.
 
@@ -53,6 +53,10 @@ Bez obrazovek a bez vzhledu. Kreslit se začne až po „kresli“.
 - **Dítě na Dnes:** místo povinností karta „Máš volno do So 10. 10.“ (s poznámkou, je-li). Záložky jinak beze změny.
 - **Schválit / Výplaty** se nemění.
 
-## 5 · Otázka
+## 5 · Rozhodnutí
+
+**Milan, 2026-09-27: varianta B.** Pokračuje se smlouvou rozsahu `2026-09-27-nepritomnost-co-menime-co-ne.md`.
+
+*Původní otázka:*
 
 **Varianta A, nebo B?** Doporučuji **B**: jedno místo pro jedno dítě i celou rodinu a přehled pohromadě; o jedno ťuknutí delší cesta u věci, která se děje pár× do roka, nevadí.
