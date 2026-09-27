@@ -95,7 +95,7 @@ Bez obrazovek a bez vzhledu. Jen to, co dítě dělá a co přitom vidí, a kde 
 - Na **Dnes** jsou povinnosti první věc a splní se ťuknutím na celý řádek (brief §3: řádek aspoň 56 px).
 - **Vrácené** se ukáže nahoře jen tehdy, když existuje, a vždy s poznámkou rodiče.
 - **Rozdělaný úkol** s odpočtem je vidět i na Dnes, protože termín hoří.
-- **„Hotovo na dnešek"** nahradí prázdný seznam jako odměna.
+- ~~**„Hotovo na dnešek"** nahradí prázdný seznam jako odměna.~~ *Zrušeno 2026-09-27 (Milan): odeslané povinnosti zůstávají vidět jako karty se stavem, viz `2026-09-27-dnes-ukoly-a-vypis-co-menime-co-ne.md` A2.*
 - **Motivace** (řada, bonus) je na Dnes jen jedna řádka, detail v Já.
 - **Nastavení a odhlášení** jsou v Já, hlavička je bez textových tlačítek.
 - **Každá informace žije na jednom místě** (design-to-code §5). Kompetence týdne je nadpis sekce povinností, ne samostatná karta.

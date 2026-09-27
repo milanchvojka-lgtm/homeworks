@@ -1,6 +1,6 @@
 # Dnes: úkoly během dne · Týdenní výpis: za co — co měníme, co ne
 
-**Datum:** 2026-09-27 · **Stav:** návrh · **Podle:** scénáře 2 (odpoledne, „kolik mám vyděláno“), 3 (vydělat navíc: vezme → udělá → nahlásí → čeká na schválení a připsání), 6 (holky si kontrolují výpis); Milan po vyzkoušení 27. 9.
+**Datum:** 2026-09-27 · **Stav:** schváleno 2026-09-27 (Milan: „kresli“) · **Podle:** scénáře 2 (odpoledne, „kolik mám vyděláno“), 3 (vydělat navíc: vezme → udělá → nahlásí → čeká na schválení a připsání), 6 (holky si kontrolují výpis); Milan po vyzkoušení 27. 9.
 
 ## Co je dnes (kód)
 
@@ -19,15 +19,19 @@
 - Když dítě dnes žádný úkol nemá, sekce se neukazuje (jako dnes).
 - Ve Vydělat se nic nemění. „Moje úkoly“ tam dál ukazují rozdělané, čekající a vrácené.
 
+### A2 · Dnes: povinnosti bez banneru a bez sbalení (Milan 2026-09-27 po nakreslení)
+- Když jsou všechny dnešní povinnosti odeslané, zůstávají vidět jako normální karty se stavem (ČEKÁ, SCHVÁLENO). **Banner „Na dnešek máš hotovo“ (`DayDone`) a sbalení „Ukázat dnešní povinnosti“ odcházejí.** Stav je vidět na kartách, ušetří se výška a pod povinnostmi hned vidí dnešní úkoly.
+- Mění společný bod z `2026-09-26-struktura-a-tok.md` §5 („Hotovo na dnešek nahradí prázdný seznam jako odměna“). Komponenta `DayDone` (`app/child/_components/day-done.tsx`, pen `lEwnf`) se přestane používat a smaže se.
+
 ### B · Týdenní výpis: seznam „Za co“
 - Pod kartou Tento týden nový seznam **„ZA CO“**: jeden řádek na transakci tohoto týdne, nejnovější nahoře.
   - úkol: „Umýt okna“ · den · **+300 Kč**
   - screen time: „Screen time 60 min“ · den · **−200 Kč**
   - měsíční bonus, trofej: název · den · **+150 Kč**
   - ruční úprava rodiče: „Úprava kreditu“ · den · **+300 Kč**
-- Výplata (`PAYOUT`) v seznamu není, výplata je vidět u předchozích týdnů.
+- Výplata (`PAYOUT`) v seznamu tohoto týdne není (týden ještě neskončil).
 - Prázdný stav: „Tento týden zatím nic.“
-- Předchozí týdny zůstávají jako dnes (jen součet a stav výplaty).
+- **Předchozí týdny** (Milan: „i předchozí týdny“): řádek týdne (součet a stav výplaty jako dnes) se dá rozbalit a ukáže svůj seznam Za co. Výplata v něm jako řádek není: částka je v řádku týdne a stav ukazuje štítek VYPLACENO (jinak by byla dvakrát).
 
 ## Co NEMĚNÍME
 - Datový model, server actions, pravidla schvalování a kreditu.
@@ -39,10 +43,13 @@
 2. **TransactionRow** — řádek seznamu Za co (název, den, částka).
 
 ## Návrh v penu
+
+Sekce „HW · Dnes úkoly + výpis Za co (27. 9.)“ (`t3xWe`). Nové komponenty v knihovně (řada „Úkoly a stavy dne“): TaskCard · schváleno `h9dn4`, TransactionRow `kWfDp`.
+
 | Frame | Id | Co ukazuje |
 |---|---|---|
-| HW2 · 01 Dnes s úkoly | — | povinnosti hotové, Dnešní úkoly: čeká + schválený |
-| HW2 · 05 Týdenní výpis s Za co | — | karta Tento týden + 4 řádky Za co |
+| HW2 · 01 Dnes s úkoly | `qrquz` | povinnosti odeslané jako karty (čeká, schváleno), Dnešní úkoly: čeká + schválený |
+| HW2 · 05 Týdenní výpis s Za co | `B9Ibm` | karta Tento týden + 4 řádky Za co, předchozí týden rozbalený |
 
 ## Průchod scénáři
 | Scénář | Začátek | Kroky | Konec | Díry |
@@ -50,10 +57,10 @@
 | 3 vydělat navíc | Vydělat | vezme → Dnes: rozdělaný → Hotovo → Dnes: čeká → po schválení Dnes: schváleno +300 Kč | vidí připsané peníze | — |
 | 2 / 6 kolik mám a za co | hlavička (dlaždice) → Týdenní výpis | součty + Za co | ví, za co dostala a utratila | — |
 
-## Otevřené otázky
-1. Zůstává schválený úkol na Dnes do konce dne (navrhuji), nebo jen do dalšího otevření appky?
-2. Má „Za co“ být i u předchozích týdnů (rozbalením týdne), nebo stačí tento týden?
-3. Ruční úprava kreditu se nepočítá do „vyděláno“. V seznamu ji ukázat (navrhuji, ať sedí kredit), nebo schovat?
+## Rozhodnuto (Milan 2026-09-27)
+1. Schválený úkol zůstává na Dnes do konce dne.
+2. Za co i u předchozích týdnů, rozbalením týdne.
+3. Ruční úprava kreditu se v seznamu ukazuje.
 
 ## Pravidlo
 Implementuje se přesně to, co je v části „Co vzniká". Cokoli mimo seznam se zastaví a zeptá.
