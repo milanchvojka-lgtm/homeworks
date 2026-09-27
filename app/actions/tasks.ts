@@ -9,6 +9,7 @@ import {
   createTaskInstance,
   hasCompletedTodayChecks,
 } from "@/lib/task-rotation";
+import { absentUserIds } from "@/lib/absence";
 import { startOfDayPrague, startOfWeekPrague } from "@/lib/time";
 
 export type TaskActionResult = { ok: true } | { ok: false; error: string };
@@ -102,6 +103,9 @@ export async function claimTaskAction(
   if (!canUserClaim(inst, user.id)) {
     return { ok: false, error: "not_unlocked" };
   }
+
+  // D24: a child who is away today does not take tasks.
+  if ((await absentUserIds()).has(user.id)) return { ok: false, error: "away" };
 
   const today = startOfDayPrague();
   const ok = await hasCompletedTodayChecks(user.id, today);

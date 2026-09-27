@@ -4,7 +4,8 @@ import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
 import { getSession } from "@/lib/auth";
 import { enqueueNotification } from "@/lib/notifications";
-import { dayResult, replayStreak } from "@/lib/streak";
+import { dayResult } from "@/lib/streak";
+import { withStreakResync } from "@/lib/streak-sync";
 import { startOfDayPrague, startOfMonthPrague, startOfWeekPrague } from "@/lib/time";
 
 export type CheckActionResult = { ok: true } | { ok: false; error: string };
@@ -128,60 +129,23 @@ export async function excuseDayAction(
   }
 
   const done = await db.$transaction(async (tx) => {
-    const child = await tx.user.findUnique({
-      where: { id: userId },
-      select: { role: true, currentStreak: true, longestStreak: true, brokenStreaksCount: true },
-    });
+    const child = await tx.user.findUnique({ where: { id: userId }, select: { role: true } });
     if (!child || child.role !== "CHILD") return "not_found" as const;
 
-    const history = await tx.dailyCheckInstance.findMany({
-      where: { userId, date: { lt: today } },
-      select: { date: true, status: true },
-      orderBy: { date: "asc" },
+    const statuses = await tx.dailyCheckInstance.findMany({
+      where: { userId, date: day },
+      select: { status: true },
     });
-    const byDay = new Map<number, string[]>();
-    for (const h of history) {
-      const k = h.date.getTime();
-      byDay.set(k, [...(byDay.get(k) ?? []), h.status]);
-    }
-    const keys = [...byDay.keys()].sort((a, b) => a - b);
-    const results = (excused: boolean) =>
-      keys.map((k) => (excused && k === day.getTime() ? "OK" : dayResult(byDay.get(k)!)));
-
-    if (!byDay.has(day.getTime()) || dayResult(byDay.get(day.getTime())!) === "OK") {
+    if (statuses.length === 0 || dayResult(statuses.map((x) => x.status)) === "OK") {
       return "invalid_state" as const;
     }
 
-    const before = replayStreak(results(false));
-    const after = replayStreak(results(true));
-
-    await tx.dailyCheckInstance.updateMany({
-      where: { userId, date: day, status: { in: ["MISSED", "REJECTED"] } },
-      data: { status: "APPROVED", reviewedAt: now, reviewerId: admin.id, note: "Uznáno zpětně" },
-    });
-    await tx.user.update({
-      where: { id: userId },
-      data: {
-        currentStreak: after.current,
-        longestStreak: Math.max(child.longestStreak, after.longest),
-        brokenStreaksCount: Math.max(0, child.brokenStreaksCount + after.breaks - before.breaks),
-      },
-    });
-
-    // Trophies the rebuilt streak reaches, dated to the day the streak got there (cycle-aware dedup).
-    const cycleDays = keys.slice(after.cycleStart);
-    const milestones = await tx.streakMilestone.findMany({
-      where: { days: { gt: child.currentStreak, lte: after.current } },
-    });
-    for (const m of milestones) {
-      const earnedAt = new Date(cycleDays[m.days - 1]);
-      const earned = await tx.trophyEarned.findFirst({
-        where: { userId, milestoneId: m.id, earnedAt: { gte: new Date(cycleDays[0]) } },
+    await withStreakResync(tx, userId, async () => {
+      await tx.dailyCheckInstance.updateMany({
+        where: { userId, date: day, status: { in: ["MISSED", "REJECTED"] } },
+        data: { status: "APPROVED", reviewedAt: now, reviewerId: admin.id, note: "Uznáno zpětně" },
       });
-      if (!earned) {
-        await tx.trophyEarned.create({ data: { userId, milestoneId: m.id, earnedAt } });
-      }
-    }
+    });
     return "ok" as const;
   });
   if (done !== "ok") return { ok: false, error: done };

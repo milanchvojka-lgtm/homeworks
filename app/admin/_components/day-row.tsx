@@ -39,6 +39,8 @@ export function StateChip({ state, openCount }: { state: ChipState; openCount?: 
           Zmeškáno
         </Badge>
       );
+    case "away":
+      return <Badge variant="neutral">Pryč</Badge>;
     case "open":
       return <Badge variant="neutral">{openCount ? `Zbývá ${openCount}` : "Zbývá"}</Badge>;
     default:

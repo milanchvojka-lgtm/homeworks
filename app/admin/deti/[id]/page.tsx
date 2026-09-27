@@ -1,11 +1,13 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ChevronRight, Plane } from "lucide-react";
 import { db } from "@/lib/db";
 import { getBonusStatus } from "@/lib/bonus";
 import { computeScreenTimeCost } from "@/lib/credit-pure";
 import { getAppSettings, getSpendableCredit, getWeekTotals } from "@/lib/credit";
-import { endOfWeekPrague, startOfWeekPrague } from "@/lib/time";
+import { endOfWeekPrague, startOfDayPrague, startOfWeekPrague } from "@/lib/time";
 import { BackHeader } from "@/app/_components/app-header";
-import { affordableMinutes, czkToMinutes, formatMinutes } from "@/app/child/_components/format";
+import { affordableMinutes, czkToMinutes, formatDayRange, formatMinutes } from "@/app/child/_components/format";
 import { getChildWeek } from "../../_components/child-days";
 import { DayRow } from "../../_components/day-row";
 import { RecordScreen } from "../../_components/record-screen";
@@ -26,12 +28,14 @@ export default async function AdminChildPage({ params }: { params: Promise<{ id:
   });
   if (!child || child.role !== "CHILD") notFound();
 
-  const [week, settings, bonus, balance, weekDays] = await Promise.all([
+  const [week, settings, bonus, balance, weekDays, absence] = await Promise.all([
     getWeekTotals(id),
     getAppSettings(),
     getBonusStatus(id),
     getSpendableCredit(id),
     getChildWeek(id),
+    // Running or next upcoming absence (D24).
+    db.absence.findFirst({ where: { userId: id, toDate: { gte: startOfDayPrague() } }, orderBy: { fromDate: "asc" } }),
   ]);
   const payout = Math.max(0, week.earnedCzk - week.screenTimeCzk);
   const screenMin = czkToMinutes(week.screenTimeCzk, settings.screenTimeHourCostCzk);
@@ -77,6 +81,20 @@ export default async function AdminChildPage({ params }: { params: Promise<{ id:
             <Row label="Měsíční bonus ve hře" value={`${bonus.currentBonusCzk} Kč`} />
           </div>
         </section>
+
+        {absence && (
+          <Link
+            href="/admin/nepritomnost"
+            className="flex min-h-14 items-center gap-2.5 rounded-tile border border-border bg-card pr-3.5 pl-[18px]"
+          >
+            <Plane className="size-[18px] text-muted-foreground" />
+            <span className="flex-1 font-semibold">
+              Pryč {formatDayRange(absence.fromDate, absence.toDate)}
+              {absence.note ? ` · ${absence.note}` : ""}
+            </span>
+            <ChevronRight className="size-[18px] text-subtle" />
+          </Link>
+        )}
 
         <RecordScreen
           userId={child.id}

@@ -3,6 +3,7 @@ import { Prisma, type User } from "@prisma/client";
 import { fromZonedTime } from "date-fns-tz";
 import { db } from "@/lib/db";
 import { PRAGUE_TZ } from "@/lib/time";
+import { hashPin } from "@/lib/auth";
 import { actor } from "./setup";
 
 import * as rollover from "@/app/api/cron/daily-rollover/route";
@@ -66,8 +67,10 @@ export type Family = {
 
 /** Pilot-like household: 2 parents, 3 kids, 3 competencies, 3 tasks, trophies 7/14/30. */
 export async function seedFamily(): Promise<Family> {
+  // Test PIN 1234, so the simulated month can be browsed locally afterwards (D22).
+  const pinHash = await hashPin("1234");
   const mk = (name: string, role: "ADMIN" | "CHILD", rotationOrder: number | null) =>
-    db.user.create({ data: { name, role, pinHash: "sim", rotationOrder, avatarColor: "#888888" } });
+    db.user.create({ data: { name, role, pinHash, rotationOrder, avatarColor: "#888888" } });
   const milan = await mk("Milan", "ADMIN", null);
   const teri = await mk("Teri", "ADMIN", null);
   const ani = await mk("Ani", "CHILD", 1);

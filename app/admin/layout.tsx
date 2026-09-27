@@ -27,7 +27,7 @@ export default async function AdminLayout({
             href: "/admin/vic",
             label: "Víc",
             icon: "menu",
-            match: ["/admin/ukoly", "/admin/kompetence", "/admin/uzivatele", "/admin/nastaveni"],
+            match: ["/admin/ukoly", "/admin/nepritomnost", "/admin/kompetence", "/admin/uzivatele", "/admin/nastaveni"],
           },
         ]}
       />

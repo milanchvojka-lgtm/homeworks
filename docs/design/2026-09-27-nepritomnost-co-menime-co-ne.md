@@ -1,6 +1,6 @@
 # Nepřítomnost — co měníme, co ne
 
-**Datum:** 2026-09-27 · **Stav:** schváleno 2026-09-27 (Milan: „kresli“) · **Podle:** scénáře 8–10; tok varianta B (`2026-09-27-struktura-a-tok-nepritomnost.md`); D24
+**Datum:** 2026-09-27 · **Stav:** schváleno 2026-09-27 (Milan: „kresli“), implementováno 2026-09-27 · **Podle:** scénáře 8–10; tok varianta B (`2026-09-27-struktura-a-tok-nepritomnost.md`); D24
 
 ## Co VZNIKÁ
 

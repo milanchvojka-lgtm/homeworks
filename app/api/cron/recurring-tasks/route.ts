@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { checkCronAuth } from "@/lib/cron";
 import { db } from "@/lib/db";
+import { absentUserIds } from "@/lib/absence";
 import { createTaskInstance } from "@/lib/task-rotation";
 
 /**
@@ -18,6 +19,17 @@ export async function GET(request: Request) {
   if (unauth) return unauth;
 
   const now = new Date();
+  // D24: nobody home → no new offers (they would only expire).
+  const [kids, away] = await Promise.all([
+    db.user.count({ where: { role: "CHILD" } }),
+    absentUserIds(now),
+  ]);
+  if (kids > 0 && away.size >= kids) {
+    return NextResponse.json(
+      { status: "skipped", reason: "all_children_away" },
+      { headers: { "cache-control": "no-store" } },
+    );
+  }
   const tasks = await db.task.findMany({
     where: { isActive: true, frequencyDays: { not: null } },
   });

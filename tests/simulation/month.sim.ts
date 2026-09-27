@@ -2,6 +2,8 @@
  * D22 month simulation (`npm run test:sim`): 28. 9. – 1. 11. 2026, three kids from the scenarios,
  * two parents, cron jobs with the delays and double runs seen on GitHub Actions (D21),
  * the end of two months and the switch to winter time (25. 10.). Invariants are checked every day.
+ * D24: Neli at camp 5.–10. 10. (ended early on 9. 10.), the whole family away 23.–25. 10.,
+ * Emi's illness on 14. 10. entered the next morning.
  */
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import { db } from "@/lib/db";
@@ -17,6 +19,8 @@ import {
   recordScreenTimeAction,
 } from "@/app/actions/screen-time";
 import { markPayoutPaidAction } from "@/app/actions/payouts";
+import { createAbsenceAction, endAbsenceAction } from "@/app/actions/absence";
+import { absentUserIds } from "@/lib/absence";
 import { asUser, at, cron, seedFamily, setClock, wipe, type Family } from "./world";
 import { checkInvariants } from "./invariants";
 
@@ -147,17 +151,48 @@ describe("month simulation (D22)", () => {
         await cron("claim-timeout");
       }
 
+      // D24 absences, entered by parents.
+      if (day === "2026-10-02") {
+        setClock(at(day, "20:30"));
+        asUser(f.milan);
+        const r = await createAbsenceAction({ userIds: [f.neli.id], from: "2026-10-05", to: "2026-10-10", note: "tábor" });
+        if (!r.ok) problems.push(`${day}: camp absence refused: ${r.error}`);
+      }
+      if (day === "2026-10-09") {
+        setClock(at(day, "08:00"));
+        asUser(f.milan);
+        const camp = await db.absence.findFirst({ where: { userId: f.neli.id, note: "tábor" } });
+        await endAbsenceAction(camp!.id);
+        const back = await todayChecks(f.neli.id);
+        if (back.length === 0) problems.push(`${day}: ending the camp should bring today's checks back`);
+        log(day, `Neli back from camp early, ${back.length} checks today`);
+      }
+      if (day === "2026-10-15") {
+        setClock(at(day, "07:30"));
+        asUser(f.teri);
+        const r = await createAbsenceAction({ userIds: [f.emi.id], from: "2026-10-14", to: "2026-10-14", note: "nemoc" });
+        if (!r.ok) problems.push(`${day}: illness entered afterwards refused: ${r.error}`);
+      }
+      if (day === "2026-10-20") {
+        setClock(at(day, "21:00"));
+        asUser(f.teri);
+        const r = await createAbsenceAction({ userIds: f.kids.map((k) => k.id), from: "2026-10-23", to: "2026-10-25", note: "chalupa" });
+        if (!r.ok) problems.push(`${day}: family absence refused: ${r.error}`);
+      }
+      const away = await absentUserIds(at(day, "12:00"));
+      const home = (k: Family["ani"]) => !away.has(k.id);
+
       // 16:30 Ani: everything on time, then a task.
       setClock(at(day, "16:30"));
-      await submitAll(f.ani);
-      const aniTask = await tryClaim(f.ani);
+      if (home(f.ani)) await submitAll(f.ani);
+      const aniTask = home(f.ani) ? await tryClaim(f.ani) : null;
       if (aniTask) log(day, `Ani claimed ${aniTask.task.name}`);
 
       // 18:00 Neli: checks, then Půdička sometimes; spends on screen time.
       setClock(at(day, "18:00"));
-      await submitAll(f.neli);
-      const neliTask = await tryClaim(f.neli, "Půdička");
-      if (i % 2 === 0) {
+      if (home(f.neli)) await submitAll(f.neli);
+      const neliTask = home(f.neli) ? await tryClaim(f.neli, "Půdička") : null;
+      if (i % 2 === 0 && home(f.neli)) {
         asUser(f.neli);
         const r = await requestScreenTimeAction(30);
         log(day, `Neli asks 30 min → ${r.ok ? "ok" : (r as { error: string }).error}`);
@@ -166,14 +201,14 @@ describe("month simulation (D22)", () => {
       // 17:30 / 19:00 reports (Neli once lets her task expire).
       setClock(at(day, "19:00"));
       await reportMine(f.ani);
-      if (neliTask && i !== 9) await reportMine(f.neli);
+      if (neliTask && i !== 16) await reportMine(f.neli);
       else if (neliTask) log(day, "Neli lets Půdička expire");
 
       // 20:00 Emi: forgets everything on Wednesdays; takes a task on Saturdays.
       setClock(at(day, "20:00"));
-      if (dow !== 3) await submitAll(f.emi);
-      else log(day, "Emi forgets her checks");
-      if (dow === 6) {
+      if (dow !== 3 && home(f.emi)) await submitAll(f.emi);
+      else if (home(f.emi)) log(day, "Emi forgets her checks");
+      if (dow === 6 && home(f.emi)) {
         const t = await tryClaim(f.emi);
         if (t) {
           setClock(at(day, "20:40"));
@@ -182,7 +217,7 @@ describe("month simulation (D22)", () => {
       }
 
       // Saturday: parent records screen time Ani asked for verbally (D19).
-      if (dow === 6) {
+      if (dow === 6 && home(f.ani)) {
         setClock(at(day, "19:30"));
         asUser(f.milan);
         const r = await recordScreenTimeAction(f.ani.id, 60);
@@ -196,7 +231,7 @@ describe("month simulation (D22)", () => {
 
       // 21:30 parents. Day 8 (Tue): Neli's check returned and resubmitted. Day 10 (Thu): Ani's task returned.
       setClock(at(day, "21:30"));
-      if (i === 8) {
+      if (i === 15) {
         const c = (await todayChecks(f.neli.id)).find((x) => x.status === "SUBMITTED");
         if (c) {
           asUser(f.teri);
@@ -241,6 +276,7 @@ describe("month simulation (D22)", () => {
         log(day, `excuse Emi's Wednesday → ${r.ok ? "ok" : (r as { error: string }).error}`);
         if (day === "2026-10-01" && r.ok) problems.push(`${day}: excusing 30. 9. on 1. 10. should be refused (month closed)`);
         if (day === "2026-10-08" && !r.ok) problems.push(`${day}: excusing 7. 10. should work`);
+        if (day === "2026-10-15" && r.ok) problems.push(`${day}: 14. 10. is an absence now, nothing to excuse`);
       }
 
       if (dow === 0) {
@@ -258,16 +294,34 @@ describe("month simulation (D22)", () => {
     // Final state after the last night (Mon 2. 11.).
     const kids = await db.user.findMany({ where: { role: "CHILD" }, orderBy: { rotationOrder: "asc" } });
     const [ani, emi] = kids;
-    if (ani.currentStreak !== DAYS) problems.push(`end: Ani streak ${ani.currentStreak}, expected ${DAYS}`);
+    // Days away (D24) neither count nor break: family 23.–25. 10.; Neli 5.–8. 10.; Emi 14. 10.
+    if (ani.currentStreak !== DAYS - 3) problems.push(`end: Ani streak ${ani.currentStreak}, expected ${DAYS - 3}`);
+    const neli = kids[2];
+    if (neli.currentStreak !== DAYS - 3 - 4) problems.push(`end: Neli streak ${neli.currentStreak}, expected ${DAYS - 7}`);
     const aniTrophies = await db.trophyEarned.findMany({ where: { userId: ani.id }, include: { milestone: true } });
     const names = aniTrophies.map((t) => t.milestone.days).sort((a, b) => a - b);
     if (names.join(",") !== "7,14,30") problems.push(`end: Ani trophies ${names.join(",")}, expected 7,14,30`);
     // Emi missed every Wednesday; October ones were excused (D20), 30. 9. could not be (month closed).
-    if (emi.currentStreak !== 32) problems.push(`end: Emi streak ${emi.currentStreak}, expected 32 (since 1. 10.)`);
+    if (emi.currentStreak !== 32 - 3 - 1) problems.push(`end: Emi streak ${emi.currentStreak}, expected 28 (since 1. 10., minus days away)`);
     const sept30 = await db.dailyCheckInstance.findMany({ where: { userId: emi.id, date: startOfDayPrague(at("2026-09-30", "12:00")) } });
     if (!sept30.length || sept30.some((c) => c.status !== "MISSED")) problems.push("end: Emi's 30. 9. should stay MISSED");
     const pending = await db.dailyCheckInstance.count({ where: { status: "PENDING", date: { lt: startOfDayPrague() } } });
     if (pending) problems.push(`end: ${pending} past check(s) left PENDING`);
+    // D24: nothing for anyone while away; no new offers while the whole family is away.
+    for (const a of await db.absence.findMany()) {
+      const open = await db.dailyCheckInstance.count({
+        where: { userId: a.userId, date: { gte: a.fromDate, lte: a.toDate }, status: { in: ["PENDING", "MISSED", "REJECTED"] } },
+      });
+      if (open) problems.push(`end: ${open} open/missed check(s) during an absence (${a.note})`);
+      const claimed = await db.taskInstance.count({
+        where: { claimedById: a.userId, claimedAt: { gte: a.fromDate, lt: new Date(a.toDate.getTime() + 86_400_000) } },
+      });
+      if (claimed) problems.push(`end: a task was claimed during an absence (${a.note})`);
+    }
+    const offersWhileAway = await db.taskInstance.count({
+      where: { createdAt: { gte: at("2026-10-23", "00:00"), lt: at("2026-10-26", "00:00") } },
+    });
+    if (offersWhileAway) problems.push(`end: ${offersWhileAway} task offer(s) created while the whole family was away`);
     const weeks = await db.weeklyPayout.groupBy({ by: ["weekStart"], _count: true });
     if (weeks.length !== 5) problems.push(`end: ${weeks.length} closed weeks, expected 5`);
     const bonuses = await db.creditTransaction.findMany({ where: { type: "MONTHLY_BONUS" } });

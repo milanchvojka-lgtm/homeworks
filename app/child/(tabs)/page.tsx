@@ -6,6 +6,8 @@ import { getCurrentAssignment } from "@/lib/rotation";
 import { startOfDayPrague } from "@/lib/time";
 import { CheckCard, type CheckCardData } from "../_components/check-card";
 import { TaskCard } from "../_components/task-card";
+import { FreeDay } from "../_components/free-day";
+import { currentAbsence } from "@/lib/absence";
 
 /** Dnešní úkoly: running first, then returned, waiting, approved. */
 const TASK_ORDER: Partial<Record<TaskStatus, number>> = {
@@ -29,7 +31,7 @@ export default async function ChildToday() {
   if (!user) redirect("/");
 
   const today = startOfDayPrague();
-  const [assignment, instances, todayTasks] = await Promise.all([
+  const [assignment, instances, todayTasks, away] = await Promise.all([
     getCurrentAssignment(user.id),
     db.dailyCheckInstance.findMany({
       where: { userId: user.id, date: today },
@@ -52,6 +54,7 @@ export default async function ChildToday() {
       include: { task: true },
       orderBy: { claimedAt: "asc" },
     }),
+    currentAbsence(user.id),
   ]);
   const nowIso = new Date().toISOString();
 
@@ -80,7 +83,14 @@ export default async function ChildToday() {
 
   return (
     <div className="flex flex-col gap-3">
-      {checks.length === 0 ? (
+      {away ? (
+        <>
+          <FreeDay until={away.toDate} note={away.note} />
+          {checks.map((c) => (
+            <CheckCard key={c.id} check={c} nowIso={nowIso} />
+          ))}
+        </>
+      ) : checks.length === 0 ? (
         <p className="rounded-tile border border-border bg-card px-[18px] py-6 text-center text-muted-foreground">
           {assignment
             ? "Na dnešek nemáš žádné povinnosti."

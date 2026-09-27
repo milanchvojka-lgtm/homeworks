@@ -47,3 +47,19 @@ export function formatDayPrague(date: Date | string): string {
   const dow = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].indexOf(get("weekday"));
   return `${WEEKDAY[dow]} ${Number(get("day"))}. ${Number(get("month"))}.`;
 }
+
+/** "5.–10. 10.", "28. 9.–4. 10.", "10. 10." (one day) in Europe/Prague. */
+export function formatDayRange(from: Date | string, to: Date | string): string {
+  const dm = (d: Date | string) => {
+    const [day, month] = new Date(d)
+      .toLocaleDateString("cs-CZ", { day: "numeric", month: "numeric", timeZone: "Europe/Prague" })
+      .replace(/\s/g, "")
+      .split(".");
+    return { day, month };
+  };
+  const a = dm(from);
+  const b = dm(to);
+  if (a.day === b.day && a.month === b.month) return `${a.day}. ${a.month}.`;
+  if (a.month === b.month) return `${a.day}.–${b.day}. ${b.month}.`;
+  return `${a.day}. ${a.month}.–${b.day}. ${b.month}.`;
+}

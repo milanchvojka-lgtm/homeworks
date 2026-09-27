@@ -1,24 +1,36 @@
 import Link from "next/link";
-import { ChevronRight, Layers, ListChecks, Settings, UsersRound } from "lucide-react";
+import { ChevronRight, Layers, ListChecks, Plane, Settings, UsersRound } from "lucide-react";
 import { db } from "@/lib/db";
 import { getSession } from "@/lib/auth";
 import { logoutAction } from "@/app/actions/auth";
 import { Button } from "@/components/ui/button";
+import { startOfDayPrague } from "@/lib/time";
+import { formatDayRange } from "@/app/child/_components/format";
 
 /** 1–4 take the short Czech plural ("3 lidé", "2 aktivní"), 0 and 5+ the genitive. */
 const few = (n: number) => n >= 1 && n <= 4;
 
 /** Víc (pen HWR · 05): rarely used things, one list, sign-out below. */
 export default async function AdminMorePage() {
-  const [user, activeTasks, competencies, people] = await Promise.all([
+  const [user, activeTasks, competencies, people, awayNow] = await Promise.all([
     getSession(),
     db.task.count({ where: { isActive: true } }),
     db.competency.findMany({ orderBy: { order: "asc" }, select: { name: true } }),
     db.user.count(),
+    db.absence.findMany({
+      where: { fromDate: { lte: startOfDayPrague() }, toDate: { gte: startOfDayPrague() } },
+      include: { user: { select: { name: true } } },
+      orderBy: { toDate: "asc" },
+    }),
   ]);
+  const awaySub =
+    awayNow.length === 0
+      ? "tábor, dovolená, nemoc"
+      : awayNow.map((a) => `${a.user.name} do ${formatDayRange(a.toDate, a.toDate)}`).join(", ");
 
   const items = [
     { href: "/admin/ukoly", Icon: ListChecks, title: "Úkoly", sub: `${activeTasks} ${few(activeTasks) ? "aktivní" : "aktivních"}` },
+    { href: "/admin/nepritomnost", Icon: Plane, title: "Nepřítomnost", sub: awaySub },
     {
       href: "/admin/kompetence",
       Icon: Layers,

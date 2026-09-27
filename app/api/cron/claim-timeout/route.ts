@@ -1,11 +1,13 @@
 import { NextResponse } from "next/server";
 import { checkCronAuth } from "@/lib/cron";
 import { db } from "@/lib/db";
+import { absentUserIds } from "@/lib/absence";
 import { shiftRotation } from "@/lib/task-rotation";
 
 /**
  * Volá GitHub Actions každých 15 min.
  * - AVAILABLE TaskInstance s prošlým unlockExpiresAt → posun rotace (nebo EXPIRED).
+ * - D24: odemčená pro dítě, které je dnes pryč → posun rotace hned.
  * - CLAIMED s prošlým executeDeadline → vrátí do poolu (status AVAILABLE,
  *   vyčistí claim fields, neresetuje rotation queue — další si vezme open phase).
  */
@@ -17,10 +19,11 @@ export async function GET(request: Request) {
   let shifted = 0;
   let returned = 0;
 
+  const away = [...(await absentUserIds(now))];
   const expiredAvailable = await db.taskInstance.findMany({
     where: {
       status: "AVAILABLE",
-      unlockExpiresAt: { lt: now },
+      OR: [{ unlockExpiresAt: { lt: now } }, { unlockedForUserId: { in: away } }],
     },
     select: { id: true },
   });

@@ -4,7 +4,7 @@ import { dayResult } from "@/lib/streak";
 import { startOfDayPrague, startOfMonthPrague, startOfWeekPrague } from "@/lib/time";
 import { formatDayPrague, formatTimePrague } from "@/app/child/_components/format";
 
-export type ChipState = "done" | "waiting" | "returned" | "missed" | "open" | "none";
+export type ChipState = "done" | "waiting" | "returned" | "missed" | "open" | "none" | "away";
 
 export type DayCheck = { id: string; name: string; meta: string; state: ChipState };
 
@@ -55,6 +55,10 @@ export async function getChildWeek(userId: string, now: Date = new Date()): Prom
   const today = startOfDayPrague(now);
   const thisMonth = startOfMonthPrague(now).getTime();
 
+  const absences = await db.absence.findMany({
+    where: { userId, fromDate: { lte: today }, toDate: { gte: weekStart } },
+    select: { fromDate: true, toDate: true },
+  });
   const instances = await db.dailyCheckInstance.findMany({
     where: { userId, date: { gte: weekStart, lte: today } },
     include: {
@@ -77,8 +81,10 @@ export async function getChildWeek(userId: string, now: Date = new Date()): Prom
     const statuses = list.map((c) => c.status);
     const openCount = statuses.filter((s) => s === "PENDING" || s === "REJECTED").length;
 
+    const away = absences.some((a) => a.fromDate <= day && day <= a.toDate);
     let state: ChipState;
-    if (list.length === 0) state = "none";
+    if (away && openCount === 0 && !statuses.includes("SUBMITTED")) state = "away"; // D24
+    else if (list.length === 0) state = "none";
     else if (!isToday && dayResult(statuses) === "FAIL") state = "missed";
     else if (isToday && statuses.includes("REJECTED")) state = "returned";
     else if (isToday && openCount > 0) state = "open";

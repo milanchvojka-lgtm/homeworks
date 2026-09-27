@@ -40,6 +40,8 @@ model User {
   weeklyPayouts          WeeklyPayout[]         @relation("WeeklyPayoutUser")
   paidOutByWeeklyPayouts WeeklyPayout[]         @relation("WeeklyPayoutPaidBy")
   trophies               TrophyEarned[]
+  absences               Absence[]              @relation("AbsenceUser")
+  createdAbsences        Absence[]              @relation("AbsenceCreatedBy")
 }
 
 model Session {
@@ -322,3 +324,20 @@ model AppSettings {
   defaultExecuteTimeoutHours Int      @default(3)
   updatedAt                  DateTime @updatedAt
 }
+
+/// D24: a child is away (camp, holiday, illness) for whole days fromDate..toDate (Prague days, inclusive).
+model Absence {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation("AbsenceUser", fields: [userId], references: [id], onDelete: Cascade)
+  fromDate    DateTime
+  toDate      DateTime
+  note        String?
+  createdById String
+  createdBy   User     @relation("AbsenceCreatedBy", fields: [createdById], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+
+  @@index([userId, fromDate])
+  @@index([toDate])
+}
+

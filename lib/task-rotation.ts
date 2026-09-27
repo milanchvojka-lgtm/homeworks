@@ -1,5 +1,6 @@
 import "server-only";
 import { db } from "./db";
+import { absentUserIds } from "./absence";
 import type { Prisma } from "@prisma/client";
 import { nextRotationState, prioritizeChildren } from "./task-rotation-pure";
 export { canUserClaim, prioritizeChildren } from "./task-rotation-pure";
@@ -12,10 +13,12 @@ export async function buildRotationQueue(
   taskId: string,
   excludeUserIds: string[] = [],
 ): Promise<string[]> {
+  // D24: children away today are not queued (the task would wait 24 h for someone who is not home).
+  const away = await absentUserIds();
   const children = await db.user.findMany({
     where: {
       role: "CHILD",
-      id: { notIn: excludeUserIds },
+      id: { notIn: [...excludeUserIds, ...away] },
     },
     orderBy: { rotationOrder: "asc" },
   });
