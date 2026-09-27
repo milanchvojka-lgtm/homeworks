@@ -1,6 +1,6 @@
 # Dnes: úkoly během dne · Týdenní výpis: za co — co měníme, co ne
 
-**Datum:** 2026-09-27 · **Stav:** schváleno 2026-09-27 (Milan: „kresli“) · **Podle:** scénáře 2 (odpoledne, „kolik mám vyděláno“), 3 (vydělat navíc: vezme → udělá → nahlásí → čeká na schválení a připsání), 6 (holky si kontrolují výpis); Milan po vyzkoušení 27. 9.
+**Datum:** 2026-09-27 · **Stav:** schváleno 2026-09-27 (Milan: „kresli“), implementováno 2026-09-27 (`e5ec3b5`) · **Podle:** scénáře 2 (odpoledne, „kolik mám vyděláno“), 3 (vydělat navíc: vezme → udělá → nahlásí → čeká na schválení a připsání), 6 (holky si kontrolují výpis); Milan po vyzkoušení 27. 9.
 
 ## Co je dnes (kód)
 
@@ -56,6 +56,9 @@ Sekce „HW · Dnes úkoly + výpis Za co (27. 9.)“ (`t3xWe`). Nové komponent
 |---|---|---|---|---|
 | 3 vydělat navíc | Vydělat | vezme → Dnes: rozdělaný → Hotovo → Dnes: čeká → po schválení Dnes: schváleno +300 Kč | vidí připsané peníze | — |
 | 2 / 6 kolik mám a za co | hlavička (dlaždice) → Týdenní výpis | součty + Za co | ví, za co dostala a utratila | — |
+
+## Navíc při implementaci
+- Karta povinnosti: „schválil Milan“ → „schváleno · Milan“ (bez rodu, Milan „ano“ 2026-09-27).
 
 ## Rozhodnuto (Milan 2026-09-27)
 1. Schválený úkol zůstává na Dnes do konce dne.
