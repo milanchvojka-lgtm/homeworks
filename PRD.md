@@ -2,7 +2,7 @@
 
 > Brand: **Homeworks** (zafixováno 2026-04-26). Pracovní název *„Domácí Úkoly"* opuštěn.
 
-> ⚠️ **Tento dokument byl po sepsání upraven o rozhodnutí D1–D21 v [`DECISIONS.md`](./DECISIONS.md).** Při rozporu má `DECISIONS.md` prioritu. v1 (M0–M6) hlavní úpravy: cron přes GitHub Actions, eager `DailyCheckInstance`, e-mail digest, Supabase. v1.1 (M7) přidává: gradient měsíční bonus (D9), streak gamifikaci (D11), shadcn/ui design system (D12), Supabase RLS (D13).
+> ⚠️ **Tento dokument byl po sepsání upraven o rozhodnutí D1–D23 v [`DECISIONS.md`](./DECISIONS.md).** Při rozporu má `DECISIONS.md` prioritu. v1 (M0–M6) hlavní úpravy: cron přes GitHub Actions, eager `DailyCheckInstance`, e-mail digest, Supabase. v1.1 (M7) přidává: gradient měsíční bonus (D9), streak gamifikaci (D11), shadcn/ui design system (D12), Supabase RLS (D13).
 
 ---
 
@@ -292,6 +292,7 @@ Po přihlášení se uživatel směruje automaticky do `/admin` nebo `/child` po
   2. Klikne „Schváleno" → kredit holky se sníží, transakce se zaeviduje.
   3. Volitelně klikne „Zamítnuto" (např. „máš dost obrazovky na dnešek") → bez odpočtu.
   4. *(D19)* Když dítě požádalo mimo appku, admin obrazovku zapíše sám v detailu dítěte. Platí stejné pravidlo kreditu (nejde do mínusu).
+  5. *(D23)* Utratit se dá jen volný kredit: peníze uzavřeného, ještě nevyplaceného týdne jsou rezervované pro výplatu. Schválení kredit ověří znovu.
 
 - **Data:**
   - **Read:** aktuální kredit, kurz.

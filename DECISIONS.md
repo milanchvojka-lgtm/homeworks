@@ -371,3 +371,34 @@
 - Oprava dat pilotu 27. 9.: dnešní instance dítěte Test vráceny z `MISSED` na `PENDING`.
 - Dnešek nikdy není `MISSED`, takže stav „dnešní povinnost zmeškaná“ v UI dítěte nenastane (Dnes / Vydělat se neměnily).
 
+---
+
+## D22 — Testovací schéma `homeworks_test` a simulace měsíce
+
+**Rozhodnutí:** testy proti databázi a lokální vývoj běží ve **schématu `homeworks_test`** ve stávajícím Supabase projektu, ne v `public` (ostrá data). Prisma se na něj přepíná parametrem `?schema=homeworks_test` v `DATABASE_URL` i `DIRECT_URL`.
+
+- `.env.test.local` — pro simulaci (`npm run test:sim`), `.env.development.local` — pro `next dev` (Next.js ho načte přednostně před `.env`). Oba soubory jsou v `.gitignore` (`.env*.local`).
+- `.env` se nemění: Prisma CLI (`db:push`, `db:seed`) a produkce (Vercel) dál míří na `public`. Změna schématu v testovacím schématu = `prisma db push` s URL z `.env.test.local`.
+- **Simulace měsíce** (`tests/simulation/`, vlastní `vitest.sim.config.ts`): posouvá čas přes `vi.setSystemTime`, volá server actions a cron handlery přímo (session a `revalidatePath` mockované) a po každém dni kontroluje invarianty (kredit nejde do mínusu, nic se nepřipíše dvakrát, výplata = vyděláno − screen time + bonus, řada, trofeje, bonus, dnešek nikdy MISSED). Scénáře podle `docs/design/2026-09-26-scenare.md`, zlomyslné situace z D21 (zpožděné a dvojité crony, přechod času, konec měsíce, dva rodiče naráz).
+
+**Důvod:** Milan 2026-09-27: „potřebuji, aby to bylo super spolehlivé“. Chyby D21 a dvojího připsání peněz by simulace chytila před nasazením. Třetí Supabase projekt na free tarifu nejde (Milan má dva), nový účet ani lokální Postgres nechtěl. Lokální vývoj dosud míril na produkční data.
+
+**Důsledky:**
+- Bez nové závislosti (vitest už je v projektu).
+- Simulace na začátku testovací schéma vyprázdní; nikdy se nesmí pouštět s URL bez `schema=homeworks_test` (harness to kontroluje a jinak skončí).
+- Lokální přihlášení do appky používá testovací uživatele ze seedu (výchozí PIN ze `prisma/seed.ts`), ne ostré PINy.
+
+---
+
+## D23 — Uzavřený týden je rezervovaný pro výplatu
+
+**Rozhodnutí:** na screen time se dá utratit jen **volný kredit** = zůstatek všech transakcí **minus nevyplacené týdenní výplaty** (`WeeklyPayout` s `paidOutAt = null`). Jakmile se týden uzavře, jeho peníze patří výplatě a na screen time už nejdou. Platí pro žádost dítěte, schválení rodičem (kontroluje se znovu v transakci) i pro zapsání rodičem (D19).
+
+**Důvod:** simulace měsíce (D22) našla, že dítě mohlo v pondělí za peníze z uzavřeného týdne koupit screen time a rodič pak vyplatil celou částku z uzávěrky: kredit spadl do mínusu (Neli −100 Kč) a dítě dostalo peníze i screen time. Týden s útratou větší než výdělkem pak nechal v kreditu „dluh“, protože výplata se zastaví na 0. Milan zvolil variantu A (rezervace) před B (vyplatit jen zbytek), protože částka k výplatě se po uzávěrce nemění a sedí s tím, co dítě vidí.
+
+**Důsledky:**
+- Nová `getSpendableCredit(userId)` v `lib/credit.ts`; `getCurrentBalance` zůstává pro celkový zůstatek.
+- Screen time u dítěte ukazuje „na kolik mám“ z volného kreditu; detail dítěte u rodiče taky.
+- V pondělí ráno před výplatou má dítě na screen time jen to, co mu zbylo mimo uzavřený týden (typicky 0).
+- Simulace kontroluje, že kredit nikdy nejde do mínusu ani po výplatě.
+
