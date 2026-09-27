@@ -359,7 +359,7 @@
 
 - **Denní uzávěrka** (`closePastDays` v `lib/day-close.ts`): všechny `PENDING` instance se dnem **před dneškem** → `MISSED`. Potom pro každé dítě projde uzavřené dny po `User.lastStreakDate` (od nejstaršího), aplikuje výsledek dne na řadu a trofeje jako dřív a posune `lastStreakDate` (nově i při přerušení řady, ne jen při posunu). Zmeškané je tedy až po půlnoci, jak říká pravidlo.
 - **Týdenní uzávěrka:** zavírá **předchozí** (už skončený) týden. Nejdřív spustí `closePastDays`, aby byla neděle uzavřená. Trofeje vyplatí s `weekStart` zavíraného týdne a součty počítá podle `CreditTransaction.weekStart`, ne podle `createdAt`.
-- **Měsíční uzávěrka:** zavírá **předchozí** měsíc. Nejdřív spustí `closePastDays`. Bonus připíše do **běžícího** týdne (`weekStart` teď), aby ho zahrnula příští týdenní výplata bez ohledu na pořadí úloh. Idempotence přes `referenceId = "RRRR-MM"`.
+- **Měsíční uzávěrka:** zavírá **předchozí** měsíc. Nejdřív spustí `closePastDays`. Bonus připíše do **běžícího** týdne (`weekStart` teď), aby ho zahrnula příští týdenní výplata bez ohledu na pořadí úloh. Idempotence přes `referenceId = "RRRR-MM"` (starší kontrola podle `createdAt` v měsíci odpadá, bonus se teď připisuje až v dalším měsíci).
 - **Rotace a ranní generování:** `daily-rollover` si před vytvořením instancí zajistí přiřazení kompetencí na běžící týden (`assignCompetenciesForWeek`, idempotentní). `weekly-rotation` přiřadí běžící i příští týden.
 - **Rozvrh v `cron.yml`:** denní, týdenní a měsíční uzávěrka se posouvají **za půlnoc** (00:15 Prague v létě i v zimě, oba UTC spouštěče nechané). Rotace zůstává a je pojistkou.
 

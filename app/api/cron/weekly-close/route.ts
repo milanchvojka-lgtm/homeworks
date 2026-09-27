@@ -2,10 +2,14 @@ import { NextResponse } from "next/server";
 import { checkCronAuth } from "@/lib/cron";
 import { db } from "@/lib/db";
 import { computeWeeklyPayout } from "@/lib/credit";
-import { endOfWeekPrague, startOfWeekPrague } from "@/lib/time";
+import { closePastDays } from "@/lib/day-close";
+import { previousWeekStart } from "@/lib/day-close-pure";
+import { endOfWeekPrague } from "@/lib/time";
 
 /**
- * Týdenní uzávěrka. Volá GitHub Actions neděli 23:59 Prague.
+ * Týdenní uzávěrka (D21): zavírá PŘEDCHOZÍ, už skončený týden, takže nezáleží na tom,
+ * kdy ji GitHub Actions spustí (rozvrh: pondělí po půlnoci Prague). Nejdřív uzavře dny,
+ * aby byla neděle započítaná. Součty podle CreditTransaction.weekStart, ne createdAt.
  * Pro každé dítě vytvoří `WeeklyPayout` (paidOutAt = null).
  * V M4 ještě bez bonusu (M5).
  * Idempotentní díky unique [userId, weekStart].
@@ -19,8 +23,9 @@ export async function GET(request: Request) {
   const unauth = checkCronAuth(request);
   if (unauth) return unauth;
 
-  const weekStart = startOfWeekPrague();
-  const weekEnd = endOfWeekPrague();
+  await closePastDays();
+  const weekStart = previousWeekStart(new Date());
+  const weekEnd = endOfWeekPrague(weekStart);
 
   const children = await db.user.findMany({ where: { role: "CHILD" } });
 
@@ -68,7 +73,7 @@ export async function GET(request: Request) {
     const txs = await db.creditTransaction.findMany({
       where: {
         userId: child.id,
-        createdAt: { gte: weekStart, lte: weekEnd },
+        weekStart,
         type: { in: ["TASK_REWARD", "SCREEN_TIME", "MONTHLY_BONUS", "STREAK_MILESTONE"] },
       },
       select: { type: true, amountCzk: true },

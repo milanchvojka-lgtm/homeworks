@@ -2,40 +2,29 @@ import { NextResponse } from "next/server";
 import { checkCronAuth } from "@/lib/cron";
 import { db } from "@/lib/db";
 import { getBonusStatus } from "@/lib/bonus";
-import {
-  endOfMonthPrague,
-  isLastDayOfMonthInPrague,
-  startOfMonthPrague,
-  startOfWeekPrague,
-} from "@/lib/time";
+import { closePastDays } from "@/lib/day-close";
+import { monthRef, previousMonthEnd } from "@/lib/day-close-pure";
+import { startOfMonthPrague, startOfWeekPrague } from "@/lib/time";
 
 /**
- * Měsíční uzávěrka. Volá GitHub Actions denně v 23:58 Prague — handler sám
- * ověří, že je teď opravdu poslední den měsíce v Praze (DST safe per D5).
+ * Měsíční uzávěrka (D21): zavírá PŘEDCHOZÍ, už skončený měsíc, takže nezáleží na tom,
+ * kdy ji GitHub Actions spustí. Nejdřív uzavře dny (poslední den měsíce se započítá).
  *
- * Pro každé dítě:
- *   - Pokud currentBonusCzk > 0 → vytvoř CreditTransaction
- *     MONTHLY_BONUS s amountCzk = graduovaná výše bonusu (dle počtu zaváhání).
- *   - weekStart = pondělí týdne, do kterého patří poslední den měsíce.
- *     Týdenní uzávěrka pak bonus zahrne do WeeklyPayout.bonusCzk.
- *
- * Idempotentní: pokud transakce s typem MONTHLY_BONUS pro daný měsíc už existuje,
- * skip.
+ * Pro každé dítě, které v měsíci mělo povinnosti:
+ *   - Pokud currentBonusCzk > 0 → CreditTransaction MONTHLY_BONUS (graduovaná výše),
+ *     weekStart = BĚŽÍCÍ týden, aby ho zahrnula příští týdenní výplata.
+ * Idempotentní přes referenceId "RRRR-MM".
  */
 export async function GET(request: Request) {
   const unauth = checkCronAuth(request);
   if (unauth) return unauth;
 
-  if (!isLastDayOfMonthInPrague()) {
-    return NextResponse.json(
-      { status: "skipped", reason: "not_last_day_of_month_in_prague" },
-      { headers: { "cache-control": "no-store" } },
-    );
-  }
-
-  const monthStart = startOfMonthPrague();
-  const monthEnd = endOfMonthPrague();
-  const weekStart = startOfWeekPrague(monthEnd);
+  await closePastDays();
+  const now = new Date();
+  const monthEnd = previousMonthEnd(now);
+  const monthStart = startOfMonthPrague(monthEnd);
+  const ref = monthRef(monthEnd);
+  const weekStart = startOfWeekPrague(now);
 
   const children = await db.user.findMany({ where: { role: "CHILD" } });
 
@@ -48,10 +37,19 @@ export async function GET(request: Request) {
       where: {
         userId: child.id,
         type: "MONTHLY_BONUS",
-        createdAt: { gte: monthStart, lte: monthEnd },
+        referenceId: ref,
       },
     });
     if (existing) {
+      skipped++;
+      continue;
+    }
+
+    // No checks that month (child added later, or before the pilot) → no bonus to earn.
+    const hadChecks = await db.dailyCheckInstance.count({
+      where: { userId: child.id, date: { gte: monthStart, lte: monthEnd } },
+    });
+    if (hadChecks === 0) {
       skipped++;
       continue;
     }
@@ -67,6 +65,7 @@ export async function GET(request: Request) {
         userId: child.id,
         amountCzk: status.currentBonusCzk,
         type: "MONTHLY_BONUS",
+        referenceId: ref,
         weekStart,
         note: `Měsíční bonus za ${monthEnd.toLocaleDateString("cs-CZ", { month: "long", year: "numeric" })}`,
       },

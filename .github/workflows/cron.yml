@@ -10,6 +10,8 @@ name: Cron jobs
 # Cron expressions GitHub Actions interpretuje v UTC; každý handler je
 # idempotentní + uvnitř si timezone-aware kontroly dělá sám (viz D5).
 # Dvojí spuštění (zima/léto offset) handlerům nevadí — operace jsou idempotentní.
+# D21: uzávěrky zavírají jen už skončená období (dny před dneškem, předchozí týden,
+# předchozí měsíc), takže je jedno, kdy a kolikrát GitHub úlohu spustí (zpoždění 2 h+).
 
 on:
   workflow_dispatch:
@@ -22,23 +24,18 @@ on:
     # daily-rollover: 00:05 Prague (23:05 UTC zima / 22:05 UTC léto)
     - cron: "5 23 * * *"
     - cron: "5 22 * * *"
-    # daily-close: 23:59 Prague (22:59 UTC zima / 21:59 UTC léto)
-    - cron: "59 22 * * *"
-    - cron: "59 21 * * *"
+    # daily-close + monthly-close: 00:15 Prague (23:15 UTC zima / 22:15 UTC léto), D21
+    - cron: "15 23 * * *"
+    - cron: "15 22 * * *"
     # weekly-rotation: Sun 23:55 Prague (22:55 UTC zima / 21:55 UTC léto)
     - cron: "55 22 * * 0"
     - cron: "55 21 * * 0"
-    # weekly-close: Sun 23:59 Prague (22:59 UTC zima / 21:59 UTC léto)
-    # — sdílí cron expressions s daily-close, ale handler taky běží denně.
-    # Aby weekly-close jel jen v neděli, používáme separátní expression na Sun.
-    - cron: "59 22 * * 0"
-    - cron: "59 21 * * 0"
+    # weekly-close: Mon 00:20 Prague (Sun 23:20 UTC zima / Sun 22:20 UTC léto), D21
+    - cron: "20 23 * * 0"
+    - cron: "20 22 * * 0"
     # recurring-tasks: 06:00 Prague (05:00 UTC zima / 04:00 UTC léto)
     - cron: "0 5 * * *"
     - cron: "0 4 * * *"
-    # monthly-close: denně 23:58 Prague (handler skipne, pokud není poslední den měsíce)
-    - cron: "58 22 * * *"
-    - cron: "58 21 * * *"
     # admin-digest + claim-timeout: každých 15 minut (oba zároveň)
     - cron: "*/15 * * * *"
 
@@ -80,11 +77,10 @@ jobs:
           ENDPOINTS=""
           case "${SCHEDULE}" in
             "5 23 * * *"|"5 22 * * *")   ENDPOINTS="daily-rollover" ;;
-            "59 22 * * *"|"59 21 * * *") ENDPOINTS="daily-close" ;;
+            "15 23 * * *"|"15 22 * * *") ENDPOINTS="daily-close monthly-close" ;;
             "55 22 * * 0"|"55 21 * * 0") ENDPOINTS="weekly-rotation" ;;
-            "59 22 * * 0"|"59 21 * * 0") ENDPOINTS="weekly-close" ;;
+            "20 23 * * 0"|"20 22 * * 0") ENDPOINTS="weekly-close" ;;
             "0 5 * * *"|"0 4 * * *")     ENDPOINTS="recurring-tasks" ;;
-            "58 22 * * *"|"58 21 * * *") ENDPOINTS="monthly-close" ;;
             "*/15 * * * *")              ENDPOINTS="claim-timeout admin-digest" ;;
             *) echo "::error::Unknown schedule: ${SCHEDULE}"; exit 1 ;;
           esac

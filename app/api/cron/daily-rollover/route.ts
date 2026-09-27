@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { checkCronAuth } from "@/lib/cron";
 import { db } from "@/lib/db";
+import { assignCompetenciesForWeek } from "@/lib/rotation";
 import { startOfDayPrague, startOfWeekPrague } from "@/lib/time";
 
 /**
@@ -15,6 +16,8 @@ export async function GET(request: Request) {
 
   const today = startOfDayPrague();
   const weekStart = startOfWeekPrague();
+  // D21: do not depend on weekly-rotation having run first (GitHub delays can reorder jobs).
+  await assignCompetenciesForWeek(weekStart);
 
   const assignments = await db.competencyAssignment.findMany({
     where: { weekStart },
