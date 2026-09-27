@@ -1,6 +1,6 @@
 # Struktura a tok: první spuštění dítěte (D25)
 
-**Datum:** 2026-09-27 · **Stav:** návrh · **Podle:** scénář 11 (`2026-09-26-scenare.md`), D25, dětská část tok B
+**Datum:** 2026-09-27 · **Stav:** schváleno 2026-09-27: **varianta A** + společné body §4 · **Podle:** scénář 11 (`2026-09-26-scenare.md`), D25, dětská část tok B
 
 Bez obrazovek a bez vzhledu. Kreslit se začne až po „kresli“.
 
@@ -47,6 +47,10 @@ Po přihlášení **nejdřív PIN** (povinně), pak rovnou **Dnes** s kartou „
 - Týden na zkoušku začíná dokončením uvítání.
 - Na Dnes je během zkoušky v hlavičce u řady drobná poznámka „zkušební týden do Ne 4. 10.“ *(otevřené: nebo nikde)*.
 
-## 5 · Otázka
+## 5 · Rozhodnutí
+
+**Milan, 2026-09-27: varianta A.** Otevřený bod (zkušební týden v hlavičce) jde do smlouvy jako návrh: v dlaždici Řada místo řádku bonusu. Pokračuje se smlouvou `2026-09-27-uvitani-co-menime-co-ne.md`.
+
+*Původní otázka:*
 
 **Varianta A, nebo B?** Doporučuji **A**: je jednodušší, spolehlivější a vstupní bonus a zkouška mají jasné místo. Učení naostro zajistí to, že průvodce končí přímo na Dnes u první povinnosti.
