@@ -1,13 +1,13 @@
 # Nepřítomnost — co měníme, co ne
 
-**Datum:** 2026-09-27 · **Stav:** návrh · **Podle:** scénáře 8–10; tok varianta B (`2026-09-27-struktura-a-tok-nepritomnost.md`); D24
+**Datum:** 2026-09-27 · **Stav:** schváleno 2026-09-27 (Milan: „kresli“) · **Podle:** scénáře 8–10; tok varianta B (`2026-09-27-struktura-a-tok-nepritomnost.md`); D24
 
 ## Co VZNIKÁ
 
 ### 1 · Víc → Nepřítomnost (`/admin/nepritomnost`, nová podstránka)
 - Hlavička se šipkou zpět do Víc (`AdminSubpage`), položka **„Nepřítomnost“** v seznamu Víc (ikona lucide `plane`, podtitul „kdo je kdy pryč“ nebo „Neli do 10. 10.“, když někdo pryč je).
 - Nahoře hlavní tlačítko **„Přidat nepřítomnost“**.
-- **Seznam probíhajících a nadcházejících** (seřazeno podle začátku): řádek = kdo („Neli“, „Všichni“), kdy („4.–10. 10.“), poznámka („tábor“), stav (PROBÍHÁ / neutrální bez štítku u nadcházející). Akce na řádku: nadcházející **„Zrušit“**, probíhající **„Ukončit“** (smaže dnešek a dál, D24).
+- **Seznam probíhajících a nadcházejících** (seřazeno podle začátku): řádek = kdo („Neli“, „Všichni“), kdy („4.–10. 10.“), poznámka („tábor“), stav (PROBÍHÁ modře / nadcházející bez štítku). Akce na řádku: nadcházející **„Zrušit“**, probíhající **„Ukončit“** (smaže dnešek a dál, D24).
 - Proběhlé nepřítomnosti se nezobrazují.
 - Prázdný stav: „Nikdo není pryč. Tábor, dovolenou nebo nemoc zadáš tady.“
 
@@ -42,12 +42,15 @@
 4. **StateChip · neutral „PRYČ“** — existující komponenta, nový text.
 
 ## Návrh v penu
+
+Sekce „HW · Nepřítomnost (27. 9.) · tok varianta B“ (`a2hBt`). Knihovna: AbsenceRow `L21SiO` (rodičovská řada), FreeDay `BtWL2` (řada Úkoly a stavy dne). Štítek PROBÍHÁ je modrý (info), ne oranžový (ten znamená „čeká na schválení“).
+
 | Frame | Id | Co ukazuje |
 |---|---|---|
-| HWN · 01 Nepřítomnost | — | seznam: Neli tábor (probíhá), Všichni chalupa (nadcházející) |
-| HWN · 01b Přidat nepřítomnost | — | panel, vybraná Neli, od–do, poznámka |
-| HWN · 02 Detail dítěte | — | řádek Pryč + dny týdne s PRYČ |
-| HWN · 03 Dnes dítěte | — | karta Máš volno |
+| HWN · 01 Nepřítomnost | `h2NteO` | seznam: Neli tábor (probíhá), Všichni chalupa (nadcházející) |
+| HWN · 01b Přidat nepřítomnost | `Pf5nF` | panel, vybraná Neli, od–do, poznámka |
+| HWN · 02 Detail dítěte | `EoG8H` | řádek Pryč + dny týdne s PRYČ |
+| HWN · 03 Dnes dítěte | `KqZAE` | karta Máš volno |
 
 ## Průchod scénáři
 | Scénář | Začátek | Kroky | Konec | Díry |
