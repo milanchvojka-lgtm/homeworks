@@ -402,3 +402,25 @@
 - V pondělí ráno před výplatou má dítě na screen time jen to, co mu zbylo mimo uzavřený týden (typicky 0).
 - Simulace kontroluje, že kredit nikdy nejde do mínusu ani po výplatě.
 
+---
+
+## D24 — Nepřítomnost dítěte (tábor, dovolená, nemoc)
+
+**Rozhodnutí:** rodič zadá dítěti (nebo víc dětem naráz) nepřítomnost **od–do** (celé dny, Europe/Prague). Dopředu bez omezení, zpětně jen do začátku **běžícího týdne** a běžícího měsíce (jako D20). Dny nepřítomnosti se pro dítě chovají, jako by neměly povinnosti:
+
+- **Povinnosti:** `daily-rollover` dítěti v den nepřítomnosti instance nevytvoří. Při zadání zpětně (nebo na dnešek) se jeho `PENDING`, `REJECTED` a `MISSED` instance v rozsahu smažou; `SUBMITTED` a `APPROVED` zůstávají (co udělalo, platí).
+- **Řada a trofeje se zmrazí:** den bez instancí se v řadě nepočítá ani ji nepřeruší (platí už dnes). Při zadání do už uzavřených dnů se řada přepočítá z historie stejně jako u D20 (sdílená funkce).
+- **Měsíční bonus:** dny pryč nejsou zaváhání (bonus počítá jen `MISSED`/`REJECTED`), takže zůstává plný.
+- **Kompetence:** přiřazení se nemění, rotace běží dál. Kompetence dítěte, které je pryč, zůstane ten týden neobsloužená (Milan: nikdo ji nepřebírá). Pro ostatní děti se nic nemění.
+- **Úkoly z nabídky:** nová instance do fronty nezařadí dítě, které je dnes pryč. Když je nabídka odemčená pro dítě, které je pryč, `claim-timeout` ji posune dalšímu hned. Když jsou pryč všechny děti, `recurring-tasks` nové instance nevytváří.
+- **Zrušení / zkrácení:** smaže jen dnešní a budoucí dny nepřítomnosti. Minulé dny zůstávají bez povinností (nelze je dodatečně vytvořit).
+- **Dítě** na Dnes vidí „Máš volno do …“ místo povinností.
+
+**Důvod:** Milan 2026-09-27 (scénáře 8–10): tábor jednoho dítěte, celá rodina pryč, nemoc. PRD §7 měl pauzu mimo v1; D20 umí uznat jen jeden den. Bez toho by dítě na táboře přišlo o řadu a bonus.
+
+**Důsledky:**
+- Prisma: nový model `Absence { userId, fromDate, toDate, createdById, note?, createdAt }`, `db push` do `homeworks_test` i produkce (bez migrací, TD3).
+- Server actions `createAbsenceAction(userIds, from, to, note?)`, `endAbsenceAction(id)`; úpravy `daily-rollover`, `claim-timeout`, `recurring-tasks`, `buildRotationQueue`.
+- Simulace (D22) dostane tábor jednoho dítěte, týden celé rodiny pryč a nemoc zadanou zpětně.
+- UI podle D16 (tok → smlouva → pen → kód).
+
