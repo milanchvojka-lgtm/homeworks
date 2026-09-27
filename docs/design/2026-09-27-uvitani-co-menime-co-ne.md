@@ -1,6 +1,6 @@
 # První spuštění dítěte (uvítání) — co měníme, co ne
 
-**Datum:** 2026-09-27 · **Stav:** návrh · **Podle:** scénář 11; tok varianta A (`2026-09-27-struktura-a-tok-uvitani.md`); D25
+**Datum:** 2026-09-27 · **Stav:** schváleno 2026-09-27 (Milan: „kresli“) · **Podle:** scénář 11; tok varianta A (`2026-09-27-struktura-a-tok-uvitani.md`); D25
 
 ## Co VZNIKÁ
 
@@ -45,14 +45,17 @@
 2. **Stránka PIN** — z existujících Input + PrimaryButton.
 
 ## Návrh v penu
+
+Sekce „HW · Uvítání (27. 9.) · tok varianta A“ (`r2uBbz`). Knihovna: WelcomeStep `NuSRU` (řada Úkoly a stavy dne, slot „Ukázka“ pro úkol / vstupní bonus).
+
 | Frame | Id | Co ukazuje |
 |---|---|---|
-| HWU · 01 Krok 1 | — | Tvoje kompetence (Kuchyň) |
-| HWU · 02 Krok 2 | — | Vydělat navíc (Umýt okna 300 Kč) |
-| HWU · 03 Krok 3 | — | Screen time, nebo peníze |
-| HWU · 04 Krok 4 | — | Řada a bonus, zkouška, 100 Kč |
-| HWU · 05 PIN | — | Nastav si vlastní PIN |
-| HWU · 06 Dnes ve zkoušce | — | dlaždice Řada „Zkouška do Ne 4. 10.“, první povinnost |
+| HWU · 01 Krok 1 | `X81vUg` | Tvoje kompetence (Kuchyň) |
+| HWU · 02 Krok 2 | `qt9yw` | Vydělat navíc (Umýt okna 300 Kč) |
+| HWU · 03 Krok 3 | `S3RW8` | Screen time, nebo peníze |
+| HWU · 04 Krok 4 | `W29f75` | Řada a bonus, zkouška, 100 Kč |
+| HWU · 05 PIN | `o9Q111` | Nastav si vlastní PIN |
+| HWU · 06 Dnes ve zkoušce | `x4sxF` | dlaždice Řada „Zkouška do Ne 4. 10.“, první povinnost |
 
 ## Průchod scénářem 11
 | Začátek | Kroky | Konec | Díry |
