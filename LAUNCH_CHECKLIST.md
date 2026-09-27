@@ -126,6 +126,12 @@ Po deploy + nastavení secrets:
 
 Udělej totéž na všech relevantních zařízeních (Milan, Teri, holky).
 
+**Spuštění naživo s holkami (D25, scénář 11)** — neděle večer, všichni u stolu:
+1. Každá si přidá appku na plochu (kroky výše) a otevře ji.
+2. Vybere profil, zadá dočasný PIN, projde uvítání a nastaví si vlastní PIN.
+3. Na Dnes odškrtne první povinnost naostro; rodič ji hned schválí v Schválit → holka vidí celý koloběh a vstupní bonus 100 Kč.
+4. První týden je na zkoušku: zmeškání nepřeruší řadu ani nesníží bonus.
+
 ---
 
 ## 7. První 2 týdny v provozu

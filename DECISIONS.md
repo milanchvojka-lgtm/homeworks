@@ -424,3 +424,23 @@
 - Simulace (D22) dostane tábor jednoho dítěte, týden celé rodiny pryč a nemoc zadanou zpětně.
 - UI podle D16 (tok → smlouva → pen → kód).
 
+---
+
+## D25 — První spuštění dítěte: uvítání, vlastní PIN, týden na zkoušku, vstupní bonus
+
+**Rozhodnutí:**
+- **Uvítání** při prvním přihlášení dítěte: 3–4 obrazovky (tvoje kompetence a jak se odškrtne · vydělat navíc · screen time a výplata · řada a bonus), dají se přeskočit, ukážou se **jen jednou**. Příznak `User.onboardedAt` v DB (přežije přeinstalování PWA).
+- **Vlastní PIN povinně:** dokud má dítě dočasný PIN (`User.pinIsTemporary`, nastavuje se při resetu PINu a při zakládání uživatele), po uvítání musí zadat nový. Bez toho se do appky nedostane.
+- **První odškrtnutí naostro:** uvítání končí na Dnes u první povinnosti, žádná cvičná karta.
+- **Týden na zkoušku:** 7 dní od dokončení uvítání (`User.trialEndsOn`, poslední den zkoušky). Neúspěšný den ve zkoušce **nepřeruší řadu** (počítá se jako den bez povinností) a **nesníží měsíční bonus**. Úspěšný den se do řady počítá normálně.
+- **Vstupní bonus:** po dokončení uvítání se připíše `CreditTransaction` typu `WELCOME_BONUS` ve výši `AppSettings.welcomeBonusCzk` (výchozí **100 Kč**, nastavitelné). Počítá se do týdenní výplaty jako bonus (spolu s měsíčním bonusem a trofejemi) a jde utratit za screen time. Jen jednou na dítě (idempotentní přes `onboardedAt` v transakci).
+
+**Důvod:** Milan 2026-09-27 (scénář 11): „chci zvýšit pravděpodobnost, že první použití bude skvělej zážitek, a díky tomu pak děti u toho vydrží.“ Vstupní bonus je Milanův nápad („máš něco do hry, můžeš se o to starat“). Týden na zkoušku brání tomu, aby dítě přišlo o řadu a bonus dřív, než pravidla pochopí.
+
+**Důsledky:**
+- Prisma: `User.onboardedAt DateTime?`, `User.pinIsTemporary Boolean @default(false)`, `User.trialEndsOn DateTime?`, `AppSettings.welcomeBonusCzk Int @default(100)`, enum `TransactionType` + `WELCOME_BONUS`.
+- `closePastDays` a `withStreakResync`: neúspěšný den ve zkoušce = přeskočený den. `countMissedDays` (bonus) dny zkoušky vynechá.
+- `weekly-close`, výpis Za co, simulace: `WELCOME_BONUS` jako bonus.
+- Ostrý provoz: při nahrání dat z tabulky dostanou děti dočasný PIN s `pinIsTemporary = true` a `onboardedAt = null`.
+- UI podle D16 (tok → smlouva → pen → kód).
+

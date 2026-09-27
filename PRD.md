@@ -2,7 +2,7 @@
 
 > Brand: **Homeworks** (zafixováno 2026-04-26). Pracovní název *„Domácí Úkoly"* opuštěn.
 
-> ⚠️ **Tento dokument byl po sepsání upraven o rozhodnutí D1–D24 v [`DECISIONS.md`](./DECISIONS.md).** Při rozporu má `DECISIONS.md` prioritu. v1 (M0–M6) hlavní úpravy: cron přes GitHub Actions, eager `DailyCheckInstance`, e-mail digest, Supabase. v1.1 (M7) přidává: gradient měsíční bonus (D9), streak gamifikaci (D11), shadcn/ui design system (D12), Supabase RLS (D13).
+> ⚠️ **Tento dokument byl po sepsání upraven o rozhodnutí D1–D25 v [`DECISIONS.md`](./DECISIONS.md).** Při rozporu má `DECISIONS.md` prioritu. v1 (M0–M6) hlavní úpravy: cron přes GitHub Actions, eager `DailyCheckInstance`, e-mail digest, Supabase. v1.1 (M7) přidává: gradient měsíční bonus (D9), streak gamifikaci (D11), shadcn/ui design system (D12), Supabase RLS (D13).
 
 ---
 
