@@ -29,7 +29,7 @@ export function ApprovalList({ groups }: { groups: ApprovalGroup[] }) {
   const [rows, setRows] = useState<Record<string, RowState>>({});
   const [rejectingId, setRejectingId] = useState<string | null>(null);
   const [note, setNote] = useState("");
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<{ id: string; text: string } | null>(null);
   const [isPending, startTransition] = useTransition();
 
   const finish = (id: string, res: { ok: boolean; error?: string }) => {
@@ -43,7 +43,13 @@ export function ApprovalList({ groups }: { groups: ApprovalGroup[] }) {
       setRows((r) => ({ ...r, [id]: "handled" }));
       setRejectingId(null);
     } else {
-      setError(id);
+      setError({
+        id,
+        text:
+          res.error === "insufficient_credit"
+            ? "Nemá už dost kreditu (mezitím výplata nebo jiná útrata). Žádost vrať."
+            : "Nepovedlo se, zkus to znovu.",
+      });
     }
   };
 
@@ -117,7 +123,7 @@ export function ApprovalList({ groups }: { groups: ApprovalGroup[] }) {
                 note={note}
                 onNote={setNote}
                 pending={isPending}
-                failed={error === i.id}
+                failed={error?.id === i.id ? error.text : null}
                 onApprove={() => approve(i)}
                 onStartReturn={() => {
                   setNote("");
@@ -152,7 +158,7 @@ function ApprovalRow({
   note: string;
   onNote: (v: string) => void;
   pending: boolean;
-  failed: boolean;
+  failed: string | null;
   onApprove: () => void;
   onStartReturn: () => void;
   onCancelReturn: () => void;
@@ -181,7 +187,7 @@ function ApprovalRow({
           />
         </label>
       )}
-      {failed && <p className="text-sm text-destructive">Nepovedlo se, zkus to znovu.</p>}
+      {failed && <p className="text-sm text-destructive">{failed}</p>}
       <div className="flex gap-2.5">
         {returning ? (
           <>

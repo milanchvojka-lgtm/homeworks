@@ -35,7 +35,8 @@ To samé platí pro otevřené otázky z `PRD.md §8`: jakmile padne odpověď, 
 - **Vše v `Europe/Prague` timezone** — viz `lib/time.ts` helpery.
 - **Server actions** pro mutace, **API routes** jen pro `/api/cron/*`.
 - **Žádné externí auth providery, žádný state management framework** — viz `SKILL.md` deny-list.
-- **Cron přes GitHub Actions**, ne Vercel Cron — viz `DECISIONS.md` D1.
+- **Cron přes GitHub Actions**, ne Vercel Cron — viz `DECISIONS.md` D1. Uzávěrky dohánějí ukončená období (D21).
+- **Před nasazením větší změny `npm run test:sim`** (simulace měsíce, D22) — postup v `SKILL.md` → Testování. Lokální vývoj a testy míří na schéma `homeworks_test`, ne na ostrá data.
 - **UI / design práce** → skill `design-to-code` (postup D16: scénáře → tok → smlouva → pen → kód), design systém D15, pen `_design/homeworks.pen`.
 - **Commit konvence:** `<type>(scope): <message>` (např. `feat(m2): add daily check submission`).
 

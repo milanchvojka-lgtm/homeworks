@@ -6,7 +6,7 @@ import { getSession } from "@/lib/auth";
 import {
   computeScreenTimeCost,
   getAppSettings,
-  getCurrentBalance,
+  getSpendableCredit,
   isValidScreenTimeMinutes,
 } from "@/lib/credit";
 import { enqueueNotification } from "@/lib/notifications";
@@ -30,7 +30,7 @@ export async function requestScreenTimeAction(
   }
 
   const cost = computeScreenTimeCost(minutes, settings.screenTimeHourCostCzk);
-  const balance = await getCurrentBalance(user.id);
+  const balance = await getSpendableCredit(user.id);
   if (balance < cost) return { ok: false, error: "insufficient_credit" };
 
   await db.screenTimeRequest.create({
@@ -66,7 +66,10 @@ export async function approveScreenTimeAction(
   const weekStart = startOfWeekPrague();
 
   // Conditional update inside the transaction: a concurrent approval must not deduct twice.
+  // Spendable credit is checked again here (D23): the week may have closed since the request,
+  // and credit never goes negative (found by the month simulation, D22).
   const approved = await db.$transaction(async (tx) => {
+    if ((await getSpendableCredit(req.userId, tx)) < req.costCzk) return "insufficient_credit" as const;
     const updated = await tx.screenTimeRequest.updateMany({
       where: { id, status: "PENDING" },
       data: { status: "APPROVED", reviewedAt: new Date(), reviewerId: user.id },
@@ -84,6 +87,7 @@ export async function approveScreenTimeAction(
     });
     return true;
   });
+  if (approved === "insufficient_credit") return { ok: false, error: "insufficient_credit" };
   if (!approved) return { ok: false, error: "invalid_state" };
 
   revalidatePath("/admin");
@@ -135,7 +139,7 @@ export async function recordScreenTimeAction(
   }
 
   const cost = computeScreenTimeCost(minutes, settings.screenTimeHourCostCzk);
-  const balance = await getCurrentBalance(userId);
+  const balance = await getSpendableCredit(userId);
   if (balance < cost) return { ok: false, error: "insufficient_credit" };
 
   const now = new Date();

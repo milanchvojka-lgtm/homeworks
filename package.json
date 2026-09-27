@@ -13,7 +13,8 @@
     "db:seed": "tsx prisma/seed.ts",
     "test": "vitest run",
     "test:watch": "vitest",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "test:sim": "vitest run --config vitest.sim.config.ts --mode test"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"

@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { Hourglass, Send, X } from "lucide-react";
 import { db } from "@/lib/db";
 import { getSession } from "@/lib/auth";
-import { computeScreenTimeCost, getAppSettings, getCurrentBalance } from "@/lib/credit";
+import { computeScreenTimeCost, getAppSettings, getSpendableCredit } from "@/lib/credit";
 import { affordableMinutes, formatMinutes, formatTimePrague } from "../../_components/format";
 import { ScreenPicker } from "./_screen-picker";
 
@@ -14,7 +14,7 @@ export default async function ChildScreenPage() {
   if (!user) redirect("/");
 
   const [balance, settings, lastRequest] = await Promise.all([
-    getCurrentBalance(user.id),
+    getSpendableCredit(user.id),
     getAppSettings(),
     db.screenTimeRequest.findFirst({
       where: { userId: user.id },

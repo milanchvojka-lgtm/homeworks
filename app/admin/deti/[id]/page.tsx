@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { db } from "@/lib/db";
 import { getBonusStatus } from "@/lib/bonus";
 import { computeScreenTimeCost } from "@/lib/credit-pure";
-import { getAppSettings, getCurrentBalance, getWeekTotals } from "@/lib/credit";
+import { getAppSettings, getSpendableCredit, getWeekTotals } from "@/lib/credit";
 import { endOfWeekPrague, startOfWeekPrague } from "@/lib/time";
 import { BackHeader } from "@/app/_components/app-header";
 import { affordableMinutes, czkToMinutes, formatMinutes } from "@/app/child/_components/format";
@@ -30,7 +30,7 @@ export default async function AdminChildPage({ params }: { params: Promise<{ id:
     getWeekTotals(id),
     getAppSettings(),
     getBonusStatus(id),
-    getCurrentBalance(id),
+    getSpendableCredit(id),
     getChildWeek(id),
   ]);
   const payout = Math.max(0, week.earnedCzk - week.screenTimeCzk);

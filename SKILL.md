@@ -173,6 +173,15 @@ Existují tři typy nejednoznačnosti:
 - ✅ **Unit testy pro datum/čas helpery** (`lib/time.ts`) — kritická logika, drahé chyby
 - ✅ **Unit testy pro výpočty** (kredit, bonus, rotační algoritmus — `lib/rotation-pure.ts`, `lib/task-rotation-pure.ts`)
 - ✅ **Manuální happy path test** po každém milestonu
+- ✅ **Simulace měsíce** (`npm run test:sim`, D22) — pět týdnů rodiny podle scénářů proti schématu `homeworks_test`, s kontrolou pravidel (kredit, výplaty, řada, trofeje, bonus, crony se zpožděním a dvojím během)
+
+### Standardní postup před nasazením větší změny
+Větší změna = cokoli, co sahá na peníze, řadu, bonus, schvalování, crony, datový model nebo pravidla úkolů.
+1. `npm test` + `npx tsc --noEmit` + `npm run lint`
+2. **`npm run test:sim`** — musí projít bez jediného problému. Když něco najde, nenasazuje se; oprav a pusť znovu.
+3. Ověření v běžící appce (dev server míří na testovací schéma, D22)
+4. Teprve pak push do `main` (= nasazení)
+Novou funkci s vlivem na tyto oblasti doplň do simulace (nová postava nebo den ve scénáři) ve stejném commitu.
 
 ### Konvence
 - `lib/foo.ts` → DB I/O, server-only. `lib/foo-pure.ts` → čisté funkce, bez `server-only`. Testy importují jen `-pure` moduly.

@@ -34,6 +34,20 @@ export async function getWeekTotals(userId: string, date: Date = new Date()) {
   return aggregateTransactions(txs as Transaction[]);
 }
 
+type CreditReader = Pick<typeof db, "creditTransaction" | "weeklyPayout">;
+
+/**
+ * D23: credit that can be spent on screen time = balance minus unpaid weekly payouts.
+ * Money of a closed week belongs to its payout. Pass `tx` to read inside a transaction.
+ */
+export async function getSpendableCredit(userId: string, tx: CreditReader = db): Promise<number> {
+  const [sum, reserved] = await Promise.all([
+    tx.creditTransaction.aggregate({ where: { userId }, _sum: { amountCzk: true } }),
+    tx.weeklyPayout.aggregate({ where: { userId, paidOutAt: null }, _sum: { totalPayoutCzk: true } }),
+  ]);
+  return (sum._sum.amountCzk ?? 0) - (reserved._sum.totalPayoutCzk ?? 0);
+}
+
 /** Aktuální balanc = suma všech transakcí mínus všechny vyplacené WeeklyPayout-y. */
 export async function getCurrentBalance(userId: string): Promise<number> {
   const sum = await db.creditTransaction.aggregate({
