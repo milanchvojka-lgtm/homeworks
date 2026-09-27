@@ -18,7 +18,7 @@ export default async function AdminUsersPage() {
   return (
     <AdminSubpage title="Uživatelé" back="/admin/vic">
       <p className="text-sm text-muted-foreground">
-        Pět profilů. Reset PINu nastaví dočasný „0000" a vymaže aktivní session.
+        Pět profilů. Reset PINu nastaví dočasný „0000“ a vymaže aktivní session.
       </p>
 
       <ul className="flex flex-col gap-2.5">

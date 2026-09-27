@@ -56,7 +56,8 @@ export default async function TrofejeePage() {
   const earnedSet = new Set(earnedAll.map((t) => t.milestoneId));
 
   // Milestones already sorted by sortOrder + days asc from the DB query
-  let foundCurrent = false;
+  // The next trophy to reach: first not-earned milestone above the current streak.
+  const currentId = milestones.find((m) => !earnedSet.has(m.id) && m.days > currentStreak)?.id;
   const trophies = milestones.map((m) => {
     if (earnedSet.has(m.id)) {
       const rec = latestEarned.get(m.id)!;
@@ -67,8 +68,7 @@ export default async function TrofejeePage() {
         rewardPaidAt: rec.rewardPaidAt,
       };
     }
-    if (!foundCurrent && m.days > currentStreak) {
-      foundCurrent = true;
+    if (m.id === currentId) {
       return {
         milestone: m,
         status: "current" as const,
