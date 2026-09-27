@@ -245,7 +245,7 @@ enum CheckStatus {
 
 #### 2.6 Cron job — denní uzavření
 - `/app/api/cron/daily-close/route.ts`
-- Volá GitHub Actions (D1), 23:59 Prague.
+- Volá GitHub Actions (D1), 23:59 Prague. *(D21: po půlnoci, zavírá dny před dneškem.)*
 - Díky eager generování (2.5) je logika triviální:
   - `UPDATE DailyCheckInstance SET status='MISSED' WHERE status='PENDING' AND date = today_prague`.
   - `SUBMITTED` zůstává (admin může schválit zpětně do 24h).
@@ -314,7 +314,7 @@ model NotificationLog {
 - ✅ Admin schválí — check zezelená.
 - ✅ Admin vrátí — check je červený, holka může re-submit.
 - ✅ Po neděli 23:55 se kompetence rotuje a holka má nové.
-- ✅ Po 23:59 nesplněné checky → `MISSED`.
+- ✅ Po 23:59 nesplněné checky → `MISSED`. *(D21: po půlnoci.)*
 
 ### Out of scope
 - Pause / nemoc / výlet.
@@ -572,7 +572,7 @@ model AppSettings {
   - **Zamítnout:** jen `status = REJECTED`. Žádný odpočet.
 
 #### 4.5 Týdenní uzávěrka — cron
-- `/app/api/cron/weekly-close/route.ts`, GitHub Actions (D1) neděle 23:59 Prague.
+- `/app/api/cron/weekly-close/route.ts`, GitHub Actions (D1) neděle 23:59 Prague. *(D21: pondělí po půlnoci, zavírá předchozí týden.)*
 - Pro každé dítě:
   1. Spočítej `totalEarnedCzk` = suma `TASK_REWARD` za týden.
   2. Spočítej `totalScreenTimeCzk` = suma abs `SCREEN_TIME` za týden.
@@ -634,7 +634,7 @@ Přidat enqueue volání:
     - Jinak 0.
 
 #### 5.2 Cron — měsíční uzávěrka
-- `/app/api/cron/monthly-close/route.ts`, GitHub Actions (D1), poslední den měsíce 23:58 Prague (před týdenní uzávěrkou).
+- `/app/api/cron/monthly-close/route.ts`, GitHub Actions (D1), poslední den měsíce 23:58 Prague (před týdenní uzávěrkou). *(D21: zavírá předchozí měsíc, bonus do běžícího týdne.)*
 - Pro každé dítě spočítej bonus.
 - Pokud bonus > 0:
   - Vytvoř `CreditTransaction` s `type=MONTHLY_BONUS`, `amountCzk = bonus`, `weekStart = currentWeekStart()`.

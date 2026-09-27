@@ -13,13 +13,13 @@
 - Vercel Hobby cron je omezený na 2 entries × 1×/den. Plán potřebuje 4+ jobů různé frekvence.
 - Vercel Pro ($20/měs) porušuje "0 Kč/měsíc" cíl PRD.
 - GitHub Actions cron je free (2000 min/měs pro private repo), bez limitů na frekvenci/počet jobů.
-- DST: cron běží v UTC, handler ověřuje "je teď to správné okno v `Europe/Prague`?"
+- DST: cron běží v UTC, handler ověřuje "je teď to správné okno v `Europe/Prague`?" *(nahrazeno D21: uzávěrky dohánějí ukončená období, nečtou „teď“)*
 - Lokální debug: `curl localhost:3000/api/cron/X` = stejný flow jako produkce.
 
 **Důsledky:**
 - `.github/workflows/cron.yml` je load-bearing soubor.
 - Endpoint hlavičky musí ověřit `CRON_SECRET` (defense in depth, endpointy jsou veřejné HTTPS).
-- GitHub Actions cron má best-effort delay (typicky < 5 min). Pro tuto appku zanedbatelné.
+- GitHub Actions cron má best-effort delay. *(Neplatí „typicky < 5 min“: 26.–27. 9. 2026 zpoždění přes 2 h, viz D21.)*
 
 ---
 
@@ -350,4 +350,24 @@
 - Přepočet řady jako čistá funkce v `lib/streak.ts` (testovatelná), sdílená s `daily-close`.
 - Bez změny schématu.
 - UI: „Uznat den" u neúspěšného dne v detailu dítěte.
+
+---
+
+## D21 — Uzávěrky dohánějí ukončená období, nezávisle na čase běhu
+
+**Rozhodnutí:** cron uzávěrky neberou „teď“ jako období, které zavírají. Každá zavře všechna období, která **už skončila** a ještě nejsou uzavřená, a dnešek (běžící týden, běžící měsíc) nezavře nikdy. Díky tomu je jedno, kdy a kolikrát GitHub úlohu spustí.
+
+- **Denní uzávěrka** (`closePastDays` v `lib/day-close.ts`): všechny `PENDING` instance se dnem **před dneškem** → `MISSED`. Potom pro každé dítě projde uzavřené dny po `User.lastStreakDate` (od nejstaršího), aplikuje výsledek dne na řadu a trofeje jako dřív a posune `lastStreakDate` (nově i při přerušení řady, ne jen při posunu). Zmeškané je tedy až po půlnoci, jak říká pravidlo.
+- **Týdenní uzávěrka:** zavírá **předchozí** (už skončený) týden. Nejdřív spustí `closePastDays`, aby byla neděle uzavřená. Trofeje vyplatí s `weekStart` zavíraného týdne a součty počítá podle `CreditTransaction.weekStart`, ne podle `createdAt`.
+- **Měsíční uzávěrka:** zavírá **předchozí** měsíc. Nejdřív spustí `closePastDays`. Bonus připíše do **běžícího** týdne (`weekStart` teď), aby ho zahrnula příští týdenní výplata bez ohledu na pořadí úloh. Idempotence přes `referenceId = "RRRR-MM"`.
+- **Rotace a ranní generování:** `daily-rollover` si před vytvořením instancí zajistí přiřazení kompetencí na běžící týden (`assignCompetenciesForWeek`, idempotentní). `weekly-rotation` přiřadí běžící i příští týden.
+- **Rozvrh v `cron.yml`:** denní, týdenní a měsíční uzávěrka se posouvají **za půlnoc** (00:15 Prague v létě i v zimě, oba UTC spouštěče nechané). Rotace zůstává a je pojistkou.
+
+**Důvod:** v noci 26.–27. 9. 2026 (pilot) GitHub zpozdil správný `daily-close` o 2 h, takže za „dnešek“ vzal 27. 9. a 26. 9. se neuzavřel. Zimní spouštěč `59 22 * * *` navíc proběhl v létě ve 3:14 a nově vytvořené povinnosti 27. 9. rovnou označil jako zmeškané. Dítě pak vidělo „Na dnešek máš hotovo“ a úkoly zamčené. Kontrola „správného okna“ z D1 nebyla v `daily-close` ani `weekly-close` implementovaná a při zpoždění by stejně selhala. U `weekly-close` a `monthly-close` hrozilo totéž (neuzavřený týden bez výplat, přeskočený měsíční bonus).
+
+**Důsledky:**
+- Nový `lib/day-close.ts` (sdílený daily/weekly/monthly-close) + čisté pomocné funkce s testy.
+- Bonus za měsíc se objeví ve výplatě týdne, kdy byl připsán (začátek dalšího měsíce), ne v týdnu posledního dne měsíce.
+- Oprava dat pilotu 27. 9.: dnešní instance dítěte Test vráceny z `MISSED` na `PENDING`.
+- Dnešek nikdy není `MISSED`, takže stav „dnešní povinnost zmeškaná“ v UI dítěte nenastane (Dnes / Vydělat se neměnily).
 

@@ -2,7 +2,7 @@
 
 > Brand: **Homeworks** (zafixováno 2026-04-26). Pracovní název *„Domácí Úkoly"* opuštěn.
 
-> ⚠️ **Tento dokument byl po sepsání upraven o rozhodnutí D1–D20 v [`DECISIONS.md`](./DECISIONS.md).** Při rozporu má `DECISIONS.md` prioritu. v1 (M0–M6) hlavní úpravy: cron přes GitHub Actions, eager `DailyCheckInstance`, e-mail digest, Supabase. v1.1 (M7) přidává: gradient měsíční bonus (D9), streak gamifikaci (D11), shadcn/ui design system (D12), Supabase RLS (D13).
+> ⚠️ **Tento dokument byl po sepsání upraven o rozhodnutí D1–D21 v [`DECISIONS.md`](./DECISIONS.md).** Při rozporu má `DECISIONS.md` prioritu. v1 (M0–M6) hlavní úpravy: cron přes GitHub Actions, eager `DailyCheckInstance`, e-mail digest, Supabase. v1.1 (M7) přidává: gradient měsíční bonus (D9), streak gamifikaci (D11), shadcn/ui design system (D12), Supabase RLS (D13).
 
 ---
 
@@ -537,12 +537,12 @@ Spouští se přes **GitHub Actions workflow** (`.github/workflows/cron.yml`), k
 
 Naplánované joby:
 - **Každý den 00:05 Prague:** generování `DailyCheckInstance` pro dnešní den (viz D2 — eager).
-- **Každý den 23:59 Prague:** uzavření denních checků (`PENDING` → `MISSED`).
+- **Každý den po půlnoci (00:15 Prague, D21):** uzavření předchozích dnů (`PENDING` → `MISSED`), řada a trofeje.
 - **Každou neděli 23:55 Prague:** rotace kompetencí.
-- **Každou neděli 23:59 Prague:** uzavření týdenního výpisu.
+- **Každé pondělí po půlnoci (00:15 Prague, D21):** uzavření předchozího týdne (výpis a výplata).
 - **Každý den 06:00 Prague:** generování nových instancí opakujících se úkolů.
 - **Každých 15 min:** posun rotační fronty (claim timeout) + odeslání admin e-mail digestu (pokud je co a uplynulo aspoň 10 min od posledního).
-- **Poslední den měsíce 23:58 Prague:** výpočet bonusu, připsání do posledního týdenního výpisu.
+- **První den měsíce po půlnoci (D21):** výpočet bonusu za předchozí měsíc, připsání do běžícího týdne.
 
 Cron handler vždy nejdřív ověří `CRON_SECRET` header a kontroluje, že je teď reálně to správné okno v `Europe/Prague` (DST safety).
 
