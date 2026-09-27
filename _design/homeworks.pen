@@ -7115,7 +7115,7 @@
                                   "id": "t7uBc",
                                   "name": "Zbývá",
                                   "fill": "$hw-ink-60",
-                                  "content": "schválil Milan",
+                                  "content": "schváleno · Milan",
                                   "fontFamily": "$hw-font-mono",
                                   "fontSize": 12,
                                   "fontWeight": "700"
@@ -8306,7 +8306,7 @@
                     {
                       "type": "frame",
                       "id": "lEwnf",
-                      "name": "DayDone",
+                      "name": "DayDone (zrušeno 27. 9., historie)",
                       "reusable": true,
                       "width": 358,
                       "fill": "$hw-card",
