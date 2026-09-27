@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import type { TaskStatus } from "@prisma/client";
-import { Clock3, Hand, Hourglass, Lock, MessageCircle, Send, Timer, Undo2 } from "lucide-react";
+import { Check, Clock3, Hand, Hourglass, Lock, MessageCircle, Send, Timer, Undo2 } from "lucide-react";
 import { claimTaskAction, reportTaskDoneAction } from "@/app/actions/tasks";
 import { remaining } from "@/lib/deadline-pure";
 import { formatTimePrague } from "./format";
@@ -24,7 +24,8 @@ export type TaskCardData = {
 
 /**
  * Task card (návrh 2, pen `TaskCard · *`): estimate on top, name + reward, action.
- * AVAILABLE = offer / locked, CLAIMED = running with countdown, PENDING_REVIEW = waiting, REJECTED = returned.
+ * AVAILABLE = offer / locked, CLAIMED = running with countdown, PENDING_REVIEW = waiting, REJECTED = returned,
+ * DONE = approved and paid (pen `TaskCard · schváleno`, shown on Dnes until the end of the day).
  */
 export function TaskCard({
   task,
@@ -100,7 +101,7 @@ export function TaskCard({
               <Timer className="size-3.5" />
               {left.text}
             </span>
-          ) : status === "PENDING_REVIEW" && submittedAt ? (
+          ) : (status === "PENDING_REVIEW" || status === "DONE") && submittedAt ? (
             <span className="flex items-center gap-1.5 font-mono text-xs font-bold text-muted-foreground">
               <Send className="size-3.5" />
               odesláno {formatTimePrague(submittedAt)}
@@ -116,7 +117,11 @@ export function TaskCard({
 
       <div className="flex items-center gap-3">
         <h3 className="flex-1 text-xl leading-tight font-bold tracking-tight">{task.name}</h3>
-        <span className="font-mono text-xl font-bold text-highlight">{task.valueCzk} Kč</span>
+        <span
+          className={`font-mono text-xl font-bold ${status === "DONE" ? "text-success" : "text-highlight"}`}
+        >
+          {status === "DONE" ? `+${task.valueCzk}` : task.valueCzk} Kč
+        </span>
       </div>
 
       {status === "AVAILABLE" && !poolLocked && task.lockedReason && (
@@ -146,6 +151,9 @@ export function TaskCard({
       )}
       {status === "PENDING_REVIEW" && (
         <SliderState tone="warning" label="Čeká na schválení" icon={<Hourglass className="size-5" />} />
+      )}
+      {status === "DONE" && (
+        <SliderState tone="success" label="Schváleno, připsáno" icon={<Check className="size-[22px]" />} />
       )}
 
       {error && <p className="text-sm text-destructive">{error}</p>}

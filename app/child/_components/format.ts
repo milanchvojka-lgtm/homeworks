@@ -32,3 +32,18 @@ export function formatTimePrague(date: Date | string): string {
     timeZone: "Europe/Prague",
   });
 }
+
+const WEEKDAY = ["Ne", "Po", "Út", "St", "Čt", "Pá", "So"];
+
+/** "St 23. 9." in Europe/Prague. */
+export function formatDayPrague(date: Date | string): string {
+  const parts = new Intl.DateTimeFormat("en-GB", {
+    day: "numeric",
+    month: "numeric",
+    weekday: "short",
+    timeZone: "Europe/Prague",
+  }).formatToParts(new Date(date));
+  const get = (t: string) => parts.find((p) => p.type === t)?.value ?? "";
+  const dow = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].indexOf(get("weekday"));
+  return `${WEEKDAY[dow]} ${Number(get("day"))}. ${Number(get("month"))}.`;
+}

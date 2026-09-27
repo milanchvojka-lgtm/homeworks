@@ -1,13 +1,19 @@
 import { redirect } from "next/navigation";
-import { ChevronDown } from "lucide-react";
-import type { CheckStatus } from "@prisma/client";
+import type { CheckStatus, TaskStatus } from "@prisma/client";
 import { db } from "@/lib/db";
 import { getSession } from "@/lib/auth";
 import { getCurrentAssignment } from "@/lib/rotation";
 import { startOfDayPrague } from "@/lib/time";
 import { CheckCard, type CheckCardData } from "../_components/check-card";
-import { DayDone } from "../_components/day-done";
 import { TaskCard } from "../_components/task-card";
+
+/** Dnešní úkoly: running first, then returned, waiting, approved. */
+const TASK_ORDER: Partial<Record<TaskStatus, number>> = {
+  CLAIMED: 0,
+  REJECTED: 1,
+  PENDING_REVIEW: 2,
+  DONE: 3,
+};
 
 const ORDER: Record<CheckStatus, number> = {
   REJECTED: 0,
@@ -17,13 +23,13 @@ const ORDER: Record<CheckStatus, number> = {
   MISSED: 4,
 };
 
-/** Dnes (návrh 2, frames 01A6, 01b, 01c, 01d). */
+/** Dnes (návrh 2, frames 01A6, 01b, 01d; HW2 · 01: checks stay as cards, today's tasks stay until the day ends). */
 export default async function ChildToday() {
   const user = await getSession();
   if (!user) redirect("/");
 
   const today = startOfDayPrague();
-  const [assignment, instances, running] = await Promise.all([
+  const [assignment, instances, todayTasks] = await Promise.all([
     getCurrentAssignment(user.id),
     db.dailyCheckInstance.findMany({
       where: { userId: user.id, date: today },
@@ -32,10 +38,19 @@ export default async function ChildToday() {
         reviewer: { select: { name: true } },
       },
     }),
+    // Taken today (any state), plus older ones still running or waiting.
     db.taskInstance.findMany({
-      where: { claimedById: user.id, status: "CLAIMED" },
+      where: {
+        claimedById: user.id,
+        status: { in: ["CLAIMED", "PENDING_REVIEW", "REJECTED", "DONE"] },
+        OR: [
+          { status: { in: ["CLAIMED", "PENDING_REVIEW"] } },
+          { claimedAt: { gte: today } },
+          { reviewedAt: { gte: today } },
+        ],
+      },
       include: { task: true },
-      orderBy: { executeDeadline: "asc" },
+      orderBy: { claimedAt: "asc" },
     }),
   ]);
   const nowIso = new Date().toISOString();
@@ -57,10 +72,6 @@ export default async function ChildToday() {
       reviewerName: i.reviewer?.name ?? null,
     }));
 
-  const open = checks.filter((c) => c.status === "PENDING" || c.status === "REJECTED");
-  const allSent = checks.length > 0 && open.length === 0;
-  const waiting = checks.filter((c) => c.status === "SUBMITTED").length;
-
   const label = (
     <h2 className="font-mono text-xs font-bold tracking-[0.12em] uppercase">
       Kompetence: {assignment?.competency.name ?? "—"}
@@ -75,22 +86,6 @@ export default async function ChildToday() {
             ? "Na dnešek nemáš žádné povinnosti."
             : "Tento týden nemáš přiřazenou povinnost."}
         </p>
-      ) : allSent ? (
-        <>
-          <DayDone waitingCount={waiting} />
-          <details className="group">
-            <summary className="flex h-12 cursor-pointer list-none items-center gap-2 px-1 text-[15px] font-semibold text-muted-foreground">
-              <ChevronDown className="size-[18px] transition-transform group-open:rotate-180" />
-              Ukázat dnešní povinnosti ({checks.length})
-            </summary>
-            <div className="mt-2 flex flex-col gap-3">
-              {label}
-              {checks.map((c) => (
-                <CheckCard key={c.id} check={c} nowIso={nowIso} />
-              ))}
-            </div>
-          </details>
-        </>
       ) : (
         <>
           {label}
@@ -100,12 +95,14 @@ export default async function ChildToday() {
         </>
       )}
 
-      {running.length > 0 && (
+      {todayTasks.length > 0 && (
         <>
           <h2 className="mt-2 font-mono text-xs font-bold tracking-[0.12em] uppercase">
-            Rozdělaný úkol
+            Dnešní úkoly
           </h2>
-          {running.map((t) => (
+          {todayTasks
+            .sort((a, b) => (TASK_ORDER[a.status] ?? 9) - (TASK_ORDER[b.status] ?? 9))
+            .map((t) => (
             <TaskCard
               key={t.id}
               nowIso={nowIso}

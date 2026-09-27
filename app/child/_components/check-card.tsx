@@ -116,7 +116,7 @@ function Meta({
       return (
         <span className={`${cls} text-muted-foreground`}>
           <Check className="size-3.5" />
-          {reviewer ? `schválil ${reviewer}` : "schváleno"}
+          {reviewer ? `schváleno · ${reviewer}` : "schváleno"}
         </span>
       );
     case "REJECTED":

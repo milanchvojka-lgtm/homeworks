@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { Check } from "lucide-react";
+import { Check, ChevronDown } from "lucide-react";
 import { db } from "@/lib/db";
 import { getSession } from "@/lib/auth";
 import { getAppSettings, getWeekTotals } from "@/lib/credit";
@@ -7,10 +7,12 @@ import { endOfWeekPrague, startOfWeekPrague } from "@/lib/time";
 import { Badge } from "@/components/ui/badge";
 import { czkToMinutes, formatMinutes } from "../_components/format";
 import { BackHeader } from "@/app/_components/app-header";
+import { TransactionList, getTransactionItems } from "../_components/transactions";
 
 /**
  * Týdenní výpis (návrh 2, frame 05) = former Kredit (this week) + Historie.
  * Own header with a back arrow instead of the status tiles, so 380 Kč is not shown twice.
+ * HW2 · 05: „Za co" under this week's totals, and each previous week expands to its own list.
  */
 export default async function ChildStatementPage() {
   const user = await getSession();
@@ -25,6 +27,10 @@ export default async function ChildStatementPage() {
       take: 20,
     }),
   ]);
+  const oldest = payouts.at(-1)?.weekStart ?? startOfWeekPrague();
+  const items = await getTransactionItems(user.id, oldest, endOfWeekPrague());
+  const inWeek = (from: Date, to: Date) => items.filter((t) => t.createdAt >= from && t.createdAt <= to);
+  const thisWeek = inWeek(startOfWeekPrague(), endOfWeekPrague());
   const payout = Math.max(0, week.earnedCzk - week.screenTimeCzk);
   const screenMin = czkToMinutes(week.screenTimeCzk, settings.screenTimeHourCostCzk);
 
@@ -44,6 +50,17 @@ export default async function ChildStatementPage() {
           </div>
         </section>
 
+        <h2 className="mt-1 font-mono text-xs font-bold tracking-[0.12em] uppercase">Za co</h2>
+        {thisWeek.length === 0 ? (
+          <p className="rounded-tile border border-border bg-card px-[18px] py-6 text-center text-muted-foreground">
+            Tento týden zatím nic.
+          </p>
+        ) : (
+          <div className="rounded-tile border border-border bg-card">
+            <TransactionList items={thisWeek} />
+          </div>
+        )}
+
         <h2 className="mt-1 font-mono text-xs font-bold tracking-[0.12em] uppercase">
           Předchozí týdny
         </h2>
@@ -52,25 +69,38 @@ export default async function ChildStatementPage() {
             Zatím žádný uzavřený týden.
           </p>
         ) : (
-          payouts.map((p) => (
-            <div
-              key={p.id}
-              className="flex min-h-[60px] items-center gap-3 rounded-tile border border-border bg-card px-[18px]"
-            >
-              <span className="flex-1 text-[17px] font-semibold">
-                {formatWeek(p.weekStart, p.weekEnd)}
-              </span>
-              <span className="font-mono text-[17px] font-bold">{p.totalPayoutCzk} Kč</span>
-              {p.paidOutAt ? (
-                <Badge variant="success">
-                  <Check />
-                  Vyplaceno
-                </Badge>
-              ) : (
-                <Badge variant="warning">Čeká na výplatu</Badge>
-              )}
-            </div>
-          ))
+          payouts.map((p) => {
+            const list = inWeek(p.weekStart, p.weekEnd);
+            return (
+              <details
+                key={p.id}
+                className="group rounded-tile border border-border bg-card open:border-foreground"
+              >
+                <summary className="flex min-h-[60px] cursor-pointer list-none items-center gap-3 pr-3.5 pl-[18px]">
+                  <span className="flex-1 text-[17px] font-semibold">
+                    {formatWeek(p.weekStart, p.weekEnd)}
+                  </span>
+                  <span className="font-mono text-[17px] font-bold">{p.totalPayoutCzk} Kč</span>
+                  {p.paidOutAt ? (
+                    <Badge variant="success">
+                      <Check />
+                      Vyplaceno
+                    </Badge>
+                  ) : (
+                    <Badge variant="warning">Čeká na výplatu</Badge>
+                  )}
+                  <ChevronDown className="size-[18px] text-subtle transition-transform group-open:rotate-180" />
+                </summary>
+                <div className="border-t border-muted">
+                  {list.length === 0 ? (
+                    <p className="px-[18px] py-4 text-muted-foreground">Ten týden nic.</p>
+                  ) : (
+                    <TransactionList items={list} />
+                  )}
+                </div>
+              </details>
+            );
+          })
         )}
       </main>
     </>

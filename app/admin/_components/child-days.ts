@@ -2,7 +2,7 @@ import "server-only";
 import { db } from "@/lib/db";
 import { dayResult } from "@/lib/streak";
 import { startOfDayPrague, startOfMonthPrague, startOfWeekPrague } from "@/lib/time";
-import { formatTimePrague } from "@/app/child/_components/format";
+import { formatDayPrague, formatTimePrague } from "@/app/child/_components/format";
 
 export type ChipState = "done" | "waiting" | "returned" | "missed" | "open" | "none";
 
@@ -19,19 +19,8 @@ export type WeekDay = {
   canExcuse: boolean;
 };
 
-const WEEKDAY = ["Ne", "Po", "Út", "St", "Čt", "Pá", "So"];
-
-/** "St 23. 9." (Europe/Prague). */
 function dayLabel(d: Date, isToday: boolean): string {
-  const parts = new Intl.DateTimeFormat("en-GB", {
-    day: "numeric",
-    month: "numeric",
-    weekday: "short",
-    timeZone: "Europe/Prague",
-  }).formatToParts(d);
-  const get = (t: string) => parts.find((p) => p.type === t)?.value ?? "";
-  const dow = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].indexOf(get("weekday"));
-  return `${WEEKDAY[dow]} ${Number(get("day"))}. ${Number(get("month"))}.${isToday ? " · dnes" : ""}`;
+  return `${formatDayPrague(d)}${isToday ? " · dnes" : ""}`;
 }
 
 function checkMeta(c: {
