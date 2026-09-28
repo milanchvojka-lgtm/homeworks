@@ -578,7 +578,7 @@ Explicitně **NEzahrnuto** ve verzi 1, ať se neztrácí fokus:
 - ❌ **Bonus za perfektní týden.** Pouze měsíční bonus pro v1.
 - ❌ **Pause / nemoc / výlet** režim. Admin v takovém případě jednoduše neeviduje a sám zařídí, co je potřeba doma. *(D20: admin může v běžícím týdnu zpětně uznat zmeškaný den. **D24 (2026-09-27): nepřítomnost dítěte od–do (tábor, dovolená, nemoc) je v rozsahu** — dny pryč bez povinností, řada zmrazená, bonus plný.)*
 - ❌ **Statistiky a grafy** nad rámec týdenní/měsíční historie. Žádné koláčové grafy, žádné srovnávání mezi sourozenci.
-- ❌ **Multi-tenant / víc rodin v jedné aplikaci.** Jen vaše rodina. Pro v2 možné rozšíření, datový model na to ale myslí (nemá baked-in tenant_id, ale lze přidat).
+- ❌ **Multi-tenant / víc rodin v jedné aplikaci.** Jen vaše rodina. Pro v2 možné rozšíření, datový model na to ale myslí (nemá baked-in tenant_id, ale lze přidat). Zájem dalších rodin sbírá veřejná landing page `/pro-rodice` (D26) — jen seznam zájemců e-mailem, žádná registrace.
 - ❌ **Fotky úkolů pro verifikaci.** Schvaluje se důvěrou + fyzickou kontrolou.
 - ❌ **Undo schválení adminem.** Schválení je finální. Pro v2 přidat.
 - ❌ **Auto-approve obrazovky.** Vždy přes admina. V2 zvážit limit pro auto-approve.

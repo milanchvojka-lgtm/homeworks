@@ -46,6 +46,8 @@ V Vercel projektu → Settings → Environment Variables (Production):
 - `APP_URL` — `https://homeworks-xxx.vercel.app` (kořen produkčního deploye)
 - `NOTIFICATION_FROM_EMAIL` — volitelné, default `Homeworks <onboarding@resend.dev>`. Pro vlastní doménu nastav v Resend a sem doplň `Homeworks <noreply@tvoje-domena.cz>`.
 
+- `LANDING_LEADS_EMAIL` — volitelné (D26): kam chodí zájemci a odpovědi z `/pro-rodice`. Když chybí, použije se `ADMIN_NOTIFICATION_EMAILS`.
+
 **NE** nastavovat `TZ` — Vercel ji rezervuje (viz D5).
 
 ---

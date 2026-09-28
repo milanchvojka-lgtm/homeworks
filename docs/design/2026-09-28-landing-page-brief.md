@@ -14,8 +14,10 @@
 2. **Screen time s hranicemi.** Většina rodičů řeší, že děti jen scrollují a nemají přehled, kolik času na tom tráví. Chybí sebereflexe a vnímání hodnoty promarněného času. Ne všechno scrollování je špatně, ale všechno má mít hranice. Appka děti učí hranice vnímat: vidí, kolik času už odehrály, a screen time si kupují z vydělaného (30 min za 100 Kč).
 3. **Pravidla jsou vaše.** Rodič si ve své instanci nastaví vlastní oblasti a povinnosti (i s termínem), vlastní placené úkoly a odměny, hodinovou sazbu, cenu screen time, měsíční bonus a jeho srážku, trofeje, vstupní bonus. *Vlastní měnu appka zatím neumí (vše v Kč), na stránce ji neslibovat, dokud Milan nerozhodne.*
 4. **Nápad k otestování (v appce není):** screen time si děti mohou **vysloužit kvízy z mediální gramotnosti** a správného používání sociálních sítí. Na stránce jako „Připravujeme“ s jednoduchou otázkou zájmu („Chtěli byste to?“), aby se změřila reakce.
-5. **Pro rodiče minimum práce:** večer projdete, co děti nahlásily, jedním ťuknutím schválíte; v neděli vyplatíte; tábor nebo nemoc zadáte jednou.
+5. **Pro rodiče méně dozoru (ne méně práce):** večer projdete, co děti nahlásily, jedním ťuknutím schválíte; v neděli vyplatíte; tábor nebo nemoc zadáte jednou.
 6. **Děti to mají za své:** vlastní telefon a PIN, řada dní, trofeje (7, 14, 30 dní), měsíční bonus, vidí, co si vydělaly a za co.
+
+**Tón: týmovost, ne přesun práce (Milan 2026-09-28, po návrhu 3).** Stránka nesmí vyznít, že rodiče nic nedělají a děti makají. Domácnost je týmový sport: rodiče dál dělají svůj díl (práce, vaření, nákupy, vození), děti se do týmu vracejí se svým dílem a cítí za něj zodpovědnost. Appka je způsob, jak děti do týmu zapojit a motivovat je věcmi, na kterých jim záleží (screen time, peníze, řada, trofeje). Úleva rodiče = konec připomínání a dozoru, ne volno na gauči. Důsledky: žádné věty typu „Vy jen schvalujete“ nebo „Zbytek běží sám“; fotky „po“ ukazují rodinu spolu nebo dítě při jeho díle, ne odpočívajícího rodiče.
 
 ## 3 · Ověřená fakta o produktu (co smí stránka tvrdit)
 
@@ -71,6 +73,8 @@
 
 - **Návrh 1** (pen): sekce „HW · Landing page · návrh 1 (28. 9.)“ (`eY0H5`), framy `HWL · 01 Desktop` (`IScQW`), `HWL · 02 Telefon` (`D3PQB`).
 - **Návrh 2** (pen, rozpracovaný, jen úvod): „HW · Landing page · návrh 2 (28. 9.)“ (`Zk5mw`), frame `HWL2 · 01 Desktop` (`y4ueV`); telefon rodiče (`t8Pbp`) je odložený (skrytý) na stránce pro sekci Pro rodiče.
+- **Návrh 3** (pen, celá stránka desktop, telefon zatím ne): „HW · Landing page · návrh 3 (28. 9.)“ (`zZovU`), frame `HWL3 · 01 Desktop 1440` (`S8Zm8H`). Sekce: Úvod `nYfi5` (z návrhu 2), Problém `lcANB`, Rodina je tým `g4NFhg`, Jak to funguje `BLAKP`, Screen time `VEWsx`, Pro rodiče `SYy6w`, Děti to mají za své `g3ny6u`, Pravidla jsou vaše `c6aUN7`, Připravujeme · kvízy `XAy4g`, Příběh `MkQNF`, Časté otázky `WZANf`, Seznam zájemců `FnyJA`, Patička `v6UlqS`. Fotky `_design/generated*.png` (AI v penu). Hodnoty v ukázce Nastavení = výchozí `AppSettings` (150 Kč/h, 200 Kč/h screen time, bonus 200 / krok 50, vstupní 100).
+- **Návrh 3b · týmovost** (pen): „HW · Landing page · návrh 3b (28. 9.) · týmovost“ (`UYupj`), frame `HWL3b · 01 Desktop 1440 · týmovost` (`Uvq4k`). Kopie návrhu 3, mění jen tón podle §2 (podnadpis úvodu, 1. situace, Rodina je tým text + fotka, krok 1, Pro rodiče nadpis + fotka, nadpis Děti, závěrečná výzva, patička). Návrh 3 zůstává vedle pro srovnání.
 - **Skutečné obrazovky ke kopírování:** dítě Dnes `o6rLC` (HW2 · 01), Vydělat `xwok7`, Screen time `RhrEU`, Týdenní výpis `DJK0X`, uvítání HWU · 01–06; rodič Schválit `g4AoCl`, Děti `NcPEb`, Výplaty `YyN2Z`, Nepřítomnost `h2NteO`.
 - **Artefakt Claude Design** (první pokus, mimo pravidla): https://claude.ai/artifact/KRuysPXq7R2qSc9TQAf7HF — jen historie; smazat, až to Milan potvrdí.
 
