@@ -57,7 +57,7 @@
 - **Víc barvy a radosti, méně „wireframe“** (Milan k návrhu 1: typografie dobrý základ, ale černobílé a suché). Barevné plochy sekcí z palety appky: `hw-pink-bg`, `hw-green-bg`, `hw-blue-bg`, `hw-amber-bg`; tmavá sekce `hw-ink` jen jednou. Růžová `hw-pink` na zvýraznění čísel. *Pozor:* `hw-pink` má na bílé nízký kontrast u menšího textu.
 - **Hodně skutečných ukázek z appky**, ne ilustrace: telefony s kopiemi skutečných framů. Obrazovky dětí i rodičů.
 - Typografie IBM Plex Sans / Mono jako appka; velké nadpisy, krátké věty.
-- Případně fotografie rodiny/dětí při domácích pracích (pencil `Generate` stock) pro emoci — zatím nezkoušeno, rozhodne Milan.
+- **Fotky ano (Milan 2026-09-28):** mají nést emoci. Pojetí **„před a po“**: v sekci Problém frustrace, kterou zná většina rodičů (plná linka a nádobí večer, dítě v posteli s telefonem ve tmě, gauč zavalený oblečením, rodič volající z kuchyně), u nových sekcí úleva (uklizená kuchyň, dítě si odškrtává povinnost v telefonu, rodič večer v klidu). Generovat přímo v penu (`Generate` ai / stock). **Bez tváří** (detaily, ruce, prostředí, postavy zezadu), běžný byt, večerní světlo, ne přesvícený stock; jednotný styl a barvy ladící s paletou.
 
 ## 6 · Pravidla práce (D15, D16, design-to-code)
 
@@ -78,5 +78,5 @@
 
 - Milanův citát a 3 čísla z provozu do sekce Příběh.
 - Vlastní měna: slibovat, nebo ne?
-- **Fotky:** Milan chce fotky pro emoci (28. 9.). Návrh Claude, čeká na potvrzení: „před a po“ (frustrace v sekci Problém → úleva po změně), generované přímo v penu (`Generate` ai / stock), **bez tváří** (detaily, ruce, prostředí, večerní světlo, běžný byt, ne přesvícený stock), jednotný styl; v sekci Příběh **skutečná fotka** od Milana (klidně bez tváří).
+- Skutečná fotka od Milana v sekci Příběh: ano / ne (rozhodne později).
 - Kde bude stránka hostovaná a kam se ukládají e-maily ze seznamu zájemců (dnes nikam).
