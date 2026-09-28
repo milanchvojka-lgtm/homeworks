@@ -5,16 +5,17 @@ import { formatDayPrague } from "./format";
 export type TransactionItem = { id: string; title: string; sub: string; amountCzk: number };
 
 /**
- * „Za co" (pen HW2 · 05): the child's credit transactions in [from, to], newest first.
- * Payouts are left out: a paid week shows its payout in the week row.
+ * „Za co" (pen HW2 · 05): the child's credit transactions of the weeks starting in [fromWeek, toWeek],
+ * newest first. Grouped by `weekStart` — the week a payout counts them in (a trophy paid on Monday
+ * night belongs to the week that just ended). Payouts are left out: the week row shows the payout.
  */
 export async function getTransactionItems(
   userId: string,
-  from: Date,
-  to: Date,
-): Promise<(TransactionItem & { createdAt: Date })[]> {
+  fromWeek: Date,
+  toWeek: Date,
+): Promise<(TransactionItem & { createdAt: Date; weekStart: Date })[]> {
   const txs = await db.creditTransaction.findMany({
-    where: { userId, createdAt: { gte: from, lte: to }, type: { not: "PAYOUT" } },
+    where: { userId, weekStart: { gte: fromWeek, lte: toWeek }, type: { not: "PAYOUT" } },
     orderBy: { createdAt: "desc" },
   });
   const taskIds = txs.filter((t) => t.type === "TASK_REWARD" && t.referenceId).map((t) => t.referenceId!);
@@ -26,7 +27,7 @@ export async function getTransactionItems(
 
   return txs.map((t) => {
     const day = formatDayPrague(t.createdAt);
-    const base = { id: t.id, amountCzk: t.amountCzk, createdAt: t.createdAt };
+    const base = { id: t.id, amountCzk: t.amountCzk, createdAt: t.createdAt, weekStart: t.weekStart };
     switch (t.type) {
       case "TASK_REWARD":
         return { ...base, title: taskName.get(t.referenceId ?? "") ?? "Úkol", sub: `${day} · úkol` };

@@ -28,9 +28,9 @@ export default async function ChildStatementPage() {
     }),
   ]);
   const oldest = payouts.at(-1)?.weekStart ?? startOfWeekPrague();
-  const items = await getTransactionItems(user.id, oldest, endOfWeekPrague());
-  const inWeek = (from: Date, to: Date) => items.filter((t) => t.createdAt >= from && t.createdAt <= to);
-  const thisWeek = inWeek(startOfWeekPrague(), endOfWeekPrague());
+  const items = await getTransactionItems(user.id, oldest, startOfWeekPrague());
+  const inWeek = (weekStart: Date) => items.filter((t) => t.weekStart.getTime() === weekStart.getTime());
+  const thisWeek = inWeek(startOfWeekPrague());
   const payout = Math.max(0, week.earnedCzk - week.screenTimeCzk);
   const screenMin = czkToMinutes(week.screenTimeCzk, settings.screenTimeHourCostCzk);
 
@@ -70,7 +70,7 @@ export default async function ChildStatementPage() {
           </p>
         ) : (
           payouts.map((p) => {
-            const list = inWeek(p.weekStart, p.weekEnd);
+            const list = inWeek(p.weekStart);
             return (
               <details
                 key={p.id}
