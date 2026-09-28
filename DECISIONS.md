@@ -453,7 +453,7 @@
 - Landing page žije **v tomhle Next.js projektu** jako veřejná routa **`/pro-rodice`** (bez přihlášení, mimo `proxy.ts` matcher). `/` zůstává přihlášení rodiny.
 - Předloha: pen, návrh 3b · týmovost (`UYupj`), desktop. Mobilní verze se odvodí responzivně v kódu a pen se dorovná (frame `HWL3b · 02 Telefon 390`).
 - **Formulář „Chci být mezi prvními“ a otázka zájmu o kvízy** posílají e-mail Milanovi přes **Resend** (server action, bez změny databáze, bez nové závislosti). Příjemce `LANDING_LEADS_EMAIL`, když chybí, `ADMIN_NOTIFICATION_EMAILS`. Ochrana proti botům: skryté pole (honeypot).
-- **Jen světlý režim:** stránka má barevné plochy a fotky navržené pro světlo; tmavé tokeny se na ní nepoužijí (marker `.theme-light-only` v `app/globals.css` přes `:has()`).
+- **Jen světlý režim:** stránka má barevné plochy a fotky navržené pro světlo; tmavé tokeny se na ní nepoužijí (obal `.theme-light-only` v `app/globals.css` znovu deklaruje světlé tokeny a aliasy; `:has()` na `:root` sestavení CSS zahazuje).
 - Ukázky z appky (telefony, karty) jsou **obrázky exportované z penu** do `public/landing/` (kopie skutečných obrazovek), fotky jsou AI fotky z penu. Neživé komponenty: appka potřebuje session a data.
 
 **Důvod:** Milan 2026-09-28: stránku chce posílat odkazem hned; nasazení s appkou na Vercel je nejrychlejší cesta, sdílí tokeny a písmo. Ukládání zájemců do DB zatím nepotřebuje („pošli to e-mailem mně“).
