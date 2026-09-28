@@ -5,13 +5,13 @@ import {
   Check,
   Flame,
   Gift,
-  Menu,
   ReceiptText,
   Smartphone,
   Sparkles,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
+import { H2, Kicker, LandingHeader, Lead, Photo, Section } from "@/app/_components/landing-ui";
 import { QuizPoll, WaitlistForm } from "./_forms";
 
 // Product landing page (D26). Source: pen, návrh 3b · týmovost (UYupj). Light only, public.
@@ -28,6 +28,7 @@ const NAV = [
   ["#rodice", "Pro rodiče"],
   ["#pravidla", "Pravidla"],
   ["#otazky", "Časté otázky"],
+  ["/pro-deti", "Pro děti"],
 ] as const;
 
 const FAQ = [
@@ -57,95 +58,10 @@ const FAQ = [
   ],
 ] as const;
 
-function Kicker({ children, className }: { children: React.ReactNode; className?: string }) {
-  return (
-    <p className={cn("font-mono text-xs font-bold tracking-[0.15em] text-muted-foreground lg:text-[13px]", className)}>
-      {children}
-    </p>
-  );
-}
-
-function H2({ children, className }: { children: React.ReactNode; className?: string }) {
-  return (
-    <h2 className={cn("text-[32px] leading-[1.08] font-bold tracking-[-0.025em] text-balance lg:text-[52px]", className)}>
-      {children}
-    </h2>
-  );
-}
-
-function Lead({ children }: { children: React.ReactNode }) {
-  return <p className="text-[17px] leading-[1.55] text-muted-foreground lg:text-xl">{children}</p>;
-}
-
-function Section({
-  id,
-  className,
-  inner,
-  children,
-}: {
-  id?: string;
-  className?: string;
-  inner?: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section id={id} className={cn("scroll-mt-16", className)}>
-      <div className={cn("mx-auto max-w-[1440px] px-5 py-16 sm:px-10 lg:px-[120px] lg:py-[120px]", inner)}>
-        {children}
-      </div>
-    </section>
-  );
-}
-
-function Photo({ src, alt, className }: { src: string; alt: string; className?: string }) {
-  return (
-    <div className={cn("relative overflow-hidden rounded-tile bg-muted", className)}>
-      <Image src={src} alt={alt} fill sizes="(min-width: 1024px) 560px, 100vw" className="object-cover" />
-    </div>
-  );
-}
-
-function Header() {
-  return (
-    <header className="sticky top-0 z-20 bg-highlight-soft/95 backdrop-blur">
-      <div className="mx-auto flex max-w-[1440px] items-center justify-between px-5 py-4 sm:px-10 lg:px-[120px] lg:py-7">
-        <a href="#" className="font-mono text-sm font-bold tracking-[0.2em]">
-          HOMEWORKS
-        </a>
-        <nav className="hidden items-center gap-8 text-[15px] font-medium lg:flex">
-          {NAV.map(([href, label]) => (
-            <a key={href} href={href} className="hover:text-muted-foreground">
-              {label}
-            </a>
-          ))}
-          <a href="#zajemci" className="font-bold underline underline-offset-4">
-            Chci být mezi prvními →
-          </a>
-        </nav>
-        <details className="group relative lg:hidden">
-          <summary className="flex size-11 cursor-pointer list-none items-center justify-center rounded-full [&::-webkit-details-marker]:hidden">
-            <Menu className="size-6" aria-label="Menu" />
-          </summary>
-          <nav className="absolute right-0 top-12 flex w-60 flex-col rounded-xl bg-card p-2 text-base font-medium shadow-lg ring-1 ring-border">
-            {NAV.map(([href, label]) => (
-              <a key={href} href={href} className="rounded-lg px-3 py-3 hover:bg-muted">
-                {label}
-              </a>
-            ))}
-            <a href="#zajemci" className="rounded-lg px-3 py-3 font-bold underline underline-offset-4 hover:bg-muted">
-              Chci být mezi prvními →
-            </a>
-          </nav>
-        </details>
-      </div>
-    </header>
-  );
-}
-
 export default function LandingPage() {
   return (
     <div className="theme-light-only bg-background text-foreground">
-      <Header />
+      <LandingHeader nav={NAV} cta={["#zajemci", "Chci být mezi prvními →"]} />
       <main>
         {/* 1 · Úvod */}
         <section className="bg-highlight-soft">
