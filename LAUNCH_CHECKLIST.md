@@ -180,3 +180,4 @@ Z plánu (mimo v1 scope):
 - Undo schválení
 - Auto-approve obrazovky pod limit
 - PNG export ikon (po D7)
+- **Víc rodin v jedné appce (probráno 2026-09-28, vrátíme se po launchi, zatím nerozpracovávat).** Milan zvolil variantu B: tabulka `Family` + `familyId` na všech datech, každý dotaz omezený na rodinu (dnes 18 modelů, ~147 dotazů ve 48 souborech), přihlášení na adrese rodiny (dnešní `/` vypisuje všechny uživatele = únik jmen), nastavení / e-maily / crony po rodinách, super-admin `/super` na zakládání rodin, testy izolace + simulace se dvěma rodinami. Odhad ~6–8 pracovních dnů. Zamítnuto: klon nasazení na rodinu (náklady a údržba ×N), schéma na rodinu (Prisma + serverless). Až se k tomu vrátíme → nový záznam v DECISIONS a patch PRD („multi-tenant mimo v1“).
