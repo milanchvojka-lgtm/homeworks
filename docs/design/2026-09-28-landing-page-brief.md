@@ -78,5 +78,5 @@
 
 - Milanův citát a 3 čísla z provozu do sekce Příběh.
 - Vlastní měna: slibovat, nebo ne?
-- Fotky rodiny: ano / ne.
+- **Fotky:** Milan chce fotky pro emoci (28. 9.). Návrh Claude, čeká na potvrzení: „před a po“ (frustrace v sekci Problém → úleva po změně), generované přímo v penu (`Generate` ai / stock), **bez tváří** (detaily, ruce, prostředí, večerní světlo, běžný byt, ne přesvícený stock), jednotný styl; v sekci Příběh **skutečná fotka** od Milana (klidně bez tváří).
 - Kde bude stránka hostovaná a kam se ukládají e-maily ze seznamu zájemců (dnes nikam).
