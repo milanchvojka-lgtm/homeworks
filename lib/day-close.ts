@@ -26,6 +26,7 @@ export async function closePastDays(now: Date = new Date()) {
       longestStreak: true,
       brokenStreaksCount: true,
       lastStreakDate: true,
+      trialEndsOn: true,
     },
   });
   const milestones = await db.streakMilestone.findMany();
@@ -59,6 +60,8 @@ export async function closePastDays(now: Date = new Date()) {
         .filter((i) => i.date.getTime() === day.getTime())
         .map((i) => i.status);
       if (dayResult(statuses) === "FAIL") {
+        // D25: a failed day in the trial week is skipped, like a day without checks.
+        if (child.trialEndsOn && day <= child.trialEndsOn) continue;
         if (streak > 0) broken++;
         streak = 0;
         continue;

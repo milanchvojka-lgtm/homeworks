@@ -4,6 +4,8 @@
  * the end of two months and the switch to winter time (25. 10.). Invariants are checked every day.
  * D24: Neli at camp 5.–10. 10. (ended early on 9. 10.), the whole family away 23.–25. 10.,
  * Emi's illness on 14. 10. entered the next morning.
+ * D25: Neli starts on 28. 9. with the welcome (bonus once), her own PIN and a trial week in which
+ * she forgets 1. 10. without losing streak or bonus.
  */
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import { db } from "@/lib/db";
@@ -20,6 +22,7 @@ import {
 } from "@/app/actions/screen-time";
 import { markPayoutPaidAction } from "@/app/actions/payouts";
 import { createAbsenceAction, endAbsenceAction } from "@/app/actions/absence";
+import { completeWelcomeAction, setOwnPinAction } from "@/app/actions/welcome";
 import { absentUserIds } from "@/lib/absence";
 import { asUser, at, cron, seedFamily, setClock, wipe, type Family } from "./world";
 import { checkInvariants } from "./invariants";
@@ -151,6 +154,24 @@ describe("month simulation (D22)", () => {
         await cron("claim-timeout");
       }
 
+      // D25: Neli's first launch (welcome twice must credit the bonus once; 0000 is refused).
+      if (day === START) {
+        setClock(at(day, "15:00"));
+        asUser(f.neli);
+        const a = await completeWelcomeAction();
+        const b = await completeWelcomeAction();
+        if (!a.ok || a.next !== "/uvitani/pin") problems.push(`${day}: welcome should lead to the PIN page`);
+        if (!b.ok) problems.push(`${day}: second welcome call failed`);
+        const weak = await setOwnPinAction("0000", "0000");
+        if (weak.ok) problems.push(`${day}: PIN 0000 should be refused`);
+        const own = await setOwnPinAction("4821", "4821");
+        if (!own.ok) problems.push(`${day}: own PIN refused`);
+        const bonus = await db.creditTransaction.count({ where: { userId: f.neli.id, type: "WELCOME_BONUS" } });
+        if (bonus !== 1) problems.push(`${day}: welcome bonus credited ${bonus}×`);
+        const u = await db.user.findUnique({ where: { id: f.neli.id } });
+        if (u?.pinIsTemporary || !u?.trialEndsOn) problems.push(`${day}: Neli should have own PIN and a trial end`);
+      }
+
       // D24 absences, entered by parents.
       if (day === "2026-10-02") {
         setClock(at(day, "20:30"));
@@ -190,7 +211,8 @@ describe("month simulation (D22)", () => {
 
       // 18:00 Neli: checks, then Půdička sometimes; spends on screen time.
       setClock(at(day, "18:00"));
-      if (home(f.neli)) await submitAll(f.neli);
+      if (home(f.neli) && day !== "2026-10-01") await submitAll(f.neli);
+      else if (day === "2026-10-01") log(day, "Neli forgets her checks (trial week)");
       const neliTask = home(f.neli) ? await tryClaim(f.neli, "Půdička") : null;
       if (i % 2 === 0 && home(f.neli)) {
         asUser(f.neli);
@@ -297,7 +319,9 @@ describe("month simulation (D22)", () => {
     // Days away (D24) neither count nor break: family 23.–25. 10.; Neli 5.–8. 10.; Emi 14. 10.
     if (ani.currentStreak !== DAYS - 3) problems.push(`end: Ani streak ${ani.currentStreak}, expected ${DAYS - 3}`);
     const neli = kids[2];
-    if (neli.currentStreak !== DAYS - 3 - 4) problems.push(`end: Neli streak ${neli.currentStreak}, expected ${DAYS - 7}`);
+    // Neli: minus 1. 10. (failed in the trial week → skipped, not a break).
+    if (neli.currentStreak !== DAYS - 3 - 4 - 1) problems.push(`end: Neli streak ${neli.currentStreak}, expected ${DAYS - 8}`);
+    if (neli.brokenStreaksCount !== 0) problems.push(`end: Neli broke her streak ${neli.brokenStreaksCount}× (trial should protect 1. 10.)`);
     const aniTrophies = await db.trophyEarned.findMany({ where: { userId: ani.id }, include: { milestone: true } });
     const names = aniTrophies.map((t) => t.milestone.days).sort((a, b) => a - b);
     if (names.join(",") !== "7,14,30") problems.push(`end: Ani trophies ${names.join(",")}, expected 7,14,30`);

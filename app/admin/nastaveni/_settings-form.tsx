@@ -16,6 +16,7 @@ type Settings = {
   monthlyBonusStepCzk: number;
   defaultClaimTimeoutHours: number;
   defaultExecuteTimeoutHours: number;
+  welcomeBonusCzk: number;
 };
 
 export function SettingsForm({ initial }: { initial: Settings }) {
@@ -102,6 +103,11 @@ export function SettingsForm({ initial }: { initial: Settings }) {
               label="Krok ubývání bonusu (Kč)"
               value={s.monthlyBonusStepCzk}
               onChange={(v) => upd("monthlyBonusStepCzk", v)}
+            />
+            <NumField
+              label="Vstupní bonus (Kč)"
+              value={s.welcomeBonusCzk}
+              onChange={(v) => upd("welcomeBonusCzk", v)}
             />
 
             {/* Live preview */}

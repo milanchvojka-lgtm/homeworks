@@ -78,3 +78,17 @@ describe("month boundaries in Prague", () => {
     ).toBe(false);
   });
 });
+
+describe("countMissedDays with a trial week (D25)", () => {
+  const d = (iso: string) => new Date(iso);
+  const inst = [
+    { date: d("2026-09-29T22:00:00Z"), status: "MISSED" as const }, // 30. 9. — in trial
+    { date: d("2026-10-05T22:00:00Z"), status: "MISSED" as const }, // 6. 10. — after trial
+  ];
+  it("does not count failed days up to the trial end", () => {
+    expect(countMissedDays(inst, d("2026-10-03T22:00:00Z"))).toBe(1);
+  });
+  it("counts everything without a trial", () => {
+    expect(countMissedDays(inst)).toBe(2);
+  });
+});

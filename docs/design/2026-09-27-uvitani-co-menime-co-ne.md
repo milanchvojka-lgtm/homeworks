@@ -1,6 +1,6 @@
 # První spuštění dítěte (uvítání) — co měníme, co ne
 
-**Datum:** 2026-09-27 · **Stav:** schváleno 2026-09-27 (Milan: „kresli“) · **Podle:** scénář 11; tok varianta A (`2026-09-27-struktura-a-tok-uvitani.md`); D25
+**Datum:** 2026-09-27 · **Stav:** schváleno 2026-09-27 (Milan: „kresli“), implementováno 2026-09-28 · **Podle:** scénář 11; tok varianta A (`2026-09-27-struktura-a-tok-uvitani.md`); D25
 
 ## Co VZNIKÁ
 

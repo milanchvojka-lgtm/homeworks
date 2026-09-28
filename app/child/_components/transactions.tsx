@@ -32,6 +32,8 @@ export async function getTransactionItems(
         return { ...base, title: taskName.get(t.referenceId ?? "") ?? "Úkol", sub: `${day} · úkol` };
       case "SCREEN_TIME":
         return { ...base, title: `Screen time ${t.note ?? ""}`.trim(), sub: day };
+      case "WELCOME_BONUS":
+        return { ...base, title: "Vstupní bonus", sub: day };
       case "ADJUSTMENT":
         return { ...base, title: "Úprava kreditu", sub: `${day} · od rodiče` };
       default:

@@ -19,7 +19,8 @@ export async function resetPinAction(
 
   const hash = await hashPin(RESET_PIN);
   await db.$transaction([
-    db.user.update({ where: { id: userId }, data: { pinHash: hash } }),
+    // D25: a parent-set PIN is temporary — the child must pick their own after logging in.
+    db.user.update({ where: { id: userId }, data: { pinHash: hash, pinIsTemporary: true } }),
     db.session.deleteMany({ where: { userId } }),
   ]);
 

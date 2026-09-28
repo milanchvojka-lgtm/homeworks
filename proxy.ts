@@ -7,7 +7,7 @@ export function proxy(req: NextRequest) {
   const hasSession = !!req.cookies.get(SESSION_COOKIE)?.value;
 
   const isProtected =
-    pathname.startsWith("/admin") || pathname.startsWith("/child");
+    pathname.startsWith("/admin") || pathname.startsWith("/child") || pathname.startsWith("/uvitani");
 
   if (isProtected && !hasSession) {
     const url = req.nextUrl.clone();
@@ -19,5 +19,5 @@ export function proxy(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/child/:path*"],
+  matcher: ["/admin/:path*", "/child/:path*", "/uvitani/:path*"],
 };

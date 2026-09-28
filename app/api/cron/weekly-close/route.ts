@@ -74,7 +74,7 @@ export async function GET(request: Request) {
       where: {
         userId: child.id,
         weekStart,
-        type: { in: ["TASK_REWARD", "SCREEN_TIME", "MONTHLY_BONUS", "STREAK_MILESTONE"] },
+        type: { in: ["TASK_REWARD", "SCREEN_TIME", "MONTHLY_BONUS", "STREAK_MILESTONE", "WELCOME_BONUS"] },
       },
       select: { type: true, amountCzk: true },
     });
@@ -85,7 +85,8 @@ export async function GET(request: Request) {
     for (const t of txs) {
       if (t.type === "TASK_REWARD") earnedCzk += t.amountCzk;
       else if (t.type === "SCREEN_TIME") screenTimeCzk += Math.abs(t.amountCzk);
-      else if (t.type === "MONTHLY_BONUS" || t.type === "STREAK_MILESTONE") bonusCzk += t.amountCzk;
+      else if (t.type === "MONTHLY_BONUS" || t.type === "STREAK_MILESTONE" || t.type === "WELCOME_BONUS")
+        bonusCzk += t.amountCzk; // D25: welcome bonus is paid out as bonus
     }
     const totalPayout = computeWeeklyPayout({
       earnedCzk,

@@ -5,7 +5,12 @@ import { dayResult, replayStreak, type DayResult } from "./streak";
 type Tx = Prisma.TransactionClient;
 
 /** Closed days of a child (≤ lastStreakDate, the days daily-close already applied), oldest first. */
-async function closedDays(tx: Tx, userId: string, lastStreakDate: Date | null) {
+async function closedDays(
+  tx: Tx,
+  userId: string,
+  lastStreakDate: Date | null,
+  trialEndsOn: Date | null,
+) {
   if (!lastStreakDate) return { keys: [] as number[], results: [] as DayResult[] };
   const history = await tx.dailyCheckInstance.findMany({
     where: { userId, date: { lte: lastStreakDate } },
@@ -13,7 +18,10 @@ async function closedDays(tx: Tx, userId: string, lastStreakDate: Date | null) {
   });
   const byDay = new Map<number, string[]>();
   for (const h of history) byDay.set(h.date.getTime(), [...(byDay.get(h.date.getTime()) ?? []), h.status]);
-  const keys = [...byDay.keys()].sort((a, b) => a - b);
+  // D25: failed days in the trial week are skipped, like days without checks.
+  const keys = [...byDay.keys()]
+    .filter((k) => !(trialEndsOn && k <= trialEndsOn.getTime() && dayResult(byDay.get(k)!) === "FAIL"))
+    .sort((a, b) => a - b);
   return { keys, results: keys.map((k) => dayResult(byDay.get(k)!)) };
 }
 
@@ -25,11 +33,17 @@ async function closedDays(tx: Tx, userId: string, lastStreakDate: Date | null) {
 export async function withStreakResync(tx: Tx, userId: string, change: () => Promise<void>) {
   const child = await tx.user.findUniqueOrThrow({
     where: { id: userId },
-    select: { currentStreak: true, longestStreak: true, brokenStreaksCount: true, lastStreakDate: true },
+    select: {
+      currentStreak: true,
+      longestStreak: true,
+      brokenStreaksCount: true,
+      lastStreakDate: true,
+      trialEndsOn: true,
+    },
   });
-  const before = replayStreak((await closedDays(tx, userId, child.lastStreakDate)).results);
+  const before = replayStreak((await closedDays(tx, userId, child.lastStreakDate, child.trialEndsOn)).results);
   await change();
-  const { keys, results } = await closedDays(tx, userId, child.lastStreakDate);
+  const { keys, results } = await closedDays(tx, userId, child.lastStreakDate, child.trialEndsOn);
   const after = replayStreak(results);
 
   await tx.user.update({

@@ -6,6 +6,7 @@ import { getAppSettings, getWeekTotals } from "@/lib/credit";
 import { AppHeader } from "@/app/_components/app-header";
 import { StatusTiles } from "../_components/status-header";
 import { czkToMinutes } from "../_components/format";
+import { startOfDayPrague } from "@/lib/time";
 
 /** Tabs (Dnes, Vydělat, Screen time, Já + their subpages) carry the app header and status tiles. */
 export default async function ChildTabsLayout({
@@ -22,7 +23,7 @@ export default async function ChildTabsLayout({
     getBonusStatus(user.id),
     db.user.findUnique({
       where: { id: user.id },
-      select: { currentStreak: true },
+      select: { currentStreak: true, trialEndsOn: true },
     }),
   ]);
 
@@ -35,6 +36,9 @@ export default async function ChildTabsLayout({
           screenMinutes={czkToMinutes(week.screenTimeCzk, settings.screenTimeHourCostCzk)}
           streakDays={streak?.currentStreak ?? 0}
           bonusCzk={bonus.currentBonusCzk}
+          trialEndsOn={
+            streak?.trialEndsOn && streak.trialEndsOn >= startOfDayPrague() ? streak.trialEndsOn : null
+          }
         />
         <div>{children}</div>
       </main>

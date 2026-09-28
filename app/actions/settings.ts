@@ -13,6 +13,7 @@ export async function updateAppSettingsAction(input: {
   monthlyBonusStepCzk: number;
   defaultClaimTimeoutHours: number;
   defaultExecuteTimeoutHours: number;
+  welcomeBonusCzk: number;
 }): Promise<{ ok: true } | { ok: false; error: string }> {
   const user = await getSession();
   if (!user || user.role !== "ADMIN") {

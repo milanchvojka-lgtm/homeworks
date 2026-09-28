@@ -27,15 +27,18 @@ export async function getBonusStatus(
   const monthStart = startOfMonthPrague(date);
   const monthEnd = endOfMonthPrague(date);
 
-  const [instances, settings] = await Promise.all([
+  const [instances, settings, user] = await Promise.all([
     db.dailyCheckInstance.findMany({
       where: { userId, date: { gte: monthStart, lte: monthEnd } },
       select: { date: true, status: true },
     }),
     getAppSettings(),
+    db.user.findUnique({ where: { id: userId }, select: { trialEndsOn: true } }),
   ]);
 
-  const misses = countMissedDays(instances);
+  // D25: failed days in the trial week do not cost bonus.
+  const trial = user?.trialEndsOn ?? null;
+  const misses = countMissedDays(instances, trial);
   const fullBonusCzk = settings.monthlyBonusCzk;
   const stepCzk = settings.monthlyBonusStepCzk;
   const currentBonusCzk = computeMonthlyBonus({ misses, fullCzk: fullBonusCzk, stepCzk });
@@ -45,6 +48,6 @@ export async function getBonusStatus(
     currentBonusCzk,
     fullBonusCzk,
     stepCzk,
-    lostOn: misses > 0 ? earliestMissDate(instances) : null,
+    lostOn: misses > 0 ? earliestMissDate(instances, trial) : null,
   };
 }

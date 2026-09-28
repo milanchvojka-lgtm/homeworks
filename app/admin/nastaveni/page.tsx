@@ -25,6 +25,7 @@ export default async function AdminSettingsPage() {
           monthlyBonusStepCzk: settings.monthlyBonusStepCzk,
           defaultClaimTimeoutHours: settings.defaultClaimTimeoutHours,
           defaultExecuteTimeoutHours: settings.defaultExecuteTimeoutHours,
+          welcomeBonusCzk: settings.welcomeBonusCzk,
         }}
       />
 

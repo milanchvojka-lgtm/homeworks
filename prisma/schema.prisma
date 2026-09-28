@@ -30,6 +30,12 @@ model User {
   longestStreak       Int       @default(0)
   lastStreakDate      DateTime?
   brokenStreaksCount  Int       @default(0)
+  /// D25: welcome finished (null = show the welcome on next login).
+  onboardedAt         DateTime?
+  /// D25: PIN was set by a parent (reset / new user) — the child must pick their own.
+  pinIsTemporary      Boolean   @default(false)
+  /// D25: last Prague day of the trial week (failed days up to it neither break the streak nor cost bonus).
+  trialEndsOn         DateTime?
 
   sessions               Session[]
   competencyAssignments  CompetencyAssignment[]
@@ -232,6 +238,7 @@ enum TransactionType {
   STREAK_MILESTONE
   PAYOUT
   ADJUSTMENT
+  WELCOME_BONUS
 }
 
 model CreditTransaction {
@@ -322,6 +329,7 @@ model AppSettings {
   monthlyBonusStepCzk        Int      @default(50)
   defaultClaimTimeoutHours   Int      @default(24)
   defaultExecuteTimeoutHours Int      @default(3)
+  welcomeBonusCzk            Int      @default(100)
   updatedAt                  DateTime @updatedAt
 }
 

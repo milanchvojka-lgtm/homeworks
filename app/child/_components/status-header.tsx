@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ChevronRight, Flame, Wallet } from "lucide-react";
-import { formatMinutes } from "./format";
+import { formatDayPrague, formatMinutes } from "./format";
 
 /**
  * Status tiles, first thing in a tab's content (pen `StatusTiles`): this week's payout + screen time,
@@ -11,11 +11,14 @@ export function StatusTiles({
   screenMinutes,
   streakDays,
   bonusCzk,
+  trialEndsOn,
 }: {
   payoutCzk: number;
   screenMinutes: number;
   streakDays: number;
   bonusCzk: number;
+  /** D25: during the trial week the tile says until when instead of the bonus. */
+  trialEndsOn?: Date | null;
 }) {
   return (
     <div className="grid grid-cols-2 gap-2.5">
@@ -33,7 +36,7 @@ export function StatusTiles({
         kicker="Řada"
         value={`${streakDays} ${daysLabel(streakDays)}`}
         valueClass="text-foreground"
-        sub={`Bonus +${bonusCzk} Kč`}
+        sub={trialEndsOn ? `Zkouška do ${formatDayPrague(trialEndsOn)}` : `Bonus +${bonusCzk} Kč`}
       />
     </div>
   );

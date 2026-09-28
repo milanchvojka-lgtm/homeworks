@@ -41,6 +41,9 @@ export async function checkInvariants(label: string): Promise<string[]> {
       if (dup.length) p(`${k.name} ${type} credited twice for ${[...new Set(dup)].join(",")}`);
     }
 
+    const welcome = mine.filter((t) => t.type === "WELCOME_BONUS").length;
+    if (welcome > 1) p(`${k.name} welcome bonus credited ${welcome}×`);
+
     // Streak equals a replay of the closed days (daily-close rules).
     const byDay = new Map<number, string[]>();
     for (const i of instances) {
@@ -49,6 +52,8 @@ export async function checkInvariants(label: string): Promise<string[]> {
     }
     const closed = [...byDay.keys()]
       .filter((d) => k.lastStreakDate && d <= k.lastStreakDate.getTime())
+      // D25: failed days in the trial week are skipped.
+      .filter((d) => !(k.trialEndsOn && d <= k.trialEndsOn.getTime() && dayResult(byDay.get(d)!) === "FAIL"))
       .sort((a, b) => a - b);
     const replay = replayStreak(closed.map((d) => dayResult(byDay.get(d)!)));
     if (replay.current !== k.currentStreak) p(`${k.name} streak ${k.currentStreak}, replay says ${replay.current}`);
@@ -71,7 +76,7 @@ export async function checkInvariants(label: string): Promise<string[]> {
       const to = endOfMonthPrague(mid);
       const monthInst = instances.filter((i) => i.userId === k.id && i.date >= from && i.date <= to);
       const expected = computeMonthlyBonus({
-        misses: countMissedDays(monthInst),
+        misses: countMissedDays(monthInst, k.trialEndsOn),
         fullCzk: settings!.monthlyBonusCzk,
         stepCzk: settings!.monthlyBonusStepCzk,
       });
@@ -104,7 +109,7 @@ export async function checkInvariants(label: string): Promise<string[]> {
     const expected = computeWeeklyPayout({
       earnedCzk: sum(["TASK_REWARD"]),
       screenTimeCzk: sum(["SCREEN_TIME"], -1),
-      bonusCzk: sum(["MONTHLY_BONUS", "STREAK_MILESTONE"]),
+      bonusCzk: sum(["MONTHLY_BONUS", "STREAK_MILESTONE", "WELCOME_BONUS"]),
     });
     if (w.totalPayoutCzk !== expected)
       p(`${w.user.name} payout ${w.weekStart.toISOString().slice(0, 10)} is ${w.totalPayoutCzk}, expected ${expected}`);

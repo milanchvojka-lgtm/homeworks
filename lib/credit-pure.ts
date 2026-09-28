@@ -8,7 +8,9 @@ export type Transaction = {
     | "SCREEN_TIME"
     | "MONTHLY_BONUS"
     | "PAYOUT"
-    | "ADJUSTMENT";
+    | "ADJUSTMENT"
+    | "WELCOME_BONUS"
+    | "STREAK_MILESTONE";
   amountCzk: number;
 };
 
@@ -53,7 +55,7 @@ export function aggregateTransactions(transactions: Transaction[]): {
   let balanceCzk = 0;
   for (const t of transactions) {
     balanceCzk += t.amountCzk;
-    if (t.type === "TASK_REWARD" || t.type === "MONTHLY_BONUS") {
+    if (t.type === "TASK_REWARD" || t.type === "MONTHLY_BONUS" || t.type === "WELCOME_BONUS") {
       if (t.amountCzk > 0) earnedCzk += t.amountCzk;
     } else if (t.type === "SCREEN_TIME") {
       screenTimeCzk += Math.abs(t.amountCzk);

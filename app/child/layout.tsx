@@ -16,6 +16,9 @@ export default async function ChildLayout({
   const user = await getSession();
   if (!user) redirect("/");
   if (user.role !== "CHILD") redirect("/admin");
+  // D25: first launch — welcome first, then the child's own PIN.
+  if (!user.onboardedAt) redirect("/uvitani");
+  if (user.pinIsTemporary) redirect("/uvitani/pin");
 
   const [poolCount, myTasksCount, openChecks] = await Promise.all([
     getChildPoolCount(user.id),

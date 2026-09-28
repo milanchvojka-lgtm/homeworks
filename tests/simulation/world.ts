@@ -69,13 +69,25 @@ export type Family = {
 export async function seedFamily(): Promise<Family> {
   // Test PIN 1234, so the simulated month can be browsed locally afterwards (D22).
   const pinHash = await hashPin("1234");
-  const mk = (name: string, role: "ADMIN" | "CHILD", rotationOrder: number | null) =>
-    db.user.create({ data: { name, role, pinHash, rotationOrder, avatarColor: "#888888" } });
+  // Ani and Emi already use the app; Neli starts on day 1 with the welcome and a temporary PIN (D25).
+  const onboarded = new Date("2026-09-01T10:00:00Z");
+  const mk = (name: string, role: "ADMIN" | "CHILD", rotationOrder: number | null, fresh = false) =>
+    db.user.create({
+      data: {
+        name,
+        role,
+        pinHash,
+        rotationOrder,
+        avatarColor: "#888888",
+        onboardedAt: fresh ? null : onboarded,
+        pinIsTemporary: fresh,
+      },
+    });
   const milan = await mk("Milan", "ADMIN", null);
   const teri = await mk("Teri", "ADMIN", null);
   const ani = await mk("Ani", "CHILD", 1);
   const emi = await mk("Emi", "CHILD", 2);
-  const neli = await mk("Neli", "CHILD", 3);
+  const neli = await mk("Neli", "CHILD", 3, true);
 
   const comp = async (name: string, order: number, checks: [string, string | null][]) =>
     db.competency.create({
