@@ -55,3 +55,7 @@ Stejná tabulka jako brief pro rodiče §3. Navíc pro dětskou stránku:
 3. Tón **spíš cool, jazykem generace** (ne hravý). Nadpisy v §4 jsou jen pracovní, přepíšou se v penu.
 4. **Fotky ano**, výběr nechává Milan na Claudovi (bez tváří, energičtější).
 5. **Čísla z pilotu smíme použít** (skutečný týden holek).
+
+## 7 · Kde co je
+
+- **Návrh 1** (pen): „HW · Landing page děti · návrh 1 (28. 9.)“ (`Ph5TJ`), frame `HWK1 · 01 Desktop 1440` (`b9RTri`). Sekce: Úvod `BIAjA` (tmavý, telefon Vydělat), Kolik vyděláš `RVQfZ`, Screen time `iKfjc`, Fér `Z4NfB`, Řada a trofeje `KB3XW`, Jak to funguje `xOL6m`, Start `Owmfg`, Závěr `BTBYg`, Patička `pwqJM`.
