@@ -5,7 +5,7 @@
 ## 1 · Cíl a publikum
 
 - **Cíl stránky:** vysvětlit, s čím Homeworks pomáhá a jak funguje, a vzbudit touhu to vyzkoušet. Hlavní akce: **zapsat se na seznam zájemců** („Chci to vyzkoušet“ / „Chci být mezi prvními“). Zároveň otestovat zájem o nové nápady.
-- **Primární publikum: rodiče** dětí zhruba 10–15 let. Rozhodují a nastavují. Děti uvidí až appku.
+- **Primární publikum: rodiče** dětí zhruba 10–15 let. Rozhodují a nastavují. Děti mají vlastní stránku `/pro-deti` (D27, brief `2026-09-28-landing-deti-brief.md`).
 - **Emoce, které má stránka vyvolat (Milan):** radost, lehkost, úleva. „Chtěl bych si to přečíst a cítit se fakt dobře, že konečně vznikla aplikace, která mi s tím pomůže.“ Děti to mají za své, rodiče jsou klidní a spokojení.
 
 ## 2 · Hlavní myšlenky (messaging)

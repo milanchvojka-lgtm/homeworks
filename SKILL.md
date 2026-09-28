@@ -82,6 +82,7 @@ Postupuj **milestone po milestonu** podle `IMPLEMENTATION_PLAN.md`. Nepřeskakuj
   /admin            — admin layout + pages
   /child            — child layout + pages
   /pro-rodice       — veřejná produktová landing page (D26), jen světlý režim, formuláře e-mailem přes Resend
+  /pro-deti         — veřejná landing page pro děti (D27), bez formulářů, výzva sdílí odkaz na /pro-rodice
   /api/cron/*       — cron endpoints
 /components         — sdílené komponenty (/ui = shadcn, /streak)
 /lib                — business logika (foo.ts = DB/server-only, foo-pure.ts = testovatelné)

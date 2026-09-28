@@ -463,3 +463,20 @@
 - ENV `LANDING_LEADS_EMAIL` (volitelná) do `LAUNCH_CHECKLIST.md`.
 - Homeworks zůstává pro jednu rodinu (PRD mimo v1): stránka sbírá zájemce, neregistruje.
 - Reklama/analytics dál ne (SKILL deny-list).
+
+---
+
+## D27 — Druhá landing page pro děti `/pro-deti`, bez sběru údajů od dětí
+
+**Rozhodnutí:**
+- Vedle `/pro-rodice` (D26) vznikne veřejná **`/pro-deti`** pro děti 10–15 let. Obě stránky na sebe odkazují.
+- **Výzva „Pošli to našim“:** dítě sdílí odkaz na `/pro-rodice` (sdílení v telefonu, jinak zkopírování odkazu). Na stránce pro děti **žádný formulář a žádné údaje** od dítěte.
+- **Tón:** cool a střídmý, jazykem generace, tykání; žádný rodičovský tón. Týmovost (brief pro rodiče §2) platí i tady.
+- Fotky ano (bez tváří, energičtější), výběr nechává Milan na Claudovi. Ukázková čísla smí být ze skutečného pilotu (týden holek).
+- Technicky stejně jako D26: jen světlý režim, ukázky jako exporty z penu, tokeny D15.
+
+**Důvod:** Milan 2026-09-28: „aby si to přečetli a řekli si: wow, to chci okamžitě začít používat.“ Dítě, které appku chce, je pro rodiče nejsilnější argument. Od dětí nechceme sbírat údaje (stejně jako appka, brief §3 Soukromí).
+
+**Důsledky:**
+- Brief `docs/design/2026-09-28-landing-deti-brief.md`; pen sekce „HW · Landing page děti · návrh 1“.
+- Kód `app/pro-deti/*`, `public/landing/deti/*`; do hlavičky `/pro-rodice` odkaz „Pro děti“.

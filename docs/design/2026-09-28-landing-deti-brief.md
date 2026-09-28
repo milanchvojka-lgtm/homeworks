@@ -1,6 +1,6 @@
 # Brief: landing page Homeworks pro děti
 
-**Datum:** 2026-09-28 · **Stav:** návrh k připomínkám (Milan) · **Kde se kreslí:** `_design/homeworks.pen` · **Sestra:** landing pro rodiče `docs/design/2026-09-28-landing-page-brief.md`, kód `/pro-rodice` (D26)
+**Datum:** 2026-09-28 · **Stav:** schváleno 2026-09-28 (D27) · **Kde se kreslí:** `_design/homeworks.pen` · **Sestra:** landing pro rodiče `docs/design/2026-09-28-landing-page-brief.md`, kód `/pro-rodice` (D26)
 
 ## 1 · Cíl a publikum
 
@@ -48,11 +48,10 @@ Stejná tabulka jako brief pro rodiče §3. Navíc pro dětskou stránku:
 - Tykání, žádné „děti“ ve třetí osobě, žádný rodičovský tón („měl bys“).
 - Fotky: bez tváří jako u rodičů, ale energičtější (ruce s telefonem, vydělané peníze, hotový úkol). Nebo úplně bez fotek, jen telefony: rozhodne Milan.
 
-## 6 · Otevřené (rozhoduje Milan)
+## 6 · Rozhodnuto (Milan 2026-09-28, D27)
 
-1. **Výzva:** „Pošli to našim“ (sdílení odkazu na rodičovskou stránku), nebo něco jiného?
-2. **Adresa:** `/pro-deti` vedle `/pro-rodice`? Odkaz mezi stránkami oběma směry?
-3. **Tón nadpisů:** hravý („Vydělej si na screen time. Sám.“), nebo spíš cool a střídmý?
-4. **Fotky:** ano (energičtější, bez tváří), nebo jen ukázky z appky?
-5. **Čísla z pilotu:** smíme použít skutečný týden holek (částky, řada) jako ukázku?
-6. Zapsat jako **D27** (druhá landing page, bez sběru údajů od dětí) po schválení briefu.
+1. Výzva **„Pošli to našim“** = sdílení odkazu na `/pro-rodice`. Souhlas.
+2. Adresa **`/pro-deti`**, odkazy mezi stránkami oběma směry. Souhlas.
+3. Tón **spíš cool, jazykem generace** (ne hravý). Nadpisy v §4 jsou jen pracovní, přepíšou se v penu.
+4. **Fotky ano**, výběr nechává Milan na Claudovi (bez tváří, energičtější).
+5. **Čísla z pilotu smíme použít** (skutečný týden holek).
