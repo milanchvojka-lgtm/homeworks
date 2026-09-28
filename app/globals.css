@@ -19,7 +19,10 @@
   }
 }
 
-:root {
+/* `.theme-light-only` = stránka jen ve světlém režimu (landing page, D26): světlé tokeny i aliasy
+ * se deklarují znovu na obalu, takže přebijí tmavé hodnoty z :root. */
+:root,
+.theme-light-only {
   /* povrchy */
   --hw-paper: #f4f3f0;
   --hw-card: #ffffff;
@@ -123,7 +126,8 @@
   --hw-red-bg: #3a1f1d;
 }
 
-:root[data-theme="light"] {
+:root[data-theme="light"],
+.theme-light-only {
   color-scheme: light;
 }
 
