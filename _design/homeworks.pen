@@ -8508,6 +8508,95 @@
                           "fontWeight": "normal"
                         }
                       ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "NuSRU",
+                      "name": "WelcomeStep",
+                      "reusable": true,
+                      "width": 358,
+                      "layout": "vertical",
+                      "gap": 14,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "sH4fK",
+                          "name": "Ikona",
+                          "width": 88,
+                          "height": 88,
+                          "fill": "#FFFFFF00",
+                          "cornerRadius": 44,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "w1LVqa",
+                              "name": "Ikona",
+                              "width": 56,
+                              "height": 56,
+                              "icon": "sun",
+                              "library": "lucide",
+                              "fill": "$hw-pink"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "FaiFU",
+                          "name": "Krok",
+                          "fill": "$hw-ink-35",
+                          "content": "KROK 1 ZE 4",
+                          "fontFamily": "$hw-font-mono",
+                          "fontSize": "$hw-fs-kicker",
+                          "fontWeight": "700",
+                          "letterSpacing": 1.4
+                        },
+                        {
+                          "type": "text",
+                          "id": "wVQOJ",
+                          "name": "Nadpis",
+                          "fill": "$hw-ink",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Tenhle týden máš Kuchyň",
+                          "lineHeight": 1.15,
+                          "textAlign": "center",
+                          "fontFamily": "$hw-font-sans",
+                          "fontSize": 28,
+                          "fontWeight": "700",
+                          "letterSpacing": -0.5
+                        },
+                        {
+                          "type": "text",
+                          "id": "AuibP",
+                          "name": "Věta",
+                          "fill": "$hw-ink-60",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Každý den ji dáš do pořádku a přejedeš, že je hotovo.",
+                          "lineHeight": 1.4,
+                          "textAlign": "center",
+                          "fontFamily": "$hw-font-sans",
+                          "fontSize": 17,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "WTkwR",
+                          "name": "Ukázka",
+                          "width": "fill_container",
+                          "height": "fit_content(0)",
+                          "layout": "vertical",
+                          "padding": [
+                            10,
+                            0,
+                            0,
+                            0
+                          ]
+                        }
+                      ]
                     }
                   ]
                 }
@@ -24095,6 +24184,3130 @@
                           "fontWeight": "500"
                         }
                       }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "r2uBbz",
+      "x": 9187,
+      "y": 12142,
+      "name": "HW · Uvítání (27. 9.) · tok varianta A",
+      "fill": "#E9E7E1",
+      "layout": "vertical",
+      "gap": 24,
+      "padding": 40,
+      "children": [
+        {
+          "type": "text",
+          "id": "TkmcX",
+          "name": "Nadpis sekce",
+          "fill": "$hw-ink",
+          "content": "PRVNÍ SPUŠTĚNÍ DÍTĚTE (D25) · 27. 9. · PRŮVODCE 4 KROKY → PIN → DNES VE ZKOUŠCE · SMLOUVA 2026-09-27-UVITANI",
+          "fontFamily": "$hw-font-mono",
+          "fontSize": 13,
+          "fontWeight": "700",
+          "letterSpacing": 1.2
+        },
+        {
+          "type": "frame",
+          "id": "RU9aW",
+          "name": "Obrazovky",
+          "gap": 40,
+          "children": [
+            {
+              "type": "frame",
+              "id": "X81vUg",
+              "name": "HWU · 01",
+              "width": 390,
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "UPlWU",
+                  "name": "Štítek framu",
+                  "width": "fill_container",
+                  "fill": "#17191E",
+                  "cornerRadius": 8,
+                  "layout": "vertical",
+                  "gap": 2,
+                  "padding": [
+                    8,
+                    12
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "uXtGX",
+                      "name": "Kód",
+                      "fill": "#FFFFFF",
+                      "content": "HWU · 01",
+                      "fontFamily": "$hw-font-mono",
+                      "fontSize": 12,
+                      "fontWeight": "700",
+                      "letterSpacing": 1.2
+                    },
+                    {
+                      "type": "text",
+                      "id": "V0G5K",
+                      "name": "Popis",
+                      "fill": "#DFDDD7",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Krok 1 · tvoje kompetence (ze skutečného přiřazení).",
+                      "fontFamily": "$hw-font-sans",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "t8Kr6",
+                  "name": "Obrazovka HWU · 01",
+                  "clip": true,
+                  "width": 390,
+                  "height": 844,
+                  "fill": "$hw-paper",
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "id": "RA63L",
+                      "type": "ref",
+                      "ref": "tX7pr",
+                      "name": "Status bar",
+                      "width": "fill_container"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "qpi1i",
+                      "name": "Postup",
+                      "width": "fill_container",
+                      "padding": [
+                        8,
+                        16
+                      ],
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "DpBro",
+                          "name": "Tečky",
+                          "gap": 6,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 4,
+                              "id": "tb3dT",
+                              "name": "Tečka",
+                              "fill": "$hw-pink",
+                              "width": 20,
+                              "height": 8
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 4,
+                              "id": "SVEz1",
+                              "name": "Tečka",
+                              "fill": "$hw-rule",
+                              "width": 8,
+                              "height": 8
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 4,
+                              "id": "HsfqM",
+                              "name": "Tečka",
+                              "fill": "$hw-rule",
+                              "width": 8,
+                              "height": 8
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 4,
+                              "id": "YfrNw",
+                              "name": "Tečka",
+                              "fill": "$hw-rule",
+                              "width": 8,
+                              "height": 8
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "osyWY",
+                          "name": "Přeskočit",
+                          "fill": "$hw-ink-60",
+                          "content": "Přeskočit",
+                          "fontFamily": "$hw-font-sans",
+                          "fontSize": 16,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "DpPQH",
+                      "name": "Tělo",
+                      "width": "fill_container",
+                      "height": "fill_container",
+                      "layout": "vertical",
+                      "padding": [
+                        0,
+                        16
+                      ],
+                      "justifyContent": "center",
+                      "children": [
+                        {
+                          "id": "oSYBv",
+                          "type": "ref",
+                          "ref": "NuSRU",
+                          "name": "Krok",
+                          "width": "fill_container",
+                          "descendants": {
+                            "w1LVqa": {
+                              "icon": "sun"
+                            },
+                            "FaiFU": {
+                              "content": "KROK 1 ZE 4"
+                            },
+                            "wVQOJ": {
+                              "content": "Tenhle týden máš Kuchyň"
+                            },
+                            "AuibP": {
+                              "content": "Každý den ji dáš do pořádku a přejedeš, že je hotovo."
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "FaAmP",
+                      "name": "Dole",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "padding": [
+                        0,
+                        16,
+                        34,
+                        16
+                      ],
+                      "children": [
+                        {
+                          "id": "x7Ivdy",
+                          "type": "ref",
+                          "ref": "xz14g",
+                          "name": "Další",
+                          "width": "fill_container",
+                          "descendants": {
+                            "FCFit": {
+                              "content": "Další"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "qt9yw",
+              "name": "HWU · 02",
+              "width": 390,
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "yIXAJ",
+                  "name": "Štítek framu",
+                  "width": "fill_container",
+                  "fill": "#17191E",
+                  "cornerRadius": 8,
+                  "layout": "vertical",
+                  "gap": 2,
+                  "padding": [
+                    8,
+                    12
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "dBfnf",
+                      "name": "Kód",
+                      "fill": "#FFFFFF",
+                      "content": "HWU · 02",
+                      "fontFamily": "$hw-font-mono",
+                      "fontSize": 12,
+                      "fontWeight": "700",
+                      "letterSpacing": 1.2
+                    },
+                    {
+                      "type": "text",
+                      "id": "XTVbI",
+                      "name": "Popis",
+                      "fill": "#DFDDD7",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Krok 2 · vydělat navíc, jeden skutečný úkol z nabídky.",
+                      "fontFamily": "$hw-font-sans",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "m1bTMV",
+                  "name": "Obrazovka HWU · 02",
+                  "clip": true,
+                  "width": 390,
+                  "height": 844,
+                  "fill": "$hw-paper",
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "id": "AmCcE",
+                      "type": "ref",
+                      "ref": "tX7pr",
+                      "name": "Status bar",
+                      "width": "fill_container"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "W93yj",
+                      "name": "Postup",
+                      "width": "fill_container",
+                      "padding": [
+                        8,
+                        16
+                      ],
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "RoTyV",
+                          "name": "Tečky",
+                          "gap": 6,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 4,
+                              "id": "O4BPoo",
+                              "name": "Tečka",
+                              "fill": "$hw-ink-35",
+                              "width": 8,
+                              "height": 8
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 4,
+                              "id": "Dqhyi",
+                              "name": "Tečka",
+                              "fill": "$hw-pink",
+                              "width": 20,
+                              "height": 8
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 4,
+                              "id": "JhlTh",
+                              "name": "Tečka",
+                              "fill": "$hw-rule",
+                              "width": 8,
+                              "height": 8
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 4,
+                              "id": "T9PTP",
+                              "name": "Tečka",
+                              "fill": "$hw-rule",
+                              "width": 8,
+                              "height": 8
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "dlaav",
+                          "name": "Přeskočit",
+                          "fill": "$hw-ink-60",
+                          "content": "Přeskočit",
+                          "fontFamily": "$hw-font-sans",
+                          "fontSize": 16,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "b6kdiW",
+                      "name": "Tělo",
+                      "width": "fill_container",
+                      "height": "fill_container",
+                      "layout": "vertical",
+                      "padding": [
+                        0,
+                        16
+                      ],
+                      "justifyContent": "center",
+                      "children": [
+                        {
+                          "id": "eH8G4",
+                          "type": "ref",
+                          "ref": "NuSRU",
+                          "name": "Krok",
+                          "width": "fill_container",
+                          "descendants": {
+                            "w1LVqa": {
+                              "icon": "list-checks"
+                            },
+                            "FaiFU": {
+                              "content": "KROK 2 ZE 4"
+                            },
+                            "wVQOJ": {
+                              "content": "Vydělej si navíc"
+                            },
+                            "AuibP": {
+                              "content": "Když máš povinnosti hotové, bereš si placené úkoly."
+                            },
+                            "WTkwR": {
+                              "type": "frame",
+                              "id": "VRhLL",
+                              "name": "Ukázka",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "padding": [
+                                10,
+                                0,
+                                0,
+                                0
+                              ],
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "w3thz",
+                                  "name": "Úkol",
+                                  "width": "fill_container",
+                                  "fill": "$hw-card",
+                                  "cornerRadius": 18,
+                                  "stroke": "$hw-rule",
+                                  "strokeWidth": 1,
+                                  "gap": 12,
+                                  "padding": [
+                                    16,
+                                    18
+                                  ],
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "frame",
+                                      "id": "v5HUU",
+                                      "name": "Text",
+                                      "width": "fill_container",
+                                      "layout": "vertical",
+                                      "gap": 2,
+                                      "children": [
+                                        {
+                                          "type": "text",
+                                          "id": "P4d12F",
+                                          "name": "Název",
+                                          "fill": "$hw-ink",
+                                          "content": "Umýt okna",
+                                          "fontFamily": "$hw-font-sans",
+                                          "fontSize": 18,
+                                          "fontWeight": "700"
+                                        },
+                                        {
+                                          "type": "text",
+                                          "id": "Efj2W",
+                                          "name": "Čas",
+                                          "fill": "$hw-ink-35",
+                                          "content": "~120 MIN",
+                                          "fontFamily": "$hw-font-mono",
+                                          "fontSize": "$hw-fs-kicker",
+                                          "fontWeight": "700",
+                                          "letterSpacing": 1.2
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "gYOTW",
+                                      "name": "Odměna",
+                                      "fill": "$hw-pink",
+                                      "content": "300 Kč",
+                                      "fontFamily": "$hw-font-mono",
+                                      "fontSize": 20,
+                                      "fontWeight": "700"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "T1DLBH",
+                      "name": "Dole",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "padding": [
+                        0,
+                        16,
+                        34,
+                        16
+                      ],
+                      "children": [
+                        {
+                          "id": "bl3iF",
+                          "type": "ref",
+                          "ref": "xz14g",
+                          "name": "Další",
+                          "width": "fill_container",
+                          "descendants": {
+                            "FCFit": {
+                              "content": "Další"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "S3RW8",
+              "name": "HWU · 03",
+              "width": 390,
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "RaxaR",
+                  "name": "Štítek framu",
+                  "width": "fill_container",
+                  "fill": "#17191E",
+                  "cornerRadius": 8,
+                  "layout": "vertical",
+                  "gap": 2,
+                  "padding": [
+                    8,
+                    12
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "h5CsC",
+                      "name": "Kód",
+                      "fill": "#FFFFFF",
+                      "content": "HWU · 03",
+                      "fontFamily": "$hw-font-mono",
+                      "fontSize": 12,
+                      "fontWeight": "700",
+                      "letterSpacing": 1.2
+                    },
+                    {
+                      "type": "text",
+                      "id": "YDBUy",
+                      "name": "Popis",
+                      "fill": "#DFDDD7",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Krok 3 · screen time, nebo peníze.",
+                      "fontFamily": "$hw-font-sans",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "PF1u7",
+                  "name": "Obrazovka HWU · 03",
+                  "clip": true,
+                  "width": 390,
+                  "height": 844,
+                  "fill": "$hw-paper",
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "id": "ceRyC",
+                      "type": "ref",
+                      "ref": "tX7pr",
+                      "name": "Status bar",
+                      "width": "fill_container"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "XHBSx",
+                      "name": "Postup",
+                      "width": "fill_container",
+                      "padding": [
+                        8,
+                        16
+                      ],
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "FHQox",
+                          "name": "Tečky",
+                          "gap": 6,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 4,
+                              "id": "vIVNT",
+                              "name": "Tečka",
+                              "fill": "$hw-ink-35",
+                              "width": 8,
+                              "height": 8
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 4,
+                              "id": "hGTpH",
+                              "name": "Tečka",
+                              "fill": "$hw-ink-35",
+                              "width": 8,
+                              "height": 8
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 4,
+                              "id": "LK2jq",
+                              "name": "Tečka",
+                              "fill": "$hw-pink",
+                              "width": 20,
+                              "height": 8
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 4,
+                              "id": "Hc4Jj",
+                              "name": "Tečka",
+                              "fill": "$hw-rule",
+                              "width": 8,
+                              "height": 8
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "hlvga",
+                          "name": "Přeskočit",
+                          "fill": "$hw-ink-60",
+                          "content": "Přeskočit",
+                          "fontFamily": "$hw-font-sans",
+                          "fontSize": 16,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "hjZ0r",
+                      "name": "Tělo",
+                      "width": "fill_container",
+                      "height": "fill_container",
+                      "layout": "vertical",
+                      "padding": [
+                        0,
+                        16
+                      ],
+                      "justifyContent": "center",
+                      "children": [
+                        {
+                          "id": "GnZct",
+                          "type": "ref",
+                          "ref": "NuSRU",
+                          "name": "Krok",
+                          "width": "fill_container",
+                          "descendants": {
+                            "w1LVqa": {
+                              "icon": "monitor-play"
+                            },
+                            "FaiFU": {
+                              "content": "KROK 3 ZE 4"
+                            },
+                            "wVQOJ": {
+                              "content": "Screen time, nebo peníze"
+                            },
+                            "AuibP": {
+                              "content": "Za vydělané si koupíš screen time, nebo ti to v neděli vyplatíme."
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "IbI2r",
+                      "name": "Dole",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "padding": [
+                        0,
+                        16,
+                        34,
+                        16
+                      ],
+                      "children": [
+                        {
+                          "id": "jwqFn",
+                          "type": "ref",
+                          "ref": "xz14g",
+                          "name": "Další",
+                          "width": "fill_container",
+                          "descendants": {
+                            "FCFit": {
+                              "content": "Další"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "W29f75",
+              "name": "HWU · 04",
+              "width": 390,
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "Tm9wQ",
+                  "name": "Štítek framu",
+                  "width": "fill_container",
+                  "fill": "#17191E",
+                  "cornerRadius": 8,
+                  "layout": "vertical",
+                  "gap": 2,
+                  "padding": [
+                    8,
+                    12
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "z4hzQs",
+                      "name": "Kód",
+                      "fill": "#FFFFFF",
+                      "content": "HWU · 04 · schváleno 28. 9.",
+                      "fontFamily": "$hw-font-mono",
+                      "fontSize": 12,
+                      "fontWeight": "700",
+                      "letterSpacing": 1.2
+                    },
+                    {
+                      "type": "text",
+                      "id": "rDDT8",
+                      "name": "Popis",
+                      "fill": "#DFDDD7",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Krok 4 · řada a bonus, zkouška, vstupní bonus 100 Kč. Styl kroků: ikona růžová outline bez kruhu, bonus bílá karta s rámečkem a růžovým číslem (varianty A–G vpravo zamítnuty).",
+                      "fontFamily": "$hw-font-sans",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "n9gc2s",
+                  "name": "Obrazovka HWU · 04",
+                  "clip": true,
+                  "width": 390,
+                  "height": 844,
+                  "fill": "$hw-paper",
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "id": "QhCxN",
+                      "type": "ref",
+                      "ref": "tX7pr",
+                      "name": "Status bar",
+                      "width": "fill_container"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "svnN1",
+                      "name": "Postup",
+                      "width": "fill_container",
+                      "padding": [
+                        8,
+                        16
+                      ],
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "D0T8qj",
+                          "name": "Tečky",
+                          "gap": 6,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 4,
+                              "id": "DkhBf",
+                              "name": "Tečka",
+                              "fill": "$hw-ink-35",
+                              "width": 8,
+                              "height": 8
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 4,
+                              "id": "L4VOus",
+                              "name": "Tečka",
+                              "fill": "$hw-ink-35",
+                              "width": 8,
+                              "height": 8
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 4,
+                              "id": "BMRcE",
+                              "name": "Tečka",
+                              "fill": "$hw-ink-35",
+                              "width": 8,
+                              "height": 8
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 4,
+                              "id": "gWpNX",
+                              "name": "Tečka",
+                              "fill": "$hw-pink",
+                              "width": 20,
+                              "height": 8
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "pAZMz",
+                          "name": "Přeskočit",
+                          "fill": "$hw-ink-60",
+                          "content": "Přeskočit",
+                          "fontFamily": "$hw-font-sans",
+                          "fontSize": 16,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "q3vZG",
+                      "name": "Tělo",
+                      "width": "fill_container",
+                      "height": "fill_container",
+                      "layout": "vertical",
+                      "padding": [
+                        0,
+                        16
+                      ],
+                      "justifyContent": "center",
+                      "children": [
+                        {
+                          "id": "y62Hl",
+                          "type": "ref",
+                          "ref": "NuSRU",
+                          "name": "Krok",
+                          "width": "fill_container",
+                          "descendants": {
+                            "w1LVqa": {
+                              "icon": "flame"
+                            },
+                            "FaiFU": {
+                              "content": "KROK 4 ZE 4"
+                            },
+                            "wVQOJ": {
+                              "content": "Nic nevynechej"
+                            },
+                            "AuibP": {
+                              "content": "Když nic nevynecháš, roste ti řada a měsíční bonus. První týden je na zkoušku, nic neztratíš."
+                            },
+                            "WTkwR": {
+                              "type": "frame",
+                              "id": "mItll",
+                              "name": "Ukázka",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "padding": [
+                                10,
+                                0,
+                                0,
+                                0
+                              ],
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "O5YtPf",
+                                  "name": "Vstupní bonus",
+                                  "width": "fill_container",
+                                  "fill": "$hw-card",
+                                  "cornerRadius": 18,
+                                  "stroke": "$hw-rule",
+                                  "strokeWidth": 1,
+                                  "layout": "vertical",
+                                  "gap": 2,
+                                  "padding": 18,
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "KC2cT",
+                                      "name": "Částka",
+                                      "fill": "$hw-pink",
+                                      "content": "+100 Kč",
+                                      "fontFamily": "$hw-font-mono",
+                                      "fontSize": 34,
+                                      "fontWeight": "700"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "S91lg",
+                                      "name": "Popis",
+                                      "fill": "$hw-ink-60",
+                                      "content": "do začátku, jsou tvoje",
+                                      "fontFamily": "$hw-font-sans",
+                                      "fontSize": 15,
+                                      "fontWeight": "600"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "y6voy",
+                      "name": "Dole",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "padding": [
+                        0,
+                        16,
+                        34,
+                        16
+                      ],
+                      "children": [
+                        {
+                          "id": "xTZeL",
+                          "type": "ref",
+                          "ref": "xz14g",
+                          "name": "Jdeme na to",
+                          "width": "fill_container",
+                          "descendants": {
+                            "FCFit": {
+                              "content": "Jdeme na to"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "o9Q111",
+              "name": "HWU · 05",
+              "width": 390,
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "vgsIz",
+                  "name": "Štítek framu",
+                  "width": "fill_container",
+                  "fill": "#17191E",
+                  "cornerRadius": 8,
+                  "layout": "vertical",
+                  "gap": 2,
+                  "padding": [
+                    8,
+                    12
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "cGMOU",
+                      "name": "Kód",
+                      "fill": "#FFFFFF",
+                      "content": "HWU · 05",
+                      "fontFamily": "$hw-font-mono",
+                      "fontSize": 12,
+                      "fontWeight": "700",
+                      "letterSpacing": 1.2
+                    },
+                    {
+                      "type": "text",
+                      "id": "I6kpx",
+                      "name": "Popis",
+                      "fill": "#DFDDD7",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Nastav si PIN · povinné, dokud je PIN dočasný. 4 číslice, 2×, ne 0000.",
+                      "fontFamily": "$hw-font-sans",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "DQt4z",
+                  "name": "Obrazovka HWU · 05",
+                  "clip": true,
+                  "width": 390,
+                  "height": 844,
+                  "fill": "$hw-paper",
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "id": "XU4hC",
+                      "type": "ref",
+                      "ref": "tX7pr",
+                      "name": "Status bar",
+                      "width": "fill_container"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "D96VG",
+                      "name": "Tělo",
+                      "width": "fill_container",
+                      "height": "fill_container",
+                      "layout": "vertical",
+                      "gap": 16,
+                      "padding": [
+                        40,
+                        16,
+                        0,
+                        16
+                      ],
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "BY9Nw",
+                          "name": "Ikona",
+                          "width": 56,
+                          "height": 56,
+                          "fill": "$hw-hair",
+                          "cornerRadius": 28,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "UWLbJ",
+                              "name": "Zámek",
+                              "width": 26,
+                              "height": 26,
+                              "icon": "lock",
+                              "library": "lucide",
+                              "fill": "$hw-ink"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "j4iF1",
+                          "name": "Nadpis",
+                          "fill": "$hw-ink",
+                          "content": "Nastav si vlastní PIN",
+                          "fontFamily": "$hw-font-sans",
+                          "fontSize": 28,
+                          "fontWeight": "700",
+                          "letterSpacing": -0.5
+                        },
+                        {
+                          "type": "text",
+                          "id": "TTPOk",
+                          "name": "Věta",
+                          "fill": "$hw-ink-60",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "Aby se za tebe nikdo nepřihlásil. PIN si zapamatuj, nikomu ho neříkej.",
+                          "lineHeight": 1.4,
+                          "fontFamily": "$hw-font-sans",
+                          "fontSize": 17,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "id": "yPOr4",
+                          "type": "ref",
+                          "ref": "DW6kr",
+                          "name": "Nový PIN",
+                          "width": "fill_container",
+                          "descendants": {
+                            "KFV5D": {
+                              "content": "NOVÝ PIN"
+                            },
+                            "m0EulQ": {
+                              "content": "••••",
+                              "fill": "$hw-ink",
+                              "fontStyle": "normal",
+                              "letterSpacing": 6
+                            }
+                          }
+                        },
+                        {
+                          "id": "wdvWt",
+                          "type": "ref",
+                          "ref": "v4Xzc",
+                          "name": "Znovu",
+                          "width": "fill_container",
+                          "descendants": {
+                            "p6r4V7": {
+                              "content": "ZNOVU"
+                            },
+                            "gkBGU": {
+                              "content": "••",
+                              "letterSpacing": 6
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "mcO0w",
+                      "name": "Dole",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "padding": [
+                        0,
+                        16,
+                        34,
+                        16
+                      ],
+                      "children": [
+                        {
+                          "id": "ZJFv2",
+                          "type": "ref",
+                          "ref": "xz14g",
+                          "name": "Uložit PIN",
+                          "width": "fill_container",
+                          "descendants": {
+                            "FCFit": {
+                              "content": "Uložit PIN"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "x4sxF",
+              "name": "HWU · 06",
+              "width": 390,
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "sG2y1",
+                  "name": "Štítek framu",
+                  "width": "fill_container",
+                  "fill": "#17191E",
+                  "cornerRadius": 8,
+                  "layout": "vertical",
+                  "gap": 2,
+                  "padding": [
+                    8,
+                    12
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "TrBrn",
+                      "name": "Kód",
+                      "fill": "#FFFFFF",
+                      "content": "HWU · 06",
+                      "fontFamily": "$hw-font-mono",
+                      "fontSize": 12,
+                      "fontWeight": "700",
+                      "letterSpacing": 1.2
+                    },
+                    {
+                      "type": "text",
+                      "id": "uo6fx",
+                      "name": "Popis",
+                      "fill": "#DFDDD7",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Dnes ve zkušebním týdnu · dlaždice Řada ukazuje „Zkouška do Ne 4. 10.“ místo bonusu (návrh), Tento týden 100 Kč = vstupní bonus. První povinnost naostro.",
+                      "fontFamily": "$hw-font-sans",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "bchux",
+                  "name": "Obrazovka 01c",
+                  "clip": true,
+                  "width": 390,
+                  "height": 844,
+                  "fill": "$hw-paper",
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "id": "YLsYK",
+                      "type": "ref",
+                      "ref": "SBJyG",
+                      "name": "Hlavička C6",
+                      "width": "fill_container",
+                      "descendants": {
+                        "K0DUDo": {
+                          "content": "Ahoj, Emi 👋"
+                        }
+                      }
+                    },
+                    {
+                      "type": "frame",
+                      "id": "xhQp7",
+                      "name": "Obsah",
+                      "width": "fill_container",
+                      "height": "fill_container",
+                      "layout": "vertical",
+                      "gap": 12,
+                      "padding": [
+                        20,
+                        16,
+                        16,
+                        16
+                      ],
+                      "children": [
+                        {
+                          "id": "hqz1z",
+                          "type": "ref",
+                          "ref": "dW95X",
+                          "name": "Dlaždice",
+                          "width": "fill_container",
+                          "descendants": {
+                            "ylRNx": {
+                              "content": "100 Kč"
+                            },
+                            "MdGKJ": {
+                              "content": "Screen time: 0 min"
+                            },
+                            "Dmi98": {
+                              "content": "0 dní"
+                            },
+                            "fQMGh": {
+                              "content": "Zkouška do Ne 4. 10."
+                            }
+                          }
+                        },
+                        {
+                          "type": "text",
+                          "id": "ALiPo",
+                          "name": "Section label",
+                          "fill": "$hw-ink",
+                          "content": "KOMPETENCE: KUCHYŇ",
+                          "fontFamily": "$hw-font-mono",
+                          "fontSize": "$hw-fs-section",
+                          "fontWeight": "700",
+                          "letterSpacing": 1.4
+                        },
+                        {
+                          "id": "olFg1",
+                          "type": "ref",
+                          "ref": "zYhYo",
+                          "name": "Linka prázdná",
+                          "width": "fill_container"
+                        },
+                        {
+                          "id": "V58Rh4",
+                          "type": "ref",
+                          "ref": "W5oLN",
+                          "name": "Kuchyň na ráno",
+                          "width": "fill_container"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "G5cCP",
+                      "type": "ref",
+                      "ref": "IhnZG",
+                      "name": "Spodní lišta",
+                      "width": "fill_container",
+                      "descendants": {
+                        "jAKxs": {
+                          "fill": "$hw-pink"
+                        },
+                        "DHwxF": {
+                          "fill": "$hw-ink"
+                        },
+                        "P8fVZ": {
+                          "fill": "$hw-ink",
+                          "fontWeight": "600"
+                        },
+                        "AfMsP": {
+                          "fill": "#FFFFFF00"
+                        },
+                        "VvRjy": {
+                          "fill": "$hw-ink-35"
+                        },
+                        "OmTod": {
+                          "fill": "$hw-ink-35",
+                          "fontWeight": "500"
+                        },
+                        "T0mMx": {
+                          "fill": "#FFFFFF00"
+                        },
+                        "O00gx3": {
+                          "fill": "$hw-ink-35"
+                        },
+                        "uBEES": {
+                          "fill": "$hw-ink-35",
+                          "fontWeight": "500"
+                        },
+                        "myclT": {
+                          "fill": "#FFFFFF00"
+                        },
+                        "KFjsw": {
+                          "fill": "$hw-ink-35"
+                        },
+                        "WMDi5": {
+                          "fill": "$hw-ink-35",
+                          "fontWeight": "500"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "I4dGY",
+              "name": "HWU · 04-A · šedá · zamítnuto 28. 9.",
+              "width": 390,
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "kpQdn",
+                  "name": "Štítek framu",
+                  "width": "fill_container",
+                  "fill": "#17191E",
+                  "cornerRadius": 8,
+                  "layout": "vertical",
+                  "gap": 2,
+                  "padding": [
+                    8,
+                    12
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "IS9Zq",
+                      "name": "Kód",
+                      "fill": "#FFFFFF",
+                      "content": "HWU · 04-A · zamítnuto 28. 9.",
+                      "fontFamily": "$hw-font-mono",
+                      "fontSize": 12,
+                      "fontWeight": "700",
+                      "letterSpacing": 1.2
+                    },
+                    {
+                      "type": "text",
+                      "id": "JwyHi",
+                      "name": "Popis",
+                      "fill": "#DFDDD7",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Varianta A: ikona v šedém kruhu (hair), bonus v bílé kartě s rámečkem, růžová jen číslo +100 Kč.",
+                      "fontFamily": "$hw-font-sans",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "T6eXh9",
+                  "name": "Obrazovka HWU · 04",
+                  "clip": true,
+                  "width": 390,
+                  "height": 844,
+                  "fill": "$hw-paper",
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "id": "rDQkg",
+                      "type": "ref",
+                      "ref": "tX7pr",
+                      "name": "Status bar",
+                      "width": "fill_container"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "F6vFQI",
+                      "name": "Postup",
+                      "width": "fill_container",
+                      "padding": [
+                        8,
+                        16
+                      ],
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "xjDpv",
+                          "name": "Tečky",
+                          "gap": 6,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 4,
+                              "id": "Bwxpy",
+                              "name": "Tečka",
+                              "fill": "$hw-ink-35",
+                              "width": 8,
+                              "height": 8
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 4,
+                              "id": "Y09Vg",
+                              "name": "Tečka",
+                              "fill": "$hw-ink-35",
+                              "width": 8,
+                              "height": 8
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 4,
+                              "id": "pcOHr",
+                              "name": "Tečka",
+                              "fill": "$hw-ink-35",
+                              "width": 8,
+                              "height": 8
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 4,
+                              "id": "pNn1D",
+                              "name": "Tečka",
+                              "fill": "$hw-pink",
+                              "width": 20,
+                              "height": 8
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "egikY",
+                          "name": "Přeskočit",
+                          "fill": "$hw-ink-60",
+                          "content": "Přeskočit",
+                          "fontFamily": "$hw-font-sans",
+                          "fontSize": 16,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "X4ZfR",
+                      "name": "Tělo",
+                      "width": "fill_container",
+                      "height": "fill_container",
+                      "layout": "vertical",
+                      "padding": [
+                        0,
+                        16
+                      ],
+                      "justifyContent": "center",
+                      "children": [
+                        {
+                          "id": "FmvLp",
+                          "type": "ref",
+                          "ref": "NuSRU",
+                          "name": "Krok",
+                          "width": "fill_container",
+                          "descendants": {
+                            "sH4fK": {
+                              "fill": "$hw-hair"
+                            },
+                            "w1LVqa": {
+                              "icon": "flame",
+                              "fill": "$hw-ink"
+                            },
+                            "FaiFU": {
+                              "content": "KROK 4 ZE 4"
+                            },
+                            "wVQOJ": {
+                              "content": "Nic nevynechej"
+                            },
+                            "AuibP": {
+                              "content": "Když nic nevynecháš, roste ti řada a měsíční bonus. První týden je na zkoušku, nic neztratíš."
+                            },
+                            "WTkwR": {
+                              "type": "frame",
+                              "id": "YT7AL",
+                              "name": "Ukázka",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "padding": [
+                                10,
+                                0,
+                                0,
+                                0
+                              ],
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "asplk",
+                                  "name": "Vstupní bonus",
+                                  "width": "fill_container",
+                                  "fill": "$hw-card",
+                                  "cornerRadius": 18,
+                                  "stroke": "$hw-rule",
+                                  "strokeWidth": 1,
+                                  "layout": "vertical",
+                                  "gap": 2,
+                                  "padding": 18,
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "OvRzp",
+                                      "name": "Částka",
+                                      "fill": "$hw-pink",
+                                      "content": "+100 Kč",
+                                      "fontFamily": "$hw-font-mono",
+                                      "fontSize": 34,
+                                      "fontWeight": "700"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "lKFTb",
+                                      "name": "Popis",
+                                      "fill": "$hw-ink-60",
+                                      "content": "do začátku, jsou tvoje",
+                                      "fontFamily": "$hw-font-sans",
+                                      "fontSize": 15,
+                                      "fontWeight": "600"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "h2ETn",
+                      "name": "Dole",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "padding": [
+                        0,
+                        16,
+                        34,
+                        16
+                      ],
+                      "children": [
+                        {
+                          "id": "e7vMZ",
+                          "type": "ref",
+                          "ref": "xz14g",
+                          "name": "Jdeme na to",
+                          "width": "fill_container",
+                          "descendants": {
+                            "FCFit": {
+                              "content": "Jdeme na to"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "CfcP4",
+              "name": "HWU · 04-B · bez kruhu · zamítnuto 28. 9.",
+              "width": 390,
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "q81Hrt",
+                  "name": "Štítek framu",
+                  "width": "fill_container",
+                  "fill": "#17191E",
+                  "cornerRadius": 8,
+                  "layout": "vertical",
+                  "gap": 2,
+                  "padding": [
+                    8,
+                    12
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "ZoKrO",
+                      "name": "Kód",
+                      "fill": "#FFFFFF",
+                      "content": "HWU · 04-B · zamítnuto 28. 9.",
+                      "fontFamily": "$hw-font-mono",
+                      "fontSize": 12,
+                      "fontWeight": "700",
+                      "letterSpacing": 1.2
+                    },
+                    {
+                      "type": "text",
+                      "id": "j5sYts",
+                      "name": "Popis",
+                      "fill": "#DFDDD7",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Varianta B: velká ikona bez kruhu, bonus v tmavé kartě (ink) s bílým číslem.",
+                      "fontFamily": "$hw-font-sans",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "EFvi3",
+                  "name": "Obrazovka HWU · 04",
+                  "clip": true,
+                  "width": 390,
+                  "height": 844,
+                  "fill": "$hw-paper",
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "id": "HYfyV",
+                      "type": "ref",
+                      "ref": "tX7pr",
+                      "name": "Status bar",
+                      "width": "fill_container"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "K0flP",
+                      "name": "Postup",
+                      "width": "fill_container",
+                      "padding": [
+                        8,
+                        16
+                      ],
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "OQN1e",
+                          "name": "Tečky",
+                          "gap": 6,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 4,
+                              "id": "Tlw5F",
+                              "name": "Tečka",
+                              "fill": "$hw-ink-35",
+                              "width": 8,
+                              "height": 8
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 4,
+                              "id": "dGOvN",
+                              "name": "Tečka",
+                              "fill": "$hw-ink-35",
+                              "width": 8,
+                              "height": 8
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 4,
+                              "id": "WokUB",
+                              "name": "Tečka",
+                              "fill": "$hw-ink-35",
+                              "width": 8,
+                              "height": 8
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 4,
+                              "id": "rjNV0",
+                              "name": "Tečka",
+                              "fill": "$hw-pink",
+                              "width": 20,
+                              "height": 8
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "L1SfT9",
+                          "name": "Přeskočit",
+                          "fill": "$hw-ink-60",
+                          "content": "Přeskočit",
+                          "fontFamily": "$hw-font-sans",
+                          "fontSize": 16,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "WuG9f",
+                      "name": "Tělo",
+                      "width": "fill_container",
+                      "height": "fill_container",
+                      "layout": "vertical",
+                      "padding": [
+                        0,
+                        16
+                      ],
+                      "justifyContent": "center",
+                      "children": [
+                        {
+                          "id": "f1Dn1",
+                          "type": "ref",
+                          "ref": "NuSRU",
+                          "name": "Krok",
+                          "width": "fill_container",
+                          "descendants": {
+                            "sH4fK": {
+                              "fill": "#FFFFFF00"
+                            },
+                            "w1LVqa": {
+                              "icon": "flame",
+                              "fill": "$hw-ink",
+                              "width": 56,
+                              "height": 56
+                            },
+                            "FaiFU": {
+                              "content": "KROK 4 ZE 4"
+                            },
+                            "wVQOJ": {
+                              "content": "Nic nevynechej"
+                            },
+                            "AuibP": {
+                              "content": "Když nic nevynecháš, roste ti řada a měsíční bonus. První týden je na zkoušku, nic neztratíš."
+                            },
+                            "WTkwR": {
+                              "type": "frame",
+                              "id": "jVwkC",
+                              "name": "Ukázka",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "padding": [
+                                10,
+                                0,
+                                0,
+                                0
+                              ],
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "je3Lm",
+                                  "name": "Vstupní bonus",
+                                  "width": "fill_container",
+                                  "fill": "$hw-ink",
+                                  "cornerRadius": 18,
+                                  "layout": "vertical",
+                                  "gap": 2,
+                                  "padding": 18,
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "o2wfa",
+                                      "name": "Částka",
+                                      "fill": "$hw-card",
+                                      "content": "+100 Kč",
+                                      "fontFamily": "$hw-font-mono",
+                                      "fontSize": 34,
+                                      "fontWeight": "700"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "o2jO7",
+                                      "name": "Popis",
+                                      "fill": "$hw-ink-35",
+                                      "content": "do začátku, jsou tvoje",
+                                      "fontFamily": "$hw-font-sans",
+                                      "fontSize": 15,
+                                      "fontWeight": "600"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "yM6Eb",
+                      "name": "Dole",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "padding": [
+                        0,
+                        16,
+                        34,
+                        16
+                      ],
+                      "children": [
+                        {
+                          "id": "GtoM4",
+                          "type": "ref",
+                          "ref": "xz14g",
+                          "name": "Jdeme na to",
+                          "width": "fill_container",
+                          "descendants": {
+                            "FCFit": {
+                              "content": "Jdeme na to"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "L6A41M",
+              "name": "HWU · 04-C · tmavý kruh · zamítnuto 28. 9.",
+              "width": 390,
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "QV3DF",
+                  "name": "Štítek framu",
+                  "width": "fill_container",
+                  "fill": "#17191E",
+                  "cornerRadius": 8,
+                  "layout": "vertical",
+                  "gap": 2,
+                  "padding": [
+                    8,
+                    12
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "CRxsd",
+                      "name": "Kód",
+                      "fill": "#FFFFFF",
+                      "content": "HWU · 04-C · zamítnuto 28. 9.",
+                      "fontFamily": "$hw-font-mono",
+                      "fontSize": 12,
+                      "fontWeight": "700",
+                      "letterSpacing": 1.2
+                    },
+                    {
+                      "type": "text",
+                      "id": "Br53U",
+                      "name": "Popis",
+                      "fill": "#DFDDD7",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Varianta C: ikona bílá v tmavém kruhu (ink), bonus v bílé kartě, číslo tmavé (ink), bez růžové.",
+                      "fontFamily": "$hw-font-sans",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "LnDcN",
+                  "name": "Obrazovka HWU · 04",
+                  "clip": true,
+                  "width": 390,
+                  "height": 844,
+                  "fill": "$hw-paper",
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "id": "t2Smd",
+                      "type": "ref",
+                      "ref": "tX7pr",
+                      "name": "Status bar",
+                      "width": "fill_container"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "tnkaw",
+                      "name": "Postup",
+                      "width": "fill_container",
+                      "padding": [
+                        8,
+                        16
+                      ],
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "Tb1Yy",
+                          "name": "Tečky",
+                          "gap": 6,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 4,
+                              "id": "TZyHi",
+                              "name": "Tečka",
+                              "fill": "$hw-ink-35",
+                              "width": 8,
+                              "height": 8
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 4,
+                              "id": "J2AhSc",
+                              "name": "Tečka",
+                              "fill": "$hw-ink-35",
+                              "width": 8,
+                              "height": 8
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 4,
+                              "id": "Z6MesJ",
+                              "name": "Tečka",
+                              "fill": "$hw-ink-35",
+                              "width": 8,
+                              "height": 8
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 4,
+                              "id": "obJDm",
+                              "name": "Tečka",
+                              "fill": "$hw-pink",
+                              "width": 20,
+                              "height": 8
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "OoYZx",
+                          "name": "Přeskočit",
+                          "fill": "$hw-ink-60",
+                          "content": "Přeskočit",
+                          "fontFamily": "$hw-font-sans",
+                          "fontSize": 16,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "mAb2s",
+                      "name": "Tělo",
+                      "width": "fill_container",
+                      "height": "fill_container",
+                      "layout": "vertical",
+                      "padding": [
+                        0,
+                        16
+                      ],
+                      "justifyContent": "center",
+                      "children": [
+                        {
+                          "id": "A4YAVi",
+                          "type": "ref",
+                          "ref": "NuSRU",
+                          "name": "Krok",
+                          "width": "fill_container",
+                          "descendants": {
+                            "sH4fK": {
+                              "fill": "$hw-ink"
+                            },
+                            "w1LVqa": {
+                              "icon": "flame",
+                              "fill": "$hw-card"
+                            },
+                            "FaiFU": {
+                              "content": "KROK 4 ZE 4"
+                            },
+                            "wVQOJ": {
+                              "content": "Nic nevynechej"
+                            },
+                            "AuibP": {
+                              "content": "Když nic nevynecháš, roste ti řada a měsíční bonus. První týden je na zkoušku, nic neztratíš."
+                            },
+                            "WTkwR": {
+                              "type": "frame",
+                              "id": "b8NQ1",
+                              "name": "Ukázka",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "padding": [
+                                10,
+                                0,
+                                0,
+                                0
+                              ],
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "zhRUL",
+                                  "name": "Vstupní bonus",
+                                  "width": "fill_container",
+                                  "fill": "$hw-card",
+                                  "cornerRadius": 18,
+                                  "stroke": "$hw-rule",
+                                  "strokeWidth": 1,
+                                  "layout": "vertical",
+                                  "gap": 2,
+                                  "padding": 18,
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "KhLz7",
+                                      "name": "Částka",
+                                      "fill": "$hw-ink",
+                                      "content": "+100 Kč",
+                                      "fontFamily": "$hw-font-mono",
+                                      "fontSize": 34,
+                                      "fontWeight": "700"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "G6MZ2",
+                                      "name": "Popis",
+                                      "fill": "$hw-ink-60",
+                                      "content": "do začátku, jsou tvoje",
+                                      "fontFamily": "$hw-font-sans",
+                                      "fontSize": 15,
+                                      "fontWeight": "600"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "fO4p2",
+                      "name": "Dole",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "padding": [
+                        0,
+                        16,
+                        34,
+                        16
+                      ],
+                      "children": [
+                        {
+                          "id": "FB1Nz",
+                          "type": "ref",
+                          "ref": "xz14g",
+                          "name": "Jdeme na to",
+                          "width": "fill_container",
+                          "descendants": {
+                            "FCFit": {
+                              "content": "Jdeme na to"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "J7A3hm",
+              "name": "HWU · 04-D · plná růžová · zamítnuto 28. 9.",
+              "width": 390,
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "JkLlY",
+                  "name": "Štítek framu",
+                  "width": "fill_container",
+                  "fill": "#17191E",
+                  "cornerRadius": 8,
+                  "layout": "vertical",
+                  "gap": 2,
+                  "padding": [
+                    8,
+                    12
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "D1r9VG",
+                      "name": "Kód",
+                      "fill": "#FFFFFF",
+                      "content": "HWU · 04-D · zamítnuto 28. 9.",
+                      "fontFamily": "$hw-font-mono",
+                      "fontSize": 12,
+                      "fontWeight": "700",
+                      "letterSpacing": 1.2
+                    },
+                    {
+                      "type": "text",
+                      "id": "Xt74Y",
+                      "name": "Popis",
+                      "fill": "#DFDDD7",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Varianta D: ikona v plném růžovém kruhu (tmavá ikona), bonus v bílé kartě s růžovým rámečkem 2 px, číslo růžové.",
+                      "fontFamily": "$hw-font-sans",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "S30WW",
+                  "name": "Obrazovka HWU · 04",
+                  "clip": true,
+                  "width": 390,
+                  "height": 844,
+                  "fill": "$hw-paper",
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "id": "HFD8d",
+                      "type": "ref",
+                      "ref": "tX7pr",
+                      "name": "Status bar",
+                      "width": "fill_container"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "jf6HR",
+                      "name": "Postup",
+                      "width": "fill_container",
+                      "padding": [
+                        8,
+                        16
+                      ],
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "T6ZP94",
+                          "name": "Tečky",
+                          "gap": 6,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 4,
+                              "id": "T1ttj6",
+                              "name": "Tečka",
+                              "fill": "$hw-ink-35",
+                              "width": 8,
+                              "height": 8
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 4,
+                              "id": "Ta50L",
+                              "name": "Tečka",
+                              "fill": "$hw-ink-35",
+                              "width": 8,
+                              "height": 8
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 4,
+                              "id": "TLjNs",
+                              "name": "Tečka",
+                              "fill": "$hw-ink-35",
+                              "width": 8,
+                              "height": 8
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 4,
+                              "id": "cznjZ",
+                              "name": "Tečka",
+                              "fill": "$hw-pink",
+                              "width": 20,
+                              "height": 8
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "Q36b8",
+                          "name": "Přeskočit",
+                          "fill": "$hw-ink-60",
+                          "content": "Přeskočit",
+                          "fontFamily": "$hw-font-sans",
+                          "fontSize": 16,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "tZ1vJ",
+                      "name": "Tělo",
+                      "width": "fill_container",
+                      "height": "fill_container",
+                      "layout": "vertical",
+                      "padding": [
+                        0,
+                        16
+                      ],
+                      "justifyContent": "center",
+                      "children": [
+                        {
+                          "id": "zBZ4v",
+                          "type": "ref",
+                          "ref": "NuSRU",
+                          "name": "Krok",
+                          "width": "fill_container",
+                          "descendants": {
+                            "sH4fK": {
+                              "fill": "$hw-pink"
+                            },
+                            "w1LVqa": {
+                              "icon": "flame",
+                              "fill": "$hw-on-pink"
+                            },
+                            "FaiFU": {
+                              "content": "KROK 4 ZE 4"
+                            },
+                            "wVQOJ": {
+                              "content": "Nic nevynechej"
+                            },
+                            "AuibP": {
+                              "content": "Když nic nevynecháš, roste ti řada a měsíční bonus. První týden je na zkoušku, nic neztratíš."
+                            },
+                            "WTkwR": {
+                              "type": "frame",
+                              "id": "Q9W9QG",
+                              "name": "Ukázka",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "padding": [
+                                10,
+                                0,
+                                0,
+                                0
+                              ],
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "tl5TQ",
+                                  "name": "Vstupní bonus",
+                                  "width": "fill_container",
+                                  "fill": "$hw-card",
+                                  "cornerRadius": 18,
+                                  "stroke": "$hw-pink",
+                                  "strokeWidth": 2,
+                                  "layout": "vertical",
+                                  "gap": 2,
+                                  "padding": 18,
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "aTgnn",
+                                      "name": "Částka",
+                                      "fill": "$hw-pink",
+                                      "content": "+100 Kč",
+                                      "fontFamily": "$hw-font-mono",
+                                      "fontSize": 34,
+                                      "fontWeight": "700"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "Zaouc",
+                                      "name": "Popis",
+                                      "fill": "$hw-ink-60",
+                                      "content": "do začátku, jsou tvoje",
+                                      "fontFamily": "$hw-font-sans",
+                                      "fontSize": 15,
+                                      "fontWeight": "600"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "xmLyh",
+                      "name": "Dole",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "padding": [
+                        0,
+                        16,
+                        34,
+                        16
+                      ],
+                      "children": [
+                        {
+                          "id": "S8ilRA",
+                          "type": "ref",
+                          "ref": "xz14g",
+                          "name": "Jdeme na to",
+                          "width": "fill_container",
+                          "descendants": {
+                            "FCFit": {
+                              "content": "Jdeme na to"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "kZ9pU",
+              "name": "HWU · 04-E · růžový prstenec · zamítnuto 28. 9.",
+              "width": 390,
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "ejjAs",
+                  "name": "Štítek framu",
+                  "width": "fill_container",
+                  "fill": "#17191E",
+                  "cornerRadius": 8,
+                  "layout": "vertical",
+                  "gap": 2,
+                  "padding": [
+                    8,
+                    12
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "p0bhJ",
+                      "name": "Kód",
+                      "fill": "#FFFFFF",
+                      "content": "HWU · 04-E · zamítnuto 28. 9.",
+                      "fontFamily": "$hw-font-mono",
+                      "fontSize": 12,
+                      "fontWeight": "700",
+                      "letterSpacing": 1.2
+                    },
+                    {
+                      "type": "text",
+                      "id": "o236b",
+                      "name": "Popis",
+                      "fill": "#DFDDD7",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Varianta E: tmavá ikona v bílém kruhu s růžovým prstencem, bonus v bílé kartě, číslo růžové.",
+                      "fontFamily": "$hw-font-sans",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "xMDn4",
+                  "name": "Obrazovka HWU · 04",
+                  "clip": true,
+                  "width": 390,
+                  "height": 844,
+                  "fill": "$hw-paper",
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "id": "JxhT3",
+                      "type": "ref",
+                      "ref": "tX7pr",
+                      "name": "Status bar",
+                      "width": "fill_container"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "wJKdX",
+                      "name": "Postup",
+                      "width": "fill_container",
+                      "padding": [
+                        8,
+                        16
+                      ],
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "PFLF0",
+                          "name": "Tečky",
+                          "gap": 6,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 4,
+                              "id": "vQZ5I",
+                              "name": "Tečka",
+                              "fill": "$hw-ink-35",
+                              "width": 8,
+                              "height": 8
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 4,
+                              "id": "Q5oZcL",
+                              "name": "Tečka",
+                              "fill": "$hw-ink-35",
+                              "width": 8,
+                              "height": 8
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 4,
+                              "id": "pqKuh",
+                              "name": "Tečka",
+                              "fill": "$hw-ink-35",
+                              "width": 8,
+                              "height": 8
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 4,
+                              "id": "RdDcz",
+                              "name": "Tečka",
+                              "fill": "$hw-pink",
+                              "width": 20,
+                              "height": 8
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "V91bq",
+                          "name": "Přeskočit",
+                          "fill": "$hw-ink-60",
+                          "content": "Přeskočit",
+                          "fontFamily": "$hw-font-sans",
+                          "fontSize": 16,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "IdSB4",
+                      "name": "Tělo",
+                      "width": "fill_container",
+                      "height": "fill_container",
+                      "layout": "vertical",
+                      "padding": [
+                        0,
+                        16
+                      ],
+                      "justifyContent": "center",
+                      "children": [
+                        {
+                          "id": "f6UDTu",
+                          "type": "ref",
+                          "ref": "NuSRU",
+                          "name": "Krok",
+                          "width": "fill_container",
+                          "descendants": {
+                            "sH4fK": {
+                              "fill": "$hw-card",
+                              "stroke": "$hw-pink",
+                              "strokeWidth": 3
+                            },
+                            "w1LVqa": {
+                              "icon": "flame",
+                              "fill": "$hw-ink"
+                            },
+                            "FaiFU": {
+                              "content": "KROK 4 ZE 4"
+                            },
+                            "wVQOJ": {
+                              "content": "Nic nevynechej"
+                            },
+                            "AuibP": {
+                              "content": "Když nic nevynecháš, roste ti řada a měsíční bonus. První týden je na zkoušku, nic neztratíš."
+                            },
+                            "WTkwR": {
+                              "type": "frame",
+                              "id": "R9tyzN",
+                              "name": "Ukázka",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "padding": [
+                                10,
+                                0,
+                                0,
+                                0
+                              ],
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "DnLgp",
+                                  "name": "Vstupní bonus",
+                                  "width": "fill_container",
+                                  "fill": "$hw-card",
+                                  "cornerRadius": 18,
+                                  "stroke": "$hw-rule",
+                                  "strokeWidth": 1,
+                                  "layout": "vertical",
+                                  "gap": 2,
+                                  "padding": 18,
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "tO68S",
+                                      "name": "Částka",
+                                      "fill": "$hw-pink",
+                                      "content": "+100 Kč",
+                                      "fontFamily": "$hw-font-mono",
+                                      "fontSize": 34,
+                                      "fontWeight": "700"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "nZUmN",
+                                      "name": "Popis",
+                                      "fill": "$hw-ink-60",
+                                      "content": "do začátku, jsou tvoje",
+                                      "fontFamily": "$hw-font-sans",
+                                      "fontSize": 15,
+                                      "fontWeight": "600"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "NmZsM",
+                      "name": "Dole",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "padding": [
+                        0,
+                        16,
+                        34,
+                        16
+                      ],
+                      "children": [
+                        {
+                          "id": "bJXxr",
+                          "type": "ref",
+                          "ref": "xz14g",
+                          "name": "Jdeme na to",
+                          "width": "fill_container",
+                          "descendants": {
+                            "FCFit": {
+                              "content": "Jdeme na to"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "f5Nzo",
+              "name": "HWU · 04-F · růžový bonus · zamítnuto 28. 9.",
+              "width": 390,
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "Oq6Ww",
+                  "name": "Štítek framu",
+                  "width": "fill_container",
+                  "fill": "#17191E",
+                  "cornerRadius": 8,
+                  "layout": "vertical",
+                  "gap": 2,
+                  "padding": [
+                    8,
+                    12
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "dBypY",
+                      "name": "Kód",
+                      "fill": "#FFFFFF",
+                      "content": "HWU · 04-F · zamítnuto 28. 9.",
+                      "fontFamily": "$hw-font-mono",
+                      "fontSize": 12,
+                      "fontWeight": "700",
+                      "letterSpacing": 1.2
+                    },
+                    {
+                      "type": "text",
+                      "id": "wEAKz",
+                      "name": "Popis",
+                      "fill": "#DFDDD7",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Varianta F: růžová ikona v bílém kruhu, bonus v plné růžové kartě s tmavým číslem (bonus jako hlavní zvýraznění).",
+                      "fontFamily": "$hw-font-sans",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "RVixi",
+                  "name": "Obrazovka HWU · 04",
+                  "clip": true,
+                  "width": 390,
+                  "height": 844,
+                  "fill": "$hw-paper",
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "id": "RdcDn",
+                      "type": "ref",
+                      "ref": "tX7pr",
+                      "name": "Status bar",
+                      "width": "fill_container"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "aurOv",
+                      "name": "Postup",
+                      "width": "fill_container",
+                      "padding": [
+                        8,
+                        16
+                      ],
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "CnchR",
+                          "name": "Tečky",
+                          "gap": 6,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 4,
+                              "id": "jY2Oe",
+                              "name": "Tečka",
+                              "fill": "$hw-ink-35",
+                              "width": 8,
+                              "height": 8
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 4,
+                              "id": "HmQK5",
+                              "name": "Tečka",
+                              "fill": "$hw-ink-35",
+                              "width": 8,
+                              "height": 8
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 4,
+                              "id": "jthMJ",
+                              "name": "Tečka",
+                              "fill": "$hw-ink-35",
+                              "width": 8,
+                              "height": 8
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 4,
+                              "id": "jp4xp",
+                              "name": "Tečka",
+                              "fill": "$hw-pink",
+                              "width": 20,
+                              "height": 8
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "ONaM6",
+                          "name": "Přeskočit",
+                          "fill": "$hw-ink-60",
+                          "content": "Přeskočit",
+                          "fontFamily": "$hw-font-sans",
+                          "fontSize": 16,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "gZv3o",
+                      "name": "Tělo",
+                      "width": "fill_container",
+                      "height": "fill_container",
+                      "layout": "vertical",
+                      "padding": [
+                        0,
+                        16
+                      ],
+                      "justifyContent": "center",
+                      "children": [
+                        {
+                          "id": "j4MOC",
+                          "type": "ref",
+                          "ref": "NuSRU",
+                          "name": "Krok",
+                          "width": "fill_container",
+                          "descendants": {
+                            "sH4fK": {
+                              "fill": "$hw-card",
+                              "stroke": "$hw-rule",
+                              "strokeWidth": 1
+                            },
+                            "w1LVqa": {
+                              "icon": "flame",
+                              "fill": "$hw-pink"
+                            },
+                            "FaiFU": {
+                              "content": "KROK 4 ZE 4"
+                            },
+                            "wVQOJ": {
+                              "content": "Nic nevynechej"
+                            },
+                            "AuibP": {
+                              "content": "Když nic nevynecháš, roste ti řada a měsíční bonus. První týden je na zkoušku, nic neztratíš."
+                            },
+                            "WTkwR": {
+                              "type": "frame",
+                              "id": "hwVkU",
+                              "name": "Ukázka",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "padding": [
+                                10,
+                                0,
+                                0,
+                                0
+                              ],
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "Qlzbw",
+                                  "name": "Vstupní bonus",
+                                  "width": "fill_container",
+                                  "fill": "$hw-pink",
+                                  "cornerRadius": 18,
+                                  "layout": "vertical",
+                                  "gap": 2,
+                                  "padding": 18,
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "SIwpa",
+                                      "name": "Částka",
+                                      "fill": "$hw-on-pink",
+                                      "content": "+100 Kč",
+                                      "fontFamily": "$hw-font-mono",
+                                      "fontSize": 34,
+                                      "fontWeight": "700"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "J57l9B",
+                                      "name": "Popis",
+                                      "fill": "$hw-on-pink",
+                                      "content": "do začátku, jsou tvoje",
+                                      "fontFamily": "$hw-font-sans",
+                                      "fontSize": 15,
+                                      "fontWeight": "600"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "D4kdf7",
+                      "name": "Dole",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "padding": [
+                        0,
+                        16,
+                        34,
+                        16
+                      ],
+                      "children": [
+                        {
+                          "id": "Ue7UQ",
+                          "type": "ref",
+                          "ref": "xz14g",
+                          "name": "Jdeme na to",
+                          "width": "fill_container",
+                          "descendants": {
+                            "FCFit": {
+                              "content": "Jdeme na to"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Pneyc",
+              "name": "HWU · 04-G · B + E · zamítnuto 28. 9.",
+              "width": 390,
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "Nwe8g",
+                  "name": "Štítek framu",
+                  "width": "fill_container",
+                  "fill": "#17191E",
+                  "cornerRadius": 8,
+                  "layout": "vertical",
+                  "gap": 2,
+                  "padding": [
+                    8,
+                    12
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Xbx3H",
+                      "name": "Kód",
+                      "fill": "#FFFFFF",
+                      "content": "HWU · 04-G · zamítnuto 28. 9.",
+                      "fontFamily": "$hw-font-mono",
+                      "fontSize": 12,
+                      "fontWeight": "700",
+                      "letterSpacing": 1.2
+                    },
+                    {
+                      "type": "text",
+                      "id": "nPSXr",
+                      "name": "Popis",
+                      "fill": "#DFDDD7",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Varianta G: ikona jako v B (velká, bez kruhu), bonus jako v E (bílá karta s rámečkem, růžové číslo).",
+                      "fontFamily": "$hw-font-sans",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "ybsIk",
+                  "name": "Obrazovka HWU · 04",
+                  "clip": true,
+                  "width": 390,
+                  "height": 844,
+                  "fill": "$hw-paper",
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "id": "R82tP",
+                      "type": "ref",
+                      "ref": "tX7pr",
+                      "name": "Status bar",
+                      "width": "fill_container"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Buk6k",
+                      "name": "Postup",
+                      "width": "fill_container",
+                      "padding": [
+                        8,
+                        16
+                      ],
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "kZBS4",
+                          "name": "Tečky",
+                          "gap": 6,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 4,
+                              "id": "Tmb0u",
+                              "name": "Tečka",
+                              "fill": "$hw-ink-35",
+                              "width": 8,
+                              "height": 8
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 4,
+                              "id": "aks9z",
+                              "name": "Tečka",
+                              "fill": "$hw-ink-35",
+                              "width": 8,
+                              "height": 8
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 4,
+                              "id": "TuEJe",
+                              "name": "Tečka",
+                              "fill": "$hw-ink-35",
+                              "width": 8,
+                              "height": 8
+                            },
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 4,
+                              "id": "AcgCe",
+                              "name": "Tečka",
+                              "fill": "$hw-pink",
+                              "width": 20,
+                              "height": 8
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "rP58L",
+                          "name": "Přeskočit",
+                          "fill": "$hw-ink-60",
+                          "content": "Přeskočit",
+                          "fontFamily": "$hw-font-sans",
+                          "fontSize": 16,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "oT1Ih",
+                      "name": "Tělo",
+                      "width": "fill_container",
+                      "height": "fill_container",
+                      "layout": "vertical",
+                      "padding": [
+                        0,
+                        16
+                      ],
+                      "justifyContent": "center",
+                      "children": [
+                        {
+                          "id": "GWgYq",
+                          "type": "ref",
+                          "ref": "NuSRU",
+                          "name": "Krok",
+                          "width": "fill_container",
+                          "descendants": {
+                            "sH4fK": {
+                              "fill": "#FFFFFF00"
+                            },
+                            "w1LVqa": {
+                              "icon": "flame",
+                              "fill": "$hw-ink",
+                              "width": 56,
+                              "height": 56
+                            },
+                            "FaiFU": {
+                              "content": "KROK 4 ZE 4"
+                            },
+                            "wVQOJ": {
+                              "content": "Nic nevynechej"
+                            },
+                            "AuibP": {
+                              "content": "Když nic nevynecháš, roste ti řada a měsíční bonus. První týden je na zkoušku, nic neztratíš."
+                            },
+                            "WTkwR": {
+                              "type": "frame",
+                              "id": "EVjO7",
+                              "name": "Ukázka",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "padding": [
+                                10,
+                                0,
+                                0,
+                                0
+                              ],
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "oz6TW",
+                                  "name": "Vstupní bonus",
+                                  "width": "fill_container",
+                                  "fill": "$hw-card",
+                                  "cornerRadius": 18,
+                                  "stroke": "$hw-rule",
+                                  "strokeWidth": 1,
+                                  "layout": "vertical",
+                                  "gap": 2,
+                                  "padding": 18,
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "ZTaKP",
+                                      "name": "Částka",
+                                      "fill": "$hw-pink",
+                                      "content": "+100 Kč",
+                                      "fontFamily": "$hw-font-mono",
+                                      "fontSize": 34,
+                                      "fontWeight": "700"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "QKMaP",
+                                      "name": "Popis",
+                                      "fill": "$hw-ink-60",
+                                      "content": "do začátku, jsou tvoje",
+                                      "fontFamily": "$hw-font-sans",
+                                      "fontSize": 15,
+                                      "fontWeight": "600"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "zNxzQ",
+                      "name": "Dole",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "padding": [
+                        0,
+                        16,
+                        34,
+                        16
+                      ],
+                      "children": [
+                        {
+                          "id": "gTowA",
+                          "type": "ref",
+                          "ref": "xz14g",
+                          "name": "Jdeme na to",
+                          "width": "fill_container",
+                          "descendants": {
+                            "FCFit": {
+                              "content": "Jdeme na to"
+                            }
+                          }
+                        }
+                      ]
                     }
                   ]
                 }
