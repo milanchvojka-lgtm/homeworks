@@ -36,6 +36,10 @@
 - `weekly-close` počítá `WELCOME_BONUS` do bonusu výplaty.
 - Simulace (D22): nové dítě s uvítáním, bonusem, zkouškou (zmeškaný den ve zkoušce nic nesebere) a povinným PINem.
 
+### 7 · Vzhled kroků (Milan 2026-09-28, po iteracích A–G v penu)
+- Ikona kroku: **velká (56 px) lucide outline v růžové (`text-highlight`), bez kruhu na pozadí**.
+- Vstupní bonus: **bílá karta s rámečkem**, číslo „+100 Kč“ růžově. Žádné světle růžové plochy.
+
 ## Co NEMĚNÍME
 - Rozvržení Dnes, Vydělat, Screen time, Já. Rodičovská část (kromě pole v Nastavení a resetu PINu).
 - Přihlašovací obrazovku.
