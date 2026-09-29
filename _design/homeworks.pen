@@ -42562,7 +42562,7 @@
                                   "width": 38,
                                   "height": 38,
                                   "fill": "$hw-pink",
-                                  "cornerRadius": 9,
+                                  "cornerRadius": "$hw-radius-input",
                                   "justifyContent": "center",
                                   "alignItems": "center",
                                   "children": [
@@ -42875,7 +42875,7 @@
                                   "width": 38,
                                   "height": 38,
                                   "fill": "$hw-pink",
-                                  "cornerRadius": 9,
+                                  "cornerRadius": "$hw-radius-input",
                                   "justifyContent": "center",
                                   "alignItems": "center",
                                   "children": [
