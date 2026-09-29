@@ -151,7 +151,7 @@ Drobné úpravy texty/defaultní hodnoty dělej průběžně. Větší změny si
 
 ## 7.5 Supabase RLS (v1.1 — viz DECISIONS D13)
 
-**Status:** ✅ Hotovo (2026-05-03).
+**Status:** ✅ Hotovo (2026-05-03). Znovu spuštěno 2026-09-29 — `Absence` byla bez RLS; skript teď bere všechny tabulky v `public` (D13). Po každé nové tabulce pusť znovu.
 
 **Co:** Před production deployem je potřeba zapnout Row-Level Security na všech 17 aplikačních tabulkách v Supabase. Bez RLS je každá tabulka veřejně čitelná přes PostgREST anon API — Supabase Advisor to flag-ne jako critical (`rls_disabled_in_public`, `sensitive_columns_exposed`).
 

@@ -86,7 +86,7 @@ Postupuj **milestone po milestonu** podle `IMPLEMENTATION_PLAN.md`. Nepřeskakuj
   /api/cron/*       — cron endpoints
 /components         — sdílené komponenty (/ui = shadcn, /streak)
 /lib                — business logika (foo.ts = DB/server-only, foo-pure.ts = testovatelné)
-/prisma             — schema.prisma + seed.ts (db:push, bez migrations — viz TD3 v plánu)
+/prisma             — schema.prisma + seed.ts (db:push, bez migrations — viz TD3 v plánu); /security/enable-rls.sql po každé nové tabulce v produkci pusť znovu (D13)
 /tests              — Vitest testy pure logiky
 /public             — static assets, manifest.json, ikony
 proxy.ts            — Next 16 middleware (auth guard pro /admin a /child)

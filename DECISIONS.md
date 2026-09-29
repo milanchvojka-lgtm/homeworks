@@ -219,6 +219,7 @@
 - Skript `prisma/security/enable-rls.sql` v repu, jednorázově spuštěn v Supabase SQL Editoru před production deployem.
 - LAUNCH_CHECKLIST má RLS jako blocker.
 - Pokud se v budoucnu přidá frontend přístup přes `@supabase/supabase-js` s anon klíčem (např. realtime subscriptions), RLS policies pro `authenticated` se musí dopsat per use case.
+- **Doplněk 2026-09-29:** skript měl napevno seznam 17 tabulek, takže `Absence` (D24, přidaná přes `db push`) zůstala bez RLS a s granty pro `anon`. Skript teď bere **všechny tabulky v `public`** a navíc nastavuje `ALTER DEFAULT PRIVILEGES FOR ROLE postgres … REVOKE ALL … FROM anon, authenticated`, takže nové tabulky nejsou přes PostgREST dostupné ani před dalším spuštěním. Po každém `db push`, který přidá tabulku, skript pusť znovu (jinak Advisor hlásí `rls_disabled_in_public`).
 
 ---
 
