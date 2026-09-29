@@ -168,6 +168,8 @@ Drobné úpravy texty/defaultní hodnoty dělej průběžně. Větší změny si
 
 **Co se může pokazit:** App by neměla přestat fungovat (Prisma jde přes service_role / pooler, který má `BYPASSRLS`). Pokud přesto, rollback je `ALTER TABLE ... DISABLE ROW LEVEL SECURITY` per tabulka.
 
+**D28 (2026-09-29):** přibyly tabulky `PushSubscription` a `ReminderLog`. Po `db push` na produkci pusť `prisma/security/enable-rls.sql` znovu (nové tabulky startují s RLS vypnutým).
+
 **Pokud v budoucnu přidáš `@supabase/supabase-js` přímo do frontendu** (např. realtime subscriptions): musíš dopsat policies pro `authenticated` role per tabulka. RLS skript je intentionally restrictive.
 
 ---
