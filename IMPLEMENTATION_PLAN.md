@@ -895,7 +895,7 @@ Jediný actions soubor, který hází výjimky místo `{ ok, error }` (viz SKILL
 - **9.3 Připomínky dětem:** `lib/reminders-pure.ts` (co připomenout: 60 min před termínem, 19:30, 21:30, jen když něco zbývá, ne v nepřítomnosti) + testy, `lib/reminders.ts`, krok v 15minutovém cronu, log proti dvojímu odeslání.
 - **9.4 Číslo na ikoně:** v push notifikaci a při otevření appky (dítě neodeslané povinnosti, rodič ke schválení).
 - **9.5 Večerní e-mail rodičům ve 20:00** o neodeslaném.
-- **9.6 UI:** krok „Zapnout připomínky“ na konci uvítání, přepínač v Já a ve Víc (nahradí dočasné tlačítko z 9.0), stav zablokováno v iOS. Tok → smlouva → pen → kód.
+- **9.6 UI:** krok „Zapnout připomínky“ na konci uvítání, přepínač v Já a ve Víc (nahradí dočasné tlačítko z 9.0), stav zablokováno v iOS. Tok → smlouva → pen → kód. ✅ 2026-09-29: tok varianta A, pen sekce `w5EXSk` (přepínač B tmavá), smlouva `docs/design/2026-09-29-pripominky-co-menime-co-ne.md`.
 - **9.7 Simulace:** připomínky do `npm run test:sim` (nic, když nic nezbývá; nic dvakrát).
 
 ### Acceptance criteria
