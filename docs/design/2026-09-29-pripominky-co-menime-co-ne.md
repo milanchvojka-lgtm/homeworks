@@ -1,6 +1,6 @@
 # Připomínky a upozornění — co měníme, co ne
 
-**Datum:** 2026-09-29 · **Stav:** schváleno 2026-09-29 (Milan: „Smlouva OK“); přepínač chce Milan nejdřív vidět v penu, vychází se z řešení zapnout/vypnout v 2FRESH design systému · **Podle:** scénáře 11, 12, 13; tok `2026-09-29-struktura-a-tok-pripominky.md` varianta A; D25, D28
+**Datum:** 2026-09-29 · **Stav:** schváleno 2026-09-29 (Milan: „Smlouva OK“), pen schválen 2026-09-29 (Milan: „sedí“, texty zkrátil v penu): **přepínač B tmavá** · **Podle:** scénáře 11, 12, 13; tok `2026-09-29-struktura-a-tok-pripominky.md` varianta A; D25, D28
 
 ## Co VZNIKÁ
 
@@ -16,7 +16,7 @@
 
 **2. Já: řádek „Připomínky“** (dítě) a **3. Víc: řádek „Upozornění“** (rodič)
 - Jedna složená komponenta pro oba, v seznamu řádků (jako Změnit PIN / položky Víc): ikona `Bell`, název, pod ním stav, vpravo přepínač.
-- Stavy: „Zapnuté“ (přepínač zapnutý) · „Vypnuté“ (vypnutý) · „Zablokované, zapneš je v Nastavení → Oznámení → Homeworks“ (bez přepínače) · „Fungují jen v appce z plochy“ (bez přepínače).
+- Stavy (texty podle penu, Milan je zkrátil): „Zapnuté“ (přepínač zapnutý) · dítě „Vypnuté · zapni je, ať nepřijdeš o řadu“, rodič „Vypnuté“ (vypnutý) · „Nenastavené. Zapni v Nastavení → Oznámení → Homeworks.“ (bez přepínače) · „Fungují jen v appce z plochy“ (bez přepínače).
 - Zapnutí: iOS povolení → zkušební upozornění. Vypnutí: bez dotazu, hned.
 - V Já pod přepínačem Vzhled, ve Víc nad řádkem Přihlášený / Odhlásit.
 
@@ -34,14 +34,23 @@
 
 ## Nové složené komponenty (rozhoduje Milan)
 
-1. **SettingRow se přepínačem** (řádek Připomínky / Upozornění): nová. V knihovně ani v kódu dnes přepínač (switch) není; Vzhled používá segmentový výběr. Návrh: shadcn `Switch` do `components/ui/` (bez nové závislosti, jen zdroják) přebarvený tokeny (zapnuto `bg-highlight`), řádek složit v `app/_components/`.
+1. **SettingRow se přepínačem** (řádek Připomínky / Upozornění): nová. V knihovně penu přepínač nebyl; **v kódu už je** `components/ui/switch.tsx` (shadcn nad `@base-ui/react/switch`, nikde nepoužitý, 32×18 px, zapnuto `bg-primary`). Upraví se na velikost iOS 51×31 (dotyková plocha 44 px) a barvu podle Milanovy volby v penu: **A růžová** (`bg-highlight`, aktivní stav podle D15) nebo **B tmavá** (`bg-primary`). Řádek složit v `app/_components/`.
 2. Krok uvítání znovupoužije `WelcomeStep`, žádná nová komponenta.
 
 ## Návrh v penu
 
 | Frame | Id | Co ukazuje |
 |---|---|---|
-| (doplní se po „kresli“) | | uvítání · Připomínky (+ zablokováno) · Já s řádkem (zapnuté / vypnuté / zablokované) · Víc s řádkem · Děti s „připomínky vypnuté“ |
+| Sekce „HW · Připomínky (29. 9.) · tok varianta A“ | `w5EXSk` | celé kolo |
+| HWP · 01 | `HMapd` | uvítání · Připomínky: zvonek, „Připomenu ti to“, ukázka připomínky, Zapnout připomínky / Teď ne |
+| HWP · 01b | `WvTMY` | odmítnuto v iOS: „Připomínky jsou vypnuté“, kde to zapnout, Pokračovat |
+| HWP · 02A | `xpItA` | Já · řádek Připomínky zapnuté, **přepínač A růžová** |
+| HWP · 02B | `hts3k` | Já · totéž, **přepínač B tmavá** |
+| HWP · 02c | `cP420` | Já · vypnuté |
+| HWP · 02d | `Xg2Hj` | Já · zablokované (bez přepínače) |
+| HWP · 03 | `lPCxA` | Víc · řádek Upozornění (rodič) |
+| HWP · 04 | `bwq2d` | Děti · „připomínky vypnuté“ u Neli |
+| Knihovna · řada „Připomínky“ | `AMVC4` | Switch · zapnuto A `hbm8c` / B `G1YNr` / vypnuto `IzeJW`, SettingRow `yUJE3`; ChildSummaryRow dostal skrytý řádek „připomínky vypnuté“ `a8Lr37` |
 
 ## Průchod scénáři
 
