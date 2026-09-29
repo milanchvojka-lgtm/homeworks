@@ -49,6 +49,16 @@ V Vercel projektu → Settings → Environment Variables (Production):
 - `NEXT_PUBLIC_VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY` — klíče pro push (D28), vygeneruj jednou `npx web-push generate-vapid-keys`. **Neměň je**, výměna zneplatní všechny odběry na telefonech.
 - `VAPID_SUBJECT` — `mailto:` adresa správce, např. `mailto:milan@x.cz`.
 
+**Pořadí nasazení D28 (push) — na pořadí záleží:**
+1. VAPID klíče do Vercelu (Production). `NEXT_PUBLIC_` klíč se vkládá do kódu při buildu, takže musí být nastavený **před** nasazením, jinak telefony dostanou prázdný klíč a zapnutí tiše selže.
+2. `npx prisma db push` na produkci (přidá `PushSubscription` a `ReminderLog`, na stávající data nesahá). Kód bez tabulek by shazoval cron `reminders` každých 15 min.
+3. Znovu `prisma/security/enable-rls.sql` (§7.5).
+4. `npm test` + `npm run test:sim`.
+5. Push do `main` (nový build se správným klíčem).
+6. `gh workflow run cron.yml -f endpoint=reminders` → 200 a rozumné počty v odpovědi (500 = chybí proměnné nebo selhal e-mail).
+7. Test na iPhonu (IMPLEMENTATION_PLAN 9.0).
+8. Zjistit u holek, kdy jim začíná klidový režim v Čase u obrazovky.
+
 - `LANDING_LEADS_EMAIL` — volitelné (D26): kam chodí zájemci a odpovědi z `/pro-rodice`. Když chybí, použije se `ADMIN_NOTIFICATION_EMAILS`.
 
 **NE** nastavovat `TZ` — Vercel ji rezervuje (viz D5).

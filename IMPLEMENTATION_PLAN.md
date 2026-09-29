@@ -889,13 +889,13 @@ Jediný actions soubor, který hází výjimky místo `{ ok, error }` (viz SKILL
 
 > Rozhodnutí D28, analýza `docs/2026-09-29-analyza-pripominky.md`. UI podle D16 (tok → smlouva → pen → kód).
 
-- **9.0 Ověření na telefonu (brána):** `public/sw.js`, registrace service workeru, odběr a testovací push. Nasadit a vyzkoušet na telefonu holky se zapnutým „Omezit weby pro dospělé“. Když nefunguje, dál rozhoduje Milan (D28 Rizika).
+- **9.0 Ověření na telefonu (brána):** `public/sw.js`, registrace service workeru, odběr, **dočasné technické tlačítko „Zapnout připomínky“ ve Víc a v Já (bez penu) a zkušební push po zapnutí**. Nasadit a vyzkoušet na Milanově iPhonu se zapnutým „Omezit weby pro dospělé“ (jako u holek). Ověřuje se: (1) zkušební push přijde, i se zavřenou appkou; (2) na ikoně je číslo; (3) ťuknutí otevře appku na správné obrazovce; (4) nahrazené upozornění rodičům znovu nezvoní. Když nefunguje, dál rozhoduje Milan (D28 Rizika). Prověřeno tech leadem, `docs/2026-09-29-push-panel-1.md`.
 - **9.1 Data a odesílání:** `PushSubscription`, `ReminderLog`, `lib/push.ts` (`web-push`, úklid 404/410), ENV VAPID.
 - **9.2 Push rodičům a dítěti při akci:** odeslaná povinnost / nahlášený úkol / žádost o screen time → rodiče; vrácená povinnost → dítě. Chyba pushe nikdy neshodí akci.
 - **9.3 Připomínky dětem:** `lib/reminders-pure.ts` (co připomenout: 60 min před termínem, 19:30, 21:30, jen když něco zbývá, ne v nepřítomnosti) + testy, `lib/reminders.ts`, krok v 15minutovém cronu, log proti dvojímu odeslání.
 - **9.4 Číslo na ikoně:** v push notifikaci a při otevření appky (dítě neodeslané povinnosti, rodič ke schválení).
 - **9.5 Večerní e-mail rodičům ve 20:00** o neodeslaném.
-- **9.6 UI:** krok „Zapnout připomínky“ na konci uvítání, přepínač v Já a ve Víc, stav zablokováno v iOS. Tok → smlouva → pen → kód.
+- **9.6 UI:** krok „Zapnout připomínky“ na konci uvítání, přepínač v Já a ve Víc (nahradí dočasné tlačítko z 9.0), stav zablokováno v iOS. Tok → smlouva → pen → kód.
 - **9.7 Simulace:** připomínky do `npm run test:sim` (nic, když nic nezbývá; nic dvakrát).
 
 ### Acceptance criteria
