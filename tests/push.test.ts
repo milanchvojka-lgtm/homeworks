@@ -4,7 +4,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 vi.mock("server-only", () => ({}));
 const send = vi.fn();
 vi.mock("web-push", () => ({ default: { setVapidDetails: vi.fn(), sendNotification: (...a: unknown[]) => send(...a) } }));
-const update = vi.fn(async (..._a: unknown[]) => ({}));
+const update = vi.fn(async (...args: unknown[]) => args && {});
 const findMany = vi.fn();
 vi.mock("@/lib/db", () => ({ db: { pushSubscription: { findMany: (...a: unknown[]) => findMany(...a), update: (...a: unknown[]) => update(...a) } } }));
 

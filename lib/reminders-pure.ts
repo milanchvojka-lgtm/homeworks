@@ -22,6 +22,18 @@ export type PushMessage = {
 export type Reminder = { keys: string[]; message: PushMessage };
 
 /**
+ * Czech plural for the count of open checks: ["zbývá", "1 povinnost"], ["zbývají", "2 povinnosti"], ["zbývá", "5 povinností"].
+ * Milan 2026-09-29: messages stay generic (no check names, notes or kids' names), only the count.
+ */
+export function checksLeft(n: number): [verb: string, count: string] {
+  if (n === 1) return ["zbývá", "1 povinnost"];
+  if (n >= 2 && n <= 4) return ["zbývají", `${n} povinnosti`];
+  return ["zbývá", `${n} povinností`];
+}
+
+const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+
+/**
  * Which reminder (at most one per run) a child should get now.
  * `open` = today's checks still to send (PENDING or REJECTED); nothing open → nothing sent.
  * `sentKeys` = keys already in ReminderLog for today, so a late or doubled cron run never repeats one.
@@ -32,14 +44,15 @@ export function pickReminder(open: OpenCheck[], sentKeys: ReadonlySet<string>, n
 
   const evening = dueDateToday(EVENING_AT, now);
   const last = dueDateToday(LAST_CHANCE_AT, now);
-  const names = open.map((c) => c.name).join(", ");
+  const [verb, n] = checksLeft(open.length);
+  const count = `${capitalize(verb)} ti ${n}`;
   const base = { url: "/child", tag: "reminder", badge: open.length };
 
   if (now >= last) {
     if (sentKeys.has("last")) return null;
     return {
       keys: ["last"],
-      message: { ...base, title: "Poslední šance na dnešek", body: `${names}. O půlnoci to propadne.` },
+      message: { ...base, title: "Poslední šance na dnešek", body: `${count}. O půlnoci to propadne.` },
     };
   }
 
@@ -50,7 +63,7 @@ export function pickReminder(open: OpenCheck[], sentKeys: ReadonlySet<string>, n
       message: {
         ...base,
         title: "Ještě ti něco zbývá",
-        body: `${names}. Odškrtni to do půlnoci, ať nepřijdeš o řadu.`,
+        body: `${count}. Odškrtni to do půlnoci, ať nepřijdeš o řadu.`,
       },
     };
   }
@@ -67,8 +80,8 @@ export function pickReminder(open: OpenCheck[], sentKeys: ReadonlySet<string>, n
     keys: dueSoon.map((c) => dueKey(c.dailyCheckId)),
     message: {
       ...base,
-      title: dueSoon.length === 1 ? `Zbývá ti ${dueSoon[0].name}` : "Blíží se termín",
-      body: `${dueSoon.map((c) => c.name).join(", ")} do ${earliest}. Přejeď to v appce, ať nepřijdeš o řadu.`,
+      title: "Blíží se termín",
+      body: `Do ${earliest} ti ${checksLeft(dueSoon.length).join(" ")}. Odškrtni to, ať nepřijdeš o řadu.`,
     },
   };
 }
@@ -78,10 +91,10 @@ export function dueKey(dailyCheckId: string): string {
 }
 
 /** Push to the child right after a parent returns a check (D28). */
-export function rejectedCheckMessage(checkName: string, note: string | null, openCount: number): PushMessage {
+export function rejectedCheckMessage(openCount: number): PushMessage {
   return {
-    title: `Vrácené: ${checkName}`,
-    body: note ? `„${note}“ Oprav to a pošli znovu.` : "Oprav to a pošli znovu.",
+    title: "Povinnost ti byla vrácená",
+    body: "Podívej se, co opravit, a pošli ji znovu.",
     url: "/child",
     tag: "reminder",
     badge: openCount,
@@ -89,10 +102,10 @@ export function rejectedCheckMessage(checkName: string, note: string | null, ope
 }
 
 /** Push to parents when something waits for approval (D28); one tag, so it replaces the previous one. */
-export function approvalMessage(title: string, kind: string, inboxCount: number): PushMessage {
+export function approvalMessage(inboxCount: number): PushMessage {
   return {
-    title,
-    body: `${kind}. Ke schválení: ${inboxCount}`,
+    title: "Máš co schvalovat",
+    body: `Ke schválení: ${inboxCount}`,
     url: "/admin",
     tag: "approvals",
     badge: inboxCount,

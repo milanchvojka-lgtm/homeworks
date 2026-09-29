@@ -28,26 +28,11 @@ export async function enqueueNotification(
   // After the response and never throwing, so it can neither slow down nor break the child's action.
   after(async () => {
     try {
-      await sendPush(await adminIds(), approvalMessage(pushTitle(eventType, payload), PUSH_KIND[eventType], await getAdminInboxCount()));
+      await sendPush(await adminIds(), approvalMessage(await getAdminInboxCount()));
     } catch (err) {
       console.error("push: approval push failed", err);
     }
   });
-}
-
-const PUSH_KIND: Record<NotificationEventType, string> = {
-  CHECK_SUBMITTED: "Odeslaná povinnost",
-  TASK_PENDING_REVIEW: "Hotový úkol",
-  SCREEN_TIME_REQUESTED: "Žádost o screen time",
-};
-
-function pushTitle(eventType: NotificationEventType, payload: Payload): string {
-  const p = payload as Record<string, unknown>;
-  const what =
-    eventType === "CHECK_SUBMITTED" ? p.checkName
-    : eventType === "TASK_PENDING_REVIEW" ? p.taskName
-    : `${p.minutes} min`;
-  return `${p.userName}: ${what}`;
 }
 
 const DIGEST_THROTTLE_MIN = 10;

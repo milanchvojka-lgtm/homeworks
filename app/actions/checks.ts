@@ -89,7 +89,6 @@ export async function rejectCheckAction(
 
   const instance = await db.dailyCheckInstance.findUnique({
     where: { id: instanceId },
-    include: { dailyCheck: { select: { name: true } } },
   });
   if (!instance) return { ok: false, error: "not_found" };
   if (instance.status !== "SUBMITTED") {
@@ -112,7 +111,7 @@ export async function rejectCheckAction(
     after(async () => {
       try {
         const open = await openChecksToday(instance.userId);
-        await sendPush([instance.userId], rejectedCheckMessage(instance.dailyCheck.name, note.trim() || null, open.length));
+        await sendPush([instance.userId], rejectedCheckMessage(open.length));
       } catch (err) {
         console.error("push: returned check push failed", err);
       }
