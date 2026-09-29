@@ -502,7 +502,7 @@
 **Důvod:** Milan: „považuju to za klíčovou funkci, bez který ten launch může selhat = děti budou zapomínat, že mají odškrtávat.“ Neodeslaná povinnost o půlnoci propadne a stojí řadu i bonus. Badge v navigaci ani číslo na ikoně bez push to neřeší: iOS ho bez push obnoví jen při otevření appky a web appka si nemůže sama naplánovat připomínku. Posílat ji tedy musí server. Večerní e-mail je pojistka pro dítě, které notifikace odmítne nebo mu odběr odumře.
 
 **Rizika a jak s nimi:**
-- Holky mají zapnuté „Omezit weby pro dospělé“ a existuje hlášení, že s ním web appky se service workerem na iOS nefungují. **Jako první krok se service worker a testovací push nasadí a vyzkouší na telefonu holky.** Když nefunguje, rozhodne Milan dál (povolit doménu, vypnout omezení, nebo jen e-mail + připomínka v appce Připomínky).
+- Holky mají zapnuté „Omezit weby pro dospělé“ a existuje hlášení, že s ním web appky se service workerem na iOS nefungují. **Jako první krok se service worker a testovací push nasadí a vyzkouší na telefonu holky.** Když nefunguje, rozhodne Milan dál (povolit doménu, vypnout omezení, nebo jen e-mail + připomínka v appce Připomínky). **Ověřeno 2026-09-29 na Milanově iPhonu: push funguje i se zapnutým omezením.**
 - Odběry na iOS občas samy odumřou: odběr se obnoví při každém otevření appky, odběr s odpovědí 404/410 se smaže. Při odhlášení se odběr v prohlížeči neruší, jen se deaktivuje na serveru.
 - Klidový režim v Čase u obrazovky notifikace zadrží. Časy připomínek se dolaďují ve zkušebním týdnu (D25).
 - iOS nedovolí tichý push: každý push zobrazí notifikaci, proto se číslo na ikoně mění jen spolu s ní.
