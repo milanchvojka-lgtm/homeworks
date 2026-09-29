@@ -41,7 +41,8 @@ export async function completeWelcomeAction(): Promise<WelcomeResult> {
 
   revalidatePath("/child", "layout");
   const fresh = await db.user.findUnique({ where: { id: user.id }, select: { pinIsTemporary: true } });
-  return { ok: true, next: fresh?.pinIsTemporary ? "/uvitani/pin" : "/child" };
+  // D28: the last welcome step turns reminders on.
+  return { ok: true, next: fresh?.pinIsTemporary ? "/uvitani/pin" : "/uvitani/pripominky" };
 }
 
 /** D25: the child replaces the parent-set temporary PIN with their own (4 digits, not 0000). */
@@ -62,5 +63,5 @@ export async function setOwnPinAction(pin: string, again: string): Promise<Welco
     data: { pinHash: await hashPin(pin), pinIsTemporary: false },
   });
   revalidatePath("/child", "layout");
-  return { ok: true, next: "/child" };
+  return { ok: true, next: "/uvitani/pripominky" };
 }

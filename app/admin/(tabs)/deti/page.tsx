@@ -16,7 +16,12 @@ export default async function AdminChildrenPage() {
   const today = startOfDayPrague();
   const children = await db.user.findMany({
     where: { role: "CHILD" },
-    select: { id: true, name: true, avatarColor: true },
+    select: {
+      id: true,
+      name: true,
+      avatarColor: true,
+      _count: { select: { pushSubscriptions: { where: { disabledAt: null } } } },
+    },
     orderBy: [{ rotationOrder: "asc" }, { name: "asc" }],
   });
   const rows = await Promise.all(
@@ -31,7 +36,7 @@ export default async function AdminChildrenPage() {
       const open = todayChecks.filter((x) => x.status === "PENDING" || x.status === "REJECTED").length;
       const sub =
         todayChecks.length === 0 ? "dnes bez povinností" : open === 0 ? "dnes hotovo" : remaining(open);
-      return { ...c, earned: week.earnedCzk, sub };
+      return { id: c.id, name: c.name, avatarColor: c.avatarColor, earned: week.earnedCzk, sub, remindersOff: c._count.pushSubscriptions === 0 };
     }),
   );
 
@@ -52,6 +57,8 @@ export default async function AdminChildrenPage() {
           <span className="flex flex-1 flex-col gap-0.5">
             <span className="text-[17px] font-semibold">{c.name}</span>
             <span className="text-sm text-muted-foreground">{c.sub}</span>
+            {/* D28 (pen HWP · 04): only when the child has no device with reminders on. */}
+            {c.remindersOff && <span className="text-[13px] text-subtle">připomínky vypnuté</span>}
           </span>
           <span className="font-mono text-[17px] font-bold">{c.earned} Kč</span>
           <ChevronRight className="size-[18px] text-subtle" />
