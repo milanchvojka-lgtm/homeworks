@@ -48,6 +48,8 @@ model User {
   trophies               TrophyEarned[]
   absences               Absence[]              @relation("AbsenceUser")
   createdAbsences        Absence[]              @relation("AbsenceCreatedBy")
+  pushSubscriptions      PushSubscription[]
+  reminderLogs           ReminderLog[]
 }
 
 model Session {
@@ -223,6 +225,34 @@ model NotificationQueue {
   @@index([sentAt])
 }
 
+/// D28: one Web Push subscription per device. Logout deactivates the row, the browser subscription stays.
+model PushSubscription {
+  id            String    @id @default(cuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  endpoint      String    @unique
+  p256dh        String
+  auth          String
+  createdAt     DateTime  @default(now())
+  lastSuccessAt DateTime?
+  /// Set on logout or when the push service answers 404/410; such rows get no pushes.
+  disabledAt    DateTime?
+
+  @@index([userId])
+}
+
+/// D28: every child reminder is sent at most once — unique (user, day, key), key e.g. "evening", "last", "due:<dailyCheckId>".
+model ReminderLog {
+  id     String   @id @default(cuid())
+  userId String
+  user   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date   DateTime
+  key    String
+  sentAt DateTime @default(now())
+
+  @@unique([userId, date, key])
+}
+
 model NotificationLog {
   id        String   @id @default(cuid())
   sentAt    DateTime @default(now())
@@ -348,4 +378,3 @@ model Absence {
   @@index([userId, fromDate])
   @@index([toDate])
 }
-

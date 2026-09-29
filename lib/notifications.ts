@@ -1,6 +1,10 @@
 import "server-only";
 import { Resend } from "resend";
 import { db } from "./db";
+import { getAdminInboxCount } from "./badges";
+import { adminIds, sendPush } from "./push";
+import { approvalMessage } from "./reminders-pure";
+import { startOfDayPrague } from "./time";
 import type { NotificationEventType, Prisma } from "@prisma/client";
 
 type CheckSubmittedPayload = {
@@ -19,6 +23,23 @@ export async function enqueueNotification(
   await db.notificationQueue.create({
     data: { eventType, payload: payload as Prisma.InputJsonValue },
   });
+  // D28: parents also get a push right away; the e-mail digest (D3) stays as it is.
+  await sendPush(await adminIds(), approvalMessage(pushTitle(eventType, payload), PUSH_KIND[eventType], await getAdminInboxCount()));
+}
+
+const PUSH_KIND: Record<NotificationEventType, string> = {
+  CHECK_SUBMITTED: "Odeslaná povinnost",
+  TASK_PENDING_REVIEW: "Hotový úkol",
+  SCREEN_TIME_REQUESTED: "Žádost o screen time",
+};
+
+function pushTitle(eventType: NotificationEventType, payload: Payload): string {
+  const p = payload as Record<string, unknown>;
+  const what =
+    eventType === "CHECK_SUBMITTED" ? p.checkName
+    : eventType === "TASK_PENDING_REVIEW" ? p.taskName
+    : `${p.minutes} min`;
+  return `${p.userName}: ${what}`;
 }
 
 const DIGEST_THROTTLE_MIN = 10;
@@ -155,4 +176,64 @@ function escape(s: string): string {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
+}
+
+const UNSENT_EMAIL_KEY = "parents-email";
+
+/**
+ * D28 (B): at 20:00 Prague the parents get one e-mail listing today's checks the children have not sent yet.
+ * Only when something is open; each child is logged in ReminderLog, so a doubled cron run sends it once.
+ */
+export async function sendUnsentChecksEmail(now: Date = new Date()): Promise<number> {
+  const today = startOfDayPrague(now);
+  const rows = await db.dailyCheckInstance.findMany({
+    where: { date: today, status: { in: ["PENDING", "REJECTED"] }, user: { role: "CHILD" } },
+    include: { user: { select: { id: true, name: true } }, dailyCheck: { select: { name: true, order: true } } },
+    orderBy: [{ user: { name: "asc" } }, { dailyCheck: { order: "asc" } }],
+  });
+  if (rows.length === 0) return 0;
+
+  const byChild = new Map<string, { name: string; checks: string[] }>();
+  for (const r of rows) {
+    const entry = byChild.get(r.user.id) ?? { name: r.user.name, checks: [] };
+    entry.checks.push(r.dailyCheck.name);
+    byChild.set(r.user.id, entry);
+  }
+
+  const claimed = await db.reminderLog.createMany({
+    data: [...byChild.keys()].map((userId) => ({ userId, date: today, key: UNSENT_EMAIL_KEY })),
+    skipDuplicates: true,
+  });
+  if (claimed.count === 0) return 0;
+
+  const recipients = (process.env.ADMIN_NOTIFICATION_EMAILS ?? "").split(",").map((s) => s.trim()).filter(Boolean);
+  const apiKey = process.env.RESEND_API_KEY;
+  if (recipients.length === 0 || !apiKey) {
+    console.warn("sendUnsentChecksEmail: e-mail not configured");
+    return 0;
+  }
+
+  const appUrl = process.env.APP_URL ?? "";
+  const items = [...byChild.values()]
+    .map((c) => `<li><strong>${escape(c.name)}</strong>: ${c.checks.map(escape).join(", ")}</li>`)
+    .join("");
+  const link = appUrl ? `<p><a href="${appUrl}/admin/deti">→ Otevřít Děti</a></p>` : "";
+  const { error } = await new Resend(apiKey).emails.send({
+    from: process.env.NOTIFICATION_FROM_EMAIL ?? "Homeworks <onboarding@resend.dev>",
+    to: recipients,
+    subject: `Homeworks — ${[...byChild.values()].map((c) => c.name).join(", ")}: ještě neodesláno`,
+    html: `
+      <div style="font-family: system-ui, sans-serif; line-height: 1.5; color: #111;">
+        <h2>Dnes ještě neodesláno</h2>
+        <ul>${items}</ul>
+        <p>O půlnoci to propadne.</p>
+        ${link}
+      </div>
+    `.trim(),
+  });
+  if (error) {
+    console.error("Resend send failed:", error);
+    return 0;
+  }
+  return byChild.size;
 }

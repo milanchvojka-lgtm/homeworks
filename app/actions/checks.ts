@@ -4,6 +4,9 @@ import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
 import { getSession } from "@/lib/auth";
 import { enqueueNotification } from "@/lib/notifications";
+import { sendPush } from "@/lib/push";
+import { openChecksToday } from "@/lib/reminders";
+import { rejectedCheckMessage } from "@/lib/reminders-pure";
 import { dayResult } from "@/lib/streak";
 import { withStreakResync } from "@/lib/streak-sync";
 import { startOfDayPrague, startOfMonthPrague, startOfWeekPrague } from "@/lib/time";
@@ -85,6 +88,7 @@ export async function rejectCheckAction(
 
   const instance = await db.dailyCheckInstance.findUnique({
     where: { id: instanceId },
+    include: { dailyCheck: { select: { name: true } } },
   });
   if (!instance) return { ok: false, error: "not_found" };
   if (instance.status !== "SUBMITTED") {
@@ -101,6 +105,12 @@ export async function rejectCheckAction(
     },
   });
   if (updated.count === 0) return { ok: false, error: "invalid_state" };
+
+  // D28: something is open again for the child — tell them now (a past day's check only closes, no push).
+  if (instance.date.getTime() === startOfDayPrague().getTime()) {
+    const open = await openChecksToday(instance.userId);
+    await sendPush([instance.userId], rejectedCheckMessage(instance.dailyCheck.name, note.trim() || null, open.length));
+  }
 
   revalidatePath("/admin");
   revalidatePath("/child", "layout");

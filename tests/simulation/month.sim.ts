@@ -6,6 +6,9 @@
  * Emi's illness on 14. 10. entered the next morning.
  * D25: Neli starts on 28. 9. with the welcome (bonus once), her own PIN and a trial week in which
  * she forgets 1. 10. without losing streak or bonus.
+ * D28: every kid and parent has a device; reminders run at 19:30 and 21:35 (twice) and the parents'
+ * unsent e-mail at 20:05. No reminder may reach a child with nothing open, none may repeat, the icon
+ * number must match what is open, and returned checks / new approvals push right away.
  */
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import { db } from "@/lib/db";
@@ -24,6 +27,8 @@ import { markPayoutPaidAction } from "@/app/actions/payouts";
 import { createAbsenceAction, endAbsenceAction } from "@/app/actions/absence";
 import { completeWelcomeAction, setOwnPinAction } from "@/app/actions/welcome";
 import { absentUserIds } from "@/lib/absence";
+import { openChecksToday } from "@/lib/reminders";
+import { pushes } from "./setup";
 import { asUser, at, cron, seedFamily, setClock, wipe, type Family } from "./world";
 import { checkInvariants } from "./invariants";
 
@@ -41,6 +46,26 @@ let f: Family;
 const problems: string[] = [];
 const events: string[] = [];
 const log = (day: string, msg: string) => events.push(`${day} ${msg}`);
+
+/** D28: runs the reminders cron and checks every reminder it sent against what is really open. */
+async function runReminders(day: string, time: string, twice = false) {
+  setClock(at(day, time));
+  const before = pushes.length;
+  await cron("reminders");
+  if (twice) await cron("reminders");
+  const sent = pushes.slice(before).filter((p) => p.message.tag === "reminder");
+  for (const p of sent) {
+    for (const id of p.userIds) {
+      const open = await openChecksToday(id);
+      if (open.length === 0) problems.push(`${day} ${time}: reminder "${p.message.title}" to a child with nothing open`);
+      else if (p.message.badge !== open.length) problems.push(`${day} ${time}: icon number ${p.message.badge}, open ${open.length}`);
+    }
+  }
+  if (twice && new Set(sent.map((p) => p.userIds.join())).size !== sent.length) {
+    problems.push(`${day} ${time}: a doubled cron run sent a reminder twice`);
+  }
+  return sent;
+}
 
 async function todayChecks(userId: string) {
   return db.dailyCheckInstance.findMany({ where: { userId, date: startOfDayPrague() } });
@@ -132,6 +157,12 @@ describe("month simulation (D22)", () => {
     f = await seedFamily();
     const auto = await db.task.findFirst({ where: { name: "Umýt auto" } });
     await createTaskInstance(auto!.id);
+    // D28: one device each.
+    for (const u of [f.milan, f.teri, ...f.kids]) {
+      await db.pushSubscription.create({
+        data: { userId: u.id, endpoint: `https://push.sim/${u.id}`, p256dh: "p", auth: "a" },
+      });
+    }
   });
 
   afterAll(() => {
@@ -226,6 +257,14 @@ describe("month simulation (D22)", () => {
       if (neliTask && i !== 16) await reportMine(f.neli);
       else if (neliTask) log(day, "Neli lets Půdička expire");
 
+      // D28 19:30: evening reminder only to whoever still has something open (Emi sends at 20:00).
+      const evening = await runReminders(day, "19:30");
+      const evened = new Set(evening.flatMap((p) => p.userIds));
+      if (evened.has(f.ani.id)) problems.push(`${day}: Ani sent everything at 16:30 but got an evening reminder`);
+      if (home(f.emi) && !evened.has(f.emi.id)) problems.push(`${day}: Emi had everything open at 19:30 but no reminder`);
+      if (!home(f.emi) && evened.has(f.emi.id)) problems.push(`${day}: Emi is away but got a reminder`);
+      if (day === "2026-10-01" && !evened.has(f.neli.id)) problems.push(`${day}: Neli forgot her checks but got no reminder`);
+
       // 20:00 Emi: forgets everything on Wednesdays; takes a task on Saturdays.
       setClock(at(day, "20:00"));
       if (dow !== 3 && home(f.emi)) await submitAll(f.emi);
@@ -237,6 +276,18 @@ describe("month simulation (D22)", () => {
           await reportMine(f.emi);
         }
       }
+
+      // D28 20:05: parents' e-mail about unsent checks — only for kids with something open, once.
+      setClock(at(day, "20:05"));
+      await cron("reminders");
+      await cron("reminders");
+      const mailed = await db.reminderLog.findMany({
+        where: { date: startOfDayPrague(), key: "parents-email" },
+        select: { userId: true },
+      });
+      const mailedIds = new Set(mailed.map((m) => m.userId));
+      if (mailedIds.has(f.ani.id)) problems.push(`${day}: parents' e-mail lists Ani, who sent everything`);
+      if (dow === 3 && home(f.emi) && !mailedIds.has(f.emi.id)) problems.push(`${day}: parents' e-mail misses Emi's forgotten checks`);
 
       // Saturday: parent records screen time Ani asked for verbally (D19).
       if (dow === 6 && home(f.ani)) {
@@ -257,7 +308,10 @@ describe("month simulation (D22)", () => {
         const c = (await todayChecks(f.neli.id)).find((x) => x.status === "SUBMITTED");
         if (c) {
           asUser(f.teri);
+          const before = pushes.length;
           await rejectCheckAction(c.id, "drobky pod stolem");
+          const back = pushes.slice(before).find((p) => p.userIds.includes(f.neli.id));
+          if (!back || back.message.badge !== 1) problems.push(`${day}: Neli got no push (or wrong number) for her returned check`);
           setClock(at(day, "21:45"));
           await submitAll(f.neli);
         }
@@ -270,6 +324,12 @@ describe("month simulation (D22)", () => {
           log(day, "Milan returns Ani's task");
         }
       }
+      // D28 21:35 (doubled run): last chance only for kids who still have something open.
+      const last = await runReminders(day, "21:35", true);
+      const lastIds = new Set(last.flatMap((p) => p.userIds));
+      if (dow === 3 && home(f.emi) && !lastIds.has(f.emi.id)) problems.push(`${day}: Emi forgot everything but got no last chance`);
+      if (dow !== 3 && lastIds.has(f.emi.id)) problems.push(`${day}: Emi sent everything at 20:00 but got a last chance`);
+
       setClock(at(day, "22:00"));
       await approveEverything(day, dow === 4);
 
@@ -346,6 +406,15 @@ describe("month simulation (D22)", () => {
       where: { createdAt: { gte: at("2026-10-23", "00:00"), lt: at("2026-10-26", "00:00") } },
     });
     if (offersWhileAway) problems.push(`end: ${offersWhileAway} task offer(s) created while the whole family was away`);
+    // D28: every submitted check / task / screen time request pushed the parents.
+    const approvalPushes = pushes.filter((p) => p.message.tag === "approvals");
+    const queued = await db.notificationQueue.count();
+    if (approvalPushes.length !== queued) problems.push(`end: ${approvalPushes.length} approval pushes for ${queued} queued events`);
+    if (approvalPushes.some((p) => p.userIds.sort().join() !== [f.milan.id, f.teri.id].sort().join())) {
+      problems.push("end: an approval push did not go to both parents");
+    }
+    events.push(`end pushes: ${pushes.filter((p) => p.message.tag === "reminder").length} reminders, ${approvalPushes.length} approval pushes`);
+
     const weeks = await db.weeklyPayout.groupBy({ by: ["weekStart"], _count: true });
     if (weeks.length !== 5) problems.push(`end: ${weeks.length} closed weeks, expected 5`);
     const bonuses = await db.creditTransaction.findMany({ where: { type: "MONTHLY_BONUS" } });

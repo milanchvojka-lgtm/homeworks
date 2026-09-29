@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
+import { disableThisDevicePush } from "./push";
 import {
   clearAttempts,
   createSession,
@@ -39,6 +40,7 @@ export async function loginAction(
 }
 
 export async function logoutAction(): Promise<void> {
+  await disableThisDevicePush();
   await destroySession();
   redirect("/");
 }

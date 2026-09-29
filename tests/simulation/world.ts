@@ -13,6 +13,7 @@ import * as weeklyClose from "@/app/api/cron/weekly-close/route";
 import * as weeklyRotation from "@/app/api/cron/weekly-rotation/route";
 import * as recurring from "@/app/api/cron/recurring-tasks/route";
 import * as claimTimeout from "@/app/api/cron/claim-timeout/route";
+import * as reminders from "@/app/api/cron/reminders/route";
 
 const CRONS = {
   "daily-rollover": rollover,
@@ -22,6 +23,7 @@ const CRONS = {
   "weekly-rotation": weeklyRotation,
   "recurring-tasks": recurring,
   "claim-timeout": claimTimeout,
+  reminders,
 } as const;
 export type CronName = keyof typeof CRONS;
 

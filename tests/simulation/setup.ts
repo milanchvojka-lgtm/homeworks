@@ -1,5 +1,6 @@
 import { vi } from "vitest";
 import type { User } from "@prisma/client";
+import type { PushMessage } from "@/lib/reminders-pure";
 
 // D22 guard: the simulation wipes its schema, so it must never run against production data.
 for (const key of ["DATABASE_URL", "DIRECT_URL"]) {
@@ -10,6 +11,22 @@ for (const key of ["DATABASE_URL", "DIRECT_URL"]) {
 
 /** The user the next server action runs as (set with `asUser`). */
 export const actor: { user: User | null } = ((globalThis as { __simActor?: { user: User | null } }).__simActor ??= { user: null });
+
+/** D28: pushes the simulation "sent" (the real web-push is never called). */
+export type SimPush = { userIds: string[]; message: PushMessage; at: Date };
+export const pushes: SimPush[] = ((globalThis as { __simPushes?: SimPush[] }).__simPushes ??= []);
+
+vi.mock("@/lib/push", async (importOriginal) => {
+  const orig = await importOriginal<typeof import("@/lib/push")>();
+  const sent = ((globalThis as { __simPushes?: SimPush[] }).__simPushes ??= []);
+  return {
+    ...orig,
+    sendPush: async (userIds: string[], message: PushMessage) => {
+      sent.push({ userIds, message, at: new Date() });
+      return userIds.length;
+    },
+  };
+});
 
 vi.mock("next/cache", () => ({ revalidatePath: () => {}, revalidateTag: () => {} }));
 
