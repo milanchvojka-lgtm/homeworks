@@ -32,7 +32,7 @@ V repu jsou tři dokumenty, čti je v tomto pořadí:
 - **Vercel** pro hosting, funkce pinnuté na `fra1` ve `vercel.json` — vždy u DB regionu (D14); cron přes **GitHub Actions** (viz D1)
 - **Vlastní auth** (profile + PIN, bcrypt nebo argon2, httpOnly cookie session)
 - **`date-fns`** pro datetime, vše v `Europe/Prague` timezone
-- **PWA** (manifest + případně service worker)
+- **PWA** (manifest + service worker `public/sw.js`) + **Web Push** přes `web-push` (VAPID), připomínky dětem a push rodičům (D28)
 
 **Co nepoužívat bez explicitního schválení:**
 - ❌ Žádný auth provider (NextAuth, Clerk, Supabase Auth, ...) — máme vlastní jednoduchý PIN login
@@ -88,7 +88,7 @@ Postupuj **milestone po milestonu** podle `IMPLEMENTATION_PLAN.md`. Nepřeskakuj
 /lib                — business logika (foo.ts = DB/server-only, foo-pure.ts = testovatelné)
 /prisma             — schema.prisma + seed.ts (db:push, bez migrations — viz TD3 v plánu); /security/enable-rls.sql po každé nové tabulce v produkci pusť znovu (D13)
 /tests              — Vitest testy pure logiky
-/public             — static assets, manifest.json, ikony
+/public             — static assets, manifest.json, ikony, sw.js (push, číslo na ikoně — D28)
 proxy.ts            — Next 16 middleware (auth guard pro /admin a /child)
 ```
 

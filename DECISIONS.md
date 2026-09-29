@@ -54,7 +54,7 @@
 - Cron každých 15 min: pokud jsou unsent items A poslední odeslaný digest šel před >10 min → pošli souhrn na admin e-mail(y).
 - Safety-net "evening digest" v 20:00 Prague (pokud by se cron job zasekl).
 
-**Out of scope pro v1:** PWA Web Push (zvážit v M6), Telegram, per-event okamžité notifikace.
+**Out of scope pro v1:** ~~PWA Web Push (zvážit v M6)~~ — push je od D28 v rozsahu v1. Telegram, per-event okamžité e-maily.
 
 ---
 
@@ -481,3 +481,38 @@
 **Důsledky:**
 - Brief `docs/design/2026-09-28-landing-deti-brief.md`; pen sekce „HW · Landing page děti · návrh 1“.
 - Kód `app/pro-deti/*`, `public/landing/deti/*`; do hlavičky `/pro-rodice` odkaz „Pro děti“.
+
+---
+
+## D28 — Push připomínky dětem, push rodičům, číslo na ikoně appky a večerní e-mail o neodeslaném (před launchem)
+
+**Rozhodnutí (Milan 2026-09-29, analýza `docs/2026-09-29-analyza-pripominky.md`):**
+- **Web Push** (VAPID) pro děti i rodiče, v rozsahu v1, **před ostrým launchem**. Nová závislost **`web-push`** schválena. Push funguje jen v appce přidané na plochu (iOS 16.4+). Povolení ťuká uživatel sám.
+- **Připomínky dítěti jen tehdy, když mu ještě něco zbývá** (dnešní povinnost `PENDING` nebo `REJECTED`, dítě není nepřítomné, D24):
+  - 60 min před termínem povinnosti (`DailyCheck.dueTime`, D18), pro každou neodeslanou povinnost s termínem,
+  - 19:30 souhrn všeho, co zbývá,
+  - 21:30 poslední šance,
+  - vrácená povinnost (`REJECTED`) hned při vrácení.
+  Každá připomínka nejvýš jednou (log odeslaných, odolné vůči zpožděnému a dvojímu běhu cronu, D21).
+- **Push rodičům** při každé události, která dnes jde do e-mailového souhrnu (odeslaná povinnost, nahlášený úkol, žádost o screen time), hned při akci. Notifikace se slévají (stejný `tag`), aby rodiče nezahltily.
+- **Číslo na ikoně appky:** dítě = počet dnešních neodeslaných povinností, rodič = počet položek ke schválení. Nastaví se v každé push notifikaci a při každém otevření appky.
+- **Večerní e-mail rodičům ve 20:00 o neodeslaném:** které dítě má co z dneška ještě neodeslané. Jen když něco zbývá. Běží na dnešní Resend infrastruktuře.
+- E-mailový souhrn podle D3 zůstává beze změny.
+
+**Důvod:** Milan: „považuju to za klíčovou funkci, bez který ten launch může selhat = děti budou zapomínat, že mají odškrtávat.“ Neodeslaná povinnost o půlnoci propadne a stojí řadu i bonus. Badge v navigaci ani číslo na ikoně bez push to neřeší: iOS ho bez push obnoví jen při otevření appky a web appka si nemůže sama naplánovat připomínku. Posílat ji tedy musí server. Večerní e-mail je pojistka pro dítě, které notifikace odmítne nebo mu odběr odumře.
+
+**Rizika a jak s nimi:**
+- Holky mají zapnuté „Omezit weby pro dospělé“ a existuje hlášení, že s ním web appky se service workerem na iOS nefungují. **Jako první krok se service worker a testovací push nasadí a vyzkouší na telefonu holky.** Když nefunguje, rozhodne Milan dál (povolit doménu, vypnout omezení, nebo jen e-mail + připomínka v appce Připomínky).
+- Odběry na iOS občas samy odumřou: odběr se obnoví při každém otevření appky, odběr s odpovědí 404/410 se smaže. Při odhlášení se odběr v prohlížeči neruší, jen se deaktivuje na serveru.
+- Klidový režim v Čase u obrazovky notifikace zadrží. Časy připomínek se dolaďují ve zkušebním týdnu (D25).
+- iOS nedovolí tichý push: každý push zobrazí notifikaci, proto se číslo na ikoně mění jen spolu s ní.
+
+**Důsledky:**
+- Prisma: `PushSubscription` (uživatel, endpoint, klíče, poslední úspěch, deaktivace) a `ReminderLog` (dítě, den, druh připomínky, klíč, unikátní), `db push` (TD3).
+- `public/sw.js` (push, `notificationclick`, `setAppBadge`), hlavička `no-cache`. Registrace service workeru a obnova odběru při otevření appky.
+- `lib/push.ts` (odeslání, úklid mrtvých odběrů) a `lib/reminders.ts` (co a komu připomenout). Čistá logika v `lib/reminders-pure.ts` s testy.
+- Cron: připomínky jako nový krok v 15minutovém běhu v `.github/workflows/cron.yml`, e-mail o neodeslaném v běhu ve 20:00.
+- UI podle D16: krok „Zapnout připomínky“ na konci uvítání (D25), přepínač v Já (dítě) a ve Víc (rodič), včetně stavu „zablokováno v Nastavení iOS“.
+- ENV: `NEXT_PUBLIC_VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT` (do `LAUNCH_CHECKLIST.md`). Rotace klíčů zneplatní všechny odběry.
+- Simulace měsíce (D22): připomínky se odesílají přes mock a kontroluje se, že dítěti s ničím nezbývajícím nepřijde nic a že nic nepřijde dvakrát.
+- **D3 „Out of scope pro v1: PWA Web Push“ tímto padá.**

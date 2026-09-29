@@ -882,3 +882,25 @@ Jediný actions soubor, který hází výjimky místo `{ ok, error }` (viz SKILL
 - **8.6 Rodičovská část** — ✅ 2026-09-26 implementováno (commit `3e65e33`), „Screen time“ místo „Obrazovka“ v celé appce. scénáře 5–7, tok varianta B (Schválit · Děti · Výplaty · Víc), smlouva `docs/design/2026-09-26-rodicovska-cast-co-menime-co-ne.md`. Nové funkce D19 (rodič zapíše obrazovku) a D20 (zpětné uznání dne v běžícím týdnu). Opravy: souběžné schválení bez dvojího připsání peněz, odznak Vydělat bez zamčených úkolů.
 - **Stav k 2026-09-28:** nasazeno i D21 (uzávěrky), D22 (testovací schéma + simulace měsíce `npm run test:sim`), D23 (volný kredit), D24 (nepřítomnost), D25 (první spuštění dítěte). **Rozpracováno:** produktová landing page — brief `docs/design/2026-09-28-landing-page-brief.md`, návrhy 1–2 v penu, další krok návrh 3. **Čeká:** podklady z Google tabulky → ostrá data (LAUNCH_CHECKLIST §4), pak §2/§3/§5/§6.
 - **Landing page (D26):** veřejná routa `/pro-rodice` podle penu návrh 3b · týmovost, formuláře e-mailem přes Resend.
+
+---
+
+## Milestone 9 — Připomínky a push (D28, před launchem)
+
+> Rozhodnutí D28, analýza `docs/2026-09-29-analyza-pripominky.md`. UI podle D16 (tok → smlouva → pen → kód).
+
+- **9.0 Ověření na telefonu (brána):** `public/sw.js`, registrace service workeru, odběr a testovací push. Nasadit a vyzkoušet na telefonu holky se zapnutým „Omezit weby pro dospělé“. Když nefunguje, dál rozhoduje Milan (D28 Rizika).
+- **9.1 Data a odesílání:** `PushSubscription`, `ReminderLog`, `lib/push.ts` (`web-push`, úklid 404/410), ENV VAPID.
+- **9.2 Push rodičům a dítěti při akci:** odeslaná povinnost / nahlášený úkol / žádost o screen time → rodiče; vrácená povinnost → dítě. Chyba pushe nikdy neshodí akci.
+- **9.3 Připomínky dětem:** `lib/reminders-pure.ts` (co připomenout: 60 min před termínem, 19:30, 21:30, jen když něco zbývá, ne v nepřítomnosti) + testy, `lib/reminders.ts`, krok v 15minutovém cronu, log proti dvojímu odeslání.
+- **9.4 Číslo na ikoně:** v push notifikaci a při otevření appky (dítě neodeslané povinnosti, rodič ke schválení).
+- **9.5 Večerní e-mail rodičům ve 20:00** o neodeslaném.
+- **9.6 UI:** krok „Zapnout připomínky“ na konci uvítání, přepínač v Já a ve Víc, stav zablokováno v iOS. Tok → smlouva → pen → kód.
+- **9.7 Simulace:** připomínky do `npm run test:sim` (nic, když nic nezbývá; nic dvakrát).
+
+### Acceptance criteria
+- ✅ Na telefonu holky (appka z plochy) přijde připomínka v 19:30, jen když má neodeslanou povinnost, a na ikoně je počet.
+- ✅ Po odeslání poslední povinnosti číslo na ikoně zmizí a další připomínky ten den nepřijdou.
+- ✅ Rodič dostane push při odeslané povinnosti, číslo na ikoně = ke schválení.
+- ✅ Ve 20:00 přijde rodičům e-mail o neodeslaném, jen když něco zbývá.
+- ✅ `npm test`, `npm run test:sim`, typecheck, lint bez chyb.

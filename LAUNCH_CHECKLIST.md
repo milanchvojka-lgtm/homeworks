@@ -46,6 +46,9 @@ V Vercel projektu → Settings → Environment Variables (Production):
 - `APP_URL` — `https://homeworks-xxx.vercel.app` (kořen produkčního deploye)
 - `NOTIFICATION_FROM_EMAIL` — volitelné, default `Homeworks <onboarding@resend.dev>`. Pro vlastní doménu nastav v Resend a sem doplň `Homeworks <noreply@tvoje-domena.cz>`.
 
+- `NEXT_PUBLIC_VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY` — klíče pro push (D28), vygeneruj jednou `npx web-push generate-vapid-keys`. **Neměň je**, výměna zneplatní všechny odběry na telefonech.
+- `VAPID_SUBJECT` — `mailto:` adresa správce, např. `mailto:milan@x.cz`.
+
 - `LANDING_LEADS_EMAIL` — volitelné (D26): kam chodí zájemci a odpovědi z `/pro-rodice`. Když chybí, použije se `ADMIN_NOTIFICATION_EMAILS`.
 
 **NE** nastavovat `TZ` — Vercel ji rezervuje (viz D5).
@@ -131,8 +134,9 @@ Udělej totéž na všech relevantních zařízeních (Milan, Teri, holky).
 **Spuštění naživo s holkami (D25, scénář 11)** — neděle večer, všichni u stolu:
 1. Každá si přidá appku na plochu (kroky výše) a otevře ji.
 2. Vybere profil, zadá dočasný PIN, projde uvítání a nastaví si vlastní PIN.
-3. Na Dnes odškrtne první povinnost naostro; rodič ji hned schválí v Schválit → holka vidí celý koloběh a vstupní bonus 100 Kč.
-4. První týden je na zkoušku: zmeškání nepřeruší řadu ani nesníží bonus.
+3. Na konci uvítání zapne připomínky (D28) a iOS se zeptá na povolení → **Povolit**. Ověř v Nastavení → Oznámení → Homeworks, že jsou zapnuté i odznaky. Zkontroluj, že klidový režim v Čase u obrazovky nezačíná před 21:30, jinak poslední připomínka nedorazí.
+4. Na Dnes odškrtne první povinnost naostro; rodič ji hned schválí v Schválit → holka vidí celý koloběh a vstupní bonus 100 Kč.
+5. První týden je na zkoušku: zmeškání nepřeruší řadu ani nesníží bonus.
 
 ---
 
@@ -173,7 +177,7 @@ Drobné úpravy texty/defaultní hodnoty dělej průběžně. Větší změny si
 Z plánu (mimo v1 scope):
 
 - Pause režim (nemoc, výlet)
-- Web Push notifikace
+- ~~Web Push notifikace~~ — **přesunuto do v1 před launch (D28, 2026-09-29)**, včetně čísla na ikoně appky. Badge na ikoně na iPhonu umí jen web appka přidaná na plochu s povolenými notifikacemi a bez push se obnoví jen při otevření appky, takže je součástí push práce, ne samostatná položka. Milan to považuje za klíčové pro launch (děti zapomenou odškrtat), analýza v `docs/2026-09-29-analyza-pripominky.md`.
 - `lastSeenAt` tracker pro badges (viz D7)
 - Bonus za perfektní týden
 - Admin „Obrazovka" historie (PENDING + APPROVED + REJECTED, mimo Inbox)

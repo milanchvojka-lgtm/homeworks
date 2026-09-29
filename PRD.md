@@ -444,9 +444,15 @@ Po přihlášení se uživatel směruje automaticky do `/admin` nebo `/child` po
   - Badge zmizí po otevření dané sekce.
   - E-mail obsahuje stručný souhrn („3 čekající checky, 1 hlášený úkol") + link do `/admin/inbox`.
 
+  **(c) Web Push a číslo na ikoně appky** (D28, před launchem):
+  - **Dítě:** připomínky jen když mu dnes ještě něco zbývá: 60 min před termínem povinnosti, 19:30 souhrn, 21:30 poslední šance, a hned při vrácení povinnosti. Číslo na ikoně = dnešní neodeslané povinnosti.
+  - **Rodič:** push hned při odeslané povinnosti, nahlášeném úkolu a žádosti o screen time. Číslo na ikoně = položky ke schválení.
+  - Povolení v posledním kroku uvítání a v Já / Víc. Funguje jen v appce přidané na plochu.
+
+  **(d) Večerní e-mail rodičům ve 20:00** (D28): které dítě má co z dneška ještě neodeslané. Jen když něco zbývá.
+
 - **Out of scope pro v1:**
-  - PWA Web Push (zvážit v M6, jako bonus nad e-mailem).
-  - Push pro děti (notifikace o schválení atd.).
+  - Push o schválení a dalších událostech, kde dítěti nic nezbývá.
   - Telegram / SMS / jiné kanály.
 
 ---
@@ -571,8 +577,8 @@ Cron handler vždy nejdřív ověří `CRON_SECRET` header a kontroluje, že je 
 
 Explicitně **NEzahrnuto** ve verzi 1, ať se neztrácí fokus:
 
-- ❌ **Push notifikace.** Nahrazeno vizuálním badge. Pro v2 zvážit přes PWA.
-- ❌ **E-mailové notifikace.**
+- ~~❌ **Push notifikace.**~~ Od D28 v rozsahu v1: připomínky dětem a push rodičům.
+- ❌ **E-mailové notifikace dětem.** (Rodiče dostávají e-mailový souhrn podle D3 a večerní e-mail o neodeslaném podle D28.)
 - ❌ **Prarodiče jako uživatelé.** Stojí mimo systém. Pro v2 případně read-only role.
 - ❌ **Automatické vynucování času u obrazovky.** Aplikace pouze eviduje, vynucování je manuální (Apple Screen Time mimo appku).
 - ❌ **Bonus za perfektní týden.** Pouze měsíční bonus pro v1.
