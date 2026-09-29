@@ -1,6 +1,6 @@
 # Struktura a tok: zapnutí připomínek a upozornění (D28)
 
-**Datum:** 2026-09-29 · **Stav:** návrh ke schválení · **Podle:** scénáře 12 a 13 (`2026-09-26-scenare.md`), scénář 11 (první spuštění), D25 (uvítání), D28
+**Datum:** 2026-09-29 · **Stav:** schváleno 2026-09-29: **varianta A**, stav v Děti jen když připomínky nejsou zapnuté, texty obecné s počtem · **Podle:** scénáře 12 a 13 (`2026-09-26-scenare.md`), scénář 11 (první spuštění), D25 (uvítání), D28
 
 Bez obrazovek a bez vzhledu. Kreslit se začne až po „kresli“. Nahrazuje dočasný řádek „Připomínky (test)“ z brány 9.0.
 
@@ -50,3 +50,16 @@ Uvítání se nemění. Na **Dnes** nahoře karta **„Zapni si připomínky, a�
 1. **Varianta A, nebo B?** Doporučuji **A**: spuštění je naživo u stolu (D25), takže to zapnou všechny najednou pod dohledem a Dnes zůstane čistá. Kdo to přeskočí, na toho upozorní večerní e-mail („nemá zapnuté připomínky“) a rodič mu to zapne v Já.
 2. **Stav u dětí v Děti (R2):** ano, jen když připomínky nejsou zapnuté?
 3. **Texty upozornění** výše: sedí tón?
+
+## 6 · Rozhodnutí (Milan 2026-09-29)
+
+1. **Varianta A** (krok v uvítání po PINu + řádek v Já, rodič řádek ve Víc).
+2. **Stav v Děti:** „připomínky vypnuté“ jen když nejsou zapnuté, jinak nic.
+3. **Texty obecné:** žádné názvy povinností, poznámky rodiče ani jména dětí, jen počet (Milan: „nepoužíval bych konkrétní věci“; počet ponechán kvůli shodě s číslem na ikoně, Milan OK). Zapracováno v `lib/reminders-pure.ts`:
+   - „Blíží se termín“ / „Do 17:00 ti zbývá 1 povinnost. Odškrtni to, ať nepřijdeš o řadu.“
+   - „Ještě ti něco zbývá“ / „Zbývají ti 2 povinnosti. Odškrtni to do půlnoci, ať nepřijdeš o řadu.“
+   - „Poslední šance na dnešek“ / „Zbývá ti 1 povinnost. O půlnoci to propadne.“
+   - „Povinnost ti byla vrácená“ / „Podívej se, co opravit, a pošli ji znovu.“
+   - rodiči „Máš co schvalovat“ / „Ke schválení: 2“
+
+Pokračuje se smlouvou `2026-09-29-pripominky-co-menime-co-ne.md`.
