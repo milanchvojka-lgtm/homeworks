@@ -5,6 +5,11 @@ import type { PushMessage } from "./reminders-pure";
 
 let configured: boolean | null = null;
 
+/** False when the VAPID env is missing — the reminders cron then fails loudly instead of skipping (D28). */
+export function pushConfigured(): boolean {
+  return configure();
+}
+
 function configure(): boolean {
   if (configured !== null) return configured;
   const publicKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;

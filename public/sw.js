@@ -19,7 +19,8 @@ self.addEventListener("push", (event) => {
       self.registration.showNotification(title, {
         body: data.body || "",
         tag: data.tag || "homeworks",
-        renotify: true,
+        // Parents' approvals replace each other quietly; a child's reminder always rings.
+        renotify: data.tag !== "approvals",
         icon: "/icon-192.png",
         data: { url: data.url || "/" },
       }),

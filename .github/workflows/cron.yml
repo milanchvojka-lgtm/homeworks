@@ -75,17 +75,28 @@ jobs:
         run: |
           set -euo pipefail
           ENDPOINTS=""
+          # INDEPENDENT=1: endpoints do not depend on each other, so a failing one must not skip the rest
+          # (D28: reminders must run even when claim-timeout or admin-digest fails). The job still fails at the end.
+          # daily-close → monthly-close stays fail-fast: the monthly bonus must not run on unclosed days.
+          INDEPENDENT=0
           case "${SCHEDULE}" in
             "5 23 * * *"|"5 22 * * *")   ENDPOINTS="daily-rollover" ;;
             "15 23 * * *"|"15 22 * * *") ENDPOINTS="daily-close monthly-close" ;;
             "55 22 * * 0"|"55 21 * * 0") ENDPOINTS="weekly-rotation" ;;
             "20 23 * * 0"|"20 22 * * 0") ENDPOINTS="weekly-close" ;;
             "0 5 * * *"|"0 4 * * *")     ENDPOINTS="recurring-tasks" ;;
-            "*/15 * * * *")              ENDPOINTS="claim-timeout admin-digest reminders" ;;
+            "*/15 * * * *")              ENDPOINTS="reminders claim-timeout admin-digest"; INDEPENDENT=1 ;;
             *) echo "::error::Unknown schedule: ${SCHEDULE}"; exit 1 ;;
           esac
+          FAILED=""
           for E in $ENDPOINTS; do
             echo "Schedule ${SCHEDULE} → /api/cron/${E}"
-            curl -fsS -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
-              "${{ secrets.DEPLOY_URL }}/api/cron/${E}"; echo
+            if ! curl -fsS -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+              "${{ secrets.DEPLOY_URL }}/api/cron/${E}"; then
+              echo "::error::/api/cron/${E} failed"
+              [ "${INDEPENDENT}" = "1" ] || exit 1
+              FAILED="${FAILED} ${E}"
+            fi
+            echo
           done
+          if [ -n "${FAILED}" ]; then echo "::error::Failed:${FAILED}"; exit 1; fi

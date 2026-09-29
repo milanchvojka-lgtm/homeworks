@@ -6,6 +6,7 @@ import { logoutAction } from "@/app/actions/auth";
 import { Button } from "@/components/ui/button";
 import { startOfDayPrague } from "@/lib/time";
 import { formatDayRange } from "@/app/child/_components/format";
+import { PushSwitchTemp } from "@/app/_components/push-switch-temp";
 
 /** 1–4 take the short Czech plural ("3 lidé", "2 aktivní"), 0 and 5+ the genitive. */
 const few = (n: number) => n >= 1 && n <= 4;
@@ -59,6 +60,7 @@ export default async function AdminMorePage() {
           </Link>
         ))}
       </nav>
+      <PushSwitchTemp />
       <div className="flex items-center gap-3 px-0.5 py-2">
         <span className="flex-1 text-[15px] text-muted-foreground">Přihlášený: {user?.name}</span>
         <form action={logoutAction}>

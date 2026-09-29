@@ -8,6 +8,7 @@ import { getBonusStatus } from "@/lib/bonus";
 import { logoutAction } from "@/app/actions/auth";
 import { THEME_COOKIE, parseThemePref } from "@/lib/theme";
 import { ThemeSwitch } from "./_theme-switch";
+import { PushSwitchTemp } from "@/app/_components/push-switch-temp";
 
 /**
  * Já (návrh 2, frame 04). Shows only what the status header doesn't: next trophy, record,
@@ -89,6 +90,8 @@ export default async function ChildMePage() {
       </nav>
 
       <ThemeSwitch current={themePref} />
+
+      <PushSwitchTemp />
 
       <div className="overflow-hidden rounded-tile border border-border bg-card">
         <Row href="/child/ja/pin" icon={<KeyRound />} label="Změnit PIN" />

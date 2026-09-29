@@ -3,6 +3,9 @@
 import { cookies } from "next/headers";
 import { db } from "@/lib/db";
 import { getSession } from "@/lib/auth";
+import { getAdminInboxCount } from "@/lib/badges";
+import { sendPush } from "@/lib/push";
+import { openChecksToday } from "@/lib/reminders";
 
 export type PushActionResult = { ok: true } | { ok: false; error: string };
 
@@ -65,4 +68,20 @@ export async function disableThisDevicePush(): Promise<void> {
   const endpoint = (await cookies()).get(PUSH_ENDPOINT_COOKIE)?.value;
   if (!endpoint) return;
   await db.pushSubscription.updateMany({ where: { endpoint }, data: { disabledAt: new Date() } });
+}
+
+/** D28 gate 9.0: a test push to the logged-in user's devices right after turning reminders on. */
+export async function sendTestPushAction(): Promise<PushActionResult> {
+  const user = await getSession();
+  if (!user) return { ok: false, error: "unauthorized" };
+  const child = user.role === "CHILD";
+  const badge = child ? (await openChecksToday(user.id)).length : await getAdminInboxCount();
+  const reached = await sendPush([user.id], {
+    title: "Připomínky zapnuté",
+    body: child ? "Připomenu ti, když ti ještě něco zbývá." : "Dám ti vědět, když bude co schvalovat.",
+    url: child ? "/child" : "/admin",
+    tag: child ? "reminder" : "approvals",
+    badge,
+  });
+  return reached > 0 ? { ok: true } : { ok: false, error: "not_delivered" };
 }

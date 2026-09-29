@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { after } from "next/server";
 import { db } from "@/lib/db";
 import { getSession } from "@/lib/auth";
 import { enqueueNotification } from "@/lib/notifications";
@@ -108,8 +109,14 @@ export async function rejectCheckAction(
 
   // D28: something is open again for the child — tell them now (a past day's check only closes, no push).
   if (instance.date.getTime() === startOfDayPrague().getTime()) {
-    const open = await openChecksToday(instance.userId);
-    await sendPush([instance.userId], rejectedCheckMessage(instance.dailyCheck.name, note.trim() || null, open.length));
+    after(async () => {
+      try {
+        const open = await openChecksToday(instance.userId);
+        await sendPush([instance.userId], rejectedCheckMessage(instance.dailyCheck.name, note.trim() || null, open.length));
+      } catch (err) {
+        console.error("push: returned check push failed", err);
+      }
+    });
   }
 
   revalidatePath("/admin");

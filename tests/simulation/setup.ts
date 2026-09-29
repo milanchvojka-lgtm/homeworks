@@ -21,9 +21,40 @@ vi.mock("@/lib/push", async (importOriginal) => {
   const sent = ((globalThis as { __simPushes?: SimPush[] }).__simPushes ??= []);
   return {
     ...orig,
+    pushConfigured: () => true,
     sendPush: async (userIds: string[], message: PushMessage) => {
       sent.push({ userIds, message, at: new Date() });
       return userIds.length;
+    },
+  };
+});
+
+/** `after()` work (D28 pushes) queued by server actions; `flushAfter()` waits for it. */
+const afterQueue: Promise<unknown>[] = ((globalThis as { __simAfter?: Promise<unknown>[] }).__simAfter ??= []);
+export async function flushAfter() {
+  while (afterQueue.length) await Promise.all(afterQueue.splice(0));
+}
+vi.mock("next/server", async (importOriginal) => {
+  const orig = await importOriginal<typeof import("next/server")>();
+  const queue = ((globalThis as { __simAfter?: Promise<unknown>[] }).__simAfter ??= []);
+  return { ...orig, after: (fn: () => unknown) => void queue.push(Promise.resolve().then(fn)) };
+});
+
+/** D28: the parents' unsent e-mail goes through a fake Resend; `emails` records what would be sent. */
+export type SimEmail = { to: string[]; subject: string; html: string };
+export const emails: SimEmail[] = ((globalThis as { __simEmails?: SimEmail[] }).__simEmails ??= []);
+process.env.RESEND_API_KEY = "sim";
+process.env.ADMIN_NOTIFICATION_EMAILS = "milan@sim, teri@sim";
+vi.mock("resend", () => {
+  const sent = ((globalThis as { __simEmails?: SimEmail[] }).__simEmails ??= []);
+  return {
+    Resend: class {
+      emails = {
+        send: async (m: SimEmail) => {
+          sent.push(m);
+          return { data: { id: "sim" }, error: null };
+        },
+      };
     },
   };
 });

@@ -28,7 +28,7 @@ import { createAbsenceAction, endAbsenceAction } from "@/app/actions/absence";
 import { completeWelcomeAction, setOwnPinAction } from "@/app/actions/welcome";
 import { absentUserIds } from "@/lib/absence";
 import { openChecksToday } from "@/lib/reminders";
-import { pushes } from "./setup";
+import { emails, flushAfter, pushes } from "./setup";
 import { asUser, at, cron, seedFamily, setClock, wipe, type Family } from "./world";
 import { checkInvariants } from "./invariants";
 
@@ -286,6 +286,10 @@ describe("month simulation (D22)", () => {
         select: { userId: true },
       });
       const mailedIds = new Set(mailed.map((m) => m.userId));
+      const mails = emails.filter((e) => e.subject.includes("neodesláno"));
+      if (mailedIds.size > 0 && mails.length === 0) {
+        problems.push(`${day}: unsent checks logged but no e-mail`);
+      }
       if (mailedIds.has(f.ani.id)) problems.push(`${day}: parents' e-mail lists Ani, who sent everything`);
       if (dow === 3 && home(f.emi) && !mailedIds.has(f.emi.id)) problems.push(`${day}: parents' e-mail misses Emi's forgotten checks`);
 
@@ -310,6 +314,7 @@ describe("month simulation (D22)", () => {
           asUser(f.teri);
           const before = pushes.length;
           await rejectCheckAction(c.id, "drobky pod stolem");
+          await flushAfter();
           const back = pushes.slice(before).find((p) => p.userIds.includes(f.neli.id));
           if (!back || back.message.badge !== 1) problems.push(`${day}: Neli got no push (or wrong number) for her returned check`);
           setClock(at(day, "21:45"));
@@ -407,6 +412,10 @@ describe("month simulation (D22)", () => {
     });
     if (offersWhileAway) problems.push(`end: ${offersWhileAway} task offer(s) created while the whole family was away`);
     // D28: every submitted check / task / screen time request pushed the parents.
+    await flushAfter();
+    const unsentMails = emails.filter((e) => e.subject.includes("neodesláno")).length;
+    const mailDays = (await db.reminderLog.findMany({ where: { key: "parents-email" }, distinct: ["date"] })).length;
+    if (unsentMails !== mailDays) problems.push(`end: ${unsentMails} unsent e-mails for ${mailDays} days with something open`);
     const approvalPushes = pushes.filter((p) => p.message.tag === "approvals");
     const queued = await db.notificationQueue.count();
     if (approvalPushes.length !== queued) problems.push(`end: ${approvalPushes.length} approval pushes for ${queued} queued events`);

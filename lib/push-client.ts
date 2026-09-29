@@ -9,6 +9,19 @@ export type PushState =
   | "on"
   | "blocked"; // denied — only iOS Settings can turn it back on
 
+/** Set when the user turned reminders off on this device, so syncPush does not quietly re-subscribe. */
+const OFF_KEY = "hw_push_off";
+
+function offFlag(value?: boolean): boolean {
+  try {
+    if (value === true) localStorage.setItem(OFF_KEY, "1");
+    if (value === false) localStorage.removeItem(OFF_KEY);
+    return localStorage.getItem(OFF_KEY) === "1";
+  } catch {
+    return false;
+  }
+}
+
 function supported(): boolean {
   return typeof window !== "undefined" && "serviceWorker" in navigator && "PushManager" in window && "Notification" in window;
 }
@@ -27,7 +40,7 @@ export async function registerServiceWorker(): Promise<ServiceWorkerRegistration
 export async function getPushState(): Promise<PushState> {
   if (!supported()) return "unsupported";
   if (Notification.permission === "denied") return "blocked";
-  if (Notification.permission !== "granted") return "off";
+  if (Notification.permission !== "granted" || offFlag()) return "off";
   const reg = await registerServiceWorker();
   const sub = await reg?.pushManager.getSubscription();
   return sub ? "on" : "off";
@@ -57,11 +70,13 @@ export async function enablePush(): Promise<PushState> {
   if (permission !== "granted") return "off";
   const reg = await registerServiceWorker();
   if (!reg) return "unsupported";
+  offFlag(false);
   return (await subscribe(reg)) ? "on" : "off";
 }
 
 /** Turn reminders off on this device (the server stops sending; the browser subscription is dropped too). */
 export async function disablePush(): Promise<PushState> {
+  offFlag(true);
   const reg = await registerServiceWorker();
   const sub = await reg?.pushManager.getSubscription();
   if (sub) {
@@ -85,7 +100,7 @@ export async function syncPush(badge: number): Promise<void> {
       // badges switched off in iOS Settings
     }
   }
-  if (Notification.permission !== "granted") return;
+  if (Notification.permission !== "granted" || offFlag()) return;
   const reg = await registerServiceWorker();
   if (reg) await subscribe(reg);
 }

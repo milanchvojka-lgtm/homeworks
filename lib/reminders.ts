@@ -38,7 +38,12 @@ export async function sendChildReminders(now: Date = new Date()): Promise<number
       skipDuplicates: true,
     });
     if (claimed.count === 0) continue; // another run got there first
-    if ((await sendPush([child.id], reminder.message)) > 0) sent++;
+    if ((await sendPush([child.id], reminder.message)) > 0) {
+      sent++;
+    } else {
+      // Nothing delivered: release the claim so the next run tries again.
+      await db.reminderLog.deleteMany({ where: { userId: child.id, date: today, key: { in: reminder.keys } } });
+    }
   }
   return sent;
 }
