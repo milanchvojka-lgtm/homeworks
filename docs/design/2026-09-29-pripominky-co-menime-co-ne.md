@@ -1,6 +1,6 @@
 # Připomínky a upozornění — co měníme, co ne
 
-**Datum:** 2026-09-29 · **Stav:** návrh ke schválení · **Podle:** scénáře 11, 12, 13; tok `2026-09-29-struktura-a-tok-pripominky.md` varianta A; D25, D28
+**Datum:** 2026-09-29 · **Stav:** schváleno 2026-09-29 (Milan: „Smlouva OK“); přepínač chce Milan nejdřív vidět v penu, vychází se z řešení zapnout/vypnout v 2FRESH design systému · **Podle:** scénáře 11, 12, 13; tok `2026-09-29-struktura-a-tok-pripominky.md` varianta A; D25, D28
 
 ## Co VZNIKÁ
 
