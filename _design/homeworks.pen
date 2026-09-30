@@ -32312,7 +32312,7 @@
                                   "fill": "$hw-ink",
                                   "textGrowth": "fixed-width",
                                   "width": "fill_container",
-                                  "content": "Screen time, nebo peníze",
+                                  "content": "Peníze na ruku nabo screen time",
                                   "lineHeight": 1.2,
                                   "fontFamily": "$hw-font-sans",
                                   "fontSize": 24,
@@ -32326,7 +32326,7 @@
                                   "fill": "$hw-ink-60",
                                   "textGrowth": "fixed-width",
                                   "width": "fill_container",
-                                  "content": "Vydělané si vymění za čas u obrazovky, nebo mu to v neděli vyplatíte. Rozhoduje samo.",
+                                  "content": "Vydělané peníze si děti vymění za čas u obrazovky, nebo jim je v neděli vyplatíte. Je to na nich.",
                                   "lineHeight": 1.5,
                                   "fontFamily": "$hw-font-sans",
                                   "fontSize": 17,
@@ -32513,23 +32513,12 @@
                       "children": [
                         {
                           "type": "text",
-                          "id": "N0aBaI",
-                          "name": "Kicker",
-                          "fill": "$hw-ink-60",
-                          "content": "SCREEN TIME S HRANICEMI",
-                          "fontFamily": "$hw-font-mono",
-                          "fontSize": 13,
-                          "fontWeight": "700",
-                          "letterSpacing": 2
-                        },
-                        {
-                          "type": "text",
                           "id": "GcvKP",
                           "name": "Nadpis",
                           "fill": "$hw-ink",
                           "textGrowth": "fixed-width",
                           "width": "fill_container",
-                          "content": "Ne všechno scrollování je špatně. Všechno ale má mít hranice.",
+                          "content": "Ne všechno scrollování je špatně. Ale chce to hranice.",
                           "lineHeight": 1.05,
                           "fontFamily": "$hw-font-sans",
                           "fontSize": 52,
@@ -32543,7 +32532,7 @@
                           "fill": "$hw-ink-60",
                           "textGrowth": "fixed-width",
                           "width": "fill_container",
-                          "content": "Děti často vůbec netuší, kolik času u obrazovky stráví. V Homeworks vidí, kolik už odehrály, a čas si kupují z toho, co si vydělaly. Najednou má hodnotu.",
+                          "content": "Děti často vůbec netuší, kolik času u obrazovky stráví. V Homeworks vidí, kolik už odehrály, a čas si kupují z toho, co si vydělaly. Čas u obrazovky má najednou hodnotu, kterou můžou srovnat s jinými možnostmi.",
                           "lineHeight": 1.55,
                           "fontFamily": "$hw-font-sans",
                           "fontSize": 20,
@@ -33977,17 +33966,6 @@
                       "children": [
                         {
                           "type": "text",
-                          "id": "JHI3H",
-                          "name": "Kicker",
-                          "fill": "$hw-ink-60",
-                          "content": "DĚTI TO MAJÍ ZA SVÉ",
-                          "fontFamily": "$hw-font-mono",
-                          "fontSize": 13,
-                          "fontWeight": "700",
-                          "letterSpacing": 2
-                        },
-                        {
-                          "type": "text",
                           "id": "CKmZM",
                           "name": "Nadpis",
                           "fill": "$hw-ink",
@@ -34165,7 +34143,7 @@
                                   "fill": "$hw-ink",
                                   "textGrowth": "fixed-width",
                                   "width": "fill_container",
-                                  "content": "První týden na zkoušku a 100 Kč do začátku.",
+                                  "content": "100 Kč jako bonus do začátku.",
                                   "lineHeight": 1.4,
                                   "fontFamily": "$hw-font-sans",
                                   "fontSize": 18,
@@ -34487,17 +34465,6 @@
                       "children": [
                         {
                           "type": "text",
-                          "id": "jO7By",
-                          "name": "Kicker",
-                          "fill": "$hw-ink-60",
-                          "content": "PRAVIDLA JSOU VAŠE",
-                          "fontFamily": "$hw-font-mono",
-                          "fontSize": 13,
-                          "fontWeight": "700",
-                          "letterSpacing": 2
-                        },
-                        {
-                          "type": "text",
                           "id": "UCxHd",
                           "name": "Nadpis",
                           "fill": "$hw-ink",
@@ -34517,7 +34484,7 @@
                           "fill": "$hw-ink-60",
                           "textGrowth": "fixed-width",
                           "width": "fill_container",
-                          "content": "Nastavíte si, co doma platí. A když se to neosvědčí, změníte to jedním uložením.",
+                          "content": "Nastavíte si, co doma platí. A když se to neosvědčí, změníte to.",
                           "lineHeight": 1.55,
                           "fontFamily": "$hw-font-sans",
                           "fontSize": 20,
@@ -34962,7 +34929,7 @@
                           "fill": "$hw-ink",
                           "textGrowth": "fixed-width",
                           "width": "fill_container",
-                          "content": "Screen time, který si vyslouží hlavou.",
+                          "content": "Screen time, který si vydělají znalostmi rizik o používání telefonu.",
                           "lineHeight": 1.05,
                           "fontFamily": "$hw-font-sans",
                           "fontSize": 52,
@@ -35553,7 +35520,7 @@
                       "fill": "$hw-ink",
                       "textGrowth": "fixed-width",
                       "width": 820,
-                      "content": "Ať si domácnost hlídají děti. Vy jen schvalujete.",
+                      "content": "Ať o domácnost pečujeme společně s dětmi. ",
                       "lineHeight": 1.08,
                       "textAlign": "center",
                       "fontFamily": "$hw-font-sans",
@@ -35882,23 +35849,12 @@
                           "children": [
                             {
                               "type": "text",
-                              "id": "bX3sw",
-                              "name": "Kicker",
-                              "fill": "$hw-ink-60",
-                              "content": "HOMEWORKS · RODINNÁ APPKA NA DOMÁCÍ POVINNOSTI A KAPESNÉ",
-                              "fontFamily": "$hw-font-mono",
-                              "fontSize": 13,
-                              "fontWeight": "700",
-                              "letterSpacing": 2
-                            },
-                            {
-                              "type": "text",
                               "id": "Vpb4r",
                               "name": "Nadpis",
                               "fill": "$hw-ink",
                               "textGrowth": "fixed-width",
                               "width": "fill_container",
-                              "content": "Doma konečně táhneme za jeden provaz.",
+                              "content": "O domácnost konečně pečujeme společně s dětmi.",
                               "lineHeight": 1.02,
                               "fontFamily": "$hw-font-sans",
                               "fontSize": 72,
@@ -35912,7 +35868,7 @@
                               "fill": "$hw-ink-60",
                               "textGrowth": "fixed-width",
                               "width": "fill_container",
-                              "content": "Vy pracujete, vaříte a nakupujete, děti převezmou svou oblast domácnosti. Homeworks jim dá přehled a motivaci, na které jim záleží. A vám ubude připomínání.",
+                              "content": "Vy pracujete, vaříte a nakupujete, děti převezmou svou oblast domácnosti. Homeworks jim dá přehled a motivaci, na které jim záleží. A vy jim nemusíte připomínat, co ještě není hotové.",
                               "lineHeight": 1.5,
                               "fontFamily": "$hw-font-sans",
                               "fontSize": 22,
@@ -35948,16 +35904,6 @@
                                       "fontSize": 18
                                     }
                                   }
-                                },
-                                {
-                                  "type": "text",
-                                  "id": "f8wbv",
-                                  "name": "Pozn",
-                                  "fill": "$hw-ink-60",
-                                  "content": "Pro rodiny s dětmi 10–15 let. Zatím zdarma, platíte zpětnou vazbou.",
-                                  "fontFamily": "$hw-font-sans",
-                                  "fontSize": 16,
-                                  "fontWeight": "normal"
                                 }
                               ]
                             }
@@ -36159,17 +36105,6 @@
                                       ]
                                     }
                                   ]
-                                },
-                                {
-                                  "type": "text",
-                                  "id": "Tr6gB",
-                                  "name": "Popisek",
-                                  "fill": "$hw-ink-60",
-                                  "content": "Emi, 14: ví, co má dnes udělat",
-                                  "fontFamily": "$hw-font-mono",
-                                  "fontSize": 12,
-                                  "fontWeight": "700",
-                                  "letterSpacing": 1
                                 }
                               ]
                             }
@@ -36197,17 +36132,6 @@
                       "layout": "vertical",
                       "gap": 28,
                       "children": [
-                        {
-                          "type": "text",
-                          "id": "uvgOm",
-                          "name": "Kicker",
-                          "fill": "$hw-ink-60",
-                          "content": "KAŽDÝ VEČER ZNOVU",
-                          "fontFamily": "$hw-font-mono",
-                          "fontSize": 13,
-                          "fontWeight": "700",
-                          "letterSpacing": 2
-                        },
                         {
                           "type": "text",
                           "id": "w8V6xU",
@@ -36250,7 +36174,7 @@
                                   "fill": "$hw-ink",
                                   "textGrowth": "fixed-width",
                                   "width": "fill_container",
-                                  "content": "Vaříte, uklízíte, a ještě potřetí za večer připomínáte kuchyň.",
+                                  "content": "Vaříte, uklízíte, a 3x za večer připomínáte úklid kuchyně.",
                                   "lineHeight": 1.4,
                                   "fontFamily": "$hw-font-sans",
                                   "fontSize": 20,
@@ -36279,7 +36203,7 @@
                                   "fill": "$hw-ink",
                                   "textGrowth": "fixed-width",
                                   "width": "fill_container",
-                                  "content": "Každý den stejná debata o tom, kolik ještě může koukat.",
+                                  "content": "Každý den stejná debata o dalším času na telefonu.",
                                   "lineHeight": 1.4,
                                   "fontFamily": "$hw-font-sans",
                                   "fontSize": 20,
@@ -36308,7 +36232,7 @@
                                   "fill": "$hw-ink",
                                   "textGrowth": "fixed-width",
                                   "width": "fill_container",
-                                  "content": "„To není fér, ona to minule nedělala.“",
+                                  "content": "„To není fér, ona to minule nedělala. Proč já?!“",
                                   "lineHeight": 1.4,
                                   "fontFamily": "$hw-font-sans",
                                   "fontSize": 20,
@@ -36337,7 +36261,7 @@
                                   "fill": "$hw-ink",
                                   "textGrowth": "fixed-width",
                                   "width": "fill_container",
-                                  "content": "Kapesné chodí, ať se doma něco udělá, nebo ne.",
+                                  "content": "Kapesné chodí, ať to doma funguje nebo ne.",
                                   "lineHeight": 1.4,
                                   "fontFamily": "$hw-font-sans",
                                   "fontSize": 20,
@@ -36366,7 +36290,7 @@
                                   "fill": "$hw-ink",
                                   "textGrowth": "fixed-width",
                                   "width": "fill_container",
-                                  "content": "Večer v posteli scrollují a netuší, kolik času tam nechali.",
+                                  "content": "Celé dny scrollují a netuší, kolik času na tom nechali.",
                                   "lineHeight": 1.4,
                                   "fontFamily": "$hw-font-sans",
                                   "fontSize": 20,
@@ -36459,23 +36383,12 @@
                       "children": [
                         {
                           "type": "text",
-                          "id": "M20qK",
-                          "name": "Kicker",
-                          "fill": "$hw-ink-60",
-                          "content": "RODINA JE TÝM",
-                          "fontFamily": "$hw-font-mono",
-                          "fontSize": 13,
-                          "fontWeight": "700",
-                          "letterSpacing": 2
-                        },
-                        {
-                          "type": "text",
                           "id": "E1B08X",
                           "name": "Nadpis",
                           "fill": "$hw-ink",
                           "textGrowth": "fixed-width",
                           "width": "fill_container",
-                          "content": "Doma hrajeme za jeden tým.",
+                          "content": "Hrajeme za jeden tým.",
                           "lineHeight": 1.05,
                           "fontFamily": "$hw-font-sans",
                           "fontSize": 52,
@@ -36489,7 +36402,7 @@
                           "fill": "$hw-ink-60",
                           "textGrowth": "fixed-width",
                           "width": "fill_container",
-                          "content": "Dokud byly děti malé, domácnost jste táhli sami. Dnes už to zvládnou a můžou se do týmu vrátit naplno. Vy dál pracujete, vaříte, nakupujete a vozíte je na kroužky. Ony převezmou svůj díl. Kapesné pak není samozřejmost, ale jejich podíl na společné práci.",
+                          "content": "Dokud byly děti malé, domácnost byla celá na vás. Dnes se o sebe umí postarat a je čas, aby byly součástí celku. Mají jídlo, kde bydlet, kapesné i klid na učení. Na oplátku převezmou svůj díl domácnosti.",
                           "lineHeight": 1.55,
                           "fontFamily": "$hw-font-sans",
                           "fontSize": 20,
@@ -36581,23 +36494,12 @@
                       "children": [
                         {
                           "type": "text",
-                          "id": "VY3dh",
-                          "name": "Kicker",
-                          "fill": "$hw-ink-60",
-                          "content": "JAK TO FUNGUJE",
-                          "fontFamily": "$hw-font-mono",
-                          "fontSize": 13,
-                          "fontWeight": "700",
-                          "letterSpacing": 2
-                        },
-                        {
-                          "type": "text",
                           "id": "SckPQ",
                           "name": "Nadpis",
                           "fill": "$hw-ink",
                           "textGrowth": "fixed-width",
                           "width": "fill_container",
-                          "content": "Čtyři kroky, které se každý týden opakují samy.",
+                          "content": "Čtyři kroky, které se opakují samy. Díky Homeworks.",
                           "lineHeight": 1.05,
                           "fontFamily": "$hw-font-sans",
                           "fontSize": 52,
@@ -36665,7 +36567,7 @@
                                   "fill": "$hw-ink-60",
                                   "textGrowth": "fixed-width",
                                   "width": "fill_container",
-                                  "content": "Kuchyň je tento týden její díl. Přejede prstem, že je hotovo, a vy víte, že se na ni můžete spolehnout.",
+                                  "content": "Kuchyň má přidělené dítě, které ji tento týden uklízí. Když má hotovo, přejede prstem a vy se to hned dozvíte.",
                                   "lineHeight": 1.5,
                                   "fontFamily": "$hw-font-sans",
                                   "fontSize": 17,
@@ -36816,7 +36718,7 @@
                                   "fill": "$hw-ink",
                                   "textGrowth": "fixed-width",
                                   "width": "fill_container",
-                                  "content": "Placené úkoly navíc",
+                                  "content": "Placené úkoly až po povinnostech",
                                   "lineHeight": 1.2,
                                   "fontFamily": "$hw-font-sans",
                                   "fontSize": 24,
@@ -36830,7 +36732,7 @@
                                   "fill": "$hw-ink-60",
                                   "textGrowth": "fixed-width",
                                   "width": "fill_container",
-                                  "content": "Když má povinnosti hotové, bere si úkoly za peníze. Vidí odměnu i kolik to zabere.",
+                                  "content": "Když má povinnosti hotové, může vzít úkol za peníze. Vidí odměnu i kolik to zabere.",
                                   "lineHeight": 1.5,
                                   "fontFamily": "$hw-font-sans",
                                   "fontSize": 17,
@@ -36894,7 +36796,7 @@
                                   "fill": "$hw-ink",
                                   "textGrowth": "fixed-width",
                                   "width": "fill_container",
-                                  "content": "Screen time, nebo peníze",
+                                  "content": "Peníze na ruku nebo screen time",
                                   "lineHeight": 1.2,
                                   "fontFamily": "$hw-font-sans",
                                   "fontSize": 24,
@@ -36908,7 +36810,7 @@
                                   "fill": "$hw-ink-60",
                                   "textGrowth": "fixed-width",
                                   "width": "fill_container",
-                                  "content": "Vydělané si vymění za čas u obrazovky, nebo mu to v neděli vyplatíte. Rozhoduje samo.",
+                                  "content": "Vydělané peníze si děti vymění za čas u obrazovky, nebo jim je v neděli vyplatíte. Je to na nich.",
                                   "lineHeight": 1.5,
                                   "fontFamily": "$hw-font-sans",
                                   "fontSize": 17,
@@ -37111,7 +37013,7 @@
                           "fill": "$hw-ink",
                           "textGrowth": "fixed-width",
                           "width": "fill_container",
-                          "content": "Ne všechno scrollování je špatně. Všechno ale má mít hranice.",
+                          "content": "Ne všechno scrollování je špatně. Ale chce to hranice.",
                           "lineHeight": 1.05,
                           "fontFamily": "$hw-font-sans",
                           "fontSize": 52,
@@ -37125,7 +37027,7 @@
                           "fill": "$hw-ink-60",
                           "textGrowth": "fixed-width",
                           "width": "fill_container",
-                          "content": "Děti často vůbec netuší, kolik času u obrazovky stráví. V Homeworks vidí, kolik už odehrály, a čas si kupují z toho, co si vydělaly. Najednou má hodnotu.",
+                          "content": "Děti často vůbec netuší, kolik času u obrazovky stráví. V Homeworks vidí, kolik už odehrály, a čas si kupují z toho, co si vydělaly. Čas u obrazovky má najednou hodnotu, kterou můžou srovnat s jinými možnostmi.",
                           "lineHeight": 1.55,
                           "fontFamily": "$hw-font-sans",
                           "fontSize": 20,
@@ -37581,7 +37483,7 @@
                           "fill": "$hw-ink",
                           "textGrowth": "fixed-width",
                           "width": "fill_container",
-                          "content": "Méně připomínání. Víc času spolu.",
+                          "content": "Pár minut večer. Zbytek běží sám.",
                           "lineHeight": 1.05,
                           "fontFamily": "$hw-font-sans",
                           "fontSize": 52,
@@ -38575,7 +38477,7 @@
                           "fill": "$hw-ink",
                           "textGrowth": "fixed-width",
                           "width": "fill_container",
-                          "content": "Jejich díl je vidět. A vyplatí se.",
+                          "content": "Jejich appka, jejich řada, jejich peníze.",
                           "lineHeight": 1.05,
                           "fontFamily": "$hw-font-sans",
                           "fontSize": 52,
@@ -38747,7 +38649,7 @@
                                   "fill": "$hw-ink",
                                   "textGrowth": "fixed-width",
                                   "width": "fill_container",
-                                  "content": "První týden na zkoušku a 100 Kč do začátku.",
+                                  "content": "100 Kč jako bonus do začátku.",
                                   "lineHeight": 1.4,
                                   "fontFamily": "$hw-font-sans",
                                   "fontSize": 18,
@@ -39099,7 +39001,7 @@
                           "fill": "$hw-ink-60",
                           "textGrowth": "fixed-width",
                           "width": "fill_container",
-                          "content": "Nastavíte si, co doma platí. A když se to neosvědčí, změníte to jedním uložením.",
+                          "content": "Nastavíte si, co doma platí. A když se to neosvědčí, změníte to.",
                           "lineHeight": 1.55,
                           "fontFamily": "$hw-font-sans",
                           "fontSize": 20,
@@ -39544,7 +39446,7 @@
                           "fill": "$hw-ink",
                           "textGrowth": "fixed-width",
                           "width": "fill_container",
-                          "content": "Screen time, který si vyslouží hlavou.",
+                          "content": "Screen time, který si vydělají znalostmi rizik o používání telefonu.",
                           "lineHeight": 1.05,
                           "fontFamily": "$hw-font-sans",
                           "fontSize": 52,
@@ -39678,7 +39580,7 @@
                           "fill": "$hw-card",
                           "textGrowth": "fixed-width",
                           "width": "fill_container",
-                          "content": "„[ZÁSTUPNÝ TEXT: Milanův citát, 2–3 věty o tom, proč appku postavil pro vlastní rodinu.]“",
+                          "content": "Chci dcerám předat tolik zkušeností, aby (až odejdou z domu) dokázaly převzít odpovědnost za svůj život. A Homeworks mi tuhle misi dost usnadňuje.",
                           "lineHeight": 1.2,
                           "fontFamily": "$hw-font-sans",
                           "fontSize": 44,
@@ -39690,129 +39592,11 @@
                           "id": "jz7ee",
                           "name": "Podpis",
                           "fill": "$hw-ink-35",
-                          "content": "Milan, táta tří holek",
+                          "content": "Milan, táta tří dcer",
                           "fontFamily": "$hw-font-mono",
                           "fontSize": 18,
                           "fontWeight": "700",
                           "letterSpacing": 1
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "CPsMS",
-                      "name": "Čísla z provozu",
-                      "width": "fill_container",
-                      "stroke": "$hw-ink-60",
-                      "strokeWidth": {
-                        "top": 1
-                      },
-                      "gap": 32,
-                      "padding": [
-                        40,
-                        0,
-                        0,
-                        0
-                      ],
-                      "children": [
-                        {
-                          "type": "frame",
-                          "id": "wCoF4",
-                          "name": "Číslo 1",
-                          "width": "fill_container",
-                          "layout": "vertical",
-                          "gap": 8,
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "E0M5T",
-                              "name": "Hodnota",
-                              "fill": "$hw-pink",
-                              "content": "[ČÍSLO]",
-                              "fontFamily": "$hw-font-mono",
-                              "fontSize": 64,
-                              "fontWeight": "700",
-                              "letterSpacing": -2
-                            },
-                            {
-                              "type": "text",
-                              "id": "b1A27z",
-                              "name": "Popis",
-                              "fill": "$hw-ink-35",
-                              "textGrowth": "fixed-width",
-                              "width": "fill_container",
-                              "content": "[ZÁSTUPNÝ TEXT: co číslo znamená]",
-                              "fontFamily": "$hw-font-sans",
-                              "fontSize": 18,
-                              "fontWeight": "normal"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "frame",
-                          "id": "cWoO2",
-                          "name": "Číslo 2",
-                          "width": "fill_container",
-                          "layout": "vertical",
-                          "gap": 8,
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "pI59h",
-                              "name": "Hodnota",
-                              "fill": "$hw-pink",
-                              "content": "[ČÍSLO]",
-                              "fontFamily": "$hw-font-mono",
-                              "fontSize": 64,
-                              "fontWeight": "700",
-                              "letterSpacing": -2
-                            },
-                            {
-                              "type": "text",
-                              "id": "X4Eijj",
-                              "name": "Popis",
-                              "fill": "$hw-ink-35",
-                              "textGrowth": "fixed-width",
-                              "width": "fill_container",
-                              "content": "[ZÁSTUPNÝ TEXT: co číslo znamená]",
-                              "fontFamily": "$hw-font-sans",
-                              "fontSize": 18,
-                              "fontWeight": "normal"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "frame",
-                          "id": "Qgb68",
-                          "name": "Číslo 3",
-                          "width": "fill_container",
-                          "layout": "vertical",
-                          "gap": 8,
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "tdcBN",
-                              "name": "Hodnota",
-                              "fill": "$hw-pink",
-                              "content": "[ČÍSLO]",
-                              "fontFamily": "$hw-font-mono",
-                              "fontSize": 64,
-                              "fontWeight": "700",
-                              "letterSpacing": -2
-                            },
-                            {
-                              "type": "text",
-                              "id": "B1ZqLt",
-                              "name": "Popis",
-                              "fill": "$hw-ink-35",
-                              "textGrowth": "fixed-width",
-                              "width": "fill_container",
-                              "content": "[ZÁSTUPNÝ TEXT: co číslo znamená]",
-                              "fontFamily": "$hw-font-sans",
-                              "fontSize": 18,
-                              "fontWeight": "normal"
-                            }
-                          ]
                         }
                       ]
                     }
@@ -40135,7 +39919,7 @@
                       "fill": "$hw-ink",
                       "textGrowth": "fixed-width",
                       "width": 820,
-                      "content": "Domácnost je týmový sport. Pojďte do něj všichni.",
+                      "content": "Péče o domácnost je týmový sport. Pojďte do toho společně s dětmi.",
                       "lineHeight": 1.08,
                       "textAlign": "center",
                       "fontFamily": "$hw-font-sans",
