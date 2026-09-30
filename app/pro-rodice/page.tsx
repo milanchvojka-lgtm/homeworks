@@ -19,7 +19,7 @@ import { QuizPoll, WaitlistForm } from "./_forms";
 export const metadata: Metadata = {
   title: "Homeworks · rodinná appka na domácí povinnosti a kapesné",
   description:
-    "Doma konečně táhneme za jeden provaz. Děti převezmou svůj díl domácnosti, vydělají si a samy hlídají čas u obrazovky.",
+    "O domácnost konečně pečujeme společně s dětmi. Děti převezmou svůj díl domácnosti, vydělají si a samy hlídají čas u obrazovky.",
 };
 
 const NAV = [
@@ -67,21 +67,17 @@ export default function LandingPage() {
         <section className="bg-highlight-soft">
           <div className="mx-auto flex max-w-[1440px] flex-col gap-12 px-5 pt-8 sm:px-10 lg:flex-row lg:gap-16 lg:px-[120px] lg:pt-10">
             <div className="flex flex-1 flex-col gap-6 lg:gap-[26px] lg:pt-16 lg:pb-[120px]">
-              <Kicker>HOMEWORKS · RODINNÁ APPKA NA DOMÁCÍ POVINNOSTI A KAPESNÉ</Kicker>
               <h1 className="text-[44px] leading-[1.02] font-bold tracking-[-0.03em] text-balance lg:text-[72px]">
-                Doma konečně táhneme za jeden provaz.
+                O domácnost konečně pečujeme společně s dětmi.
               </h1>
               <p className="text-lg leading-[1.5] text-muted-foreground lg:text-[22px]">
                 Vy pracujete, vaříte a nakupujete, děti převezmou svou oblast domácnosti. Homeworks jim dá
-                přehled a motivaci, na které jim záleží. A vám ubude připomínání.
+                přehled a motivaci, na které jim záleží. A vy jim nemusíte připomínat, co ještě není hotové.
               </p>
               <div className="flex flex-col items-start gap-4 pt-2 sm:flex-row sm:items-center sm:gap-5">
                 <a href="#zajemci" className={cn(buttonVariants(), "h-14 px-[30px] text-lg")}>
                   Chci to vyzkoušet
                 </a>
-                <p className="text-base text-muted-foreground">
-                  Pro rodiny s dětmi 10–15 let. Zatím zdarma, platíte zpětnou vazbou.
-                </p>
               </div>
             </div>
             <div className="flex flex-col items-center gap-3 self-center lg:self-end">
@@ -93,9 +89,6 @@ export default function LandingPage() {
                 priority
                 className="h-auto w-[300px] lg:w-[414px]"
               />
-              <p className="pb-6 font-mono text-xs font-bold tracking-[0.08em] text-muted-foreground">
-                Emi, 14: ví, co má dnes udělat
-              </p>
             </div>
           </div>
         </section>
@@ -103,15 +96,14 @@ export default function LandingPage() {
         {/* 2 · Zní vám to povědomě? */}
         <Section inner="flex flex-col gap-12 lg:flex-row lg:items-center lg:gap-20">
           <div className="flex flex-col gap-7 lg:w-[560px] lg:shrink-0">
-            <Kicker>KAŽDÝ VEČER ZNOVU</Kicker>
             <H2>Zní vám to povědomě?</H2>
             <ul>
               {[
-                "Vaříte, uklízíte, a ještě potřetí za večer připomínáte kuchyň.",
-                "Každý den stejná debata o tom, kolik ještě může koukat.",
-                "„To není fér, ona to minule nedělala.“",
-                "Kapesné chodí, ať se doma něco udělá, nebo ne.",
-                "Večer v posteli scrollují a netuší, kolik času tam nechali.",
+                "Vaříte, uklízíte, a 3x za večer připomínáte úklid kuchyně.",
+                "Každý den stejná debata o dalším času na telefonu.",
+                "„To není fér, ona to minule nedělala. Proč já?!“",
+                "Kapesné chodí, ať to doma funguje nebo ne.",
+                "Celé dny scrollují a netuší, kolik času na tom nechali.",
               ].map((s) => (
                 <li key={s} className="border-b border-border py-[18px] text-lg leading-[1.4] lg:text-xl">
                   {s}
@@ -141,12 +133,11 @@ export default function LandingPage() {
             className="aspect-[7/8] w-full lg:w-[560px] lg:shrink-0"
           />
           <div className="flex flex-1 flex-col gap-7">
-            <Kicker>RODINA JE TÝM</Kicker>
-            <H2>Doma hrajeme za jeden tým.</H2>
+            <H2>Hrajeme za jeden tým.</H2>
             <Lead>
-              Dokud byly děti malé, domácnost jste táhli sami. Dnes už to zvládnou a můžou se do týmu vrátit
-              naplno. Vy dál pracujete, vaříte, nakupujete a vozíte je na kroužky. Ony převezmou svůj díl.
-              Kapesné pak není samozřejmost, ale jejich podíl na společné práci.
+              Dokud byly děti malé, domácnost byla celá na vás. Dnes se o sebe umí postarat a je čas, aby byly
+              součástí celku. Mají jídlo, kde bydlet, kapesné i klid na učení. Na oplátku převezmou svůj díl
+              domácnosti.
             </Lead>
             <div className="flex max-w-[400px] flex-col gap-3 pt-3">
               <Image
@@ -166,15 +157,14 @@ export default function LandingPage() {
         {/* 4 · Jak to funguje */}
         <Section id="jak-to-funguje" className="bg-card" inner="flex flex-col gap-10 lg:gap-14">
           <div className="flex max-w-[760px] flex-col gap-5">
-            <Kicker>JAK TO FUNGUJE</Kicker>
-            <H2>Čtyři kroky, které se každý týden opakují samy.</H2>
+            <H2>Čtyři kroky, které se opakují samy. Díky Homeworks.</H2>
           </div>
           <div className="grid gap-5 md:grid-cols-2 lg:gap-8">
             {(
               [
                 [
                   "Dítě nahlásí hotovo",
-                  "Kuchyň je tento týden její díl. Přejede prstem, že je hotovo, a vy víte, že se na ni můžete spolehnout.",
+                  "Kuchyň má přidělené dítě, které ji tento týden uklízí. Když má hotovo, přejede prstem a vy se to hned dozvíte.",
                   "/landing/krok-1.png",
                   156,
                   "Povinnost Kuchyň připravená na ráno s posuvníkem Přejeď, až bude hotovo",
@@ -187,15 +177,15 @@ export default function LandingPage() {
                   "Schválení povinnosti s tlačítky Vrátit a Schválit",
                 ],
                 [
-                  "Placené úkoly navíc",
-                  "Když má povinnosti hotové, bere si úkoly za peníze. Vidí odměnu i kolik to zabere.",
+                  "Placené úkoly až po povinnostech",
+                  "Když má povinnosti hotové, může vzít úkol za peníze. Vidí odměnu i kolik to zabere.",
                   "/landing/krok-3.png",
                   147,
                   "Nabídka úkolu Umýt okna za 300 Kč, asi 120 minut",
                 ],
                 [
-                  "Screen time, nebo peníze",
-                  "Vydělané si vymění za čas u obrazovky, nebo mu to v neděli vyplatíte. Rozhoduje samo.",
+                  "Peníze na ruku nebo screen time",
+                  "Vydělané peníze si děti vymění za čas u obrazovky, nebo jim je v neděli vyplatíte. Je to na nich.",
                   "/landing/krok-4.png",
                   181,
                   "Tento týden: vyděláno 375 Kč, screen time −200 Kč, k výplatě v neděli 175 Kč",
@@ -222,10 +212,11 @@ export default function LandingPage() {
         >
           <div className="flex flex-1 flex-col gap-7 lg:pb-[120px]">
             <Kicker>SCREEN TIME S HRANICEMI</Kicker>
-            <H2>Ne všechno scrollování je špatně. Všechno ale má mít hranice.</H2>
+            <H2>Ne všechno scrollování je špatně. Ale chce to hranice.</H2>
             <Lead>
               Děti často vůbec netuší, kolik času u obrazovky stráví. V Homeworks vidí, kolik už odehrály, a čas
-              si kupují z toho, co si vydělaly. Najednou má hodnotu.
+              si kupují z toho, co si vydělaly. Čas u obrazovky má najednou hodnotu, kterou můžou srovnat s
+              jinými možnostmi.
             </Lead>
             <div className="flex flex-wrap items-end gap-x-5 gap-y-1 pt-4">
               <p className="font-mono text-[56px] leading-none font-bold tracking-[-0.03em] lg:text-[72px]">30 min</p>
@@ -285,7 +276,7 @@ export default function LandingPage() {
         <Section className="bg-warning-soft" inner="flex flex-col gap-12 lg:flex-row lg:items-center">
           <div className="flex flex-1 flex-col gap-7">
             <Kicker>DĚTI TO MAJÍ ZA SVÉ</Kicker>
-            <H2>Jejich díl je vidět. A vyplatí se.</H2>
+            <H2>Jejich appka, jejich řada, jejich peníze.</H2>
             <ul className="flex flex-col gap-3.5">
               {(
                 [
@@ -293,7 +284,7 @@ export default function LandingPage() {
                   [Flame, "Řada dní a trofeje za 7, 14 a 30 dní."],
                   [BadgeCheck, "Měsíční bonus, plný, když nic nevynechají."],
                   [ReceiptText, "Vidí, co si vydělaly a za co."],
-                  [Gift, "První týden na zkoušku a 100 Kč do začátku."],
+                  [Gift, "100 Kč jako bonus do začátku."],
                 ] as const
               ).map(([Icon, text]) => (
                 <li key={text} className="flex items-center gap-3.5 text-lg leading-[1.4]">
@@ -324,7 +315,7 @@ export default function LandingPage() {
           <div className="flex flex-1 flex-col gap-7">
             <Kicker>PRAVIDLA JSOU VAŠE</Kicker>
             <H2>Každá rodina to má jinak. Homeworks se přizpůsobí.</H2>
-            <Lead>Nastavíte si, co doma platí. A když se to neosvědčí, změníte to jedním uložením.</Lead>
+            <Lead>Nastavíte si, co doma platí. A když se to neosvědčí, změníte to.</Lead>
             <ul className="grid gap-x-8 pt-2 sm:grid-cols-2">
               {[
                 "Oblasti a povinnosti, i s termínem",
@@ -356,7 +347,7 @@ export default function LandingPage() {
             <span className="inline-flex h-6 items-center gap-1.5 rounded-full bg-info-soft px-2.5 font-mono text-[11px] font-bold tracking-[0.08em] text-info">
               <Sparkles className="size-3" /> PŘIPRAVUJEME
             </span>
-            <H2>Screen time, který si vyslouží hlavou.</H2>
+            <H2>Screen time, který si vydělají znalostmi rizik o používání telefonu.</H2>
             <Lead>
               Krátké kvízy z mediální gramotnosti a z toho, jak rozumně používat sociální sítě. Za správné
               odpovědi si dítě vyslouží čas u obrazovky.
@@ -372,21 +363,14 @@ export default function LandingPage() {
         </Section>
 
         {/* 10 · Příběh */}
-        <Section className="bg-foreground text-card" inner="flex flex-col gap-12 lg:gap-16">
+        <Section className="bg-foreground text-card">
           <div className="flex max-w-[960px] flex-col gap-7">
             <Kicker className="text-subtle">PROČ HOMEWORKS VZNIKLO</Kicker>
             <blockquote className="text-[28px] leading-[1.2] font-semibold tracking-[-0.02em] lg:text-[44px]">
-              „[ZÁSTUPNÝ TEXT: Milanův citát, 2–3 věty o tom, proč appku postavil pro vlastní rodinu.]“
+              Chci dcerám předat tolik zkušeností, aby (až odejdou z domu) dokázaly převzít odpovědnost za svůj
+              život. A Homeworks mi tuhle misi dost usnadňuje.
             </blockquote>
-            <p className="font-mono text-lg font-bold tracking-[0.05em] text-subtle">Milan, táta tří holek</p>
-          </div>
-          <div className="grid gap-8 border-t border-muted-foreground pt-10 sm:grid-cols-3">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="flex flex-col gap-2">
-                <p className="font-mono text-5xl font-bold tracking-[-0.03em] text-highlight lg:text-[64px]">[ČÍSLO]</p>
-                <p className="text-lg text-subtle">[ZÁSTUPNÝ TEXT: co číslo znamená]</p>
-              </div>
-            ))}
+            <p className="font-mono text-lg font-bold tracking-[0.05em] text-subtle">Milan, táta tří dcer</p>
           </div>
         </Section>
 
@@ -408,7 +392,7 @@ export default function LandingPage() {
 
         {/* 12 · Seznam zájemců */}
         <Section id="zajemci" className="bg-highlight-soft" inner="flex flex-col items-center gap-6 text-center">
-          <H2 className="max-w-[820px]">Domácnost je týmový sport. Pojďte do něj všichni.</H2>
+          <H2 className="max-w-[820px]">Péče o domácnost je týmový sport. Pojďte do toho společně s dětmi.</H2>
           <p className="text-[17px] text-muted-foreground lg:text-xl">
             Zatím testujeme s prvními rodinami. Nechte nám e-mail a ozveme se, až bude místo.
           </p>
