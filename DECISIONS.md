@@ -525,7 +525,7 @@
 - Anglická verze **jen rodičovské** stránky (D26) na **`/en/for-parents`**. Dětská stránka (D27) zatím jen česky (slang generace potřebuje vlastní kolo).
 - Text se **nepřekládá doslova**, píše se pro anglicky mluvící publikum (přirozené idiomy, kratší věty, mezinárodní angličtina bez britsko-amerických specifik, kde to jde).
 - **Ukázky z appky přeložené v penu** (kopie framu 3b → „návrh 3b EN“) a exportované do `public/landing/en/`. Appka sama anglicky neumí: stránka to přizná v FAQ („Is the app available in English?“).
-- **Bez konkrétní měny v textu** („set your own rates“, „bought with what they've earned“). Čísla na ukázkách zůstávají skutečná z pilotu, s měnou psanou **CZK**.
+- **Bez konkrétní měny v textu** („set your own rates“, „bought with what they've earned“). Čísla na ukázkách jsou skutečná z pilotu, **přepočtená na EUR kurzem 25 Kč = 1 € a zaokrouhlená na celá eura** (Milan 2026-10-02, původně CZK). Součty na ukázkách zůstávají konzistentní.
 - Formuláře stejné jako D26 (Resend), hlášky anglicky, e-mail Milanovi označený `[EN]`.
 - Přepínač jazyka: na `/pro-rodice` odkaz „EN“, na anglické stránce „Česky“. Obal stránky má `lang="en"`.
 
