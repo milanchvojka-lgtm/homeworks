@@ -516,3 +516,19 @@
 - ENV: `NEXT_PUBLIC_VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT` (do `LAUNCH_CHECKLIST.md`). Rotace klíčů zneplatní všechny odběry.
 - Simulace měsíce (D22): připomínky se odesílají přes mock a kontroluje se, že dítěti s ničím nezbývajícím nepřijde nic a že nic nepřijde dvakrát.
 - **D3 „Out of scope pro v1: PWA Web Push“ tímto padá.**
+
+---
+
+## D29 — Anglická verze rodičovské landing page `/en/for-parents`
+
+**Rozhodnutí:**
+- Anglická verze **jen rodičovské** stránky (D26) na **`/en/for-parents`**. Dětská stránka (D27) zatím jen česky (slang generace potřebuje vlastní kolo).
+- Text se **nepřekládá doslova**, píše se pro anglicky mluvící publikum (přirozené idiomy, kratší věty, mezinárodní angličtina bez britsko-amerických specifik, kde to jde).
+- **Ukázky z appky přeložené v penu** (kopie framu 3b → „návrh 3b EN“) a exportované do `public/landing/en/`. Appka sama anglicky neumí: stránka to přizná v FAQ („Is the app available in English?“).
+- **Bez konkrétní měny v textu** („set your own rates“, „bought with what they've earned“). Čísla na ukázkách zůstávají skutečná z pilotu, s měnou psanou **CZK**.
+- Formuláře stejné jako D26 (Resend), hlášky anglicky, e-mail Milanovi označený `[EN]`.
+- Přepínač jazyka: na `/pro-rodice` odkaz „EN“, na anglické stránce „Česky“. Obal stránky má `lang="en"`.
+
+**Důvod:** Milan 2026-10-02: anglická verze „vhodná pro anglicky hovořící publikum“. Odpovědi na otázky: jen rodičovská, přeložit ukázky v penu, bez konkrétní měny.
+
+**Důsledky:** `app/en/for-parents/page.tsx`, `app/pro-rodice/_forms.tsx` a `app/actions/landing.ts` dostanou jazyk; pen sekce „HW · Landing page · návrh 3b EN“.
