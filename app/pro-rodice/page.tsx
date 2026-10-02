@@ -12,7 +12,7 @@ import {
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { H2, Kicker, LandingHeader, Lead, Photo, Section } from "@/app/_components/landing-ui";
-import { QuizPoll, WaitlistForm } from "./_forms";
+import { QuizPoll, WaitlistForm } from "@/app/_components/landing-forms";
 
 // Product landing page (D26). Source: pen, návrh 3b · týmovost (UYupj). Light only, public.
 
@@ -29,6 +29,7 @@ const NAV = [
   ["#pravidla", "Pravidla"],
   ["#otazky", "Časté otázky"],
   ["/pro-deti", "Pro děti"],
+  ["/en/for-parents", "EN"],
 ] as const;
 
 const FAQ = [
