@@ -88,7 +88,7 @@ export default function EnglishLandingPage() {
             <div className="flex flex-col items-center gap-3 self-center lg:self-end">
               <Image
                 src="/landing/en/phone-today.png"
-                alt="The Today screen on a kid’s phone: balance 380 CZK, a 12-day streak, kitchen chores and today’s jobs"
+                alt="The Today screen on a kid’s phone: balance €15, a 12-day streak, kitchen chores and today’s jobs"
                 width={414}
                 height={868}
                 priority
@@ -186,14 +186,14 @@ export default function EnglishLandingPage() {
                   "Once their chores are done, they can take on a paid job. They see the reward and how long it’ll take.",
                   "/landing/en/step-3.png",
                   147,
-                  "Job offer: wash the windows for 300 CZK, about 120 minutes",
+                  "Job offer: wash the windows for €12, about 120 minutes",
                 ],
                 [
                   "Cash or screen time",
                   "Kids trade what they’ve earned for screen time, or you pay it out on Sunday. It’s their call.",
                   "/landing/en/step-4.png",
                   181,
-                  "This week: earned 375 CZK, screen time −200 CZK, Sunday payout 175 CZK",
+                  "This week: earned €15, screen time −€8, Sunday payout €7",
                 ],
               ] as const
             ).map(([title, text, src, h, alt], i) => (
@@ -339,7 +339,7 @@ export default function EnglishLandingPage() {
           </div>
           <Image
             src="/landing/en/settings.png"
-            alt="Settings: hourly rate 150 CZK, screen time 200 CZK per hour, monthly bonus 200 CZK, deduction 50 CZK, starter bonus 100 CZK"
+            alt="Settings: hourly rate €6, screen time €8 per hour, monthly bonus €8, deduction €2, starter bonus €4"
             width={440}
             height={573}
             className="h-auto w-full max-w-[440px] self-center"
