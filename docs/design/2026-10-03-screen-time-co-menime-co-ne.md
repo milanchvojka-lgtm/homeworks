@@ -7,16 +7,16 @@
 ### Rodič — záložka Screen time (HWS · 01B)
 - **Lišta:** 5 záložek Schválit · Děti · **Screen time** (`monitor-play`) · Výplaty · Víc (`app/admin/layout.tsx`). Nová routa `app/admin/(tabs)/obrazovka/page.tsx`.
 - **Zápis:** KOLIK = 2 volby **15 min · 50 Kč** / **1 h · 200 Kč** (cena z `screenTimeHourCostCzk`); KOMU = 3 dlaždice dětí v pořadí rotace (barva + iniciála, jméno, „kredit“, částka; mínus červeně); PrimaryButton „Zapsat Neli 15 min“, bez obou voleb neaktivní („Zapsat“). Nic předvybrané. Po uložení se formulář vyprázdní.
-- **Tento týden:** zápisy všech dětí, poslední nahoře, řádek = „Emi · 1 h“, „So 3. 10. · 16:10 · táta“, „−200 Kč“. U **dnešních** zápisů OutlineButton sm **„Zrušit“**. Prázdno: `EmptyState` neutral „Tento týden nic“.
+- **Tento týden:** zápisy všech dětí, poslední nahoře, řádek = „Emi · 1 h“, pod tím „So 3. 10. · 16:10“; vpravo „−200 Kč“ a u **dnešních** zápisů pod částkou červený text-button **„Zrušit“** (tap plocha 44 px). **Kdo zapsal se neukazuje** (Milan 2026-10-03). Prázdno: `EmptyState` neutral „Tento týden nic“.
 - **Komponenta:** stávající `app/admin/_components/record-screen.tsx` se přepíše na formulář záložky (žádná paralelní). Řádek seznamu = `TransactionList`/řádek z `app/child/_components/transactions.tsx` rozšířený o volitelnou akci (pen `TransactionRow`).
 
 ### Dítě — záložka Screen time (HWS · 03, 03b, 03c)
-- `app/child/(tabs)/obrazovka/page.tsx`: TENTO TÝDEN = seznam zápisů („Screen time 15 min“, „So 3. 10. · 18:20 · zapsal táta“, „−50 Kč“) + poznámka „O čas si řekneš v iPhonu. Tady vidíš, kolik tě stál.“
+- `app/child/(tabs)/obrazovka/page.tsx`: TENTO TÝDEN = seznam zápisů („Screen time 15 min“, „So 3. 10. · 18:20“, „−50 Kč“) + poznámka „O čas si řekneš v iPhonu. Tady vidíš, kolik tě stál.“
 - V mínusu: upozornění `bg-danger-soft` „Jsi v mínusu“ + „Dluh se odečte z nedělní výplaty. Co nestačí, přejde do dalšího týdne.“ Částka jen v dlaždici hlavičky (červeně).
 - Prázdno: `EmptyState` neutral `monitor-play` „Tento týden nic“.
 
 ### Server
-- `recordScreenTimeAction(userId, minutes)`: minuty jen **15 | 60**, **bez kontroly kreditu**; push dítěti „{Táta|Máma} ti zapsal(a) 15 min, −50 Kč“ (oslovení podle jména rodiče? → viz Otázky). Chyba pushe zápis neshodí.
+- `recordScreenTimeAction(userId, minutes)`: minuty jen **15 | 60**, **bez kontroly kreditu**; push dítěti neutrálně „Zapsáno 15 min screen time, −50 Kč“ (kdo zapsal se neřeší). Chyba pushe zápis neshodí.
 - Nová `cancelScreenTimeAction(requestId)`: jen admin, jen zápis z **dneška** (Praha) a jen z **běžícího týdne, který nemá uzávěrku**; smaže `CreditTransaction` i zápis (status `REJECTED`, aby zůstala stopa), push dítěti „Zápis 15 min zrušen, +50 Kč zpět“.
 - **Dluh:** `WeeklyPayout` dostane sloupec **`debtInCzk Int @default(0)`** (≤ 0, dluh přenesený z minulého týdne; `db push`, TD3). `weekly-close`: `debtIn = min(0, předchozí týden earned − screen + bonus + debtIn)`, `payout = max(0, net + debtIn)`. Čisté funkce v `lib/credit-pure.ts` + testy.
 - **Zobrazení k výplatě** (dlaždice hlavičky dítěte, výpis, detail dítěte): `earned − screen + bonus + dluh` — **smí být záporné**, záporné červeně. Ve výpisu a ve Výplatách řádek **„Dluh z minulého týdne −150 Kč“**, jen když je.
@@ -53,9 +53,8 @@
 | Emi nemá kredit | kredit 0 | zápis 1 h projde | dlaždice −200 Kč, upozornění; v neděli výplata 0, dluh do dalšího týdne | — |
 | Scénář 5 (večer schvaluje) | Schválit | už bez položek screen time | — | — |
 
-## Otázky
-1. **Push dítěti:** „Táta ti zapsal…“ / „Máma ti zapsala…“ podle toho, kdo zapisuje (jména rodičů v appce jsou Milan a Teri → potřebuju vědět, jak je holky oslovují), nebo neutrálně „Zapsáno 15 min screen time, −50 Kč“?
-2. V seznamu „zapsal táta / máma“, nebo jménem „Milan / Teri“?
+## Odpovědi
+- 2026-10-03: kdo zapsal pryč (seznam i push), „Zrušit“ jako text pod částkou, ne tlačítko vedle.
 
 ## Pravidlo
 Implementuje se přesně to, co je v části „Co vzniká“ a „Co odchází“. Cokoli mimo seznam se zastaví a zeptá. Sahá na peníze → `npm test` + `npm run test:sim` (nová postava s dluhem přes dva týdny) před nasazením.
