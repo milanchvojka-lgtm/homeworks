@@ -911,11 +911,11 @@ Jediný actions soubor, který hází výjimky místo `{ ok, error }` (viz SKILL
 
 > Rozhodnutí D30. UI podle D16 (tok ve dvou variantách → smlouva → pen → kód). Sahá na peníze → `npm run test:sim` před nasazením.
 
-- **10.1 Tok a pen:** `docs/design/2026-10-03-struktura-a-tok-screen-time.md` (varianta A tlačítko, B záložka), smlouva, pen sekce „HW · Screen time z iOS (3. 10.)“: rodičovský zápis (prázdný, vybráno, uloženo, dluh), dětský přehled (bez zápisu, se zápisy, v mínusu).
-- **10.2 Zápis:** `recordScreenTimeAction(userId, minutes ∈ {15, 60})` bez kontroly kreditu; push dítěti „{rodič} ti zapsal 15 min, −50 Kč“. Chyba pushe neshodí zápis.
-- **10.3 Dluh ve výplatě:** `weekly-close` počítá výplatu z toho, co dítě má k dobru včetně dluhu z minulých týdnů; výplata nikdy záporná; řádek „Dluh z minulého týdne“ ve výpisu a ve Výplatách. Testy v `credit-pure`.
-- **10.4 Úklid:** pryč dětská žádost (výběr 30/60/90, `requestScreenTimeAction`), schvalování žádostí v Schválit, push rodiči o žádosti, zápis v detailu dítěte (D19), nastavení granularity. Rozpracované `PENDING` žádosti zamítnout bez odpočtu.
-- **10.5 Simulace:** postava s dluhem přes dva týdny, zápis 15/60 v `npm run test:sim`.
+- **10.1 Tok a pen:** ✅ 2026-10-03 (varianta B, pen `QnbiT`). `docs/design/2026-10-03-struktura-a-tok-screen-time.md` (varianta A tlačítko, B záložka), smlouva, pen sekce „HW · Screen time z iOS (3. 10.)“: rodičovský zápis (prázdný, vybráno, uloženo, dluh), dětský přehled (bez zápisu, se zápisy, v mínusu).
+- **10.2 Zápis:** ✅ 2026-10-03 (+ `cancelScreenTimeAction`). `recordScreenTimeAction(userId, minutes ∈ {15, 60})` bez kontroly kreditu; push dítěti „{rodič} ti zapsal 15 min, −50 Kč“. Chyba pushe neshodí zápis.
+- **10.3 Dluh ve výplatě:** ✅ 2026-10-03 (`WeeklyPayout.debtInCzk`, `computeDebtOut`). `weekly-close` počítá výplatu z toho, co dítě má k dobru včetně dluhu z minulých týdnů; výplata nikdy záporná; řádek „Dluh z minulého týdne“ ve výpisu a ve Výplatách. Testy v `credit-pure`.
+- **10.4 Úklid:** ✅ v kódu 2026-10-03; zamítnutí ostrých `PENDING` při nasazení čeká na Milanovo OK. pryč dětská žádost (výběr 30/60/90, `requestScreenTimeAction`), schvalování žádostí v Schválit, push rodiči o žádosti, zápis v detailu dítěte (D19), nastavení granularity. Rozpracované `PENDING` žádosti zamítnout bez odpočtu.
+- **10.5 Simulace:** ✅ 2026-10-03 (Emi dluh přes dva týdny, Zrušit, invariant zůstatku). postava s dluhem přes dva týdny, zápis 15/60 v `npm run test:sim`.
 
 ### Acceptance criteria
 - Rodič zapíše 15 min pro Neli na dvě volby + Uložit, Neli hned přijde push a v přehledu vidí zápis a cenu.
