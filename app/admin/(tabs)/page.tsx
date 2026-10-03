@@ -4,7 +4,7 @@ import { ApprovalList, type ApprovalGroup } from "../_components/approval-list";
 
 /** Schválit (pen HWR · 01): everything waiting for a parent, grouped by child in rotation order. */
 export default async function AdminApprovePage() {
-  const [children, checks, tasks, screens] = await Promise.all([
+  const [children, checks, tasks] = await Promise.all([
     db.user.findMany({
       where: { role: "CHILD" },
       select: { id: true, name: true, avatarColor: true },
@@ -19,10 +19,6 @@ export default async function AdminApprovePage() {
       where: { status: "PENDING_REVIEW" },
       include: { task: { select: { name: true, valueCzk: true } } },
       orderBy: { submittedAt: "asc" },
-    }),
-    db.screenTimeRequest.findMany({
-      where: { status: "PENDING" },
-      orderBy: { createdAt: "asc" },
     }),
   ]);
 
@@ -45,14 +41,6 @@ export default async function AdminApprovePage() {
           kind: "task" as const,
           title: t.task.name,
           meta: `Úkol · ${t.task.valueCzk} Kč${at(t.submittedAt)}`,
-        })),
-      ...screens
-        .filter((s) => s.userId === user.id)
-        .map((s) => ({
-          id: s.id,
-          kind: "screen" as const,
-          title: `${s.minutes} min screen time`,
-          meta: `Screen time · ${s.costCzk} Kč · požádala ${formatTimePrague(s.createdAt)}`,
         })),
     ],
   }));

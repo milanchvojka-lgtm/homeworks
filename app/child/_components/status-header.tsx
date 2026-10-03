@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ChevronRight, Flame, Wallet } from "lucide-react";
-import { formatDayPrague, formatMinutes } from "./format";
+import { formatCzk, formatDayPrague, formatMinutes } from "./format";
 
 /**
  * Status tiles, first thing in a tab's content (pen `StatusTiles`): this week's payout + screen time,
@@ -13,6 +13,7 @@ export function StatusTiles({
   bonusCzk,
   trialEndsOn,
 }: {
+  /** D30: may be negative (screen time recorded without credit), then red. */
   payoutCzk: number;
   screenMinutes: number;
   streakDays: number;
@@ -26,8 +27,8 @@ export function StatusTiles({
         href="/child/vypis"
         icon={<Wallet className="size-3.5" />}
         kicker="Tento týden"
-        value={`${payoutCzk} Kč`}
-        valueClass="text-highlight"
+        value={formatCzk(payoutCzk)}
+        valueClass={payoutCzk < 0 ? "text-destructive" : "text-highlight"}
         sub={`Screen time: ${formatMinutes(screenMinutes)}`}
       />
       <Tile

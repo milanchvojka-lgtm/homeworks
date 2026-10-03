@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { dueKey, pickReminder, checksLeft, type OpenCheck } from "@/lib/reminders-pure";
+import { dueKey, pickReminder, checksLeft, type OpenCheck, screenCancelledMessage, screenRecordedMessage } from "@/lib/reminders-pure";
 
 // 2026-09-29 is summer time in Prague (UTC+2): 19:30 Prague = 17:30 UTC.
 const at = (prague: string) => new Date(`2026-09-29T${prague}:00+02:00`);
@@ -57,5 +57,23 @@ describe("checksLeft", () => {
     expect(checksLeft(1)).toEqual(["zbývá", "1 povinnost"]);
     expect(checksLeft(3)).toEqual(["zbývají", "3 povinnosti"]);
     expect(checksLeft(5)).toEqual(["zbývá", "5 povinností"]);
+  });
+});
+
+describe("D30 screen time pushes", () => {
+  it("recorded: minutes and cost, opens Screen time", () => {
+    const m = screenRecordedMessage(15, 50, 2);
+    expect(m.title).toBe("Zapsáno 15 min screen time");
+    expect(m.body).toBe("−50 Kč z tvého kreditu.");
+    expect(m.url).toBe("/child/obrazovka");
+    expect(m.badge).toBe(2);
+  });
+  it("an hour reads as 1 h", () => {
+    expect(screenRecordedMessage(60, 200, 0).title).toBe("Zapsáno 1 h screen time");
+  });
+  it("cancelled: money back", () => {
+    const m = screenCancelledMessage(60, 200, 0);
+    expect(m.title).toBe("Zápis 1 h zrušen");
+    expect(m.body).toBe("+200 Kč zpět.");
   });
 });

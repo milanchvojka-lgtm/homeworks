@@ -1,8 +1,15 @@
 import "server-only";
 import { db } from "@/lib/db";
-import { formatDayPrague } from "./format";
+import { formatDayPrague, formatMinutes } from "./format";
 
-export type TransactionItem = { id: string; title: string; sub: string; amountCzk: number };
+export type TransactionItem = {
+  id: string;
+  title: string;
+  sub: string;
+  amountCzk: number;
+  /** Optional row action under the amount (D30: "Zrušit" on today's screen time record). */
+  action?: React.ReactNode;
+};
 
 /**
  * „Za co" (pen HW2 · 05): the child's credit transactions of the weeks starting in [fromWeek, toWeek],
@@ -32,7 +39,8 @@ export async function getTransactionItems(
       case "TASK_REWARD":
         return { ...base, title: taskName.get(t.referenceId ?? "") ?? "Úkol", sub: `${day} · úkol` };
       case "SCREEN_TIME":
-        return { ...base, title: `Screen time ${t.note ?? ""}`.trim(), sub: day };
+        // The note is "<minutes> min"; show it the way the rest of the app does ("1 h").
+        return { ...base, title: `Screen time ${formatMinutes(parseInt(t.note ?? "", 10) || 0)}`, sub: day };
       case "WELCOME_BONUS":
         return { ...base, title: "Vstupní bonus", sub: day };
       case "ADJUSTMENT":
@@ -57,8 +65,11 @@ export function TransactionList({ items }: { items: TransactionItem[] }) {
             <span className="font-semibold">{t.title}</span>
             <span className="font-mono text-xs text-muted-foreground">{t.sub}</span>
           </span>
-          <span className="font-mono font-bold">
-            {t.amountCzk > 0 ? `+${t.amountCzk}` : `−${Math.abs(t.amountCzk)}`} Kč
+          <span className="flex flex-col items-end">
+            <span className="font-mono font-bold">
+              {t.amountCzk > 0 ? `+${t.amountCzk}` : `−${Math.abs(t.amountCzk)}`} Kč
+            </span>
+            {t.action}
           </span>
         </li>
       ))}

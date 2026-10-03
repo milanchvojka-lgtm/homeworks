@@ -3,12 +3,12 @@ import { db } from "./db";
 
 /** Počet položek čekajících na adminovo schválení (Inbox). */
 export async function getAdminInboxCount(): Promise<number> {
-  const [checks, tasks, screen] = await Promise.all([
+  // D30: screen time is approved in iOS, nothing waits here for it.
+  const [checks, tasks] = await Promise.all([
     db.dailyCheckInstance.count({ where: { status: "SUBMITTED" } }),
     db.taskInstance.count({ where: { status: "PENDING_REVIEW" } }),
-    db.screenTimeRequest.count({ where: { status: "PENDING" } }),
   ]);
-  return checks + tasks + screen;
+  return checks + tasks;
 }
 
 /** Počet dnešních povinností, které dítě ještě musí odeslat (PENDING nebo vrácené). */

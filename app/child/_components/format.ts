@@ -8,17 +8,6 @@ export function formatMinutes(total: number): string {
   return `${h} h ${rest} min`;
 }
 
-/** Screen-time minutes a credit amount buys, rounded down to the granularity. */
-export function affordableMinutes(
-  balanceCzk: number,
-  hourCostCzk: number,
-  granularity: number,
-): number {
-  if (hourCostCzk <= 0 || granularity <= 0) return 0;
-  const raw = (Math.max(0, balanceCzk) / hourCostCzk) * 60;
-  return Math.floor(raw / granularity) * granularity;
-}
-
 /** Minutes a screen-time amount in CZK represents. */
 export function czkToMinutes(czk: number, hourCostCzk: number): number {
   return hourCostCzk > 0 ? (czk / hourCostCzk) * 60 : 0;
@@ -62,4 +51,9 @@ export function formatDayRange(from: Date | string, to: Date | string): string {
   if (a.day === b.day && a.month === b.month) return `${a.day}. ${a.month}.`;
   if (a.month === b.month) return `${a.day}.–${b.day}. ${b.month}.`;
   return `${a.day}. ${a.month}.–${b.day}. ${b.month}.`;
+}
+
+/** "80 Kč", "−150 Kč" (typographic minus; D30 lets the week go negative). */
+export function formatCzk(czk: number): string {
+  return czk < 0 ? `−${-czk} Kč` : `${czk} Kč`;
 }

@@ -16,6 +16,8 @@ type Payout = {
   totalEarnedCzk: number;
   totalScreenTimeCzk: number;
   bonusCzk: number;
+  /** D30: debt carried in from the week before (≤ 0). */
+  debtInCzk: number;
   totalPayoutCzk: number;
   paidOutAt: string | null;
 };
@@ -139,6 +141,7 @@ function breakdown(p: Payout): string {
     `vyděláno ${p.totalEarnedCzk}`,
     p.totalScreenTimeCzk > 0 ? `screen time −${p.totalScreenTimeCzk}` : null,
     p.bonusCzk > 0 ? `bonus +${p.bonusCzk}` : null,
+    p.debtInCzk < 0 ? `dluh z minulého týdne −${-p.debtInCzk}` : null,
   ]
     .filter(Boolean)
     .join(" · ");

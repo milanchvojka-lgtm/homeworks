@@ -316,6 +316,8 @@ model WeeklyPayout {
   totalEarnedCzk     Int
   totalScreenTimeCzk Int
   bonusCzk           Int       @default(0)
+  /// D30: debt carried in from the previous week (≤ 0); payout = max(0, net + debtIn).
+  debtInCzk          Int       @default(0)
   totalPayoutCzk     Int
   paidOutAt          DateTime?
   paidOutById        String?

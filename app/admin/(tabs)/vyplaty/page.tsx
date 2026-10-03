@@ -35,6 +35,7 @@ export default async function AdminPayoutsPage() {
           totalEarnedCzk: p.totalEarnedCzk,
           totalScreenTimeCzk: p.totalScreenTimeCzk,
           bonusCzk: p.bonusCzk,
+          debtInCzk: p.debtInCzk,
           totalPayoutCzk: p.totalPayoutCzk,
           paidOutAt: p.paidOutAt?.toISOString() ?? null,
         }))}

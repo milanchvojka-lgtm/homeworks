@@ -5,14 +5,13 @@ import { useRouter } from "next/navigation";
 import { Check, CheckCheck } from "lucide-react";
 import { approveCheckAction, rejectCheckAction } from "@/app/actions/checks";
 import { approveTaskAction, rejectTaskAction } from "@/app/actions/tasks";
-import { approveScreenTimeAction, rejectScreenTimeAction } from "@/app/actions/screen-time";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { EmptyState } from "@/app/_components/empty-state";
 
 export type ApprovalItem = {
   id: string;
-  kind: "check" | "task" | "screen";
+  kind: "check" | "task";
   title: string;
   meta: string;
 };
@@ -44,25 +43,14 @@ export function ApprovalList({ groups }: { groups: ApprovalGroup[] }) {
       setRows((r) => ({ ...r, [id]: "handled" }));
       setRejectingId(null);
     } else {
-      setError({
-        id,
-        text:
-          res.error === "insufficient_credit"
-            ? "Nemá už dost kreditu (mezitím výplata nebo jiná útrata). Žádost vrať."
-            : "Nepovedlo se, zkus to znovu.",
-      });
+      setError({ id, text: "Nepovedlo se, zkus to znovu." });
     }
   };
 
   const approve = (i: ApprovalItem) =>
     startTransition(async () => {
       setError(null);
-      const res =
-        i.kind === "check"
-          ? await approveCheckAction(i.id)
-          : i.kind === "task"
-            ? await approveTaskAction(i.id)
-            : await approveScreenTimeAction(i.id);
+      const res = i.kind === "check" ? await approveCheckAction(i.id) : await approveTaskAction(i.id);
       finish(i.id, res);
     });
 
@@ -70,11 +58,7 @@ export function ApprovalList({ groups }: { groups: ApprovalGroup[] }) {
     startTransition(async () => {
       setError(null);
       const res =
-        i.kind === "check"
-          ? await rejectCheckAction(i.id, note)
-          : i.kind === "task"
-            ? await rejectTaskAction(i.id, note)
-            : await rejectScreenTimeAction(i.id);
+        i.kind === "check" ? await rejectCheckAction(i.id, note) : await rejectTaskAction(i.id, note);
       finish(i.id, res);
     });
 
@@ -165,8 +149,6 @@ function ApprovalRow({
   onCancelReturn: () => void;
   onReturn: () => void;
 }) {
-  // Screen-time requests are returned without a note (the action takes none).
-  const withNote = item.kind !== "screen";
   return (
     <div
       className={`flex flex-col gap-3.5 rounded-tile border bg-card px-[18px] pt-4 pb-[18px] ${returning ? "border-foreground" : "border-border"}`}
@@ -175,7 +157,7 @@ function ApprovalRow({
         <span className="text-lg leading-tight font-bold tracking-tight">{item.title}</span>
         <span className="font-mono text-xs font-bold text-muted-foreground">{item.meta}</span>
       </div>
-      {returning && withNote && (
+      {returning && (
         <label className="flex flex-col gap-1.5">
           <span className="font-mono text-[11px] font-bold tracking-wider text-subtle uppercase">
             Proč vracíš
@@ -196,7 +178,7 @@ function ApprovalRow({
               Zrušit
             </Button>
             <Button className="flex-1" onClick={onReturn} disabled={pending}>
-              {withNote ? "Vrátit s poznámkou" : "Vrátit"}
+              Vrátit s poznámkou
             </Button>
           </>
         ) : (

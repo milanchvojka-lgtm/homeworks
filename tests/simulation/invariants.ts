@@ -1,7 +1,7 @@
 import { db } from "@/lib/db";
 import { computeMonthlyBonus } from "@/lib/bonus-graduated";
 import { countMissedDays } from "@/lib/bonus-pure";
-import { computeWeeklyPayout } from "@/lib/credit";
+import { computeDebtOut, computeWeeklyPayout } from "@/lib/credit";
 import { dayResult, replayStreak } from "@/lib/streak";
 import { endOfMonthPrague, startOfDayPrague, startOfMonthPrague } from "@/lib/time";
 
@@ -20,7 +20,7 @@ export async function checkInvariants(label: string): Promise<string[]> {
     db.dailyCheckInstance.findMany({ select: { userId: true, date: true, status: true } }),
     db.trophyEarned.findMany({ include: { milestone: true } }),
     db.taskInstance.findMany({ select: { id: true, status: true, task: { select: { name: true, valueCzk: true } } } }),
-    db.screenTimeRequest.findMany({ where: { status: "APPROVED" } }),
+    db.screenTimeRequest.findMany(),
     db.weeklyPayout.findMany({ include: { user: { select: { name: true } } } }),
     db.appSettings.findFirst(),
   ]);
@@ -32,8 +32,25 @@ export async function checkInvariants(label: string): Promise<string[]> {
   for (const k of kids) {
     const mine = txs.filter((t) => t.userId === k.id);
 
+    // D30: the balance may go negative (screen time recorded without credit), but it must always
+    // equal unpaid payouts + debt carried out of the last closed week + everything since that week.
     const balance = mine.reduce((s, t) => s + t.amountCzk, 0);
-    if (balance < 0) p(`${k.name} balance ${balance} Kč`);
+    const closedWeeks = payouts
+      .filter((w) => w.userId === k.id)
+      .sort((a, b) => b.weekStart.getTime() - a.weekStart.getTime());
+    const last = closedWeeks[0];
+    const expectedBalance =
+      closedWeeks.filter((w) => !w.paidOutAt).reduce((s, w) => s + w.totalPayoutCzk, 0) +
+      (last
+        ? computeDebtOut({
+            earnedCzk: last.totalEarnedCzk,
+            screenTimeCzk: last.totalScreenTimeCzk,
+            bonusCzk: last.bonusCzk,
+            debtInCzk: last.debtInCzk,
+          })
+        : 0) +
+      mine.filter((t) => !last || t.weekStart > last.weekStart).reduce((s, t) => s + t.amountCzk, 0);
+    if (balance !== expectedBalance) p(`${k.name} balance ${balance} Kč, expected ${expectedBalance} Kč`);
 
     for (const type of ["TASK_REWARD", "SCREEN_TIME", "PAYOUT"] as const) {
       const refs = mine.filter((t) => t.type === type && t.referenceId).map((t) => t.referenceId!);
@@ -94,22 +111,41 @@ export async function checkInvariants(label: string): Promise<string[]> {
   }
   for (const s of screens) {
     const tx = txs.filter((t) => t.type === "SCREEN_TIME" && t.referenceId === s.id);
-    if (tx.length !== 1 || tx[0].amountCzk !== -s.costCzk) p(`screen time ${s.id} deducted ${tx.length}×`);
+    if (s.status === "APPROVED" && (tx.length !== 1 || tx[0].amountCzk !== -s.costCzk))
+      p(`screen time ${s.id} deducted ${tx.length}×`);
+    // D30: a cancelled record leaves no deduction; nothing waits for approval anymore.
+    if (s.status !== "APPROVED" && tx.length) p(`screen time ${s.id} is ${s.status} but still deducted`);
+    if (s.status === "PENDING") p(`screen time ${s.id} is a pending request (D30: none should exist)`);
   }
 
   // Weekly payouts: one per child and week, matching the week's transactions.
   const seenWeek = new Set<string>();
-  for (const w of payouts) {
+  const lastOf = new Map<string, (typeof payouts)[number]>();
+  for (const w of [...payouts].sort((a, b) => a.weekStart.getTime() - b.weekStart.getTime())) {
     const key = `${w.userId}@${w.weekStart.toISOString()}`;
     if (seenWeek.has(key)) p(`${w.user.name} two payouts for week ${w.weekStart.toISOString()}`);
     seenWeek.add(key);
     const week = txs.filter((t) => t.userId === w.userId && t.weekStart.getTime() === w.weekStart.getTime());
     const sum = (types: string[], sign = 1) =>
       week.filter((t) => types.includes(t.type)).reduce((s, t) => s + sign * t.amountCzk, 0);
+    // D30: the debt the previous week could not cover comes off this one.
+    const prev = lastOf.get(w.userId);
+    const debtIn = prev
+      ? computeDebtOut({
+          earnedCzk: prev.totalEarnedCzk,
+          screenTimeCzk: prev.totalScreenTimeCzk,
+          bonusCzk: prev.bonusCzk,
+          debtInCzk: prev.debtInCzk,
+        })
+      : 0;
+    lastOf.set(w.userId, w);
+    if (w.debtInCzk !== debtIn)
+      p(`${w.user.name} week ${w.weekStart.toISOString().slice(0, 10)} carried debt ${w.debtInCzk}, expected ${debtIn}`);
     const expected = computeWeeklyPayout({
       earnedCzk: sum(["TASK_REWARD"]),
       screenTimeCzk: sum(["SCREEN_TIME"], -1),
       bonusCzk: sum(["MONTHLY_BONUS", "STREAK_MILESTONE", "WELCOME_BONUS"]),
+      debtInCzk: debtIn,
     });
     if (w.totalPayoutCzk !== expected)
       p(`${w.user.name} payout ${w.weekStart.toISOString().slice(0, 10)} is ${w.totalPayoutCzk}, expected ${expected}`);

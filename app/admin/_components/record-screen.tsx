@@ -2,102 +2,124 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { recordScreenTimeAction } from "@/app/actions/screen-time";
-import { ScreenOptions, type Offer } from "@/app/child/(tabs)/obrazovka/_screen-picker";
+import { cancelScreenTimeAction, recordScreenTimeAction } from "@/app/actions/screen-time";
+import { formatCzk, formatMinutes } from "@/app/child/_components/format";
 import { Button } from "@/components/ui/button";
 
+export type RecordChild = { id: string; name: string; avatarColor: string; netCzk: number };
+
+const pick = (on: boolean) =>
+  `flex flex-col items-center justify-center rounded-2xl bg-card transition-colors ${
+    on ? "border-2 border-highlight bg-highlight-soft" : "border border-border"
+  }`;
+
 /**
- * D19 (pen HWR · 03b): the main button on the child detail opens a bottom panel to record
- * screen time the child asked for outside the app. Same credit rule as the child's request.
+ * D30 (pen HWS · 01B): record screen time approved in iOS — how long, for whom, save.
+ * Nothing is preselected; credit never blocks it.
  */
 export function RecordScreen({
-  userId,
-  name,
-  balanceCzk,
-  affordableLabel,
-  offers,
+  kids,
+  options,
 }: {
-  userId: string;
-  name: string;
-  balanceCzk: number;
-  /** "na 30 min" / null when not even the shortest block fits. */
-  affordableLabel: string | null;
-  offers: Offer[];
+  kids: RecordChild[];
+  options: { minutes: number; costCzk: number }[];
 }) {
   const router = useRouter();
-  const firstAffordable = offers.find((o) => o.affordable)?.minutes ?? null;
-  const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState<number | null>(firstAffordable);
+  const [minutes, setMinutes] = useState<number | null>(null);
+  const [childId, setChildId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
+  const child = kids.find((k) => k.id === childId);
 
   const submit = () => {
-    if (selected === null) return;
+    if (minutes === null || !childId) return;
     setError(null);
     startTransition(async () => {
-      const res = await recordScreenTimeAction(userId, selected);
+      const res = await recordScreenTimeAction(childId, minutes);
       if (res.ok) {
-        setOpen(false);
+        setMinutes(null);
+        setChildId(null);
         router.refresh();
       } else {
-        setError(
-          res.error === "insufficient_credit"
-            ? "Nemá na to dost kreditu."
-            : "Nepovedlo se, zkus to znovu.",
-        );
+        setError("Nepovedlo se, zkus to znovu.");
       }
     });
   };
 
   return (
-    <>
-      <Button className="w-full" onClick={() => setOpen(true)}>
-        Zapsat screen time
-      </Button>
-
-      {open && (
-        <div className="fixed inset-0 z-20 flex flex-col justify-end">
+    <div className="flex flex-col gap-3">
+      <h2 className="mt-1 font-mono text-xs font-bold tracking-[0.12em] uppercase">Kolik</h2>
+      <div className="grid grid-cols-2 gap-2">
+        {options.map((o) => (
           <button
+            key={o.minutes}
             type="button"
-            aria-label="Zavřít"
-            className="absolute inset-0 bg-foreground/40"
-            onClick={() => setOpen(false)}
-          />
-          <div
-            role="dialog"
-            aria-label={`Zapsat screen time · ${name}`}
-            className="relative flex flex-col gap-4 rounded-t-3xl bg-card px-4 pt-3 pb-[max(2.125rem,env(safe-area-inset-bottom))]"
+            aria-pressed={minutes === o.minutes}
+            disabled={isPending}
+            onClick={() => setMinutes(o.minutes)}
+            className={`${pick(minutes === o.minutes)} h-[72px] gap-0.5`}
           >
-            <span className="mx-auto h-1 w-10 rounded-full bg-border" />
-            <div className="flex flex-col gap-1">
-              <h2 className="text-[22px] font-bold tracking-tight">Zapsat screen time · {name}</h2>
-              <p className="text-[15px] text-muted-foreground">
-                Má kredit {balanceCzk} Kč
-                {affordableLabel ? `, to je ${affordableLabel}.` : ", to nestačí ani na nejkratší blok."}
-              </p>
-            </div>
-            <div className="flex flex-col gap-2.5">
-              <h3 className="font-mono text-xs font-bold tracking-[0.12em] uppercase">
-                Kolik koukala?
-              </h3>
-              <ScreenOptions
-                offers={offers}
-                selected={selected}
-                onSelect={setSelected}
-                disabled={isPending}
-                unaffordableLabel="nemá kredit"
-              />
-            </div>
-            {error && <p className="text-sm text-destructive">{error}</p>}
-            <Button className="w-full" onClick={submit} disabled={selected === null || isPending}>
-              {selected === null ? "Zapsat" : `Zapsat ${selected} min`}
-            </Button>
-            <Button variant="outline" className="h-12 w-full" onClick={() => setOpen(false)}>
-              Zrušit
-            </Button>
-          </div>
-        </div>
-      )}
-    </>
+            <span className={`text-[17px] ${minutes === o.minutes ? "font-bold" : "font-semibold"}`}>
+              {formatMinutes(o.minutes)}
+            </span>
+            <span className="font-mono text-sm text-muted-foreground">{o.costCzk} Kč</span>
+          </button>
+        ))}
+      </div>
+
+      <h2 className="mt-1 font-mono text-xs font-bold tracking-[0.12em] uppercase">Komu</h2>
+      <div className="grid grid-cols-3 gap-2">
+        {kids.map((k) => (
+          <button
+            key={k.id}
+            type="button"
+            aria-pressed={childId === k.id}
+            disabled={isPending}
+            onClick={() => setChildId(k.id)}
+            className={`${pick(childId === k.id)} gap-1 px-1.5 py-3.5`}
+          >
+            <span
+              className="flex size-9 items-center justify-center rounded-full text-base font-bold text-white"
+              style={{ backgroundColor: k.avatarColor }}
+            >
+              {k.name.charAt(0)}
+            </span>
+            <span className={`text-base ${childId === k.id ? "font-bold" : "font-semibold"}`}>{k.name}</span>
+            <span className="text-[13px] text-subtle">kredit</span>
+            <span className={`font-mono text-sm ${k.netCzk < 0 ? "text-destructive" : "text-muted-foreground"}`}>
+              {formatCzk(k.netCzk)}
+            </span>
+          </button>
+        ))}
+      </div>
+
+      {error && <p className="text-sm text-destructive">{error}</p>}
+      <Button className="w-full" onClick={submit} disabled={minutes === null || !child || isPending}>
+        {minutes !== null && child ? `Zapsat ${child.name} ${formatMinutes(minutes)}` : "Zapsat"}
+      </Button>
+    </div>
+  );
+}
+
+/** D30: undo today's record (a mistake); the child gets a push. */
+export function CancelRecord({ id }: { id: string }) {
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+  const [failed, setFailed] = useState(false);
+  return (
+    <button
+      type="button"
+      disabled={isPending}
+      onClick={() =>
+        startTransition(async () => {
+          const res = await cancelScreenTimeAction(id);
+          if (res.ok) router.refresh();
+          else setFailed(true);
+        })
+      }
+      className="-my-3 py-3 pl-3 text-sm font-semibold text-destructive disabled:opacity-40"
+    >
+      {failed ? "Nejde zrušit" : "Zrušit"}
+    </button>
   );
 }

@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { getSession } from "@/lib/auth";
 import { getBonusStatus } from "@/lib/bonus";
-import { getAppSettings, getWeekTotals } from "@/lib/credit";
+import { getAppSettings, getWeekBalance } from "@/lib/credit";
 import { AppHeader } from "@/app/_components/app-header";
 import { StatusTiles } from "../_components/status-header";
 import { czkToMinutes } from "../_components/format";
@@ -18,7 +18,7 @@ export default async function ChildTabsLayout({
   if (!user) redirect("/");
 
   const [week, settings, bonus, streak] = await Promise.all([
-    getWeekTotals(user.id),
+    getWeekBalance(user.id),
     getAppSettings(),
     getBonusStatus(user.id),
     db.user.findUnique({
@@ -32,7 +32,7 @@ export default async function ChildTabsLayout({
       <AppHeader name={user.name} />
       <main className="flex flex-1 flex-col gap-5 px-4 pt-4 pb-4">
         <StatusTiles
-          payoutCzk={Math.max(0, week.earnedCzk - week.screenTimeCzk)}
+          payoutCzk={week.netCzk}
           screenMinutes={czkToMinutes(week.screenTimeCzk, settings.screenTimeHourCostCzk)}
           streakDays={streak?.currentStreak ?? 0}
           bonusCzk={bonus.currentBonusCzk}

@@ -15,7 +15,7 @@ export type Transaction = {
 };
 
 /**
- * Cena za screen time. Minutes musí být kladný násobek `granularityMin`.
+ * Cena za screen time (D30: zapisuje se 15 nebo 60 min).
  * Vrací zaokrouhlenou cenu v Kč; přesný vzorec `(minutes / 60) * hourCost`,
  * zaokrouhleno na celé Kč.
  */
@@ -25,18 +25,6 @@ export function computeScreenTimeCost(
 ): number {
   if (minutes <= 0 || hourCostCzk <= 0) return 0;
   return Math.round((minutes / 60) * hourCostCzk);
-}
-
-/**
- * Validuje, jestli je počet minut povolený (kladný násobek granularity).
- */
-export function isValidScreenTimeMinutes(
-  minutes: number,
-  granularityMin: number,
-): boolean {
-  if (!Number.isInteger(minutes) || minutes <= 0) return false;
-  if (granularityMin <= 0) return false;
-  return minutes % granularityMin === 0;
 }
 
 /**
@@ -64,14 +52,32 @@ export function aggregateTransactions(transactions: Transaction[]): {
   return { earnedCzk, screenTimeCzk, balanceCzk };
 }
 
-/**
- * Spočítá týdenní výplatu z aggregátů. Kredit nesmí být záporný (nemůže dlužit).
- */
-export function computeWeeklyPayout(args: {
+/** D30: parent records only what iOS offers — 15 min or 1 h ("until end of day" is not supported). */
+export const SCREEN_RECORD_MINUTES = [15, 60] as const;
+
+export function isScreenRecordMinutes(minutes: number): boolean {
+  return (SCREEN_RECORD_MINUTES as readonly number[]).includes(minutes);
+}
+
+type WeekNet = {
   earnedCzk: number;
   screenTimeCzk: number;
   bonusCzk: number;
-}): number {
-  const total = args.earnedCzk - args.screenTimeCzk + args.bonusCzk;
-  return Math.max(0, total);
+  /** D30: debt carried in from the previous week (≤ 0). */
+  debtInCzk?: number;
+};
+
+const weekNet = (a: WeekNet) => a.earnedCzk - a.screenTimeCzk + a.bonusCzk + (a.debtInCzk ?? 0);
+
+/**
+ * Spočítá týdenní výplatu z aggregátů. Výplata nikdy není záporná;
+ * co nestačí, přejde jako dluh do dalšího týdne (D30, `computeDebtOut`).
+ */
+export function computeWeeklyPayout(args: WeekNet): number {
+  return Math.max(0, weekNet(args));
+}
+
+/** D30: debt the week passes on to the next one (≤ 0); 0 when the payout covered everything. */
+export function computeDebtOut(args: WeekNet): number {
+  return Math.min(0, weekNet(args));
 }

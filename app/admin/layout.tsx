@@ -4,7 +4,7 @@ import { getAdminInboxCount } from "@/lib/badges";
 import { BottomNav } from "../_components/bottom-nav";
 import { PushSync } from "../_components/push-sync";
 
-/** Parent part (M8.6, tok varianta B): Schválit · Děti · Výplaty · Víc, same frame as the child part. */
+/** Parent part (M8.6, tok varianta B; D30 Screen time tab): Schválit · Děti · Screen time · Výplaty · Víc. */
 export default async function AdminLayout({
   children,
 }: {
@@ -24,6 +24,7 @@ export default async function AdminLayout({
         tabs={[
           { href: "/admin", label: "Schválit", icon: "check-check", badge: inboxCount },
           { href: "/admin/deti", label: "Děti", icon: "users" },
+          { href: "/admin/obrazovka", label: "Screen time", icon: "monitor-play" },
           { href: "/admin/vyplaty", label: "Výplaty", icon: "wallet" },
           {
             href: "/admin/vic",

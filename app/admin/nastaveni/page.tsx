@@ -20,7 +20,6 @@ export default async function AdminSettingsPage() {
         initial={{
           hourlyRateCzk: settings.hourlyRateCzk,
           screenTimeHourCostCzk: settings.screenTimeHourCostCzk,
-          screenTimeMinGranularity: settings.screenTimeMinGranularity,
           monthlyBonusCzk: settings.monthlyBonusCzk,
           monthlyBonusStepCzk: settings.monthlyBonusStepCzk,
           defaultClaimTimeoutHours: settings.defaultClaimTimeoutHours,

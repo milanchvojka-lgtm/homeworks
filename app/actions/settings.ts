@@ -8,7 +8,6 @@ import { getAppSettings } from "@/lib/credit";
 export async function updateAppSettingsAction(input: {
   hourlyRateCzk: number;
   screenTimeHourCostCzk: number;
-  screenTimeMinGranularity: number;
   monthlyBonusCzk: number;
   monthlyBonusStepCzk: number;
   defaultClaimTimeoutHours: number;

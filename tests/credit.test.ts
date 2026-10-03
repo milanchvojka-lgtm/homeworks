@@ -2,8 +2,9 @@ import { describe, expect, it } from "vitest";
 import {
   aggregateTransactions,
   computeScreenTimeCost,
+  computeDebtOut,
   computeWeeklyPayout,
-  isValidScreenTimeMinutes,
+  isScreenRecordMinutes,
   type Transaction,
 } from "@/lib/credit-pure";
 
@@ -27,23 +28,6 @@ describe("computeScreenTimeCost", () => {
     expect(computeScreenTimeCost(0, 200)).toBe(0);
     expect(computeScreenTimeCost(-30, 200)).toBe(0);
     expect(computeScreenTimeCost(30, 0)).toBe(0);
-  });
-});
-
-describe("isValidScreenTimeMinutes", () => {
-  it("accepts positive multiples of granularity", () => {
-    expect(isValidScreenTimeMinutes(30, 30)).toBe(true);
-    expect(isValidScreenTimeMinutes(60, 30)).toBe(true);
-    expect(isValidScreenTimeMinutes(90, 30)).toBe(true);
-  });
-  it("rejects zero, negative, non-integer", () => {
-    expect(isValidScreenTimeMinutes(0, 30)).toBe(false);
-    expect(isValidScreenTimeMinutes(-30, 30)).toBe(false);
-    expect(isValidScreenTimeMinutes(45.5, 30)).toBe(false);
-  });
-  it("rejects non-multiples", () => {
-    expect(isValidScreenTimeMinutes(45, 30)).toBe(false);
-    expect(isValidScreenTimeMinutes(20, 30)).toBe(false);
   });
 });
 
@@ -98,5 +82,39 @@ describe("computeWeeklyPayout", () => {
     expect(
       computeWeeklyPayout({ earnedCzk: 100, screenTimeCzk: 0, bonusCzk: 200 }),
     ).toBe(300);
+  });
+});
+
+describe("D30: debt carried between weeks", () => {
+  it("debt from last week is taken from this week's payout", () => {
+    const week = { earnedCzk: 300, screenTimeCzk: 50, bonusCzk: 0, debtInCzk: -150 };
+    expect(computeWeeklyPayout(week)).toBe(100);
+    expect(computeDebtOut(week)).toBe(0);
+  });
+
+  it("what the payout can't cover carries over to next week", () => {
+    const week = { earnedCzk: 75, screenTimeCzk: 200, bonusCzk: 0, debtInCzk: -150 };
+    expect(computeWeeklyPayout(week)).toBe(0);
+    expect(computeDebtOut(week)).toBe(-275);
+  });
+
+  it("a week going negative on its own starts a debt", () => {
+    const week = { earnedCzk: 50, screenTimeCzk: 200, bonusCzk: 0 };
+    expect(computeWeeklyPayout(week)).toBe(0);
+    expect(computeDebtOut(week)).toBe(-150);
+  });
+
+  it("no debt, positive week: nothing carries", () => {
+    expect(computeDebtOut({ earnedCzk: 380, screenTimeCzk: 100, bonusCzk: 0 })).toBe(0);
+  });
+});
+
+describe("D30: parent records only 15 min or 1 h", () => {
+  it("accepts 15 and 60", () => {
+    expect(isScreenRecordMinutes(15)).toBe(true);
+    expect(isScreenRecordMinutes(60)).toBe(true);
+  });
+  it("rejects anything else", () => {
+    for (const m of [0, 30, 45, 90, -15, 15.5]) expect(isScreenRecordMinutes(m)).toBe(false);
   });
 });

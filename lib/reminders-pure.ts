@@ -111,3 +111,27 @@ export function approvalMessage(inboxCount: number): PushMessage {
     badge: inboxCount,
   };
 }
+
+const minutesLabel = (m: number) => (m % 60 === 0 ? `${m / 60} h` : `${m} min`);
+
+/** D30: push to the child when a parent records screen time; neutral, no "who recorded" (Milan 2026-10-03). */
+export function screenRecordedMessage(minutes: number, costCzk: number, openCount: number): PushMessage {
+  return {
+    title: `Zapsáno ${minutesLabel(minutes)} screen time`,
+    body: `−${costCzk} Kč z tvého kreditu.`,
+    url: "/child/obrazovka",
+    tag: "screen-time",
+    badge: openCount,
+  };
+}
+
+/** D30: push to the child when a parent cancels today's record (a mistake). */
+export function screenCancelledMessage(minutes: number, costCzk: number, openCount: number): PushMessage {
+  return {
+    title: `Zápis ${minutesLabel(minutes)} zrušen`,
+    body: `+${costCzk} Kč zpět.`,
+    url: "/child/obrazovka",
+    tag: "screen-time",
+    badge: openCount,
+  };
+}

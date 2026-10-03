@@ -17,12 +17,7 @@ import { getCurrentBalance } from "@/lib/credit";
 import { startOfDayPrague } from "@/lib/time";
 import { submitCheckAction, approveCheckAction, rejectCheckAction, excuseDayAction } from "@/app/actions/checks";
 import { claimTaskAction, reportTaskDoneAction, approveTaskAction, rejectTaskAction } from "@/app/actions/tasks";
-import {
-  requestScreenTimeAction,
-  approveScreenTimeAction,
-  rejectScreenTimeAction,
-  recordScreenTimeAction,
-} from "@/app/actions/screen-time";
+import { cancelScreenTimeAction, recordScreenTimeAction } from "@/app/actions/screen-time";
 import { markPayoutPaidAction } from "@/app/actions/payouts";
 import { createAbsenceAction, endAbsenceAction } from "@/app/actions/absence";
 import { completeWelcomeAction, setOwnPinAction } from "@/app/actions/welcome";
@@ -43,6 +38,7 @@ const addDays = (day: string, n: number) => {
 const weekday = (day: string) => new Date(`${day}T12:00:00Z`).getUTCDay(); // 0 = Sunday
 
 let f: Family;
+let screenPushesExpected = 0;
 const problems: string[] = [];
 const events: string[] = [];
 const log = (day: string, msg: string) => events.push(`${day} ${msg}`);
@@ -113,15 +109,6 @@ async function approveEverything(day: string, concurrent: boolean) {
     } else {
       asUser(f.teri);
       await approveTaskAction(t.id);
-    }
-  }
-  const screens = await db.screenTimeRequest.findMany({ where: { status: "PENDING" } });
-  for (const s of screens) {
-    asUser(f.milan);
-    const r = await approveScreenTimeAction(s.id);
-    if (!r.ok && r.error === "insufficient_credit") {
-      log(day, "screen time no longer covered by credit → parent returns it");
-      await rejectScreenTimeAction(s.id);
     }
   }
 }
@@ -246,9 +233,31 @@ describe("month simulation (D22)", () => {
       else if (day === "2026-10-01") log(day, "Neli forgets her checks (trial week)");
       const neliTask = home(f.neli) ? await tryClaim(f.neli, "Půdička") : null;
       if (i % 2 === 0 && home(f.neli)) {
-        asUser(f.neli);
-        const r = await requestScreenTimeAction(30);
-        log(day, `Neli asks 30 min → ${r.ok ? "ok" : (r as { error: string }).error}`);
+        // D30: Neli asks in iOS, a parent approves there and records 15 min here.
+        asUser(i % 4 === 0 ? f.milan : f.teri);
+        const r = await recordScreenTimeAction(f.neli.id, 15);
+        screenPushesExpected++;
+        log(day, `Neli gets 15 min (iOS) → ${r.ok ? "ok" : (r as { error: string }).error}`);
+      }
+      // D30: week 2 Emi binges (1 h Mon–Thu) far beyond what she earns → debt over two weeks.
+      if (i >= 7 && i <= 10 && home(f.emi)) {
+        asUser(f.milan);
+        const r = await recordScreenTimeAction(f.emi.id, 60);
+        screenPushesExpected++;
+        if (!r.ok) problems.push(`${day}: recording Emi 1 h without credit failed (${(r as { error: string }).error})`);
+      }
+      // D30: day 9 a mistaken record for Ani is undone right away; an old one can't be.
+      if (i === 9) {
+        asUser(f.teri);
+        await recordScreenTimeAction(f.ani.id, 60);
+        const wrong = await db.screenTimeRequest.findFirst({ where: { userId: f.ani.id }, orderBy: { createdAt: "desc" } });
+        const c = await cancelScreenTimeAction(wrong!.id);
+        screenPushesExpected += 2;
+        if (!c.ok) problems.push(`${day}: cancelling today's record failed (${(c as { error: string }).error})`);
+        const old = await db.screenTimeRequest.findFirst({
+          where: { status: "APPROVED", reviewedAt: { lt: startOfDayPrague() } },
+        });
+        if (old && (await cancelScreenTimeAction(old.id)).ok) problems.push(`${day}: an older record could be cancelled`);
       }
 
       // 17:30 / 19:00 reports (Neli once lets her task expire).
@@ -293,11 +302,12 @@ describe("month simulation (D22)", () => {
       if (mailedIds.has(f.ani.id)) problems.push(`${day}: parents' e-mail lists Ani, who sent everything`);
       if (dow === 3 && home(f.emi) && !mailedIds.has(f.emi.id)) problems.push(`${day}: parents' e-mail misses Emi's forgotten checks`);
 
-      // Saturday: parent records screen time Ani asked for verbally (D19).
+      // Saturday: parent records screen time Ani got in iOS (D19 → D30).
       if (dow === 6 && home(f.ani)) {
         setClock(at(day, "19:30"));
         asUser(f.milan);
         const r = await recordScreenTimeAction(f.ani.id, 60);
+        screenPushesExpected++;
         log(day, `Milan records 60 min for Ani → ${r.ok ? "ok" : (r as { error: string }).error}`);
       }
 
@@ -411,7 +421,7 @@ describe("month simulation (D22)", () => {
       where: { createdAt: { gte: at("2026-10-23", "00:00"), lt: at("2026-10-26", "00:00") } },
     });
     if (offersWhileAway) problems.push(`end: ${offersWhileAway} task offer(s) created while the whole family was away`);
-    // D28: every submitted check / task / screen time request pushed the parents.
+    // D28: every submitted check / task pushed the parents (D30: screen time no longer waits for them).
     await flushAfter();
     const unsentMails = emails.filter((e) => e.subject.includes("neodesláno")).length;
     const mailDays = (await db.reminderLog.findMany({ where: { key: "parents-email" }, distinct: ["date"] })).length;
@@ -423,6 +433,19 @@ describe("month simulation (D22)", () => {
       problems.push("end: an approval push did not go to both parents");
     }
     events.push(`end pushes: ${pushes.filter((p) => p.message.tag === "reminder").length} reminders, ${approvalPushes.length} approval pushes`);
+
+    // D30: every record and cancel pushed only the child; Emi's binge carried debt over two weeks.
+    const screenPushes = pushes.filter((p) => p.message.tag === "screen-time");
+    if (screenPushes.length !== screenPushesExpected)
+      problems.push(`end: ${screenPushes.length} screen time pushes, expected ${screenPushesExpected}`);
+    if (screenPushes.some((p) => p.userIds.length !== 1 || [f.milan.id, f.teri.id].includes(p.userIds[0])))
+      problems.push("end: a screen time push went to someone other than the child");
+    const emiDebt = await db.weeklyPayout.findMany({
+      where: { userId: f.emi.id, debtInCzk: { lt: 0 } },
+      orderBy: { weekStart: "asc" },
+    });
+    if (emiDebt.length < 2) problems.push(`end: Emi carried debt into ${emiDebt.length} week(s), expected 2+`);
+    events.push(`end Emi debt: ${emiDebt.map((w) => `${w.weekStart.toISOString().slice(5, 10)} ${w.debtInCzk}→${w.totalPayoutCzk}`).join(", ")}`);
 
     const weeks = await db.weeklyPayout.groupBy({ by: ["weekStart"], _count: true });
     if (weeks.length !== 5) problems.push(`end: ${weeks.length} closed weeks, expected 5`);

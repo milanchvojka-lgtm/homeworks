@@ -11,7 +11,6 @@ import { Button } from "@/components/ui/button";
 type Settings = {
   hourlyRateCzk: number;
   screenTimeHourCostCzk: number;
-  screenTimeMinGranularity: number;
   monthlyBonusCzk: number;
   monthlyBonusStepCzk: number;
   defaultClaimTimeoutHours: number;
@@ -77,11 +76,6 @@ export function SettingsForm({ initial }: { initial: Settings }) {
               label="Cena za hodinu screen time (Kč)"
               value={s.screenTimeHourCostCzk}
               onChange={(v) => upd("screenTimeHourCostCzk", v)}
-            />
-            <NumField
-              label="Granularita screen time (min)"
-              value={s.screenTimeMinGranularity}
-              onChange={(v) => upd("screenTimeMinGranularity", v)}
             />
           </CardContent>
         </Card>

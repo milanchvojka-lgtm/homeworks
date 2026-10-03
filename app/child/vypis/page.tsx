@@ -2,10 +2,10 @@ import { redirect } from "next/navigation";
 import { Check, ChevronDown } from "lucide-react";
 import { db } from "@/lib/db";
 import { getSession } from "@/lib/auth";
-import { getAppSettings, getWeekTotals } from "@/lib/credit";
+import { getAppSettings, getWeekBalance } from "@/lib/credit";
 import { endOfWeekPrague, startOfWeekPrague } from "@/lib/time";
 import { Badge } from "@/components/ui/badge";
-import { czkToMinutes, formatMinutes } from "../_components/format";
+import { czkToMinutes, formatCzk, formatMinutes } from "../_components/format";
 import { BackHeader } from "@/app/_components/app-header";
 import { TransactionList, getTransactionItems } from "../_components/transactions";
 
@@ -19,7 +19,7 @@ export default async function ChildStatementPage() {
   if (!user) redirect("/");
 
   const [week, settings, payouts] = await Promise.all([
-    getWeekTotals(user.id),
+    getWeekBalance(user.id),
     getAppSettings(),
     db.weeklyPayout.findMany({
       where: { userId: user.id },
@@ -31,7 +31,6 @@ export default async function ChildStatementPage() {
   const items = await getTransactionItems(user.id, oldest, startOfWeekPrague());
   const inWeek = (weekStart: Date) => items.filter((t) => t.weekStart.getTime() === weekStart.getTime());
   const thisWeek = inWeek(startOfWeekPrague());
-  const payout = Math.max(0, week.earnedCzk - week.screenTimeCzk);
   const screenMin = czkToMinutes(week.screenTimeCzk, settings.screenTimeHourCostCzk);
 
   return (
@@ -44,9 +43,14 @@ export default async function ChildStatementPage() {
           </span>
           <Row label="Vyděláno" value={`${week.earnedCzk} Kč`} />
           <Row label={`Screen time (${formatMinutes(screenMin)})`} value={week.screenTimeCzk > 0 ? `−${week.screenTimeCzk} Kč` : "0 Kč"} />
+          {week.debtInCzk < 0 && <Row label="Dluh z minulého týdne" value={formatCzk(week.debtInCzk)} />}
           <div className="flex items-center justify-between border-t border-muted pt-3">
             <span className="text-[17px] font-semibold">K výplatě v neděli</span>
-            <span className="font-mono text-[30px] font-bold text-highlight">{payout} Kč</span>
+            <span
+              className={`font-mono text-[30px] font-bold ${week.netCzk < 0 ? "text-destructive" : "text-highlight"}`}
+            >
+              {formatCzk(week.netCzk)}
+            </span>
           </div>
         </section>
 

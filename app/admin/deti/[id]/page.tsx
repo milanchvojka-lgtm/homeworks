@@ -3,14 +3,12 @@ import { notFound } from "next/navigation";
 import { ChevronRight, Plane } from "lucide-react";
 import { db } from "@/lib/db";
 import { getBonusStatus } from "@/lib/bonus";
-import { computeScreenTimeCost } from "@/lib/credit-pure";
-import { getAppSettings, getSpendableCredit, getWeekTotals } from "@/lib/credit";
+import { getAppSettings, getWeekBalance } from "@/lib/credit";
 import { endOfWeekPrague, startOfDayPrague, startOfWeekPrague } from "@/lib/time";
 import { BackHeader } from "@/app/_components/app-header";
-import { affordableMinutes, czkToMinutes, formatDayRange, formatMinutes } from "@/app/child/_components/format";
+import { czkToMinutes, formatDayRange, formatMinutes } from "@/app/child/_components/format";
 import { getChildWeek } from "../../_components/child-days";
 import { DayRow } from "../../_components/day-row";
-import { RecordScreen } from "../../_components/record-screen";
 
 /** "2 dny", "1 den", "5 dní". */
 function days(n: number): string {
@@ -19,7 +17,7 @@ function days(n: number): string {
   return `${n} dní`;
 }
 
-/** Detail dítěte (pen HWR · 03): this week, record screen time (D19), days of the week with excuse (D20). */
+/** Detail dítěte (pen HWR · 03): this week (with carried debt, D30), days of the week with excuse (D20). */
 export default async function AdminChildPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const child = await db.user.findUnique({
@@ -28,26 +26,15 @@ export default async function AdminChildPage({ params }: { params: Promise<{ id:
   });
   if (!child || child.role !== "CHILD") notFound();
 
-  const [week, settings, bonus, balance, weekDays, absence] = await Promise.all([
-    getWeekTotals(id),
+  const [week, settings, bonus, weekDays, absence] = await Promise.all([
+    getWeekBalance(id),
     getAppSettings(),
     getBonusStatus(id),
-    getSpendableCredit(id),
     getChildWeek(id),
     // Running or next upcoming absence (D24).
     db.absence.findFirst({ where: { userId: id, toDate: { gte: startOfDayPrague() } }, orderBy: { fromDate: "asc" } }),
   ]);
-  const payout = Math.max(0, week.earnedCzk - week.screenTimeCzk);
   const screenMin = czkToMinutes(week.screenTimeCzk, settings.screenTimeHourCostCzk);
-  const offers = [30, 60, 90].map((m) => {
-    const cost = computeScreenTimeCost(m, settings.screenTimeHourCostCzk);
-    return { minutes: m, cost, affordable: balance >= cost };
-  });
-  const canAfford = affordableMinutes(
-    balance,
-    settings.screenTimeHourCostCzk,
-    settings.screenTimeMinGranularity,
-  );
 
   const f = (d: Date) =>
     d
@@ -72,9 +59,14 @@ export default async function AdminChildPage({ params }: { params: Promise<{ id:
             label={`Screen time · ${formatMinutes(screenMin)}`}
             value={week.screenTimeCzk > 0 ? `−${week.screenTimeCzk} Kč` : "0 Kč"}
           />
+          {week.debtInCzk < 0 && (
+            <Row label="Dluh z minulého týdne" value={`−${-week.debtInCzk} Kč`} />
+          )}
           <div className="flex items-center justify-between border-t border-muted pt-2.5">
             <span className="font-bold">K výplatě</span>
-            <span className="font-mono text-xl font-bold">{payout} Kč</span>
+            <span className={`font-mono text-xl font-bold ${week.netCzk < 0 ? "text-destructive" : ""}`}>
+              {week.netCzk < 0 ? `−${-week.netCzk}` : week.netCzk} Kč
+            </span>
           </div>
           <div className="flex flex-col gap-2.5 border-t border-muted pt-2.5">
             <Row label="Řada" value={days(child.currentStreak)} />
@@ -95,14 +87,6 @@ export default async function AdminChildPage({ params }: { params: Promise<{ id:
             <ChevronRight className="size-[18px] text-subtle" />
           </Link>
         )}
-
-        <RecordScreen
-          userId={child.id}
-          name={child.name}
-          balanceCzk={balance}
-          affordableLabel={canAfford > 0 ? `na ${formatMinutes(canAfford)}` : null}
-          offers={offers}
-        />
 
         <h2 className="mt-1 font-mono text-xs font-bold tracking-[0.12em] uppercase">Dny týdne</h2>
         {weekDays.map((d) => (

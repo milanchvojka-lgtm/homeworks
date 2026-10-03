@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { checkCronAuth } from "@/lib/cron";
 import { db } from "@/lib/db";
-import { computeWeeklyPayout } from "@/lib/credit";
+import { computeWeeklyPayout, getCarriedDebt } from "@/lib/credit";
 import { closePastDays } from "@/lib/day-close";
 import { previousWeekStart } from "@/lib/day-close-pure";
 import { endOfWeekPrague } from "@/lib/time";
@@ -88,10 +88,13 @@ export async function GET(request: Request) {
       else if (t.type === "MONTHLY_BONUS" || t.type === "STREAK_MILESTONE" || t.type === "WELCOME_BONUS")
         bonusCzk += t.amountCzk; // D25: welcome bonus is paid out as bonus
     }
+    // D30: debt the previous week couldn't cover comes off this payout; the rest carries on.
+    const debtInCzk = await getCarriedDebt(child.id, weekStart);
     const totalPayout = computeWeeklyPayout({
       earnedCzk,
       screenTimeCzk,
       bonusCzk,
+      debtInCzk,
     });
 
     await db.weeklyPayout.create({
@@ -102,6 +105,7 @@ export async function GET(request: Request) {
         totalEarnedCzk: earnedCzk,
         totalScreenTimeCzk: screenTimeCzk,
         bonusCzk,
+        debtInCzk,
         totalPayoutCzk: totalPayout,
       },
     });
