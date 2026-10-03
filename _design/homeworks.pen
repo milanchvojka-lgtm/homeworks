@@ -21540,38 +21540,52 @@
                         },
                         {
                           "type": "frame",
-                          "id": "fudoF",
+                          "id": "ITRQH",
                           "name": "Účet",
+                          "clip": true,
                           "width": "fill_container",
-                          "gap": 12,
-                          "padding": [
-                            8,
-                            2
-                          ],
-                          "alignItems": "center",
+                          "fill": "$hw-card",
+                          "cornerRadius": 18,
+                          "stroke": "$hw-rule",
+                          "strokeWidth": 1,
+                          "layout": "vertical",
                           "children": [
                             {
-                              "type": "text",
-                              "id": "hxhDK",
-                              "name": "Přihlášen",
-                              "fill": "$hw-ink-60",
-                              "textGrowth": "fixed-width",
+                              "type": "frame",
+                              "id": "MsBJK",
+                              "name": "Řádek Odhlásit",
                               "width": "fill_container",
-                              "content": "Přihlášený: Milan",
-                              "fontFamily": "$hw-font-sans",
-                              "fontSize": 15,
-                              "fontWeight": "normal"
-                            },
-                            {
-                              "id": "V9Fwei",
-                              "type": "ref",
-                              "ref": "OPnr1",
-                              "name": "Odhlásit",
-                              "descendants": {
-                                "AZJJM": {
-                                  "content": "Odhlásit"
+                              "height": 56,
+                              "gap": 14,
+                              "padding": [
+                                0,
+                                18
+                              ],
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "f5Jjkh",
+                                  "name": "Ikona",
+                                  "width": 20,
+                                  "height": 20,
+                                  "icon": "log-out",
+                                  "library": "lucide",
+                                  "fill": "$hw-red"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "G2R9gK",
+                                  "name": "Label",
+                                  "fill": "$hw-red",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "Odhlásit",
+                                  "fontFamily": "$hw-font-sans",
+                                  "fontSize": 17,
+                                  "fontWeight": "600"
                                 }
-                              }
+                              ]
                             }
                           ]
                         }
@@ -45439,38 +45453,52 @@
                         },
                         {
                           "type": "frame",
-                          "id": "J0b98t",
+                          "id": "B05g0a",
                           "name": "Účet",
+                          "clip": true,
                           "width": "fill_container",
-                          "gap": 12,
-                          "padding": [
-                            8,
-                            2
-                          ],
-                          "alignItems": "center",
+                          "fill": "$hw-card",
+                          "cornerRadius": 18,
+                          "stroke": "$hw-rule",
+                          "strokeWidth": 1,
+                          "layout": "vertical",
                           "children": [
                             {
-                              "type": "text",
-                              "id": "u6qzi",
-                              "name": "Přihlášen",
-                              "fill": "$hw-ink-60",
-                              "textGrowth": "fixed-width",
+                              "type": "frame",
+                              "id": "SNNWx",
+                              "name": "Řádek Odhlásit",
                               "width": "fill_container",
-                              "content": "Přihlášený: Milan",
-                              "fontFamily": "$hw-font-sans",
-                              "fontSize": 15,
-                              "fontWeight": "normal"
-                            },
-                            {
-                              "id": "IB4Ji",
-                              "type": "ref",
-                              "ref": "OPnr1",
-                              "name": "Odhlásit",
-                              "descendants": {
-                                "AZJJM": {
-                                  "content": "Odhlásit"
+                              "height": 56,
+                              "gap": 14,
+                              "padding": [
+                                0,
+                                18
+                              ],
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "EeZsq",
+                                  "name": "Ikona",
+                                  "width": 20,
+                                  "height": 20,
+                                  "icon": "log-out",
+                                  "library": "lucide",
+                                  "fill": "$hw-red"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "phYyQ",
+                                  "name": "Label",
+                                  "fill": "$hw-red",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "Odhlásit",
+                                  "fontFamily": "$hw-font-sans",
+                                  "fontSize": 17,
+                                  "fontWeight": "600"
                                 }
-                              }
+                              ]
                             }
                           ]
                         }
