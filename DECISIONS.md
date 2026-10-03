@@ -540,7 +540,8 @@
 **Rozhodnutí:**
 - **Žádost a schválení žijí v iOS Čase u obrazovky** („Požádat o další čas“ → rodič schválí v iOS). Appka iOS žádosti nevidí a vytvořit je neumí (Apple pro ně nedává rozhraní, nativní appka s Family Controls je mimo stack), takže je **jen evidence**.
 - **Dítě v appce o obrazovku nežádá.** Záložka Screen time u dítěte je **jen přehled**: kolik času si tento týden vzala a kolik to stálo, seznam zápisů. Tlačítko „Požádat“ a výběr 30/60/90 odchází.
-- **Rodič zapíše čas rychle, ne v detailu dítěte:** vstup přímo v rodičovské části (tlačítko, nebo vlastní záložka — rozhodne návrh v penu, dvě varianty). Na obrazovce zápisu: **15 min / 1 h**, **dlaždice Ani · Neli · Emi**, **Uložit**. Nic není předvybrané.
+- **Rodič zapíše čas rychle, ne v detailu dítěte:** **vlastní 5. záložka „Screen time“** v rodičovské liště (Schválit · Děti · Screen time · Výplaty · Víc; Milan 2026-10-03 vybral variantu B, pen HWS · 01B). Na záložce rovnou zápis: **15 min / 1 h**, **dlaždice Ani · Neli · Emi** (jméno + kredit), **Uložit**; nic není předvybrané. Pod tím zápisy všech dětí tento týden.
+- **Omyl jde vrátit:** u dnešního zápisu je **„Zrušit“** — smaže zápis i odečet a dítěti přijde push „Zápis 15 min zrušen, +50 Kč zpět“. Starší zápisy se opravují úpravou kreditu.
 - **Granularita jen 15 min a 60 min**, stejně jako iOS. iOS volbu „do konce dne“ appka nepodporuje. Cena dál `(minutes / 60) × screenTimeHourCostCzk` (200 Kč/h → 15 min = 50 Kč).
 - **Zápis nikdy neselže na kreditu.** Čas už dítě v iOS dostalo, takže kredit **smí jít do mínusu** (mění D19, kde zápis bez kreditu nešel). Mínus se odečte z nejbližší nedělní výplaty; když výplata nestačí, **dluh se přenáší do dalšího týdne**, dokud se nesplatí. Výplata nikdy není záporná.
 - **Dítěti hned přijde push**, např. „Táta ti zapsal 15 min, −50 Kč“. Tím ví, že čas stojí peníze, i když žádalo mimo appku.

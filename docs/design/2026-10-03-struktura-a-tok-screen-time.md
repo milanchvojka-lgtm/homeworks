@@ -1,6 +1,6 @@
 # Screen time z iOS — struktura a tok
 
-**Datum:** 2026-10-03 · **Stav:** návrh · **Podle:** D30, scénář 5 (`2026-09-26-scenare.md`, krok ④ „zapíše obrazovku, o kterou se žádalo mimo appku“)
+**Datum:** 2026-10-03 · **Stav:** schváleno 2026-10-03 — varianta **B**, „Zrušit“ ano · **Podle:** D30, scénář 5 (`2026-09-26-scenare.md`, krok ④ „zapíše obrazovku, o kterou se žádalo mimo appku“)
 
 ## Situace (Milan 2026-10-03)
 
@@ -25,7 +25,7 @@ Holce dojde čas, v iOS ťukne „Požádat o další čas“. Rodiči přijde S
 
 ## Tok — rodič
 
-### Varianta A: tlačítko na Schválit
+### Varianta A: tlačítko na Schválit — zamítnuto 2026-10-03
 
 1. Rodič schválí čas v iOS, otevře appku → je na **Schválit** (výchozí záložka).
 2. Nahoře vidí řádek-tlačítko **„Zapsat screen time“** (ikona `monitor-play`), pod ním to, co čeká na schválení (nebo „Nic nevisí“).
@@ -34,23 +34,25 @@ Holce dojde čas, v iOS ťukne „Požádat o další čas“. Rodiči přijde S
 
 Ťuknutí: 1 (tlačítko) + 2 (volby) + 1 (Uložit) = **4**. Záložky zůstávají 4.
 
-### Varianta B: vlastní záložka
+### Varianta B: vlastní záložka — schváleno 2026-10-03
 
 1. Rodič schválí čas v iOS, otevře appku, ťukne na záložku **Screen time** (5. záložka, mezi Děti a Výplaty).
 2. Rovnou vidí zápis: **15 min · 1 h**, dlaždice **Ani · Neli · Emi**, **Uložit**.
 3. Pod formulářem **„Tento týden“**: zápisy všech dětí (kdo, kdy, kolik, za kolik), poslední nahoře.
 4. Uloží → formulář se vyprázdní, nový zápis naskočí nahoru do seznamu.
+5. Omyl: u dnešního zápisu ťukne **Zrušit** → zápis zmizí, kredit se vrátí, dítěti přijde push.
 
 Ťuknutí: 1 (záložka) + 2 + 1 = **4**. Navíc přehled zápisů na jednom místě. Cena: 5. záložka v liště (iOS běžně unese 5).
 
-## Tok — dítě (stejný v obou variantách)
+## Tok — dítě
 
 1. Přijde push „Táta ti zapsal 15 min, −50 Kč“. Ťuknutí otevře záložku **Screen time**.
 2. Vidí seznam zápisů **tento týden**: den a čas, 15 min / 1 h, −50 Kč, kdo zapsal.
-3. Když je kredit v mínusu: nahoře upozornění „Jsi v mínusu 120 Kč. Odečte se z nedělní výplaty.“
+3. Když je kredit v mínusu: částka je červeně v dlaždici hlavičky (−150 Kč), pod ní upozornění bez čísla „Jsi v mínusu. Dluh se odečte z nedělní výplaty. Co nestačí, přejde do dalšího týdne.“ (HWS · 03b)
 4. Prázdný stav (nic tento týden): `EmptyState` neutral, „Tento týden nic“ + „Čas u obrazovky si řekneš v iPhonu, tady uvidíš, kolik tě stál.“
 
-## Otázky pro Milana
+## Odpovědi (Milan 2026-10-03)
 
-1. Varianta **A** (tlačítko na Schválit), nebo **B** (5. záložka)? Návrh v penu ukáže obě.
-2. **Oprava omylu:** zapíšeš omylem Emi místo Neli — stačí „Zrušit“ u dnešního zápisu (ve variantě B v seznamu, v A na detailu dítěte)? Nebo opravy řešit ručně úpravou kreditu?
+1. Varianta **B**.
+2. **Zrušit** u dnešního zápisu ano.
+3. Dlaždice dítěte: „kredit 380 Kč“ se nevešel — kredit jen jako částka na vlastním řádku, dlaždice vyšší.
