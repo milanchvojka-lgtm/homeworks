@@ -1,14 +1,14 @@
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { CalendarDays, ChevronRight, KeyRound, LogOut, Trophy } from "lucide-react";
+import { CalendarDays, ChevronRight, KeyRound, Trophy } from "lucide-react";
 import { db } from "@/lib/db";
 import { getSession } from "@/lib/auth";
 import { getBonusStatus } from "@/lib/bonus";
-import { logoutAction } from "@/app/actions/auth";
 import { THEME_COOKIE, parseThemePref } from "@/lib/theme";
 import { ThemeSwitch } from "./_theme-switch";
 import { PushSettingRow } from "@/app/_components/push-setting-row";
+import { LogoutRow } from "@/app/_components/logout-row";
 
 /**
  * Já (návrh 2, frame 04). Shows only what the status header doesn't: next trophy, record,
@@ -95,15 +95,7 @@ export default async function ChildMePage() {
 
       <div className="overflow-hidden rounded-tile border border-border bg-card">
         <Row href="/child/ja/pin" icon={<KeyRound />} label="Změnit PIN" />
-        <form action={logoutAction} className="border-t border-muted">
-          <button
-            type="submit"
-            className="flex h-14 w-full items-center gap-3.5 px-[18px] text-[17px] font-semibold text-destructive"
-          >
-            <LogOut className="size-5" />
-            Odhlásit
-          </button>
-        </form>
+        <LogoutRow className="border-t border-muted" />
       </div>
     </div>
   );

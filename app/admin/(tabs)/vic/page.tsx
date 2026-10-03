@@ -1,20 +1,17 @@
 import Link from "next/link";
 import { ChevronRight, Layers, ListChecks, Plane, Settings, UsersRound } from "lucide-react";
 import { db } from "@/lib/db";
-import { getSession } from "@/lib/auth";
-import { logoutAction } from "@/app/actions/auth";
-import { Button } from "@/components/ui/button";
 import { startOfDayPrague } from "@/lib/time";
 import { formatDayRange } from "@/app/child/_components/format";
 import { PushSettingRow } from "@/app/_components/push-setting-row";
+import { LogoutRow } from "@/app/_components/logout-row";
 
 /** 1–4 take the short Czech plural ("3 lidé", "2 aktivní"), 0 and 5+ the genitive. */
 const few = (n: number) => n >= 1 && n <= 4;
 
-/** Víc (pen HWR · 05): rarely used things, one list, sign-out below. */
+/** Víc (pen HWR · 05): rarely used things, one list, sign-out tile below (same row as child Já). */
 export default async function AdminMorePage() {
-  const [user, activeTasks, competencies, people, awayNow] = await Promise.all([
-    getSession(),
+  const [activeTasks, competencies, people, awayNow] = await Promise.all([
     db.task.count({ where: { isActive: true } }),
     db.competency.findMany({ orderBy: { order: "asc" }, select: { name: true } }),
     db.user.count(),
@@ -61,13 +58,8 @@ export default async function AdminMorePage() {
         ))}
       </nav>
       <PushSettingRow role="parent" />
-      <div className="flex items-center gap-3 px-0.5 py-2">
-        <span className="flex-1 text-[15px] text-muted-foreground">Přihlášený: {user?.name}</span>
-        <form action={logoutAction}>
-          <Button variant="outline" type="submit">
-            Odhlásit
-          </Button>
-        </form>
+      <div className="overflow-hidden rounded-tile border border-border bg-card">
+        <LogoutRow />
       </div>
     </>
   );
