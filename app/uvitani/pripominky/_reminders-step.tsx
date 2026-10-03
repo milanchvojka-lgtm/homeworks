@@ -36,31 +36,33 @@ export function RemindersStep() {
     });
 
   return (
-    <main className="flex min-h-screen flex-1 flex-col bg-background pt-[max(0.75rem,env(safe-area-inset-top))] pb-[max(2.125rem,env(safe-area-inset-bottom))]">
-      <div className="flex flex-1 flex-col items-center justify-center gap-3.5 px-4 text-center">
-        {blocked ? <BellOff className="size-14 text-highlight" /> : <Bell className="size-14 text-highlight" />}
-        <h1 className="text-[28px] leading-tight font-bold tracking-tight">
-          {blocked ? "Připomínky jsou vypnuté" : "Připomenu ti to"}
-        </h1>
-        <p className="text-[17px] leading-snug text-muted-foreground">
-          {blocked
-            ? "Zapneš je v Nastavení → Oznámení → Homeworks."
-            : "Když ti večer něco zbývá, připomenu ti to. Ať nepřijdeš o řadu."}
-        </p>
-        {!blocked && (
-          <div className="flex w-full items-start gap-3 rounded-tile border border-border bg-card p-3.5 text-left">
-            <span className="flex size-[38px] shrink-0 items-center justify-center rounded-lg bg-highlight">
-              <House className="size-5 text-foreground" />
-            </span>
-            <span className="flex flex-1 flex-col gap-0.5">
-              <span className="font-mono text-xs font-bold tracking-wider text-subtle">HOMEWORKS · 19:30</span>
-              <span className="text-[15px] font-semibold">Ještě ti něco zbývá</span>
-              <span className="text-[13px] text-muted-foreground">
-                Zbývají ti 2 povinnosti. Odškrtni to do půlnoci, ať nepřijdeš o řadu.
+    <main className="flex h-dvh flex-col bg-background pt-[max(0.75rem,env(safe-area-inset-top))] pb-[max(2.125rem,env(safe-area-inset-bottom))]">
+      <div className="flex min-h-0 flex-1 flex-col overflow-y-auto px-4">
+        <div className="my-auto flex flex-col items-center gap-3.5 py-4 text-center">
+          {blocked ? <BellOff className="size-14 text-highlight" /> : <Bell className="size-14 text-highlight" />}
+          <h1 className="text-[28px] leading-tight font-bold tracking-tight">
+            {blocked ? "Připomínky jsou vypnuté" : "Připomenu ti to"}
+          </h1>
+          <p className="text-[17px] leading-snug text-muted-foreground">
+            {blocked
+              ? "Zapneš je v Nastavení → Oznámení → Homeworks."
+              : "Když ti večer něco zbývá, připomenu ti to. Ať nepřijdeš o řadu."}
+          </p>
+          {!blocked && (
+            <div className="flex w-full items-start gap-3 rounded-tile border border-border bg-card p-3.5 text-left">
+              <span className="flex size-[38px] shrink-0 items-center justify-center rounded-lg bg-highlight">
+                <House className="size-5 text-foreground" />
               </span>
-            </span>
-          </div>
-        )}
+              <span className="flex flex-1 flex-col gap-0.5">
+                <span className="font-mono text-xs font-bold tracking-wider text-subtle">HOMEWORKS · 19:30</span>
+                <span className="text-[15px] font-semibold">Ještě ti něco zbývá</span>
+                <span className="text-[13px] text-muted-foreground">
+                  Zbývají ti 2 povinnosti. Odškrtni to do půlnoci, ať nepřijdeš o řadu.
+                </span>
+              </span>
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="flex flex-col gap-1 px-4">

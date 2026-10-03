@@ -75,7 +75,7 @@ export function WelcomeFlow({
     });
 
   return (
-    <main className="flex min-h-screen flex-1 flex-col bg-background pt-[max(0.75rem,env(safe-area-inset-top))] pb-[max(2.125rem,env(safe-area-inset-bottom))]">
+    <main className="flex h-dvh flex-col bg-background pt-[max(0.75rem,env(safe-area-inset-top))] pb-[max(2.125rem,env(safe-area-inset-bottom))]">
       <div className="flex items-center justify-between px-4 py-2">
         <div className="flex items-center gap-1.5" aria-label={`Krok ${i + 1} ze ${steps.length}`}>
           {steps.map((_, d) => (
@@ -95,14 +95,16 @@ export function WelcomeFlow({
         </button>
       </div>
 
-      <div className="flex flex-1 flex-col items-center justify-center gap-3.5 px-4 text-center">
-        <step.Icon className="size-14 text-highlight" />
-        <span className="font-mono text-[11px] font-bold tracking-[0.14em] text-subtle">
-          KROK {i + 1} ZE {steps.length}
-        </span>
-        <h1 className="text-[28px] leading-tight font-bold tracking-tight">{step.title}</h1>
-        <p className="text-[17px] leading-snug text-muted-foreground">{step.text}</p>
-        {step.sample && <div className="w-full pt-2.5">{step.sample}</div>}
+      <div className="flex min-h-0 flex-1 flex-col overflow-y-auto px-4">
+        <div className="my-auto flex flex-col items-center gap-3.5 py-4 text-center">
+          <step.Icon className="size-14 text-highlight" />
+          <span className="font-mono text-[11px] font-bold tracking-[0.14em] text-subtle">
+            KROK {i + 1} ZE {steps.length}
+          </span>
+          <h1 className="text-[28px] leading-tight font-bold tracking-tight">{step.title}</h1>
+          <p className="text-[17px] leading-snug text-muted-foreground">{step.text}</p>
+          {step.sample && <div className="w-full pt-2.5">{step.sample}</div>}
+        </div>
       </div>
 
       <div className="px-4">
