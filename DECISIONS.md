@@ -532,3 +532,26 @@
 **Důvod:** Milan 2026-10-02: anglická verze „vhodná pro anglicky hovořící publikum“. Odpovědi na otázky: jen rodičovská, přeložit ukázky v penu, bez konkrétní měny.
 
 **Důsledky:** `app/en/for-parents/page.tsx`, `app/pro-rodice/_forms.tsx` a `app/actions/landing.ts` dostanou jazyk; pen sekce „HW · Landing page · návrh 3b EN“.
+
+---
+
+## D30 — Screen time se žádá a schvaluje v iOS, rodič ho v appce jen rychle zapíše (mění D19)
+
+**Rozhodnutí:**
+- **Žádost a schválení žijí v iOS Čase u obrazovky** („Požádat o další čas“ → rodič schválí v iOS). Appka iOS žádosti nevidí a vytvořit je neumí (Apple pro ně nedává rozhraní, nativní appka s Family Controls je mimo stack), takže je **jen evidence**.
+- **Dítě v appce o obrazovku nežádá.** Záložka Screen time u dítěte je **jen přehled**: kolik času si tento týden vzala a kolik to stálo, seznam zápisů. Tlačítko „Požádat“ a výběr 30/60/90 odchází.
+- **Rodič zapíše čas rychle, ne v detailu dítěte:** vstup přímo v rodičovské části (tlačítko, nebo vlastní záložka — rozhodne návrh v penu, dvě varianty). Na obrazovce zápisu: **15 min / 1 h**, **dlaždice Ani · Neli · Emi**, **Uložit**. Nic není předvybrané.
+- **Granularita jen 15 min a 60 min**, stejně jako iOS. iOS volbu „do konce dne“ appka nepodporuje. Cena dál `(minutes / 60) × screenTimeHourCostCzk` (200 Kč/h → 15 min = 50 Kč).
+- **Zápis nikdy neselže na kreditu.** Čas už dítě v iOS dostalo, takže kredit **smí jít do mínusu** (mění D19, kde zápis bez kreditu nešel). Mínus se odečte z nejbližší nedělní výplaty; když výplata nestačí, **dluh se přenáší do dalšího týdne**, dokud se nesplatí. Výplata nikdy není záporná.
+- **Dítěti hned přijde push**, např. „Táta ti zapsal 15 min, −50 Kč“. Tím ví, že čas stojí peníze, i když žádalo mimo appku.
+
+**Důvod:** Milan 2026-10-03: holky žádají přes iOS, rodiči přijde SMS/push a skoro vždycky schválí. Žádat podruhé v appce je „trošku demence“ a 30/60/90 neodpovídá iOS (15 min / 1 h / do konce dne). Varianta „zapíše dítě samo“ zamítnuta: dvojí práce pro děti. Odpovědi na otázky 2026-10-03: mínus ano (z nedělní výplaty), vstup tlačítkem nebo záložkou v appce (ne zkratka přes Safari), 15/60 bez „do konce dne“, u dítěte jen přehled.
+
+**Důsledky:**
+- `recordScreenTimeAction` bez kontroly kreditu, minuty jen 15 nebo 60; nová rodičovská obrazovka zápisu. Zápis v detailu dítěte (D19) se nahradí.
+- **Týdenní uzávěrka:** výplata = co dítě má k dobru včetně dluhu z minulých týdnů, ne jen součet daného týdne; `computeWeeklyPayout` přestane dluh tiše mazat. Výpis a Výplaty ukážou řádek „Dluh z minulého týdne“. Doplnit do simulace měsíce (D22) postavu s dluhem přes dva týdny. Sahá na peníze → před nasazením `npm run test:sim`.
+- Dětská žádost (`requestScreenTimeAction`, výběr 30/60/90, schvalování žádostí v Schválit, push rodiči o žádosti) odchází. Rozpracované `PENDING` žádosti se při nasazení zamítnou bez odpočtu.
+- Nastavení: granularita obrazovky (`screenTimeMinGranularity`) přestává být nastavitelná (pevně 15/60).
+- Nový push dítěti při zápisu (`lib/push.ts`, text v `lib/reminders-pure.ts` nebo vlastní modul).
+- UI podle D16: tok ve dvou variantách (tlačítko vs. záložka) → smlouva → pen → kód.
+- PRD §4.7, §5 Nastavení a §7 („Auto-approve obrazovky“) se mění podle tohoto záznamu.

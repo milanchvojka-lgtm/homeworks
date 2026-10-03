@@ -42,7 +42,7 @@ Aplikace je primárně provozována jako PWA na mobilních zařízeních (iPhone
   - Claimnout extra úkol (pokud jsou splněné kompetence dnešního dne).
   - Hlásit dokončení úkolu (= odeslání ke schválení adminem).
   - Vidět svůj aktuální týdenní/měsíční kredit, historii a stav „bonus stále ve hře".
-  - Žádat o čerpání času u obrazovky (= odepsání kreditu adminem).
+  - Vidět přehled času u obrazovky, který jí rodič zapsal (D30: žádá se v iOS, ne v appce).
 
 ### Out of scope pro v1
 - Prarodiče jako uživatelé (zůstávají mimo aplikaci).
@@ -276,30 +276,28 @@ Po přihlášení se uživatel směruje automaticky do `/admin` nebo `/child` po
 - **Priorita:** Must-have
 
 - **Description:**
-  Holka může část svého kreditu směnit za čas u obrazovky. Aplikace **NEVYNUCUJE** čas (nemůže technicky), pouze eviduje směnu jako transakci a sníží kredit.
+  *(D30, přepsáno 2026-10-03)* Čas u obrazovky se **žádá a schvaluje v iOS Čase u obrazovky** („Požádat o další čas“). Aplikace ho **NEVYNUCUJE** ani nevidí, jen eviduje: rodič čas zapíše a kredit holky se sníží.
 
   - Defaultní kurz: **200 Kč = 1 hodina obrazovky** (konfigurovatelné).
-  - Granularita: **30 minut** (= 100 Kč při defaultu).
+  - Zapisuje se jen **15 min** (= 50 Kč) nebo **1 h** (= 200 Kč), stejně jako iOS. „Do konce dne“ se nepodporuje.
+  - Kredit **smí jít do mínusu** (čas už byl v iOS dán). Mínus se odečte z nejbližší výplaty, co nestačí, přenáší se do dalšího týdne.
 
 - **User flow (dítě):**
-  1. V `/child/credit` klikne „Chci obrazovku".
-  2. Vybere množství (30 / 60 / 90 minut).
-  3. Vidí, kolik Kč to stojí. Potvrdí žádost.
-  4. Žádost přechází do stavu `pending` a čeká na admina.
+  1. Požádá v iOS, rodič schválí v iOS.
+  2. Přijde jí push „Táta ti zapsal 15 min, −50 Kč“.
+  3. Na záložce Screen time vidí jen přehled: kolik si tento týden vzala a za kolik, seznam zápisů. V appce o obrazovku nežádá.
 
 - **User flow (admin):**
-  1. V `/admin/screen-time` (nebo v inboxu) vidí žádost „Ani: 30 min za 100 Kč".
-  2. Klikne „Schváleno" → kredit holky se sníží, transakce se zaeviduje.
-  3. Volitelně klikne „Zamítnuto" (např. „máš dost obrazovky na dnešek") → bez odpočtu.
-  4. *(D19)* Když dítě požádalo mimo appku, admin obrazovku zapíše sám v detailu dítěte. Platí stejné pravidlo kreditu (nejde do mínusu).
-  5. *(D23)* Utratit se dá jen volný kredit: peníze uzavřeného, ještě nevyplaceného týdne jsou rezervované pro výplatu. Schválení kredit ověří znovu.
+  1. Schválí žádost v iOS.
+  2. V appce otevře rychlý zápis (tlačítko nebo záložka, viz návrh v penu), vybere 15 min / 1 h, dlaždici dítěte, Uložit.
+  3. Zápis nikdy neselže na kreditu.
 
 - **Data:**
   - **Read:** aktuální kredit, kurz.
   - **Write:** transakce „čerpání obrazovky", odpočet z kreditu.
 
 - **UI notes:**
-  - Žádost je rychlá — typicky jednou denně, nemusí být přes víc obrazovek.
+  - Zápis rodiče je rychlý — dvě volby a Uložit, jedna obrazovka.
   - V historii je vidět: kdy, kolik minut, kolik Kč.
 
 - **Edge cases:**
@@ -379,7 +377,7 @@ Po přihlášení se uživatel směruje automaticky do `/admin` nebo `/child` po
   Admin může v `/admin/settings` upravit:
   - Hodinová sazba práce (default 150 Kč/h) — používaná pro výpočet hodnoty úkolů z časového odhadu.
   - Cena hodiny obrazovky (default 200 Kč/h).
-  - Granularita obrazovky (default 30 min).
+  - ~~Granularita obrazovky (default 30 min).~~ *(D30: pevně 15 min / 1 h, nenastavuje se.)*
   - Měsíční bonus (default 200 Kč).
   - Výchozí timeout claim fronty (default 24h).
   - Výchozí timeout execute (default 3h).
@@ -446,7 +444,7 @@ Po přihlášení se uživatel směruje automaticky do `/admin` nebo `/child` po
 
   **(c) Web Push a číslo na ikoně appky** (D28, před launchem):
   - **Dítě:** připomínky jen když mu dnes ještě něco zbývá: 60 min před termínem povinnosti, 19:30 souhrn, 21:30 poslední šance, a hned při vrácení povinnosti. Číslo na ikoně = dnešní neodeslané povinnosti.
-  - **Rodič:** push hned při odeslané povinnosti, nahlášeném úkolu a žádosti o screen time. Číslo na ikoně = položky ke schválení.
+  - **Rodič:** push hned při odeslané povinnosti a nahlášeném úkolu (D30: žádost o screen time chodí z iOS, ne z appky). Číslo na ikoně = položky ke schválení.
   - Povolení v posledním kroku uvítání a v Já / Víc. Funguje jen v appce přidané na plochu.
 
   **(d) Večerní e-mail rodičům ve 20:00** (D28): které dítě má co z dneška ještě neodeslané. Jen když něco zbývá.
@@ -587,7 +585,7 @@ Explicitně **NEzahrnuto** ve verzi 1, ať se neztrácí fokus:
 - ❌ **Multi-tenant / víc rodin v jedné aplikaci.** Jen vaše rodina. Pro v2 možné rozšíření, datový model na to ale myslí (nemá baked-in tenant_id, ale lze přidat). Zájem dalších rodin sbírá veřejná landing page `/pro-rodice` (D26) — jen seznam zájemců e-mailem, žádná registrace.
 - ❌ **Fotky úkolů pro verifikaci.** Schvaluje se důvěrou + fyzickou kontrolou.
 - ❌ **Undo schválení adminem.** Schválení je finální. Pro v2 přidat.
-- ❌ **Auto-approve obrazovky.** Vždy přes admina. V2 zvážit limit pro auto-approve.
+- ❌ **Auto-approve obrazovky.** *(D30: bezpředmětné, schvaluje se v iOS, appka jen eviduje.)*
 - ❌ **Dvoufaktorové ověřování.** PIN stačí.
 - ❌ **Export dat / CSV.** Není potřeba pro v1.
 
