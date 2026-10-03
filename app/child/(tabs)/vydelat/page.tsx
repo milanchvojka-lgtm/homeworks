@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { ListChecks } from "lucide-react";
 import type { TaskStatus } from "@prisma/client";
 import { db } from "@/lib/db";
 import { getSession } from "@/lib/auth";
@@ -6,6 +7,7 @@ import { startOfDayPrague } from "@/lib/time";
 import { ChecksFirstBanner } from "../../_components/checks-first-banner";
 import { formatTimePrague } from "../../_components/format";
 import { TaskCard, type TaskCardData } from "../../_components/task-card";
+import { EmptyState } from "@/app/_components/empty-state";
 
 const MINE_ORDER: Partial<Record<TaskStatus, number>> = {
   CLAIMED: 0,
@@ -115,15 +117,20 @@ export default async function ChildEarnPage() {
         </>
       )}
 
-      {label("Nabídka")}
       {offerCards.length === 0 ? (
-        <p className="rounded-tile border border-border bg-card px-[18px] py-6 text-center text-muted-foreground">
-          Teď tu není nic k vydělání.
-        </p>
+        <EmptyState
+          Icon={ListChecks}
+          title={mineCards.length > 0 ? "Žádné další úkoly" : "Zatím žádné úkoly"}
+          text="Nové se tu objeví, až je rodiče přidají."
+          className="py-12"
+        />
       ) : (
-        offerCards.map((t) => (
-          <TaskCard key={t.id} task={t} nowIso={nowIso} poolLocked={!checksOk} />
-        ))
+        <>
+          {label("Nabídka")}
+          {offerCards.map((t) => (
+            <TaskCard key={t.id} task={t} nowIso={nowIso} poolLocked={!checksOk} />
+          ))}
+        </>
       )}
     </div>
   );

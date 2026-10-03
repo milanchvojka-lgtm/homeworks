@@ -8,6 +8,7 @@ import { approveTaskAction, rejectTaskAction } from "@/app/actions/tasks";
 import { approveScreenTimeAction, rejectScreenTimeAction } from "@/app/actions/screen-time";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { EmptyState } from "@/app/_components/empty-state";
 
 export type ApprovalItem = {
   id: string;
@@ -216,12 +217,12 @@ function ApprovalRow({
 /** Pen HWR · 01c. */
 export function NothingWaiting() {
   return (
-    <div className="flex flex-1 flex-col items-center justify-center gap-2.5 py-24 text-center">
-      <span className="flex size-14 items-center justify-center rounded-full bg-success-soft">
-        <CheckCheck className="size-7 text-success" />
-      </span>
-      <p className="text-[22px] font-bold tracking-tight">Nic nevisí</p>
-      <p className="text-[15px] text-muted-foreground">Všechno, co holky nahlásily, je vyřízené.</p>
-    </div>
+    <EmptyState
+      Icon={CheckCheck}
+      tone="success"
+      title="Nic nevisí"
+      text="Všechno, co holky nahlásily, je vyřízené."
+      className="flex-1 py-24"
+    />
   );
 }
