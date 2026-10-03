@@ -556,3 +556,19 @@
 - Nový push dítěti při zápisu (`lib/push.ts`, text v `lib/reminders-pure.ts` nebo vlastní modul).
 - UI podle D16: tok ve dvou variantách (tlačítko vs. záložka) → smlouva → pen → kód.
 - PRD §4.7, §5 Nastavení a §7 („Auto-approve obrazovky“) se mění podle tohoto záznamu.
+
+---
+
+## D31 — Rodič může udělat povinnost nebo úkol za dítě
+
+**Rozhodnutí:**
+- Rodič (Milan, Teri) může ve svém profilu označit jako hotové, co udělal sám („myčku jsem dal já, holky nebyly doma“), bez přihlašování za dítě.
+- **Povinnost dítěte (dnešní check):** rovnou `APPROVED` s poznámkou „Udělal(a) {rodič}“. **Dítěti se počítá jako splněná** (řada ani bonus neutrpí); dítě ji na Dnes vidí jako hotovou.
+- **Extra úkol:** **nikdo za něj nedostane peníze**, z nabídky zmizí. Týká se úkolu v nabídce, který si **ještě nikdo nevzal**, i úkolu, který má dítě rozdělaný.
+- **Kde:** povinnosti v detailu dítěte (Děti → dítě → dnešní povinnosti → „Udělám já“), extra úkoly v seznamu úkolů. Přesné umístění a vzhled podle D16 (tok → smlouva → pen), Milan souhlasí s oběma místy a chce pokrýt i dosud nevzaté úkoly z nabídky.
+
+**Důvod:** Milan 2026-10-03: „Někdy myčku dělám já nebo Tereza… no hard feelings.“ Odpovědi: povinnost se dítěti počítá jako splněná, úkol bez odměny, obě místa + nevzaté úkoly z nabídky.
+
+**Otevřené:** úkol, který má dítě rozdělaný (`CLAIMED`) — dostane dítě push „Úkol udělal táta“? Vyřeší tok.
+
+**Důsledky:** nové server actions pro admina (check → APPROVED s poznámkou; úkol → DONE bez `TASK_REWARD`, u opakovaných úkolů pokračuje rotace jako po dokončení). Simulace (D22): den, kdy povinnost udělá rodič, nesmí přerušit řadu. Implementace až po M10 (D30).
