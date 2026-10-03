@@ -1,5 +1,4 @@
 import { redirect } from "next/navigation";
-import type { CheckStatus, TaskStatus } from "@prisma/client";
 import { db } from "@/lib/db";
 import { getSession } from "@/lib/auth";
 import { getCurrentAssignment } from "@/lib/rotation";
@@ -8,22 +7,6 @@ import { CheckCard, type CheckCardData } from "../_components/check-card";
 import { TaskCard } from "../_components/task-card";
 import { FreeDay } from "../_components/free-day";
 import { currentAbsence } from "@/lib/absence";
-
-/** Dnešní úkoly: running first, then returned, waiting, approved. */
-const TASK_ORDER: Partial<Record<TaskStatus, number>> = {
-  CLAIMED: 0,
-  REJECTED: 1,
-  PENDING_REVIEW: 2,
-  DONE: 3,
-};
-
-const ORDER: Record<CheckStatus, number> = {
-  REJECTED: 0,
-  PENDING: 1,
-  SUBMITTED: 2,
-  APPROVED: 3,
-  MISSED: 4,
-};
 
 /** Dnes (návrh 2, frames 01A6, 01b, 01d; HW2 · 01: checks stay as cards, today's tasks stay until the day ends). */
 export default async function ChildToday() {
@@ -59,11 +42,12 @@ export default async function ChildToday() {
   const nowIso = new Date().toISOString();
 
   const checks: CheckCardData[] = instances
+    // Stable order (deadline, then admin order), never by status: cards must not jump when sent.
     .sort(
       (a, b) =>
-        ORDER[a.status] - ORDER[b.status] ||
-        (a.dailyCheck.dueTime ?? "23:59").localeCompare(b.dailyCheck.dueTime ?? "23:59") ||
-        a.dailyCheck.order - b.dailyCheck.order,
+        (a.dailyCheck.dueTime ?? "23:59").localeCompare(
+          b.dailyCheck.dueTime ?? "23:59",
+        ) || a.dailyCheck.order - b.dailyCheck.order,
     )
     .map((i) => ({
       id: i.id,
@@ -110,9 +94,8 @@ export default async function ChildToday() {
           <h2 className="mt-2 font-mono text-xs font-bold tracking-[0.12em] uppercase">
             Dnešní úkoly
           </h2>
-          {todayTasks
-            .sort((a, b) => (TASK_ORDER[a.status] ?? 9) - (TASK_ORDER[b.status] ?? 9))
-            .map((t) => (
+          {/* Claim order from the query, not status: cards must not jump when sent. */}
+          {todayTasks.map((t) => (
             <TaskCard
               key={t.id}
               nowIso={nowIso}
