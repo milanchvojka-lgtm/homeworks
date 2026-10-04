@@ -944,3 +944,13 @@ Jediný actions soubor, který hází výjimky místo `{ ok, error }` (viz SKILL
 - Kuchyň a stůl má termín 17:00, ostatní do konce dne.
 - Uzávěrky, výplata, řada a bonus fungují beze změny.
 - `npm test`, `npm run test:sim`, typecheck, lint bez chyb.
+
+---
+
+## Po M11 — Rodič udělá povinnost nebo úkol sám (D31)
+
+> Scénáře `docs/design/2026-10-04-scenare-rodic-udela-sam.md`, tok 1A + 2A, smlouva `…-rodic-udela-sam-co-menime-co-ne.md`.
+
+- ✅ 2026-10-04 (`775770c`): detail dítěte — dnešek rozbalený, „Udělám já“ u dnešní nenahlášené nebo vrácené povinnosti (`doCheckForChildAction`, značka v `note`), dítě vidí „Hotovo (Milan)“; Úkoly — sekce „Teď visí“ (`doTaskForChildAction`, bez odměny, `claimedById` null, push dítěti s rozdělaným úkolem); simulace se třemi případy, invariant odměn zná úkol hotový rodičem.
+- ✅ 2026-10-04 (`b048f62`): vrácený úkol v odznaku Vydělat a v Mých úkolech jen v den vrácení.
+

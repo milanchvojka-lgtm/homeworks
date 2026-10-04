@@ -1,6 +1,6 @@
 # Rodič udělá povinnost nebo úkol sám — co měníme, co ne
 
-**Datum:** 2026-10-04 · **Stav:** návrh · **Podle:** scénáře `2026-10-04-scenare-rodic-udela-sam.md` 1–3; tok `2026-10-04-struktura-a-tok-rodic-udela-sam.md` 1A + 2A; text „Hotovo (Milan)“ (Milan 2026-10-04); D31
+**Datum:** 2026-10-04 · **Stav:** schváleno 2026-10-04, implementováno 2026-10-04 (`775770c`), pen HWU · 01, 02 (snímky z kódu, sekce „HW · Rodič udělá sám“) · **Podle:** scénáře `2026-10-04-scenare-rodic-udela-sam.md` 1–3; tok `2026-10-04-struktura-a-tok-rodic-udela-sam.md` 1A + 2A; text „Hotovo (Milan)“ (Milan 2026-10-04); D31
 
 ## Co VZNIKÁ
 
