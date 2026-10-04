@@ -930,6 +930,7 @@ Jediný actions soubor, který hází výjimky místo `{ ok, error }` (viz SKILL
 
 - **11.1 Tok a pen:** ✅ 2026-10-04. Scénáře `docs/design/2026-10-04-scenare-denni-rotace.md`, tok `…-struktura-a-tok-denni-rotace.md` (1A push ve 14:00, 2A role v Dětech), smlouva `…-denni-rotace-co-menime-co-ne.md`, pen sekce „HW · Detail povinnosti (4. 10.)“ (HWD · 01A detail, 02B postup; komponenta `DayProgress` v knihovně). Náhled na zítřek ani rozpis dopředu se nedělá (scénáře).
 - **11.2 Rotace po dnech:** ✅ 2026-10-04. `CompetencyAssignment.date`, `computeDayIndex`, `assignCompetenciesForDay` v `openDay`; `weekly-rotation` endpoint a cron pryč.
+- **11.6 Nasazení:** ✅ 2026-10-04 (schéma na produkci spolu s D34, deploy `43c2143`, ruční `daily-rollover` přiřadil dnešní roli).
 - **11.3 Obsah:** katalog v seedu a simulaci ✅; ostrá DB po nasazení podle `LAUNCH_CHECKLIST.md` §4 (M11).
 - **11.3b Detail povinnosti (D33):** ✅ 2026-10-04. `DailyCheck.description`, pole „Co to znamená“ v administraci, řádek pod názvem v `CheckCard`.
 - **11.3c Dnes a Vydělat:** ✅ 2026-10-04. `DayProgress` (role + „n z m hotovo“ + pruh), na Dnes jen rozdělané a vrácené úkoly, ve Vydělat → Moje úkoly i dnes schválené.
