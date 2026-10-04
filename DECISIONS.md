@@ -587,7 +587,8 @@
 - **Ostatní kola kuchyně dělají rodiče mimo appku:** ráno Milan vyndá myčku, přes den ji naplní a zapne, po večeři Teri naplní myčku a uklidí kuchyň na ráno. V appce se rodičovská kola nezobrazují a rodiče nic neodškrtávají. Když rodič udělá odpolední kolo místo holky, platí D31.
 - **Povinnost visí celý den**, ne až od poledne. Holka ji udělá, až myčka doběhne. Případná push připomínka před 17:00 se řeší v toku (D28).
 - **Týdenní mechanika se nemění:** týdenní uzávěrka, výplata (D23), kredit, řada a měsíční bonus. Ty se počítají po dnech už dnes. Mění se jen přiřazení kompetence.
-- **Extra úkoly z katalogu (1× týdně):** vysát (20 min, 50 Kč) · utřít prach v obýváku (20 min, 50 Kč) · umýt koupelnu dole v přízemí (15 min, 40 Kč) · umýt koupelnu nahoře v patře (15 min, 40 Kč). Zakládá je rodič jako opakované úkoly (M3).
+- **Extra úkoly z katalogu (1× týdně):** vysát (20 min, 50 Kč) · utřít prach v obýváku (20 min, 50 Kč) · umýt koupelnu dole i nahoře (30 min, 80 Kč). Zakládá je rodič jako opakované úkoly (M3).
+- **Názvy povinností i úkolů popisují cílový stav**, ne činnost („Na kanapi se dá sednout“, ne „Uklidit kanape“). Seznam je v katalogu.
 - **Odměna extra úkolu = náročnost × 150 Kč/h**, zaokrouhleno na 10 Kč (Milan 2026-10-04). Je to vodítko pro rodiče při zakládání úkolu, appka ho nevynucuje.
 
 **Důvod:** Rodinná porada 2026-10-04. Milan: „rotace … nebude po týdnech, ale po dnech“ a „kuchyň … potřebujeme, abychom se do toho mohli zapojit i já se svojí ženou“. Kuchyň se dělá 2–3× denně, takže kolečko po kolech mezi pěti lidmi by holkám dávalo nerovnou denní zátěž (obývák plus kolo kuchyně). Tři holky a tři role vychází přesně. Odpolední kolo (~25 min) je srovnatelné s ostatními rolemi (~20–23 min) a rodiče berou ostatní kola. Milan 2026-10-04: „jednička, holka dělá jen kolo do 17:00“.

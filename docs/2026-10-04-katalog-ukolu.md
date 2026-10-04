@@ -34,15 +34,14 @@ Odměna = náročnost × 150 Kč/h, zaokrouhleno na 10 Kč.
 |---|---|---|---|---|
 | 9 | Vysát | | 20 | 50 Kč |
 | 10 | Utřít prach v obýváku | piano, TV skříňka, komody | 20 | 50 Kč |
-| 11 | Umýt koupelnu dole (přízemí) | záchod, zrcadlo, sprcha | 15 | 40 Kč |
-| 12 | Umýt koupelnu nahoře (patro) | záchod, zrcadlo, sprcha | 15 | 40 Kč |
+| 11 | Umýt obě koupelny (přízemí i patro) | záchod, zrcadlo, sprcha | 30 | 80 Kč |
 
 ## Termíny
 
 - **Do 17:00:** to, co jinak brání vaření a jídlu, tedy kuchyň a stůl.
 - **Do konce dne:** všechno ostatní.
 
-## Návrh: formulace jako cílový stav (2026-10-04, ke schválení)
+## Formulace jako cílový stav (schváleno 2026-10-04)
 
 Milan: název má popisovat konečný stav, ne činnost („na kanapi se dá sednout“ místo „uklidit kanape“). Detail řádek pod názvem = co to znamená, jen kde to není samo zřejmé.
 
@@ -58,8 +57,7 @@ Milan: název má popisovat konečný stav, ne činnost („na kanapi se dá sed
 | 4 | Uklidit a utřít stůl | **Stůl je připravený k jídlu** | uklizený a utřený |
 | 9 | Vysát | **Obývák je vysátý** | (extra) |
 | 10 | Utřít prach | **V obýváku není prach** | piano, TV skříňka, komody (extra) |
-| 11 | Umýt koupelnu dole | **Koupelna dole je čistá** | záchod, zrcadlo, sprcha (extra) |
-| 12 | Umýt koupelnu nahoře | **Koupelna nahoře je čistá** | záchod, zrcadlo, sprcha (extra) |
+| 11 | Umýt koupelny | **Koupelna dole i nahoře je čistá** | záchod, zrcadlo, sprcha (extra) |
 
 **Detail v appce:** extra úkoly ho mít můžou už dnes (`Task.description`). Denní povinnosti (`DailyCheck`) pole pro popis nemají. Detail u povinností = nové pole v datovém modelu, takže rozhodnutí do `DECISIONS.md` před implementací.
 
