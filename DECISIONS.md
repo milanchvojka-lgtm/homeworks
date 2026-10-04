@@ -361,7 +361,7 @@
 - **Denní uzávěrka** (`closePastDays` v `lib/day-close.ts`): všechny `PENDING` instance se dnem **před dneškem** → `MISSED`. Potom pro každé dítě projde uzavřené dny po `User.lastStreakDate` (od nejstaršího), aplikuje výsledek dne na řadu a trofeje jako dřív a posune `lastStreakDate` (nově i při přerušení řady, ne jen při posunu). Zmeškané je tedy až po půlnoci, jak říká pravidlo.
 - **Týdenní uzávěrka:** zavírá **předchozí** (už skončený) týden. Nejdřív spustí `closePastDays`, aby byla neděle uzavřená. Trofeje vyplatí s `weekStart` zavíraného týdne a součty počítá podle `CreditTransaction.weekStart`, ne podle `createdAt`.
 - **Měsíční uzávěrka:** zavírá **předchozí** měsíc. Nejdřív spustí `closePastDays`. Bonus připíše do **běžícího** týdne (`weekStart` teď), aby ho zahrnula příští týdenní výplata bez ohledu na pořadí úloh. Idempotence přes `referenceId = "RRRR-MM"` (starší kontrola podle `createdAt` v měsíci odpadá, bonus se teď připisuje až v dalším měsíci).
-- **Rotace a ranní generování:** `daily-rollover` si před vytvořením instancí zajistí přiřazení kompetencí na běžící týden (`assignCompetenciesForWeek`, idempotentní). `weekly-rotation` přiřadí běžící i příští týden.
+- **Rotace a ranní generování:** `daily-rollover` si před vytvořením instancí zajistí přiřazení kompetencí na běžící týden (`assignCompetenciesForWeek`, idempotentní). `weekly-rotation` přiřadí běžící i příští týden. *(D32: rotace po dnech, přiřazení dělá `daily-rollover`, `weekly-rotation` odchází.)*
 - **Rozvrh v `cron.yml`:** denní, týdenní a měsíční uzávěrka se posouvají **za půlnoc** (00:15 Prague v létě i v zimě, oba UTC spouštěče nechané). Rotace zůstává a je pojistkou.
 
 **Důvod:** v noci 26.–27. 9. 2026 (pilot) GitHub zpozdil správný `daily-close` o 2 h, takže za „dnešek“ vzal 27. 9. a 26. 9. se neuzavřel. Zimní spouštěč `59 22 * * *` navíc proběhl v létě ve 3:14 a nově vytvořené povinnosti 27. 9. rovnou označil jako zmeškané. Dítě pak vidělo „Na dnešek máš hotovo“ a úkoly zamčené. Kontrola „správného okna“ z D1 nebyla v `daily-close` ani `weekly-close` implementovaná a při zpoždění by stejně selhala. U `weekly-close` a `monthly-close` hrozilo totéž (neuzavřený týden bez výplat, přeskočený měsíční bonus).
@@ -412,7 +412,7 @@
 - **Povinnosti:** `daily-rollover` dítěti v den nepřítomnosti instance nevytvoří. Při zadání zpětně (nebo na dnešek) se jeho `PENDING`, `REJECTED` a `MISSED` instance v rozsahu smažou; `SUBMITTED` a `APPROVED` zůstávají (co udělalo, platí).
 - **Řada a trofeje se zmrazí:** den bez instancí se v řadě nepočítá ani ji nepřeruší (platí už dnes). Při zadání do už uzavřených dnů se řada přepočítá z historie stejně jako u D20 (sdílená funkce).
 - **Měsíční bonus:** dny pryč nejsou zaváhání (bonus počítá jen `MISSED`/`REJECTED`), takže zůstává plný.
-- **Kompetence:** přiřazení se nemění, rotace běží dál. Kompetence dítěte, které je pryč, zůstane ten týden neobsloužená (Milan: nikdo ji nepřebírá). Pro ostatní děti se nic nemění.
+- **Kompetence:** přiřazení se nemění, rotace běží dál. Kompetence dítěte, které je pryč, zůstane ten den neobsloužená (Milan: nikdo ji nepřebírá; od D32 se rotuje po dnech). Pro ostatní děti se nic nemění.
 - **Úkoly z nabídky:** nová instance do fronty nezařadí dítě, které je dnes pryč. Když je nabídka odemčená pro dítě, které je pryč, `claim-timeout` ji posune dalšímu hned. Když jsou pryč všechny děti, `recurring-tasks` nové instance nevytváří.
 - **Zrušení / zkrácení:** smaže jen dnešní a budoucí dny nepřítomnosti. Minulé dny zůstávají bez povinností (nelze je dodatečně vytvořit).
 - **Dítě** na Dnes vidí „Máš volno do …“ místo povinností.
@@ -572,3 +572,35 @@
 **Otevřené:** úkol, který má dítě rozdělaný (`CLAIMED`) — dostane dítě push „Úkol udělal táta“? Vyřeší tok.
 
 **Důsledky:** nové server actions pro admina (check → APPROVED s poznámkou; úkol → DONE bez `TASK_REWARD`, u opakovaných úkolů pokračuje rotace jako po dokončení). Simulace (D22): den, kdy povinnost udělá rodič, nesmí přerušit řadu. Implementace až po M10 (D30).
+
+---
+
+## D32 — Kompetence se točí po dnech; tři role včetně kuchyně do 17:00 (mění PRD §4.1, §4.2)
+
+**Rozhodnutí:**
+- **Rotace kompetencí po dnech, ne po týdnech.** Každá holka má každý den **právě jednu** kompetenci. 3 kompetence × 3 holky, takže stejnou roli má každá jednou za tři dny. Pořadí určuje `rotationOrder` jako dnes.
+- **Kompetence a jejich checky** (katalog `docs/2026-10-04-katalog-ukolu.md`, rodinná porada 2026-10-04):
+  - **Obývák:** uklidit kanape · vyvětrat (1× denně, kdykoli) · udržovat čisté povrchy (piano, TV skříňka, komody).
+  - **Prádlo a koupelna:** rozdělit a roznést prádlo · udržovat čistou koupelnu (drobnosti do koše, popadané ručníky).
+  - **Kuchyň a stůl** — jedno odpolední kolo, **termín 17:00** (D18), aby se dalo vařit a jíst: vyndat a uklidit umyté nádobí (myčka prázdná) · utřít linku · vysypat koše · odnést skleničky a sklo na půdičku, tašky a suché potraviny · uklidit a utřít stůl.
+  - Obývák a Prádlo a koupelna mají termín **do konce dne**.
+- **Ostatní kola kuchyně dělají rodiče mimo appku:** ráno Milan vyndá myčku, přes den ji naplní a zapne, po večeři Teri naplní myčku a uklidí kuchyň na ráno. V appce se rodičovská kola nezobrazují a rodiče nic neodškrtávají. Když rodič udělá odpolední kolo místo holky, platí D31.
+- **Povinnost visí celý den**, ne až od poledne. Holka ji udělá, až myčka doběhne. Případná push připomínka před 17:00 se řeší v toku (D28).
+- **Týdenní mechanika se nemění:** týdenní uzávěrka, výplata (D23), kredit, řada a měsíční bonus. Ty se počítají po dnech už dnes. Mění se jen přiřazení kompetence.
+- **Extra úkoly z katalogu (1× týdně):** vysát (15–20 min) · utřít prach v obýváku · umýt koupelnu, spodek (15 min) · umýt koupelnu, vršek (15 min). Zakládá je rodič jako opakované úkoly (M3). Odměny určí Milan.
+
+**Důvod:** Rodinná porada 2026-10-04. Milan: „rotace … nebude po týdnech, ale po dnech“ a „kuchyň … potřebujeme, abychom se do toho mohli zapojit i já se svojí ženou“. Kuchyň se dělá 2–3× denně, takže kolečko po kolech mezi pěti lidmi by holkám dávalo nerovnou denní zátěž (obývák plus kolo kuchyně). Tři holky a tři role vychází přesně. Odpolední kolo (~25 min) je srovnatelné s ostatními rolemi (~20–23 min) a rodiče berou ostatní kola. Milan 2026-10-04: „jednička, holka dělá jen kolo do 17:00“.
+
+**Zamítnuto:** kuchyň po kolech mezi všemi pěti (nerovná denní zátěž) · plánovač vyrovnávající minuty za týden (složitý, dětem nesrozumitelný) · kolo kuchyně jako placený extra úkol (kuchyň je nutnost, nesmí čekat, až si ji někdo vezme) · rodiče odškrtávají svá kola (nepřidá hodnotu; lze doplnit později, kdyby holky chtěly vidět i rodičovská kola).
+
+**Otevřené:**
+- Nepřítomnost (D24): role dítěte, které je pryč, zůstane ten den neobsloužená. U kuchyně to znamená, že odpolední kolo připadne rodičům. Ověřit s Milanem.
+- Minuty u denní koupelny a týdenního prachu. Co patří ke spodku a co k vršku koupelny.
+- Odměny extra úkolů.
+
+**Důsledky:**
+- `CompetencyAssignment` se váže na den místo `weekStart`. `rotateAssignments` dostane index dne (epoch zůstává). `daily-rollover` přiřadí běžící den (idempotentně) a `weekly-rotation` odchází (D21 věta o rotaci se tím mění). Přechod nesmí rozbít historii minulých týdnů.
+- UI podle D16: dítě na Dnes „Dnes máš Kuchyň a stůl“ + náhled „Zítra: Obývák“. Rodič vidí rozpis po dnech. Uvítání (D25) mluví o roli na den, ne na týden.
+- D24: „zůstane ten týden neobsloužená“ → „zůstane ten den neobsloužená“.
+- Obsah: kompetence a checky podle katalogu se zadají v administraci (nebo jednorázovým skriptem), staré oddíly Obývák / Stůl / Kuchyň se nahradí.
+- Simulace (D22): denní rotace, ověřit řadu a bonus přes přechod z týdenní rotace.

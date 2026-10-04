@@ -922,3 +922,21 @@ Jediný actions soubor, který hází výjimky místo `{ ok, error }` (viz SKILL
 - Zápis projde i při nulovém kreditu; nedělní výplata dluh odečte, zbytek dluhu se přenese.
 - Dítě v appce o obrazovku žádat nejde.
 - `npm test`, `npm run test:sim`, typecheck, lint bez chyb.
+
+---
+
+## Milestone 11 — Denní rotace a nový katalog povinností (D32)
+
+> Rozhodnutí D32, katalog `docs/2026-10-04-katalog-ukolu.md`. UI podle D16 (tok → smlouva → pen → kód). Sahá na rotaci a řadu → `npm run test:sim` před nasazením. Pořadí vůči D31 (rodič udělá za dítě) určí Milan.
+
+- **11.1 Tok a pen:** dítě na Dnes „Dnes: Kuchyň a stůl“ + „Zítra: …“, termín 17:00 u kuchyně; rodič rozpis rolí po dnech; texty uvítání (D25) „na den“ místo „na týden“.
+- **11.2 Rotace po dnech:** `CompetencyAssignment` vázané na den, `rotateAssignments` s indexem dne (testy v `rotation-pure`), přiřazení v `daily-rollover` (idempotentní), `weekly-rotation` endpoint a záznam v `cron.yml` pryč. Přechod nesmí přepsat historii minulých týdnů.
+- **11.3 Obsah:** kompetence Obývák · Prádlo a koupelna · Kuchyň a stůl s checky podle katalogu, `dueTime` 17:00 u kuchyně; staré kompetence pryč. Extra úkoly 1× týdně (vysát, prach, koupelna spodek/vršek) zakládá Milan v administraci.
+- **11.4 Nepřítomnost:** D24 platí po dnech (role dítěte, které je pryč, ten den neobsloužená).
+- **11.5 Simulace:** denní rotace v `npm run test:sim`, řada a bonus přes přechod z týdenní rotace.
+
+### Acceptance criteria
+- Každá holka má každý den právě jednu kompetenci, za tři dny projde všemi třemi.
+- Kuchyň a stůl má termín 17:00, ostatní do konce dne.
+- Uzávěrky, výplata, řada a bonus fungují beze změny.
+- `npm test`, `npm run test:sim`, typecheck, lint bez chyb.

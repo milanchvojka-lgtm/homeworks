@@ -78,15 +78,15 @@ Po přihlášení se uživatel směruje automaticky do `/admin` nebo `/child` po
 
 ## 4. Feature Specification
 
-### 4.1 Týdenní kompetence + denní checky
+### 4.1 Denní kompetence + denní checky *(D32: rotace po dnech)*
 
 - **Priorita:** Must-have
 
 - **Description:**
-  Každá kompetence (kuchyň, obývák, koupelna) je v daném týdnu přiřazená právě jedné holce. Každá kompetence obsahuje sadu **denních checků** definovaných adminem. Holka každý den odškrtává splněné checky a hlásí je ke schválení.
+  Každá kompetence (Obývák · Prádlo a koupelna · Kuchyň a stůl, viz D32) je v daném **dni** přiřazená právě jedné holce. Každá kompetence obsahuje sadu **denních checků** definovaných adminem. Holka každý den odškrtává splněné checky a hlásí je ke schválení.
 
 - **User flow (dítě):**
-  1. Holka otevře `/child/today`. Vidí: „Tento týden máš na starosti **Kuchyň**." + checklist denních checků pro daný den.
+  1. Holka otevře `/child/today`. Vidí: „Dnes máš na starosti **Kuchyň a stůl**." + checklist denních checků pro daný den.
   2. Po splnění klikne u každého checku „Hotovo" → check přejde do stavu *čeká na schválení*.
   3. Když všechny dnešní checky odeslala (nebo i průběžně), čeká na adminovo schválení.
   4. Po schválení se check zobrazí jako ✅. Pokud admin vrátí, zobrazí se jako ⚠️ s důvodem (volitelně) a holka může opravit a znovu odeslat.
@@ -113,12 +113,12 @@ Po přihlášení se uživatel směruje automaticky do `/admin` nebo `/child` po
 
 ---
 
-### 4.2 Týdenní rotace kompetencí
+### 4.2 Denní rotace kompetencí *(D32)*
 
 - **Priorita:** Must-have
 
 - **Description:**
-  Každou neděli o 23:59 se kompetence automaticky rotují podle adminem nastaveného pořadí. Standardní rotace: 3 kompetence × 3 holky → každá projde každou jednou za 3 týdny.
+  Každý den se kompetence automaticky posunou podle adminem nastaveného pořadí (přiřazení dělá ranní `daily-rollover`). Standardní rotace: 3 kompetence × 3 holky → každá má stejnou roli jednou za 3 dny. Kuchyň a stůl = jen odpolední kolo do 17:00; ostatní kola kuchyně dělají rodiče mimo appku (D32).
 
 - **User flow:**
   - Žádný interaktivní flow — automatika.
@@ -126,13 +126,13 @@ Po přihlášení se uživatel směruje automaticky do `/admin` nebo `/child` po
 
 - **Data:**
   - **Read:** aktuální mapování kompetence → holka.
-  - **Write:** týdně automaticky, ručně adminem na vyžádání.
+  - **Write:** denně automaticky, ručně adminem na vyžádání.
 
 - **UI notes:**
-  - V `/child/today` vidí holka v hlavičce „Tento týden: Kuchyň" + případný náhled „Příští týden: Obývák".
+  - V `/child/today` vidí holka v hlavičce „Dnes: Kuchyň a stůl" + náhled „Zítra: Obývák".
 
 - **Edge cases:**
-  - Pokud admin změní rotaci uprostřed týdne, předchozí rozdělané checky se uzavírají, nové se otevírají od dalšího dne.
+  - Pokud admin změní rotaci, dnešní rozdělané checky dobíhají, nové pořadí platí od dalšího dne.
 
 ---
 
@@ -543,7 +543,7 @@ Spouští se přes **GitHub Actions workflow** (`.github/workflows/cron.yml`), k
 Naplánované joby:
 - **Každý den 00:05 Prague:** generování `DailyCheckInstance` pro dnešní den (viz D2 — eager).
 - **Každý den po půlnoci (00:15 Prague, D21):** uzavření předchozích dnů (`PENDING` → `MISSED`), řada a trofeje.
-- **Každou neděli 23:55 Prague:** rotace kompetencí.
+- ~~**Každou neděli 23:55 Prague:** rotace kompetencí.~~ Od D32 přiřazuje kompetence na den `daily-rollover`.
 - **Každé pondělí po půlnoci (00:15 Prague, D21):** uzavření předchozího týdne (výpis a výplata).
 - **Každý den 06:00 Prague:** generování nových instancí opakujících se úkolů.
 - **Každých 15 min:** posun rotační fronty (claim timeout) + odeslání admin e-mail digestu (pokud je co a uplynulo aspoň 10 min od posledního).
@@ -596,7 +596,7 @@ Explicitně **NEzahrnuto** ve verzi 1, ať se neztrácí fokus:
 Body, které **nejsou rozhodnuté** a měly by se vyjasnit buď před implementací, nebo brzy během vývoje:
 
 1. **Konkrétní denní checky pro každou kompetenci.**
-   Máme strukturu, ale ne konkrétní obsah. Je to admin task — Milan + manželka definují prvotní seznam (např. 3–5 checků na kompetenci) před spuštěním v1.
+   ✅ Vyřešeno 2026-10-04 — D32 + katalog `docs/2026-10-04-katalog-ukolu.md`.
 
 2. **Default pořadí rotace kompetencí.**
    Které dítě začíná s kterou kompetencí v prvním týdnu? Triviální, ale je to volba.
@@ -626,7 +626,7 @@ Pro Claude Code: doporučený přírůstkový postup.
 
 ### Milestone 2 — Kompetence + denní checky
 - CRUD kompetencí a checků (admin).
-- Týdenní rotace (cron).
+- Týdenní rotace (cron). *(od D32 denní, v `daily-rollover`)*
 - Plnění + schvalování (child + admin).
 
 ### Milestone 3 — Pool úkolů + claim flow
