@@ -4,7 +4,8 @@ import { dueDateToday } from "./deadline-pure";
 export const DUE_REMINDER_MINUTES = 60;
 /** D28: evening summary and last chance, Europe/Prague "HH:mm". */
 export const EVENING_AT = "19:30";
-export const LAST_CHANCE_AT = "21:30";
+/** D35: before the girls' downtime at 21:30. */
+export const LAST_CHANCE_AT = "21:00";
 /** D32: today's role, after school, every day. */
 export const ROLE_AT = "14:00";
 

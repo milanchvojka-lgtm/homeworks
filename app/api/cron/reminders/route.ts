@@ -7,7 +7,7 @@ import { hourInPrague } from "@/lib/time";
 
 /**
  * D28: volá GitHub Actions každých 15 min.
- * - Push připomínky dětem (60 min před termínem, 19:30, 21:30), jen když něco zbývá.
+ * - Push připomínky dětem (60 min před termínem, 19:30, 21:00), jen když něco zbývá.
  * - Od 20:00 do půlnoci Prague e-mail rodičům o neodeslaném (jednou za den; okno do půlnoci kvůli zpožděným
  *   během GitHub Actions, D21).
  * - Chybějící VAPID / e-mailové proměnné nebo neodeslaný e-mail = HTTP 500, ať úloha zčervená (tichá

@@ -38,6 +38,11 @@ describe("pickReminder", () => {
     expect(pickReminder([kitchen, bath], new Set(["evening"]), at("20:15"))).toBeNull();
   });
 
+  it("sends last chance at 21:00, before the downtime at 21:30 (D35)", () => {
+    expect(pickReminder([bath], new Set(["evening"]), at("20:45"))).toBeNull();
+    expect(pickReminder([bath], new Set(["evening"]), at("21:00"))?.keys).toEqual(["last"]);
+  });
+
   it("skips a stale evening summary when the cron runs late, sends last chance once", () => {
     const r = pickReminder([bath], none, at("21:40"));
     expect(r?.keys).toEqual(["last"]);
