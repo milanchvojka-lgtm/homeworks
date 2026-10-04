@@ -13,6 +13,7 @@ const MINE_ORDER: Partial<Record<TaskStatus, number>> = {
   CLAIMED: 0,
   REJECTED: 1,
   PENDING_REVIEW: 2,
+  DONE: 3,
 };
 
 /** Vydělat = former Pool + Mé úkoly (návrh 2, frames 02c2, 02-2, 02b). */
@@ -29,7 +30,11 @@ export default async function ChildEarnPage() {
     db.taskInstance.findMany({
       where: {
         claimedById: user.id,
-        status: { in: ["CLAIMED", "PENDING_REVIEW", "REJECTED"] },
+        // D32 flow: approved today stays visible here (it left Dnes).
+        OR: [
+          { status: { in: ["CLAIMED", "PENDING_REVIEW", "REJECTED"] } },
+          { status: "DONE", reviewedAt: { gte: today } },
+        ],
       },
       include: { task: true },
       orderBy: { claimedAt: "desc" },

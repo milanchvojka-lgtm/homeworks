@@ -3,17 +3,27 @@ import { ChevronRight } from "lucide-react";
 import { db } from "@/lib/db";
 import { getWeekTotals } from "@/lib/credit";
 import { startOfDayPrague } from "@/lib/time";
+import { absentUserIds } from "@/lib/absence";
 
-/** "zbývá 1 povinnost", "zbývají 2 povinnosti", "zbývá 5 povinností". */
-function remaining(n: number): string {
-  if (n === 1) return "dnes zbývá 1 povinnost";
-  if (n >= 2 && n <= 4) return `dnes zbývají ${n} povinnosti`;
-  return `dnes zbývá ${n} povinností`;
+/** "zbývá 1 z 3", "zbývají 2 z 3"; non-breaking spaces keep "2 z 3" on one line. */
+function remaining(open: number, total: number): string {
+  return `${open >= 2 && open <= 4 ? "zbývají" : "zbývá"} ${open}\u00a0z\u00a0${total}`;
 }
 
-/** Děti (pen HWR · 02): one row per child in rotation order, this week's earnings and what is left today. */
+/**
+ * Děti (pen HWR · 02): one row per child in rotation order, this week's earnings, today's role and
+ * what is left (D32). A role nobody covers today (child away, D24) gets its own line.
+ */
 export default async function AdminChildrenPage() {
   const today = startOfDayPrague();
+  const [assignments, away] = await Promise.all([
+    db.competencyAssignment.findMany({
+      where: { date: today },
+      select: { userId: true, competency: { select: { name: true, order: true } } },
+    }),
+    absentUserIds(),
+  ]);
+  const roleOf = new Map(assignments.map((a) => [a.userId, a.competency.name]));
   const children = await db.user.findMany({
     where: { role: "CHILD" },
     select: {
@@ -34,11 +44,22 @@ export default async function AdminChildrenPage() {
         }),
       ]);
       const open = todayChecks.filter((x) => x.status === "PENDING" || x.status === "REJECTED").length;
-      const sub =
-        todayChecks.length === 0 ? "dnes bez povinností" : open === 0 ? "dnes hotovo" : remaining(open);
+      const role = roleOf.get(c.id);
+      const status = away.has(c.id)
+        ? "dnes pryč"
+        : todayChecks.length === 0
+          ? "dnes bez povinností"
+          : open === 0
+            ? "hotovo"
+            : remaining(open, todayChecks.length);
+      const sub = role && !away.has(c.id) ? `${role} · ${status}` : status;
       return { id: c.id, name: c.name, avatarColor: c.avatarColor, earned: week.earnedCzk, sub, remindersOff: c._count.pushSubscriptions === 0 };
     }),
   );
+
+  const uncovered = assignments
+    .filter((a) => away.has(a.userId))
+    .sort((a, b) => a.competency.order - b.competency.order);
 
   return (
     <>
@@ -63,6 +84,11 @@ export default async function AdminChildrenPage() {
           <span className="font-mono text-[17px] font-bold">{c.earned} Kč</span>
           <ChevronRight className="size-[18px] text-subtle" />
         </Link>
+      ))}
+      {uncovered.map((a) => (
+        <p key={a.userId} className="text-sm text-subtle">
+          {a.competency.name} · dnes nikdo ({rows.find((c) => c.id === a.userId)?.name} pryč)
+        </p>
       ))}
       <p className="text-[13px] text-subtle">Částka = vyděláno tento týden (úkoly a odměny).</p>
     </>

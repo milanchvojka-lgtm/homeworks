@@ -12,6 +12,8 @@ import { useNow } from "./use-now";
 export type CheckCardData = {
   id: string;
   name: string;
+  /** D33: what the end state means; shown under the name when set. */
+  description: string | null;
   status: CheckStatus;
   dueTime: string | null;
   note: string | null;
@@ -55,7 +57,12 @@ export function CheckCard({ check, nowIso }: { check: CheckCardData; nowIso: str
         </span>
       </div>
 
-      <h3 className="text-xl leading-tight font-bold tracking-tight">{check.name}</h3>
+      <div className="flex flex-col gap-1">
+        <h3 className="text-xl leading-tight font-bold tracking-tight">{check.name}</h3>
+        {check.description && (
+          <p className="text-[15px] leading-[1.35] text-muted-foreground">{check.description}</p>
+        )}
+      </div>
 
       {status === "REJECTED" && check.note && (
         <p className="flex gap-2.5 rounded-xl bg-danger-soft px-3.5 py-3 text-[15px]">

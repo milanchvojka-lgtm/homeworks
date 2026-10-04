@@ -36,7 +36,7 @@ export async function updateCompetencyAction(
 
 export async function createDailyCheckAction(
   competencyId: string,
-  data: { name: string; timeOfDay: TimeOfDay; dueTime?: string | null },
+  data: { name: string; description?: string | null; timeOfDay: TimeOfDay; dueTime?: string | null },
 ): Promise<void> {
   await requireAdmin();
   const last = await db.dailyCheck.findFirst({
@@ -47,6 +47,7 @@ export async function createDailyCheckAction(
     data: {
       competencyId,
       name: data.name.trim(),
+      description: data.description?.trim() || null,
       timeOfDay: data.timeOfDay,
       dueTime: normalizeDueTime(data.dueTime),
       order: (last?.order ?? 0) + 1,
@@ -58,13 +59,14 @@ export async function createDailyCheckAction(
 
 export async function updateDailyCheckAction(
   id: string,
-  data: { name: string; timeOfDay: TimeOfDay; dueTime?: string | null },
+  data: { name: string; description?: string | null; timeOfDay: TimeOfDay; dueTime?: string | null },
 ): Promise<void> {
   await requireAdmin();
   const updated = await db.dailyCheck.update({
     where: { id },
     data: {
       name: data.name.trim(),
+      description: data.description?.trim() || null,
       timeOfDay: data.timeOfDay,
       dueTime: normalizeDueTime(data.dueTime),
     },

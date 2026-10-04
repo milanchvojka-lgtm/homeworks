@@ -6,9 +6,13 @@ import { startOfDayPrague } from "@/lib/time";
 import { CheckCard, type CheckCardData } from "../_components/check-card";
 import { TaskCard } from "../_components/task-card";
 import { FreeDay } from "../_components/free-day";
+import { DayProgress } from "../_components/day-progress";
 import { currentAbsence } from "@/lib/absence";
 
-/** Dnes (návrh 2, frames 01A6, 01b, 01d; HW2 · 01: checks stay as cards, today's tasks stay until the day ends). */
+/**
+ * Dnes (návrh 2, frames 01A6, 01b, 01d): today's role with progress and check detail (D32, D33, pen HWD · 01A, 02B).
+ * Only tasks the child must act on stay here (running, returned); sent and approved ones live in Vydělat.
+ */
 export default async function ChildToday() {
   const user = await getSession();
   if (!user) redirect("/");
@@ -23,17 +27,8 @@ export default async function ChildToday() {
         reviewer: { select: { name: true } },
       },
     }),
-    // Taken today (any state), plus older ones still running or waiting.
     db.taskInstance.findMany({
-      where: {
-        claimedById: user.id,
-        status: { in: ["CLAIMED", "PENDING_REVIEW", "REJECTED", "DONE"] },
-        OR: [
-          { status: { in: ["CLAIMED", "PENDING_REVIEW"] } },
-          { claimedAt: { gte: today } },
-          { reviewedAt: { gte: today } },
-        ],
-      },
+      where: { claimedById: user.id, status: { in: ["CLAIMED", "REJECTED"] } },
       include: { task: true },
       orderBy: { claimedAt: "asc" },
     }),
@@ -52,6 +47,7 @@ export default async function ChildToday() {
     .map((i) => ({
       id: i.id,
       name: i.dailyCheck.name,
+      description: i.dailyCheck.description,
       status: i.status,
       dueTime: i.dailyCheck.dueTime,
       note: i.note,
@@ -59,11 +55,6 @@ export default async function ChildToday() {
       reviewerName: i.reviewer?.name ?? null,
     }));
 
-  const label = (
-    <h2 className="font-mono text-xs font-bold tracking-[0.12em] uppercase">
-      Kompetence: {assignment?.competency.name ?? "—"}
-    </h2>
-  );
 
   return (
     <div className="flex flex-col gap-3">
@@ -78,11 +69,11 @@ export default async function ChildToday() {
         <p className="rounded-tile border border-border bg-card px-[18px] py-6 text-center text-muted-foreground">
           {assignment
             ? "Na dnešek nemáš žádné povinnosti."
-            : "Tento týden nemáš přiřazenou povinnost."}
+            : "Dnes nemáš přiřazenou povinnost."}
         </p>
       ) : (
         <>
-          {label}
+          <DayProgress role={assignment?.competency.name ?? "—"} statuses={checks.map((c) => c.status)} />
           {checks.map((c) => (
             <CheckCard key={c.id} check={c} nowIso={nowIso} />
           ))}

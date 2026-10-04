@@ -2,6 +2,7 @@ import "server-only";
 import { db } from "./db";
 import { sendPush } from "./push";
 import { pickReminder, type OpenCheck } from "./reminders-pure";
+import { getCurrentAssignment } from "./rotation";
 import { startOfDayPrague } from "./time";
 
 /** Today's checks the child still has to send (PENDING or returned). Days away have no instances (D24). */
@@ -30,7 +31,8 @@ export async function sendChildReminders(now: Date = new Date()): Promise<number
   for (const child of children) {
     const open = await openChecksToday(child.id, now);
     const logged = await db.reminderLog.findMany({ where: { userId: child.id, date: today }, select: { key: true } });
-    const reminder = pickReminder(open, new Set(logged.map((l) => l.key)), now);
+    const role = open.length > 0 ? (await getCurrentAssignment(child.id, now))?.competency.name ?? null : null;
+    const reminder = pickReminder(open, new Set(logged.map((l) => l.key)), now, role);
     if (!reminder) continue;
 
     const claimed = await db.reminderLog.createMany({

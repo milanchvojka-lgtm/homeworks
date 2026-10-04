@@ -21,15 +21,12 @@ on:
         required: true
         default: "health"
   schedule:
-    # daily-rollover: 00:05 Prague (23:05 UTC zima / 22:05 UTC léto)
+    # daily-rollover: 00:05 Prague (23:05 UTC zima / 22:05 UTC léto); přiřadí i dnešní role (D32)
     - cron: "5 23 * * *"
     - cron: "5 22 * * *"
     # daily-close + monthly-close: 00:15 Prague (23:15 UTC zima / 22:15 UTC léto), D21
     - cron: "15 23 * * *"
     - cron: "15 22 * * *"
-    # weekly-rotation: Sun 23:55 Prague (22:55 UTC zima / 21:55 UTC léto)
-    - cron: "55 22 * * 0"
-    - cron: "55 21 * * 0"
     # weekly-close: Mon 00:20 Prague (Sun 23:20 UTC zima / Sun 22:20 UTC léto), D21
     - cron: "20 23 * * 0"
     - cron: "20 22 * * 0"
@@ -82,7 +79,6 @@ jobs:
           case "${SCHEDULE}" in
             "5 23 * * *"|"5 22 * * *")   ENDPOINTS="daily-rollover" ;;
             "15 23 * * *"|"15 22 * * *") ENDPOINTS="daily-close monthly-close" ;;
-            "55 22 * * 0"|"55 21 * * 0") ENDPOINTS="weekly-rotation" ;;
             "20 23 * * 0"|"20 22 * * 0") ENDPOINTS="weekly-close" ;;
             "0 5 * * *"|"0 4 * * *")     ENDPOINTS="recurring-tasks" ;;
             "*/15 * * * *")              ENDPOINTS="reminders claim-timeout admin-digest"; INDEPENDENT=1 ;;

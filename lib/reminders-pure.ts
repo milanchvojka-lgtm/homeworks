@@ -5,6 +5,8 @@ export const DUE_REMINDER_MINUTES = 60;
 /** D28: evening summary and last chance, Europe/Prague "HH:mm". */
 export const EVENING_AT = "19:30";
 export const LAST_CHANCE_AT = "21:30";
+/** D32: today's role, after school, every day. */
+export const ROLE_AT = "14:00";
 
 export type OpenCheck = { dailyCheckId: string; name: string; dueTime: string | null };
 
@@ -38,8 +40,14 @@ const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
  * `open` = today's checks still to send (PENDING or REJECTED); nothing open → nothing sent.
  * `sentKeys` = keys already in ReminderLog for today, so a late or doubled cron run never repeats one.
  * Windows end where the next reminder takes over, so a cron running late skips a stale reminder.
+ * `role` = today's role name (D32); without it the role reminder is skipped.
  */
-export function pickReminder(open: OpenCheck[], sentKeys: ReadonlySet<string>, now: Date): Reminder | null {
+export function pickReminder(
+  open: OpenCheck[],
+  sentKeys: ReadonlySet<string>,
+  now: Date,
+  role: string | null = null,
+): Reminder | null {
   if (open.length === 0) return null;
 
   const evening = dueDateToday(EVENING_AT, now);
@@ -73,7 +81,7 @@ export function pickReminder(open: OpenCheck[], sentKeys: ReadonlySet<string>, n
     const due = dueDateToday(c.dueTime, now);
     return now < due && due.getTime() - now.getTime() <= DUE_REMINDER_MINUTES * 60_000;
   });
-  if (dueSoon.length === 0) return null;
+  if (dueSoon.length === 0) return roleReminder(open, sentKeys, now, role, evening, base);
 
   const earliest = dueSoon.map((c) => c.dueTime!).sort()[0];
   return {
@@ -83,6 +91,33 @@ export function pickReminder(open: OpenCheck[], sentKeys: ReadonlySet<string>, n
       title: "Blíží se termín",
       body: `Do ${earliest} ti ${checksLeft(dueSoon.length).join(" ")}. Odškrtni to, ať nepřijdeš o řadu.`,
     },
+  };
+}
+
+/**
+ * D32: "Dnes máš Kuchyň a stůl · Do 17:00." from 14:00, once a day. The window ends where the next
+ * reminder takes over: one hour before the earliest due time of what is open, or the evening summary.
+ */
+function roleReminder(
+  open: OpenCheck[],
+  sentKeys: ReadonlySet<string>,
+  now: Date,
+  role: string | null,
+  evening: Date,
+  base: Omit<PushMessage, "title" | "body">,
+): Reminder | null {
+  if (!role || sentKeys.has("role") || now < dueDateToday(ROLE_AT, now)) return null;
+  const earliest = open
+    .map((c) => c.dueTime)
+    .filter((t): t is string => t !== null)
+    .sort()[0];
+  const windowEnd = earliest
+    ? new Date(Math.min(evening.getTime(), dueDateToday(earliest, now).getTime() - DUE_REMINDER_MINUTES * 60_000))
+    : evening;
+  if (now >= windowEnd) return null;
+  return {
+    keys: ["role"],
+    message: { ...base, title: `Dnes máš ${role}`, body: earliest ? `Do ${earliest}.` : "Do večera." },
   };
 }
 

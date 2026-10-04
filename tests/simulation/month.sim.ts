@@ -376,11 +376,6 @@ describe("month simulation (D22)", () => {
         if (day === "2026-10-15" && r.ok) problems.push(`${day}: 14. 10. is an absence now, nothing to excuse`);
       }
 
-      if (dow === 0) {
-        setClock(at(day, "23:55"));
-        await cron("weekly-rotation");
-      }
-
       await night(i, day);
       setClock(at(addDays(day, 1), "04:00"));
       const found = await checkInvariants(day);

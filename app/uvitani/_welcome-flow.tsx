@@ -25,10 +25,10 @@ export function WelcomeFlow({
   const steps: Step[] = [
     {
       Icon: Sun,
-      title: competency ? `Tenhle týden máš ${competency}` : "Tvoje povinnosti",
+      title: competency ? `Dnes máš ${competency}` : "Tvoje povinnosti",
       text: competency
-        ? "Každý den ji dáš do pořádku a přejedeš, že je hotovo."
-        : "Kompetenci ti rodiče přidělí. Pak ji každý den dáš do pořádku a přejedeš, že je hotovo.",
+        ? "Role se střídají každý den. Dáš ji do pořádku a přejedeš, že je hotovo."
+        : "Roli ti rodiče přidělí, střídají se každý den. Dáš ji do pořádku a přejedeš, že je hotovo.",
     },
     {
       Icon: ListChecks,

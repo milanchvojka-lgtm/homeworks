@@ -1,9 +1,7 @@
 import { PrismaClient, type TimeOfDay } from "@prisma/client";
 import bcrypt from "bcryptjs";
-import {
-  endOfWeekPrague,
-  startOfWeekPrague,
-} from "../lib/time";
+import { startOfDayPrague } from "../lib/time";
+import { computeDayIndex, rotateAssignments } from "../lib/rotation-pure";
 
 const db = new PrismaClient();
 
@@ -17,26 +15,24 @@ const USERS = [
     role: "CHILD" as const,
     avatarColor: "#f59e0b",
     rotationOrder: 1,
-    monthlyAllowanceCzk: 500,
   },
   {
     name: "Emi",
     role: "CHILD" as const,
     avatarColor: "#10b981",
     rotationOrder: 2,
-    monthlyAllowanceCzk: 500,
   },
   {
     name: "Neli",
     role: "CHILD" as const,
     avatarColor: "#8b5cf6",
     rotationOrder: 3,
-    monthlyAllowanceCzk: 500,
   },
 ];
 
-type CheckSeed = { name: string; timeOfDay: TimeOfDay };
+type CheckSeed = { name: string; description?: string; timeOfDay: TimeOfDay; dueTime?: string };
 
+// D32 catalog (docs/2026-10-04-katalog-ukolu.md): names describe the end state, detail under the name (D33).
 const COMPETENCIES: {
   name: string;
   description: string;
@@ -44,33 +40,32 @@ const COMPETENCIES: {
   checks: CheckSeed[];
 }[] = [
   {
-    name: "Kuchyň",
-    description: "Pořádek v kuchyni a u jídelního stolu.",
+    name: "Kuchyň a stůl",
+    description: "Odpolední kolo, aby se dalo vařit a jíst.",
     order: 1,
     checks: [
-      { name: "Umýt nádobí po snídani", timeOfDay: "MORNING" },
-      { name: "Utřít stůl po večeři", timeOfDay: "EVENING" },
-      { name: "Vynést koš (když je plný)", timeOfDay: "ANYTIME" },
+      { name: "Myčka je prázdná", description: "Umyté nádobí uklizené na svém místě.", timeOfDay: "ANYTIME", dueTime: "17:00" },
+      { name: "Linka je volná a čistá", description: "Utřená · koše vysypané · skleničky a sklo na půdičce · tašky a suché potraviny pryč.", timeOfDay: "ANYTIME", dueTime: "17:00" },
+      { name: "Stůl je připravený k jídlu", description: "Uklizený a utřený.", timeOfDay: "ANYTIME", dueTime: "17:00" },
     ],
   },
   {
     name: "Obývák",
-    description: "Úklid společného obýváku.",
+    description: "Společný obývák.",
     order: 2,
     checks: [
-      { name: "Vyvětrat", timeOfDay: "MORNING" },
-      { name: "Uklidit hračky a věci", timeOfDay: "EVENING" },
-      { name: "Vysát (1×/týden)", timeOfDay: "ANYTIME" },
+      { name: "Na kanapi se dá sednout", description: "Deky složené, polštáře na místě, žádné věci.", timeOfDay: "ANYTIME" },
+      { name: "Obývák je vyvětraný", description: "Jednou denně okna na 5 minut.", timeOfDay: "ANYTIME" },
+      { name: "Povrchy v obýváku jsou volné", description: "Piano, TV skříňka, komody bez odložených věcí.", timeOfDay: "ANYTIME" },
     ],
   },
   {
-    name: "Koupelna",
-    description: "Pořádek v koupelně.",
+    name: "Prádlo a koupelna",
+    description: "Prádlo a obě koupelny.",
     order: 3,
     checks: [
-      { name: "Pověsit ručníky", timeOfDay: "MORNING" },
-      { name: "Utřít umyvadlo", timeOfDay: "EVENING" },
-      { name: "Doplnit toaleťák (když chybí)", timeOfDay: "ANYTIME" },
+      { name: "Čisté prádlo je u majitelů", description: "Rozdělené a roznesené.", timeOfDay: "ANYTIME" },
+      { name: "Koupelny jsou v pořádku", description: "Dole i nahoře: žádné drobnosti, ručníky pověšené.", timeOfDay: "ANYTIME" },
     ],
   },
 ];
@@ -118,7 +113,9 @@ async function seedCompetencies() {
         dailyChecks: {
           create: c.checks.map((check, i) => ({
             name: check.name,
+            description: check.description,
             timeOfDay: check.timeOfDay,
+            dueTime: check.dueTime,
             order: i + 1,
           })),
         },
@@ -128,10 +125,8 @@ async function seedCompetencies() {
   }
 }
 
-async function seedCurrentWeekAssignments() {
-  const weekStart = startOfWeekPrague();
-  const weekEnd = endOfWeekPrague();
-
+async function seedTodayAssignments() {
+  const date = startOfDayPrague();
   const children = await db.user.findMany({
     where: { role: "CHILD" },
     orderBy: { rotationOrder: "asc" },
@@ -140,33 +135,12 @@ async function seedCurrentWeekAssignments() {
     orderBy: { order: "asc" },
   });
 
-  if (children.length !== 3 || competencies.length !== 3) {
-    console.log("skip assignments (need 3 children + 3 competencies)");
-    return;
-  }
-
-  for (let i = 0; i < children.length; i++) {
-    const child = children[i];
-    const competency = competencies[i];
-
-    const exists = await db.competencyAssignment.findUnique({
-      where: { userId_weekStart: { userId: child.id, weekStart } },
-    });
-    if (exists) {
-      console.log(`skip assignment ${child.name}`);
-      continue;
-    }
-
-    await db.competencyAssignment.create({
-      data: {
-        userId: child.id,
-        competencyId: competency.id,
-        weekStart,
-        weekEnd,
-      },
-    });
-    console.log(`assigned ${child.name} → ${competency.name}`);
-  }
+  const plan = rotateAssignments(children, competencies, computeDayIndex(date));
+  const { count } = await db.competencyAssignment.createMany({
+    data: plan.map((p) => ({ userId: p.childId, competencyId: p.competency.id, date })),
+    skipDuplicates: true,
+  });
+  console.log(`assigned ${count} role(s) for today`);
 }
 
 async function seedAppSettings() {
@@ -194,7 +168,7 @@ async function seedStreakMilestones() {
 async function main() {
   await seedUsers();
   await seedCompetencies();
-  await seedCurrentWeekAssignments();
+  await seedTodayAssignments();
   await seedAppSettings();
   await seedStreakMilestones();
   console.log(`\nDefault PIN: ${DEFAULT_PIN}`);

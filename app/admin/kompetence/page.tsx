@@ -1,17 +1,17 @@
 import Link from "next/link";
 import { db } from "@/lib/db";
-import { startOfWeekPrague } from "@/lib/time";
+import { startOfDayPrague } from "@/lib/time";
 import { AdminSubpage } from "../_components/subpage";
 
 export default async function KompetencePage() {
-  const weekStart = startOfWeekPrague();
+  const today = startOfDayPrague();
 
   const competencies = await db.competency.findMany({
     orderBy: { order: "asc" },
     include: {
       _count: { select: { dailyChecks: true } },
       assignments: {
-        where: { weekStart },
+        where: { date: today },
         include: { user: { select: { name: true, avatarColor: true } } },
       },
     },
@@ -19,7 +19,7 @@ export default async function KompetencePage() {
 
   return (
     <AdminSubpage title="Kompetence" back="/admin/vic">
-      <p className="text-sm text-muted-foreground">Tento týden je přiřazené dle rotace.</p>
+      <p className="text-sm text-muted-foreground">Role se střídají každý den podle pořadí dětí.</p>
 
       <ul className="flex flex-col gap-2.5">
         {competencies.map((c) => {

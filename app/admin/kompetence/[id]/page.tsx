@@ -27,6 +27,7 @@ export default async function CompetencyDetailPage({
         checks={competency.dailyChecks.map((c) => ({
           id: c.id,
           name: c.name,
+          description: c.description,
           timeOfDay: c.timeOfDay,
           dueTime: c.dueTime,
         }))}

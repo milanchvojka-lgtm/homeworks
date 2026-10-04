@@ -25,6 +25,28 @@ export async function checkInvariants(label: string): Promise<string[]> {
     db.appSettings.findFirst(),
   ]);
 
+  // D32: every day each kid has exactly one role, the three roles are all taken, and no kid keeps
+  // yesterday's role.
+  const assignments = await db.competencyAssignment.findMany({ where: { date: { lte: today } } });
+  const byDay = new Map<number, Map<string, string>>();
+  for (const a of assignments) {
+    const day = byDay.get(a.date.getTime()) ?? new Map<string, string>();
+    if (day.has(a.userId)) p(`${a.userId} has two roles on ${a.date.toISOString()}`);
+    day.set(a.userId, a.competencyId);
+    byDay.set(a.date.getTime(), day);
+  }
+  const days = [...byDay.keys()].sort((x, y) => x - y);
+  days.forEach((t, i) => {
+    const day = byDay.get(t)!;
+    if (new Set(day.values()).size !== day.size) p(`two kids share a role on ${new Date(t).toISOString()}`);
+    const prev = i > 0 ? byDay.get(days[i - 1]) : undefined;
+    if (prev && t - days[i - 1] <= 25 * 3600_000) {
+      for (const [userId, comp] of day) {
+        if (prev.get(userId) === comp) p(`${userId} kept the same role two days in a row (${new Date(t).toISOString()})`);
+      }
+    }
+  });
+
   // Today (and later) is never MISSED (D21).
   const early = instances.filter((i) => i.status === "MISSED" && i.date >= today).length;
   if (early > 0) p(`${early} check(s) MISSED for today or later`);

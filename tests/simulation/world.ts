@@ -10,7 +10,6 @@ import * as rollover from "@/app/api/cron/daily-rollover/route";
 import * as dailyClose from "@/app/api/cron/daily-close/route";
 import * as monthlyClose from "@/app/api/cron/monthly-close/route";
 import * as weeklyClose from "@/app/api/cron/weekly-close/route";
-import * as weeklyRotation from "@/app/api/cron/weekly-rotation/route";
 import * as recurring from "@/app/api/cron/recurring-tasks/route";
 import * as claimTimeout from "@/app/api/cron/claim-timeout/route";
 import * as reminders from "@/app/api/cron/reminders/route";
@@ -20,7 +19,6 @@ const CRONS = {
   "daily-close": dailyClose,
   "monthly-close": monthlyClose,
   "weekly-close": weeklyClose,
-  "weekly-rotation": weeklyRotation,
   "recurring-tasks": recurring,
   "claim-timeout": claimTimeout,
   reminders,
@@ -101,15 +99,21 @@ export async function seedFamily(): Promise<Family> {
         },
       },
     });
-  await comp("Kuchyň", 1, [
-    ["Linka prázdná", "17:00"],
-    ["Kuchyň připravená na ráno", null],
+  // D32 catalog: three roles rotating daily; only the kitchen round has a deadline.
+  await comp("Kuchyň a stůl", 1, [
+    ["Myčka je prázdná", "17:00"],
+    ["Linka je volná a čistá", "17:00"],
+    ["Stůl je připravený k jídlu", "17:00"],
   ]);
-  await comp("Stůl", 2, [
-    ["Stůl čistý", "17:00"],
-    ["Stůl čistý na ráno", null],
+  await comp("Obývák", 2, [
+    ["Na kanapi se dá sednout", null],
+    ["Obývák je vyvětraný", null],
+    ["Povrchy v obýváku jsou volné", null],
   ]);
-  await comp("Kanape", 3, [["Kanape prázdné", "17:00"]]);
+  await comp("Prádlo a koupelna", 3, [
+    ["Čisté prádlo je u majitelů", null],
+    ["Koupelny jsou v pořádku", null],
+  ]);
 
   const task = (name: string, valueCzk: number, frequencyDays: number | null, executeTimeoutHours: number) =>
     db.task.create({

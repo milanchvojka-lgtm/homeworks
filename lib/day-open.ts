@@ -1,23 +1,22 @@
 import "server-only";
 import { db } from "./db";
 import { absentUserIds } from "./absence";
-import { assignCompetenciesForWeek } from "./rotation";
-import { startOfDayPrague, startOfWeekPrague } from "./time";
+import { assignCompetenciesForDay } from "./rotation";
+import { startOfDayPrague } from "./time";
 
 /**
- * Eager `DailyCheckInstance`s for today (D2): every child with a competency this week gets one per
+ * Eager `DailyCheckInstance`s for today (D2): every child with a competency today (D32) gets one per
  * check template. Children away today get none (D24). Idempotent (unique dailyCheckId+userId+date).
  * `onlyUserIds` limits it to some children (ending an absence brings today's checks back at once).
  */
 export async function openDay(now: Date = new Date(), onlyUserIds?: string[]) {
   const today = startOfDayPrague(now);
-  const weekStart = startOfWeekPrague(now);
-  // D21: do not depend on weekly-rotation having run first (GitHub delays can reorder jobs).
-  await assignCompetenciesForWeek(weekStart);
+  // D32: roles rotate daily, the day is assigned here (no separate rotation job).
+  await assignCompetenciesForDay(today);
   const away = await absentUserIds(now);
 
   const assignments = await db.competencyAssignment.findMany({
-    where: { weekStart, ...(onlyUserIds ? { userId: { in: onlyUserIds } } : {}) },
+    where: { date: today, ...(onlyUserIds ? { userId: { in: onlyUserIds } } : {}) },
     include: { competency: { include: { dailyChecks: true } } },
   });
 

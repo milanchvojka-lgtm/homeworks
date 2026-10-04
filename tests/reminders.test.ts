@@ -52,6 +52,34 @@ describe("pickReminder", () => {
   });
 });
 
+describe("pickReminder · today's role (D32)", () => {
+  it("sends the role from 14:00, once, with the earliest due time", () => {
+    expect(pickReminder([kitchen, bath], none, at("13:45"), "Kuchyň a stůl")).toBeNull();
+    const r = pickReminder([kitchen, bath], none, at("14:05"), "Kuchyň a stůl");
+    expect(r?.keys).toEqual(["role"]);
+    expect(r?.message.title).toBe("Dnes máš Kuchyň a stůl");
+    expect(r?.message.body).toBe("Do 17:00.");
+    expect(r?.message.badge).toBe(2);
+    expect(pickReminder([kitchen, bath], new Set(["role"]), at("14:30"), "Kuchyň a stůl")).toBeNull();
+  });
+
+  it("says 'do večera' without a due time and keeps the window until the evening summary", () => {
+    const r = pickReminder([bath], none, at("18:50"), "Obývák");
+    expect(r?.message.body).toBe("Do večera.");
+    expect(pickReminder([bath], none, at("19:30"), "Obývák")?.keys).toEqual(["evening"]);
+  });
+
+  it("hands over to the due reminder: no role once it is an hour before the deadline", () => {
+    expect(pickReminder([kitchen], none, at("16:05"), "Kuchyň a stůl")?.keys).toEqual([dueKey("k")]);
+    expect(pickReminder([kitchen], new Set([dueKey("k")]), at("16:20"), "Kuchyň a stůl")).toBeNull();
+  });
+
+  it("sends nothing without a role or with nothing open", () => {
+    expect(pickReminder([bath], none, at("15:00"))).toBeNull();
+    expect(pickReminder([], none, at("15:00"), "Obývák")).toBeNull();
+  });
+});
+
 describe("checksLeft", () => {
   it("uses the Czech plural", () => {
     expect(checksLeft(1)).toEqual(["zbývá", "1 povinnost"]);

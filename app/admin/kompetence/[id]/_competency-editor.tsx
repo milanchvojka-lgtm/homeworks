@@ -23,6 +23,8 @@ type Competency = {
 type Check = {
   id: string;
   name: string;
+  /** D33: what the end state means, shown to the child under the name. */
+  description: string | null;
   timeOfDay: TimeOfDay;
   dueTime: string | null;
 };
@@ -110,6 +112,7 @@ function ChecksList({
   const [newName, setNewName] = useState("");
   const [newTime, setNewTime] = useState<TimeOfDay>("MORNING");
   const [newDue, setNewDue] = useState("");
+  const [newDescription, setNewDescription] = useState("");
   const [isPending, startTransition] = useTransition();
 
   const add = () => {
@@ -117,6 +120,7 @@ function ChecksList({
     startTransition(async () => {
       await createDailyCheckAction(competencyId, {
         name: newName,
+        description: newDescription || null,
         timeOfDay: newTime,
         dueTime: newDue || null,
       });
@@ -125,12 +129,14 @@ function ChecksList({
         {
           id: `tmp-${Date.now()}`,
           name: newName.trim(),
+          description: newDescription.trim() || null,
           timeOfDay: newTime,
           dueTime: newDue || null,
         },
       ]);
       setNewName("");
       setNewDue("");
+      setNewDescription("");
     });
   };
 
@@ -145,6 +151,7 @@ function ChecksList({
     startTransition(async () => {
       await updateDailyCheckAction(c.id, {
         name: c.name,
+        description: c.description,
         timeOfDay: c.timeOfDay,
         dueTime: c.dueTime,
       });
@@ -163,83 +170,102 @@ function ChecksList({
     <div className="mt-3 space-y-2">
       {checks.map((c) => (
         <Card key={c.id}>
-          <CardContent className="flex items-center gap-2 p-3">
-            <Input
-              value={c.name}
-              onChange={(e) => update(c.id, { name: e.target.value })}
-              onBlur={() => persist(c)}
-              className="flex-1 border-transparent bg-transparent focus-visible:border-input"
+          <CardContent className="flex flex-col gap-2 p-3">
+            <div className="flex items-center gap-2">
+              <Input
+                value={c.name}
+                onChange={(e) => update(c.id, { name: e.target.value })}
+                onBlur={() => persist(c)}
+                className="flex-1 border-transparent bg-transparent focus-visible:border-input"
+              />
+              <select
+                value={c.timeOfDay}
+                onChange={(e) => {
+                  const next = { ...c, timeOfDay: e.target.value as TimeOfDay };
+                  update(c.id, { timeOfDay: next.timeOfDay });
+                  persist(next);
+                }}
+                className="rounded-md border border-input bg-background px-2 py-1 text-xs"
+              >
+                {(["MORNING", "EVENING", "ANYTIME"] as TimeOfDay[]).map((t) => (
+                  <option key={t} value={t}>
+                    {TIME_LABELS[t]}
+                  </option>
+                ))}
+              </select>
+              <input
+                type="time"
+                aria-label="Termín (do kolika)"
+                title="Termín (do kolika) – volitelné"
+                value={c.dueTime ?? ""}
+                onChange={(e) => update(c.id, { dueTime: e.target.value || null })}
+                onBlur={(e) => persist({ ...c, dueTime: e.target.value || null })}
+                className="rounded-md border border-input bg-background px-2 py-1 text-xs"
+              />
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => remove(c.id)}
+                disabled={isPending}
+                className="text-destructive hover:text-destructive"
+              >
+                Smazat
+              </Button>
+            </div>
+            <Textarea
+              value={c.description ?? ""}
+              onChange={(e) => update(c.id, { description: e.target.value || null })}
+              onBlur={(e) => persist({ ...c, description: e.target.value || null })}
+              placeholder="Co to znamená (volitelné)"
+              aria-label="Co to znamená"
+              rows={2}
             />
-            <select
-              value={c.timeOfDay}
-              onChange={(e) => {
-                const next = { ...c, timeOfDay: e.target.value as TimeOfDay };
-                update(c.id, { timeOfDay: next.timeOfDay });
-                persist(next);
-              }}
-              className="rounded-md border border-input bg-background px-2 py-1 text-xs"
-            >
-              {(["MORNING", "EVENING", "ANYTIME"] as TimeOfDay[]).map((t) => (
-                <option key={t} value={t}>
-                  {TIME_LABELS[t]}
-                </option>
-              ))}
-            </select>
-            <input
-              type="time"
-              aria-label="Termín (do kolika)"
-              title="Termín (do kolika) – volitelné"
-              value={c.dueTime ?? ""}
-              onChange={(e) => update(c.id, { dueTime: e.target.value || null })}
-              onBlur={(e) => persist({ ...c, dueTime: e.target.value || null })}
-              className="rounded-md border border-input bg-background px-2 py-1 text-xs"
-            />
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => remove(c.id)}
-              disabled={isPending}
-              className="text-destructive hover:text-destructive"
-            >
-              Smazat
-            </Button>
           </CardContent>
         </Card>
       ))}
 
-      <div className="flex items-center gap-2 rounded-xl border border-dashed border-border p-3">
-        <Input
-          value={newName}
-          onChange={(e) => setNewName(e.target.value)}
-          placeholder="Nový denní check"
-          className="flex-1"
+      <div className="flex flex-col gap-2 rounded-xl border border-dashed border-border p-3">
+        <div className="flex items-center gap-2">
+          <Input
+            value={newName}
+            onChange={(e) => setNewName(e.target.value)}
+            placeholder="Nový denní check"
+            className="flex-1"
+          />
+          <select
+            value={newTime}
+            onChange={(e) => setNewTime(e.target.value as TimeOfDay)}
+            className="rounded-md border border-input bg-background px-2 py-1 text-xs"
+          >
+            {(["MORNING", "EVENING", "ANYTIME"] as TimeOfDay[]).map((t) => (
+              <option key={t} value={t}>
+                {TIME_LABELS[t]}
+              </option>
+            ))}
+          </select>
+          <input
+            type="time"
+            aria-label="Termín (do kolika)"
+            title="Termín (do kolika) – volitelné"
+            value={newDue}
+            onChange={(e) => setNewDue(e.target.value)}
+            className="rounded-md border border-input bg-background px-2 py-1 text-xs"
+          />
+          <Button
+            size="sm"
+            onClick={add}
+            disabled={isPending || !newName.trim()}
+          >
+            Přidat
+          </Button>
+        </div>
+        <Textarea
+          value={newDescription}
+          onChange={(e) => setNewDescription(e.target.value)}
+          placeholder="Co to znamená (volitelné)"
+          aria-label="Co to znamená"
+          rows={2}
         />
-        <select
-          value={newTime}
-          onChange={(e) => setNewTime(e.target.value as TimeOfDay)}
-          className="rounded-md border border-input bg-background px-2 py-1 text-xs"
-        >
-          {(["MORNING", "EVENING", "ANYTIME"] as TimeOfDay[]).map((t) => (
-            <option key={t} value={t}>
-              {TIME_LABELS[t]}
-            </option>
-          ))}
-        </select>
-        <input
-          type="time"
-          aria-label="Termín (do kolika)"
-          title="Termín (do kolika) – volitelné"
-          value={newDue}
-          onChange={(e) => setNewDue(e.target.value)}
-          className="rounded-md border border-input bg-background px-2 py-1 text-xs"
-        />
-        <Button
-          size="sm"
-          onClick={add}
-          disabled={isPending || !newName.trim()}
-        >
-          Přidat
-        </Button>
       </div>
     </div>
   );
