@@ -55512,6 +55512,168 @@
       "fill": "#CCCCCC",
       "width": 1,
       "height": 1
+    },
+    {
+      "type": "frame",
+      "id": "Zz8mi",
+      "x": 9187,
+      "y": 27855,
+      "name": "HW · Rodič udělá sám (4. 10.) · D31 · podle kódu",
+      "fill": "#E9E7E1",
+      "layout": "vertical",
+      "gap": 24,
+      "padding": 40,
+      "children": [
+        {
+          "type": "text",
+          "id": "NUdH5",
+          "name": "Nadpis sekce",
+          "fill": "$hw-ink",
+          "content": "HW · RODIČ UDĚLÁ SÁM (4. 10.) · D31 · tok 1A + 2A · snímky z kódu (775770c) · bez kreslení předem, dle smlouvy",
+          "fontFamily": "$hw-font-mono",
+          "fontSize": 14,
+          "fontWeight": "700",
+          "letterSpacing": 1.2
+        },
+        {
+          "type": "frame",
+          "id": "MM9Gr",
+          "name": "Obrazovky",
+          "gap": 40,
+          "children": [
+            {
+              "type": "frame",
+              "id": "m51My2",
+              "name": "HWU · 01",
+              "width": 358,
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "VtaZt",
+                  "name": "Štítek framu",
+                  "width": "fill_container",
+                  "fill": "#17191E",
+                  "cornerRadius": 8,
+                  "layout": "vertical",
+                  "gap": 2,
+                  "padding": [
+                    8,
+                    12
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "pPRkR",
+                      "name": "Kód",
+                      "fill": "#FFFFFF",
+                      "content": "HWU · 01",
+                      "fontFamily": "$hw-font-mono",
+                      "fontSize": 12,
+                      "fontWeight": "700",
+                      "letterSpacing": 1.2
+                    },
+                    {
+                      "type": "text",
+                      "id": "CFR1c",
+                      "name": "Popis",
+                      "fill": "#DFDDD7",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Detail dítěte · dnešek rozbalený: linka hotovo (Milan), myčka „Udělám já“, stůl v potvrzení (Ani se to započítá… Zrušit / Ano, hotovo).",
+                      "fontFamily": "$hw-font-sans",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "rectangle",
+                  "id": "tL6ne",
+                  "name": "HWU · 01 · snímek",
+                  "fill": [
+                    "#ffffff",
+                    {
+                      "type": "image",
+                      "enabled": true,
+                      "url": "screenshot-localhost.png",
+                      "mode": "cover"
+                    }
+                  ],
+                  "width": 358,
+                  "height": 314
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "hWJge",
+              "name": "HWU · 02",
+              "width": 390,
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "N0q42",
+                  "name": "Štítek framu",
+                  "width": "fill_container",
+                  "fill": "#17191E",
+                  "cornerRadius": 8,
+                  "layout": "vertical",
+                  "gap": 2,
+                  "padding": [
+                    8,
+                    12
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "y3gMw6",
+                      "name": "Kód",
+                      "fill": "#FFFFFF",
+                      "content": "HWU · 02",
+                      "fontFamily": "$hw-font-mono",
+                      "fontSize": 12,
+                      "fontWeight": "700",
+                      "letterSpacing": 1.2
+                    },
+                    {
+                      "type": "text",
+                      "id": "KkfNJ",
+                      "name": "Popis",
+                      "fill": "#DFDDD7",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Úkoly · Teď visí: Půdička v nabídce, Umýt okna má Emi, každý s „Udělám já“; pod tím Nový úkol a šablony.",
+                      "fontFamily": "$hw-font-sans",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "rectangle",
+                  "id": "Eakqh",
+                  "name": "HWU · 02 · snímek",
+                  "fill": [
+                    "#ffffff",
+                    {
+                      "type": "image",
+                      "enabled": true,
+                      "url": "screenshot-localhost-1.png",
+                      "mode": "cover"
+                    }
+                  ],
+                  "width": 390,
+                  "height": 844
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "themes": {
