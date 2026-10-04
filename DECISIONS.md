@@ -626,3 +626,13 @@
 **Důvod:** Milan 2026-10-04: „vyškrtni to všude“. Pole bylo v PRD od začátku „jen evidenční — kapesné chodí mimo aplikaci“, appka ho nikde nepočítá ani nezobrazuje (kredit, výplata, bonus ani dítě ho nevidí). Princip „kapesné je protislužba“ (brief landing page) nese rotace a povinnosti, ne číslo v profilu.
 
 **Důsledky:** schéma bez `monthlyAllowanceCzk`. Na produkci `prisma db push --accept-data-loss` (zahodí jen tenhle sloupec) spolu se změnou schématu M11 (D32, D33), pak `prisma generate`. `app/admin/uzivatele` a `prisma/seed.ts` bez pole.
+
+---
+
+## D35 — Poslední připomínka dětem ve 21:00 (mění D28)
+
+**Rozhodnutí:** připomínka „poslední šance“ chodí dětem ve **21:00** místo 21:30. Ostatní připomínky (60 min před termínem, 19:30, vrácená povinnost) i e-mail rodičům ve 20:00 beze změny.
+
+**Důvod:** Milan 2026-10-04 (podklady pro ostrý provoz): holkám začíná klidový režim v Čase u obrazovky ve 21:30, takže připomínka ve 21:30 by nedorazila.
+
+**Důsledky:** `LAST_CHANCE_AT` v `lib/reminders-pure.ts` + testy, komentář v `app/api/cron/reminders/route.ts`. Cron běží po 15 minutách, 21:00 trefí bez úprav workflow. PRD §5 a LAUNCH_CHECKLIST §6 podle toho.

@@ -443,7 +443,7 @@ Po přihlášení se uživatel směruje automaticky do `/admin` nebo `/child` po
   - E-mail obsahuje stručný souhrn („3 čekající checky, 1 hlášený úkol") + link do `/admin/inbox`.
 
   **(c) Web Push a číslo na ikoně appky** (D28, před launchem):
-  - **Dítě:** připomínky jen když mu dnes ještě něco zbývá: 60 min před termínem povinnosti, 19:30 souhrn, 21:30 poslední šance, a hned při vrácení povinnosti. Číslo na ikoně = dnešní neodeslané povinnosti.
+  - **Dítě:** připomínky jen když mu dnes ještě něco zbývá: 60 min před termínem povinnosti, 19:30 souhrn, 21:00 poslední šance (D35), a hned při vrácení povinnosti. Číslo na ikoně = dnešní neodeslané povinnosti.
   - **Rodič:** push hned při odeslané povinnosti a nahlášeném úkolu (D30: žádost o screen time chodí z iOS, ne z appky). Číslo na ikoně = položky ke schválení.
   - Povolení v posledním kroku uvítání a v Já / Víc. Funguje jen v appce přidané na plochu.
 

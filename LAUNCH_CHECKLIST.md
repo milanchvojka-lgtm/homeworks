@@ -151,7 +151,7 @@ Udělej totéž na všech relevantních zařízeních (Milan, Teri, holky).
 **Spuštění naživo s holkami (D25, scénář 11)** — neděle večer, všichni u stolu:
 1. Každá si přidá appku na plochu (kroky výše) a otevře ji.
 2. Vybere profil, zadá dočasný PIN, projde uvítání a nastaví si vlastní PIN.
-3. Na konci uvítání zapne připomínky (D28) a iOS se zeptá na povolení → **Povolit**. Ověř v Nastavení → Oznámení → Homeworks, že jsou zapnuté i odznaky. Zkontroluj, že klidový režim v Čase u obrazovky nezačíná před 21:30, jinak poslední připomínka nedorazí.
+3. Na konci uvítání zapne připomínky (D28) a iOS se zeptá na povolení → **Povolit**. Ověř v Nastavení → Oznámení → Homeworks, že jsou zapnuté i odznaky. Zkontroluj, že klidový režim v Čase u obrazovky nezačíná před 21:00, jinak poslední připomínka nedorazí (D35; holky mají klidový režim od 21:30).
 4. Na Dnes odškrtne první povinnost naostro; rodič ji hned schválí v Schválit → holka vidí celý koloběh a vstupní bonus 100 Kč.
 5. První týden je na zkoušku: zmeškání nepřeruší řadu ani nesníží bonus.
 
