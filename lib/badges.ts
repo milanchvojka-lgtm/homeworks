@@ -1,5 +1,6 @@
 import "server-only";
 import { db } from "./db";
+import { startOfDayPrague } from "./time";
 
 /** Počet položek čekajících na adminovo schválení (Inbox). */
 export async function getAdminInboxCount(): Promise<number> {
@@ -28,12 +29,15 @@ export async function getChildPoolCount(userId: string): Promise<number> {
   });
 }
 
-/** Počet úkolů, které dítě právě má (CLAIMED nebo REJECTED — vyžadují akci). */
+/**
+ * Úkoly dítěte, o kterých má vědět: rozdělané a vrácené dnes. Vrácený úkol je ukončený (nový jde
+ * dalším dětem), takže po dni vrácení už v odznaku nevisí.
+ */
 export async function getChildMyTasksCount(userId: string): Promise<number> {
   return db.taskInstance.count({
     where: {
       claimedById: userId,
-      status: { in: ["CLAIMED", "REJECTED"] },
+      OR: [{ status: "CLAIMED" }, { status: "REJECTED", reviewedAt: { gte: startOfDayPrague() } }],
     },
   });
 }

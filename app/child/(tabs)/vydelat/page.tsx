@@ -30,10 +30,11 @@ export default async function ChildEarnPage() {
     db.taskInstance.findMany({
       where: {
         claimedById: user.id,
-        // D32 flow: approved today stays visible here (it left Dnes).
+        // D32 flow: approved today stays visible here (it left Dnes). A returned task ends, so it
+        // shows only on the day it was returned.
         OR: [
-          { status: { in: ["CLAIMED", "PENDING_REVIEW", "REJECTED"] } },
-          { status: "DONE", reviewedAt: { gte: today } },
+          { status: { in: ["CLAIMED", "PENDING_REVIEW"] } },
+          { status: { in: ["DONE", "REJECTED"] }, reviewedAt: { gte: today } },
         ],
       },
       include: { task: true },
