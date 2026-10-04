@@ -171,13 +171,14 @@ function ChecksList({
       {checks.map((c) => (
         <Card key={c.id}>
           <CardContent className="flex flex-col gap-2 p-3">
+            <Input
+              value={c.name}
+              onChange={(e) => update(c.id, { name: e.target.value })}
+              onBlur={() => persist(c)}
+              aria-label="Název"
+              className="border-transparent bg-transparent font-semibold focus-visible:border-input"
+            />
             <div className="flex items-center gap-2">
-              <Input
-                value={c.name}
-                onChange={(e) => update(c.id, { name: e.target.value })}
-                onBlur={() => persist(c)}
-                className="flex-1 border-transparent bg-transparent focus-visible:border-input"
-              />
               <select
                 value={c.timeOfDay}
                 onChange={(e) => {
@@ -207,7 +208,7 @@ function ChecksList({
                 size="sm"
                 onClick={() => remove(c.id)}
                 disabled={isPending}
-                className="text-destructive hover:text-destructive"
+                className="ml-auto text-destructive hover:text-destructive"
               >
                 Smazat
               </Button>
@@ -225,13 +226,19 @@ function ChecksList({
       ))}
 
       <div className="flex flex-col gap-2 rounded-xl border border-dashed border-border p-3">
+        <Input
+          value={newName}
+          onChange={(e) => setNewName(e.target.value)}
+          placeholder="Nový denní check"
+        />
+        <Textarea
+          value={newDescription}
+          onChange={(e) => setNewDescription(e.target.value)}
+          placeholder="Co to znamená (volitelné)"
+          aria-label="Co to znamená"
+          rows={2}
+        />
         <div className="flex items-center gap-2">
-          <Input
-            value={newName}
-            onChange={(e) => setNewName(e.target.value)}
-            placeholder="Nový denní check"
-            className="flex-1"
-          />
           <select
             value={newTime}
             onChange={(e) => setNewTime(e.target.value as TimeOfDay)}
@@ -254,18 +261,12 @@ function ChecksList({
           <Button
             size="sm"
             onClick={add}
+            className="ml-auto"
             disabled={isPending || !newName.trim()}
           >
             Přidat
           </Button>
         </div>
-        <Textarea
-          value={newDescription}
-          onChange={(e) => setNewDescription(e.target.value)}
-          placeholder="Co to znamená (volitelné)"
-          aria-label="Co to znamená"
-          rows={2}
-        />
       </div>
     </div>
   );
