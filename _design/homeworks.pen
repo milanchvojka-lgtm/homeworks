@@ -7375,6 +7375,92 @@
                           ]
                         }
                       ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "g4k2TF",
+                      "name": "DayProgress",
+                      "reusable": true,
+                      "width": 358,
+                      "layout": "vertical",
+                      "gap": 8,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "iNG3D",
+                          "name": "Řádek",
+                          "width": "fill_container",
+                          "gap": 8,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "etYKg",
+                              "name": "Section label",
+                              "fill": "$hw-ink",
+                              "content": "DNES: KUCHYŇ A STŮL",
+                              "fontFamily": "$hw-font-mono",
+                              "fontSize": "$hw-fs-section",
+                              "fontWeight": "700",
+                              "letterSpacing": 1.4
+                            },
+                            {
+                              "type": "frame",
+                              "id": "F6yOqg",
+                              "name": "Spacer",
+                              "width": "fill_container",
+                              "height": 1
+                            },
+                            {
+                              "type": "text",
+                              "id": "xtghb",
+                              "name": "Počet",
+                              "fill": "$hw-ink-60",
+                              "content": "1 Z 3 HOTOVO",
+                              "fontFamily": "$hw-font-mono",
+                              "fontSize": "$hw-fs-section",
+                              "fontWeight": "700",
+                              "letterSpacing": 1.4
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "B4nh1",
+                          "name": "Pruh",
+                          "width": "fill_container",
+                          "gap": 4,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "Al1Sr",
+                              "name": "Úsek",
+                              "width": "fill_container",
+                              "height": 6,
+                              "fill": "$hw-amber",
+                              "cornerRadius": 3
+                            },
+                            {
+                              "type": "frame",
+                              "id": "y44VzC",
+                              "name": "Úsek",
+                              "width": "fill_container",
+                              "height": 6,
+                              "fill": "$hw-hair",
+                              "cornerRadius": 3
+                            },
+                            {
+                              "type": "frame",
+                              "id": "Xiw4R",
+                              "name": "Úsek",
+                              "width": "fill_container",
+                              "height": 6,
+                              "fill": "$hw-hair",
+                              "cornerRadius": 3
+                            }
+                          ]
+                        }
+                      ]
                     }
                   ]
                 }
@@ -53682,7 +53768,7 @@
                       "id": "QNAQp",
                       "name": "Kód",
                       "fill": "#FFFFFF",
-                      "content": "HWD · 01A",
+                      "content": "HWD · 01A · schváleno 4. 10.",
                       "fontFamily": "$hw-font-mono",
                       "fontSize": 12,
                       "fontWeight": "700",
@@ -53938,6 +54024,9 @@
                         "VvRjy": {
                           "fill": "$hw-ink-35"
                         },
+                        "oqZFL": {
+                          "enabled": false
+                        },
                         "OmTod": {
                           "fill": "$hw-ink-35",
                           "fontWeight": "500"
@@ -53995,7 +54084,7 @@
                       "id": "bhCpe",
                       "name": "Kód",
                       "fill": "#FFFFFF",
-                      "content": "HWD · 01B",
+                      "content": "HWD · 01B · zamítnuto 4. 10.",
                       "fontFamily": "$hw-font-mono",
                       "fontSize": 12,
                       "fontWeight": "700",
@@ -54317,6 +54406,9 @@
                         "VvRjy": {
                           "fill": "$hw-ink-35"
                         },
+                        "oqZFL": {
+                          "enabled": false
+                        },
                         "OmTod": {
                           "fill": "$hw-ink-35",
                           "fontWeight": "500"
@@ -54374,7 +54466,7 @@
                       "id": "N0CaQ",
                       "name": "Kód",
                       "fill": "#FFFFFF",
-                      "content": "HWD · 01B2",
+                      "content": "HWD · 01B2 · zamítnuto 4. 10.",
                       "fontFamily": "$hw-font-mono",
                       "fontSize": 12,
                       "fontWeight": "700",
@@ -54709,6 +54801,9 @@
                         "VvRjy": {
                           "fill": "$hw-ink-35"
                         },
+                        "oqZFL": {
+                          "enabled": false
+                        },
                         "OmTod": {
                           "fill": "$hw-ink-35",
                           "fontWeight": "500"
@@ -54766,7 +54861,7 @@
                       "id": "PTTgG",
                       "name": "Kód",
                       "fill": "#FFFFFF",
-                      "content": "HWD · 02A",
+                      "content": "HWD · 02A · zamítnuto 4. 10.",
                       "fontFamily": "$hw-font-mono",
                       "fontSize": 12,
                       "fontWeight": "700",
@@ -55060,6 +55155,9 @@
                         "VvRjy": {
                           "fill": "$hw-ink-35"
                         },
+                        "oqZFL": {
+                          "enabled": false
+                        },
                         "OmTod": {
                           "fill": "$hw-ink-35",
                           "fontWeight": "500"
@@ -55117,7 +55215,7 @@
                       "id": "DDliJ",
                       "name": "Kód",
                       "fill": "#FFFFFF",
-                      "content": "HWD · 02B",
+                      "content": "HWD · 02B · schváleno 4. 10.",
                       "fontFamily": "$hw-font-mono",
                       "fontSize": 12,
                       "fontWeight": "700",
@@ -55182,89 +55280,11 @@
                           "width": "fill_container"
                         },
                         {
-                          "type": "frame",
-                          "id": "R7QJE",
-                          "name": "Postup",
-                          "width": "fill_container",
-                          "layout": "vertical",
-                          "gap": 8,
-                          "children": [
-                            {
-                              "type": "frame",
-                              "id": "LEdDO",
-                              "name": "Řádek",
-                              "width": "fill_container",
-                              "gap": 8,
-                              "alignItems": "center",
-                              "children": [
-                                {
-                                  "type": "text",
-                                  "id": "oQ81O",
-                                  "name": "Section label",
-                                  "fill": "$hw-ink",
-                                  "content": "DNES: KUCHYŇ A STŮL",
-                                  "fontFamily": "$hw-font-mono",
-                                  "fontSize": "$hw-fs-section",
-                                  "fontWeight": "700",
-                                  "letterSpacing": 1.4
-                                },
-                                {
-                                  "type": "frame",
-                                  "id": "e2scM",
-                                  "name": "Spacer",
-                                  "width": "fill_container",
-                                  "height": 1
-                                },
-                                {
-                                  "type": "text",
-                                  "id": "Mkruu",
-                                  "name": "Počet",
-                                  "fill": "$hw-ink-60",
-                                  "content": "1 Z 3 HOTOVO",
-                                  "fontFamily": "$hw-font-mono",
-                                  "fontSize": "$hw-fs-section",
-                                  "fontWeight": "700",
-                                  "letterSpacing": 1.4
-                                }
-                              ]
-                            },
-                            {
-                              "type": "frame",
-                              "id": "UFAW2",
-                              "name": "Pruh",
-                              "width": "fill_container",
-                              "gap": 4,
-                              "children": [
-                                {
-                                  "type": "frame",
-                                  "id": "h1SBiF",
-                                  "name": "Úsek",
-                                  "width": "fill_container",
-                                  "height": 6,
-                                  "fill": "$hw-amber",
-                                  "cornerRadius": 3
-                                },
-                                {
-                                  "type": "frame",
-                                  "id": "mfdEO",
-                                  "name": "Úsek",
-                                  "width": "fill_container",
-                                  "height": 6,
-                                  "fill": "$hw-hair",
-                                  "cornerRadius": 3
-                                },
-                                {
-                                  "type": "frame",
-                                  "id": "pHO6W",
-                                  "name": "Úsek",
-                                  "width": "fill_container",
-                                  "height": 6,
-                                  "fill": "$hw-hair",
-                                  "cornerRadius": 3
-                                }
-                              ]
-                            }
-                          ]
+                          "id": "AfKu7",
+                          "type": "ref",
+                          "ref": "g4k2TF",
+                          "name": "DayProgress",
+                          "width": "fill_container"
                         },
                         {
                           "id": "cZwnr",
@@ -55446,6 +55466,9 @@
                         },
                         "VvRjy": {
                           "fill": "$hw-ink-35"
+                        },
+                        "oqZFL": {
+                          "enabled": false
                         },
                         "OmTod": {
                           "fill": "$hw-ink-35",
