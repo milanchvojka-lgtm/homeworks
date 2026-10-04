@@ -1,6 +1,6 @@
 # Denní rotace, detail povinnosti, postup, role v upozornění a v Dětech — co měníme, co ne
 
-**Datum:** 2026-10-04 · **Stav:** návrh · **Podle:** scénáře `2026-10-04-scenare-denni-rotace.md` 1–4; tok `2026-10-04-struktura-a-tok-denni-rotace.md` 1A + 2A; pen HWD · 01A, 02B; D32, D33
+**Datum:** 2026-10-04 · **Stav:** schváleno 2026-10-04, implementováno 2026-10-04 (`ea0ea4f`) · **Podle:** scénáře `2026-10-04-scenare-denni-rotace.md` 1–4; tok `2026-10-04-struktura-a-tok-denni-rotace.md` 1A + 2A; pen HWD · 01A, 02B; D32, D33
 
 ## Co VZNIKÁ
 
@@ -60,7 +60,8 @@
 | Frame | Id | Co ukazuje |
 |---|---|---|
 | HWD · 01A | `xhC5j` | detail pod názvem (schváleno) |
-| HWD · 02B | `AUTuJ` | řádek role + počet + pruh (schváleno) |
+| HWD · 02B | `AUTuJ` | řádek role + počet + pruh (schváleno), instance `DayProgress` |
+| DayProgress (knihovna) | `g4k2TF` | komponenta v řadě Povinnosti |
 | HWD · 01B, 01B2, 02A | `Jkgnd`, `qy6pQ`, `Vd24q` | zamítnuto 2026-10-04 |
 
 Upozornění a řádek v Dětech jsou jen textové změny existujících prvků, frame se nekreslí (podle potřeby po implementaci dorovnám pen HWR · 02).

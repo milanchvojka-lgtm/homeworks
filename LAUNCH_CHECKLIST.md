@@ -103,6 +103,13 @@ npx prisma db push --force-reset
 5. V `/admin/ukoly` přidej první ad-hoc + opakující se úkoly.
 6. V `/admin/nastaveni` finalizuj sazby.
 
+**M11 (D32/D33) — nasazení na ostrou DB, v tomto pořadí (s Milanovým OK):**
+1. Smazat staré týdenní přiřazení rolí (`DELETE FROM "CompetencyAssignment";`), jinak `db push` nepřidá povinný sloupec `date`. Historii výplat, řady ani povinností to nemaže.
+2. `prisma db push` na ostré schéma (přidá `CompetencyAssignment.date`, `DailyCheck.description`).
+3. Push do `main` (deploy). Ranní `daily-rollover` od té chvíle přiřazuje role na den; dnešní role doplní ruční spuštění `daily-rollover` (workflow_dispatch).
+4. V `/admin/kompetence` nahradit staré kompetence katalogem (`docs/2026-10-04-katalog-ukolu.md`): Kuchyň a stůl (3 povinnosti, termín 17:00) · Obývák (3) · Prádlo a koupelna (2), s popisy „Co to znamená“. Pořadí kompetencí = pořadí rolí.
+5. V `/admin/ukoly` založit týdenní extra úkoly: Obývák je vysátý 50 Kč · V obýváku není prach 50 Kč · Koupelna dole i nahoře je čistá 80 Kč.
+
 **Pozor:** I po reset PINu zůstává seed funkce idempotentní — když omylem spustíš `npm run db:seed` na produkci, **přepíše PINy zpátky na `1234`**. Buď ji v `prisma/seed.ts` zakomentuj před deploy, nebo prostě nikdy neneskočil `db:seed` na produkci.
 
 ---
