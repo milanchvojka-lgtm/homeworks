@@ -1,6 +1,6 @@
 # Struktura a tok — rodič udělá povinnost nebo úkol sám (D31)
 
-**Datum:** 2026-10-04 · **Stav:** návrh · **Podle:** scénáře `2026-10-04-scenare-rodic-udela-sam.md` 1–3
+**Datum:** 2026-10-04 · **Stav:** schváleno 2026-10-04 (1A, 2A, text „Hotovo (Milan)“; vrácený úkol mimo záběr — je ukončený) · **Podle:** scénáře `2026-10-04-scenare-rodic-udela-sam.md` 1–3
 
 ## Co platí v obou variantách
 
