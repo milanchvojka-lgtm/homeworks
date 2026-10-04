@@ -197,6 +197,7 @@ Z plánu (mimo v1 scope):
 
 - Pause režim (nemoc, výlet)
 - ~~Web Push notifikace~~ — **přesunuto do v1 před launch (D28, 2026-09-29)**, včetně čísla na ikoně appky. Badge na ikoně na iPhonu umí jen web appka přidaná na plochu s povolenými notifikacemi a bez push se obnoví jen při otevření appky, takže je součástí push práce, ne samostatná položka. Milan to považuje za klíčové pro launch (děti zapomenou odškrtat), analýza v `docs/2026-09-29-analyza-pripominky.md`.
+- **Připravené úkoly** (D36): úkol čeká v seznamu a rodič ho tlačítkem „Nabídnout teď“ pustí do nabídky, i opakovaně (zalít záhonek, posekat trávu…).
 - `lastSeenAt` tracker pro badges (viz D7)
 - Bonus za perfektní týden
 - Admin „Obrazovka" historie (PENDING + APPROVED + REJECTED, mimo Inbox)

@@ -636,3 +636,13 @@
 **Důvod:** Milan 2026-10-04 (podklady pro ostrý provoz): holkám začíná klidový režim v Čase u obrazovky ve 21:30, takže připomínka ve 21:30 by nedorazila.
 
 **Důsledky:** `LAST_CHANCE_AT` v `lib/reminders-pure.ts` + testy, komentář v `app/api/cron/reminders/route.ts`. Cron běží po 15 minutách, 21:00 trefí bez úprav workflow. PRD §5 a LAUNCH_CHECKLIST §6 podle toho.
+
+---
+
+## D36 — Úkoly „na zavolání“ se při launchi nenahrávají; připravené úkoly až po launchi
+
+**Rozhodnutí:** jednorázové úkoly, které rodič chce pouštět do nabídky až podle potřeby (posekat trávu na chalupě, umýt boty, uklidit lipárnu, zalít záhonek, nafotit věci na bazar, naskenovat věci do kanceláře), se do ostré DB **nenahrávají**. Když jsou potřeba, rodič je založí v Úkoly → Nový a tím jdou rovnou do nabídky. Seznam s odměnami zůstává v Google tabulce s podklady (list 3).
+
+**Důvod:** Milan 2026-10-04 chce úkol „aktivovat ručně“. Appka to neumí: `createTaskAction` hned vytvoří instanci (úkol je v nabídce), `isActive` řídí jen cron opakovaných úkolů a jednorázový úkol po splnění nebo vypršení znovu nabídnout nejde. Funkce navíc se do dnešního launche nevejde; Milan souhlasí s variantou A (založit ručně) teď.
+
+**Později (po launchi):** „připravené úkoly“: úkol čeká v seznamu a rodič ho tlačítkem „Nabídnout teď“ pustí do nabídky, i opakovaně. Půjde postupem D16 a s vlastním záznamem v DECISIONS.
