@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { after } from "next/server";
 import { db } from "@/lib/db";
 import { getSession } from "@/lib/auth";
 import { enqueueNotification } from "@/lib/notifications";
@@ -10,6 +11,9 @@ import {
   hasCompletedTodayChecks,
 } from "@/lib/task-rotation";
 import { absentUserIds } from "@/lib/absence";
+import { sendPush } from "@/lib/push";
+import { openChecksToday } from "@/lib/reminders";
+import { taskDoneByParentMessage } from "@/lib/reminders-pure";
 import { startOfDayPrague, startOfWeekPrague } from "@/lib/time";
 
 export type TaskActionResult = { ok: true } | { ok: false; error: string };
@@ -245,6 +249,45 @@ export async function rejectTaskAction(
   await createTaskInstance(inst.taskId, {
     excludeUserIds: [inst.claimedById],
   });
+
+  revalidatePath("/admin");
+  revalidatePath("/child", "layout");
+  return { ok: true };
+}
+
+/**
+ * D31: a parent did a task that is on offer or running themselves. Nobody gets paid, it leaves the
+ * offer and is no longer the child's (`claimedById` cleared). A recurring task comes back after
+ * `frequencyDays` as after any finished one. The child who had it running gets a push.
+ */
+export async function doTaskForChildAction(instanceId: string): Promise<TaskActionResult> {
+  const admin = await requireAdmin();
+
+  const inst = await db.taskInstance.findUnique({
+    where: { id: instanceId },
+    include: { task: { select: { name: true } } },
+  });
+  if (!inst) return { ok: false, error: "not_found" };
+  if (inst.status !== "AVAILABLE" && inst.status !== "CLAIMED") return { ok: false, error: "invalid_state" };
+
+  // Conditional update: the child may have reported it, or the other parent done it, in the meantime.
+  const updated = await db.taskInstance.updateMany({
+    where: { id: instanceId, status: inst.status, claimedById: inst.claimedById },
+    data: { status: "DONE", reviewedAt: new Date(), reviewerId: admin.id, claimedById: null },
+  });
+  if (updated.count === 0) return { ok: false, error: "invalid_state" };
+
+  const childId = inst.status === "CLAIMED" ? inst.claimedById : null;
+  if (childId) {
+    after(async () => {
+      try {
+        const open = await openChecksToday(childId);
+        await sendPush([childId], taskDoneByParentMessage(inst.task.name, open.length));
+      } catch (err) {
+        console.error("push: task done by parent push failed", err);
+      }
+    });
+  }
 
   revalidatePath("/admin");
   revalidatePath("/child", "layout");

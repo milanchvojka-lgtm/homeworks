@@ -19,7 +19,7 @@ export async function checkInvariants(label: string): Promise<string[]> {
     db.creditTransaction.findMany(),
     db.dailyCheckInstance.findMany({ select: { userId: true, date: true, status: true } }),
     db.trophyEarned.findMany({ include: { milestone: true } }),
-    db.taskInstance.findMany({ select: { id: true, status: true, task: { select: { name: true, valueCzk: true } } } }),
+    db.taskInstance.findMany({ select: { id: true, status: true, claimedById: true, task: { select: { name: true, valueCzk: true } } } }),
     db.screenTimeRequest.findMany(),
     db.weeklyPayout.findMany({ include: { user: { select: { name: true } } } }),
     db.appSettings.findFirst(),
@@ -127,7 +127,10 @@ export async function checkInvariants(label: string): Promise<string[]> {
   const rewards = txs.filter((t) => t.type === "TASK_REWARD");
   for (const t of tasks) {
     const paid = rewards.filter((r) => r.referenceId === t.id);
-    if (t.status === "DONE" && (paid.length !== 1 || paid[0].amountCzk !== t.task.valueCzk))
+    // D31: a task a parent did has no child and pays nobody.
+    const byParent = t.status === "DONE" && !t.claimedById;
+    if (byParent && paid.length) p(`task ${t.task.name} ${t.id} done by a parent but paid`);
+    if (t.status === "DONE" && !byParent && (paid.length !== 1 || paid[0].amountCzk !== t.task.valueCzk))
       p(`task ${t.task.name} ${t.id} paid ${paid.map((x) => x.amountCzk).join("+") || "0"} instead of ${t.task.valueCzk}`);
     if (t.status !== "DONE" && paid.length) p(`task ${t.task.name} ${t.id} is ${t.status} but was paid`);
   }

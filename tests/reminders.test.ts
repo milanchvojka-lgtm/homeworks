@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { dueKey, pickReminder, checksLeft, type OpenCheck, screenCancelledMessage, screenRecordedMessage } from "@/lib/reminders-pure";
+import { dueKey, pickReminder, checksLeft, type OpenCheck, screenCancelledMessage, screenRecordedMessage, taskDoneByParentMessage } from "@/lib/reminders-pure";
 
 // 2026-09-29 is summer time in Prague (UTC+2): 19:30 Prague = 17:30 UTC.
 const at = (prague: string) => new Date(`2026-09-29T${prague}:00+02:00`);
@@ -103,5 +103,15 @@ describe("D30 screen time pushes", () => {
     const m = screenCancelledMessage(60, 200, 0);
     expect(m.title).toBe("Zápis 1 h zrušen");
     expect(m.body).toBe("+200 Kč zpět.");
+  });
+});
+
+describe("taskDoneByParentMessage (D31)", () => {
+  it("names the task, says no reward, opens Vydělat", () => {
+    const m = taskDoneByParentMessage("Umýt okna", 0);
+    expect(m.title).toBe("Úkol Umýt okna je hotový");
+    expect(m.body).toBe("Dodělal ho rodič, odměna se nepřipíše.");
+    expect(m.url).toBe("/child/vydelat");
+    expect(m.badge).toBe(0);
   });
 });

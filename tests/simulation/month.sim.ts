@@ -9,14 +9,16 @@
  * D28: every kid and parent has a device; reminders run at 19:30 and 21:35 (twice) and the parents'
  * unsent e-mail at 20:05. No reminder may reach a child with nothing open, none may repeat, the icon
  * number must match what is open, and returned checks / new approvals push right away.
+ * D31: on 16. 10. Milan does two of Ani's three checks (her streak must hold), on 17. 10. Teri does
+ * a task from the offer and on a later Saturday Milan finishes Emi's running task (no reward, Emi gets a push).
  */
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import { db } from "@/lib/db";
 import { createTaskInstance } from "@/lib/task-rotation";
 import { getCurrentBalance } from "@/lib/credit";
 import { startOfDayPrague } from "@/lib/time";
-import { submitCheckAction, approveCheckAction, rejectCheckAction, excuseDayAction } from "@/app/actions/checks";
-import { claimTaskAction, reportTaskDoneAction, approveTaskAction, rejectTaskAction } from "@/app/actions/tasks";
+import { submitCheckAction, approveCheckAction, rejectCheckAction, excuseDayAction, doCheckForChildAction } from "@/app/actions/checks";
+import { claimTaskAction, reportTaskDoneAction, approveTaskAction, rejectTaskAction, doTaskForChildAction } from "@/app/actions/tasks";
 import { cancelScreenTimeAction, recordScreenTimeAction } from "@/app/actions/screen-time";
 import { markPayoutPaidAction } from "@/app/actions/payouts";
 import { createAbsenceAction, endAbsenceAction } from "@/app/actions/absence";
@@ -39,6 +41,7 @@ const weekday = (day: string) => new Date(`${day}T12:00:00Z`).getUTCDay(); // 0 
 
 let f: Family;
 let screenPushesExpected = 0;
+let emiTaskDoneByParent = false;
 const problems: string[] = [];
 const events: string[] = [];
 const log = (day: string, msg: string) => events.push(`${day} ${msg}`);
@@ -167,6 +170,24 @@ describe("month simulation (D22)", () => {
       setClock(at(day, "06:00"));
       await cron("recurring-tasks");
 
+      // D31: Teri does a task from the offer herself — nobody is paid, it leaves the offer.
+      if (i === 19) {
+        setClock(at(day, "07:00"));
+        const offer = await db.taskInstance.findFirst({ where: { status: "AVAILABLE" }, include: { task: true } });
+        if (!offer) problems.push(`${day}: nothing on offer for Teri to do`);
+        else {
+          asUser(f.teri);
+          const r = await doTaskForChildAction(offer.id);
+          const again = await doTaskForChildAction(offer.id);
+          const after_ = await db.taskInstance.findUnique({ where: { id: offer.id } });
+          const paid = await db.creditTransaction.count({ where: { referenceId: offer.id } });
+          if (!r.ok || after_?.status !== "DONE" || after_.claimedById) problems.push(`${day}: Teri's ${offer.task.name} not done (${JSON.stringify(r)})`);
+          if (again.ok) problems.push(`${day}: ${offer.task.name} could be done by a parent twice`);
+          if (paid) problems.push(`${day}: ${offer.task.name} done by Teri paid someone`);
+          log(day, `Teri does ${offer.task.name} herself`);
+        }
+      }
+
       for (const t of ["12:00"]) {
         setClock(at(day, t));
         await cron("claim-timeout");
@@ -223,7 +244,23 @@ describe("month simulation (D22)", () => {
 
       // 16:30 Ani: everything on time, then a task.
       setClock(at(day, "16:30"));
-      if (home(f.ani)) await submitAll(f.ani);
+      if (i === 18 && home(f.ani)) {
+        // D31: Ani has training, sends only her first check; Milan does the rest at 16:45.
+        const [first, ...rest] = (await todayChecks(f.ani.id)).sort((a, b) => a.id.localeCompare(b.id));
+        asUser(f.ani);
+        await submitCheckAction(first.id);
+        setClock(at(day, "16:45"));
+        asUser(f.milan);
+        for (const c of rest) {
+          const r = await doCheckForChildAction(c.id);
+          if (!r.ok) problems.push(`${day}: Milan could not do Ani's check (${(r as { error: string }).error})`);
+        }
+        if ((await doCheckForChildAction(first.id)).ok) problems.push(`${day}: a sent check could be done by a parent`);
+        const left = (await todayChecks(f.ani.id)).filter((c) => c.status === "PENDING");
+        if (left.length) problems.push(`${day}: Ani still has ${left.length} open after Milan`);
+        log(day, `Milan does ${rest.length} of Ani's checks`);
+        setClock(at(day, "16:50"));
+      } else if (home(f.ani)) await submitAll(f.ani);
       const aniTask = home(f.ani) ? await tryClaim(f.ani) : null;
       if (aniTask) log(day, `Ani claimed ${aniTask.task.name}`);
 
@@ -274,13 +311,34 @@ describe("month simulation (D22)", () => {
       if (!home(f.emi) && evened.has(f.emi.id)) problems.push(`${day}: Emi is away but got a reminder`);
       if (day === "2026-10-01" && !evened.has(f.neli.id)) problems.push(`${day}: Neli forgot her checks but got no reminder`);
 
+      // D31 setup: a one-off task open to everyone, so Emi has something to take this Saturday.
+      if (i === 19) {
+        setClock(at(day, "19:55"));
+        const auto = await db.task.findFirstOrThrow({ where: { name: "Umýt auto" } });
+        const inst = await createTaskInstance(auto.id);
+        await db.taskInstance.update({ where: { id: inst.id }, data: { unlockedForUserId: null } });
+      }
+
       // 20:00 Emi: forgets everything on Wednesdays; takes a task on Saturdays.
       setClock(at(day, "20:00"));
       if (dow !== 3 && home(f.emi)) await submitAll(f.emi);
       else if (home(f.emi)) log(day, "Emi forgets her checks");
       if (dow === 6 && home(f.emi)) {
-        const t = await tryClaim(f.emi);
-        if (t) {
+        const t = await tryClaim(f.emi, i === 19 ? "Umýt auto" : undefined);
+        if (t && i >= 19 && !emiTaskDoneByParent) {
+          emiTaskDoneByParent = true;
+          // D31: Emi feels sick, Milan finishes her running task — no reward, Emi gets a push.
+          setClock(at(day, "20:30"));
+          asUser(f.milan);
+          const before = pushes.length;
+          const r = await doTaskForChildAction(t.id);
+          await flushAfter();
+          const push = pushes.slice(before).find((p) => p.userIds.includes(f.emi.id));
+          if (!r.ok) problems.push(`${day}: Milan could not finish Emi's task`);
+          if (!push || !push.message.title.includes(t.task.name)) problems.push(`${day}: Emi got no push about her finished task`);
+          if (await db.creditTransaction.count({ where: { referenceId: t.id } })) problems.push(`${day}: Emi was paid for a task Milan did`);
+          log(day, `Milan finishes Emi's ${t.task.name}`);
+        } else if (t) {
           setClock(at(day, "20:40"));
           await reportMine(f.emi);
         }
@@ -382,6 +440,8 @@ describe("month simulation (D22)", () => {
       problems.push(...found);
       console.log(`${day} ok${found.length ? ` — ${found.length} problem(s): ${found.join(" | ")}` : ""}`);
     }
+
+    if (!emiTaskDoneByParent) problems.push("end: Emi never had a running task for Milan to finish (D31 case not exercised)");
 
     // Final state after the last night (Mon 2. 11.).
     const kids = await db.user.findMany({ where: { role: "CHILD" }, orderBy: { rotationOrder: "asc" } });

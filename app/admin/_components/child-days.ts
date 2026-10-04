@@ -1,12 +1,20 @@
 import "server-only";
 import { db } from "@/lib/db";
+import { DONE_BY_PARENT_NOTE, EXCUSED_NOTE } from "@/lib/check-notes";
 import { dayResult } from "@/lib/streak";
 import { startOfDayPrague, startOfMonthPrague, startOfWeekPrague } from "@/lib/time";
 import { formatDayPrague, formatTimePrague } from "@/app/child/_components/format";
 
 export type ChipState = "done" | "waiting" | "returned" | "missed" | "open" | "none" | "away";
 
-export type DayCheck = { id: string; name: string; meta: string; state: ChipState };
+export type DayCheck = {
+  id: string;
+  name: string;
+  meta: string;
+  state: ChipState;
+  /** D31: today's open or returned check, a parent can mark it done themselves. */
+  canDoForChild: boolean;
+};
 
 export type WeekDay = {
   iso: string;
@@ -32,7 +40,8 @@ function checkMeta(c: {
   const at = c.submittedAt ? `nahlášeno ${formatTimePrague(c.submittedAt)}` : null;
   switch (c.status) {
     case "APPROVED":
-      if (c.note === "Uznáno zpětně")
+      if (c.note === DONE_BY_PARENT_NOTE) return { meta: `hotovo (${c.reviewer?.name ?? "rodič"})`, state: "done" };
+      if (c.note === EXCUSED_NOTE)
         return { meta: `uznáno zpětně${c.reviewer ? ` · ${c.reviewer.name}` : ""}`, state: "done" };
       return {
         meta: [at, c.reviewer ? `schváleno · ${c.reviewer.name}` : "schváleno"].filter(Boolean).join(" · "),
@@ -77,7 +86,12 @@ export async function getChildWeek(userId: string, now: Date = new Date()): Prom
     const list = instances
       .filter((x) => x.date.getTime() === day.getTime())
       .sort((a, b) => a.dailyCheck.order - b.dailyCheck.order);
-    const checks = list.map((c) => ({ id: c.id, name: c.dailyCheck.name, ...checkMeta(c) }));
+    const checks = list.map((c) => ({
+      id: c.id,
+      name: c.dailyCheck.name,
+      ...checkMeta(c),
+      canDoForChild: isToday && (c.status === "PENDING" || c.status === "REJECTED"),
+    }));
     const statuses = list.map((c) => c.status);
     const openCount = statuses.filter((s) => s === "PENDING" || s === "REJECTED").length;
 

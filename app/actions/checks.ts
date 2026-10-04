@@ -8,6 +8,7 @@ import { enqueueNotification } from "@/lib/notifications";
 import { sendPush } from "@/lib/push";
 import { openChecksToday } from "@/lib/reminders";
 import { rejectedCheckMessage } from "@/lib/reminders-pure";
+import { DONE_BY_PARENT_NOTE, EXCUSED_NOTE } from "@/lib/check-notes";
 import { dayResult } from "@/lib/streak";
 import { withStreakResync } from "@/lib/streak-sync";
 import { startOfDayPrague, startOfMonthPrague, startOfWeekPrague } from "@/lib/time";
@@ -71,6 +72,28 @@ export async function approveCheckAction(
       reviewedAt: new Date(),
       reviewerId: user.id,
     },
+  });
+  if (updated.count === 0) return { ok: false, error: "invalid_state" };
+
+  revalidatePath("/admin");
+  revalidatePath("/child", "layout");
+  return { ok: true };
+}
+
+/**
+ * D31: a parent did one of the child's checks today themselves. It counts for the child (approved,
+ * streak and bonus untouched), the parent is the reviewer. Only today's open or returned checks.
+ */
+export async function doCheckForChildAction(instanceId: string): Promise<CheckActionResult> {
+  const user = await getSession();
+  if (!user) return { ok: false, error: "unauthorized" };
+  if (user.role !== "ADMIN") return { ok: false, error: "forbidden" };
+
+  // Conditional update: the child may have sent it, or the other parent done it, in the meantime.
+  const now = new Date();
+  const updated = await db.dailyCheckInstance.updateMany({
+    where: { id: instanceId, date: startOfDayPrague(now), status: { in: ["PENDING", "REJECTED"] } },
+    data: { status: "APPROVED", reviewedAt: now, reviewerId: user.id, note: DONE_BY_PARENT_NOTE },
   });
   if (updated.count === 0) return { ok: false, error: "invalid_state" };
 
@@ -159,7 +182,7 @@ export async function excuseDayAction(
     await withStreakResync(tx, userId, async () => {
       await tx.dailyCheckInstance.updateMany({
         where: { userId, date: day, status: { in: ["MISSED", "REJECTED"] } },
-        data: { status: "APPROVED", reviewedAt: now, reviewerId: admin.id, note: "Uznáno zpětně" },
+        data: { status: "APPROVED", reviewedAt: now, reviewerId: admin.id, note: EXCUSED_NOTE },
       });
     });
     return "ok" as const;

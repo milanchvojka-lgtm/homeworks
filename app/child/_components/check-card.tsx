@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import type { CheckStatus } from "@prisma/client";
 import { Check, Hourglass, MessageCircle, Send, Timer, Undo2, X } from "lucide-react";
 import { submitCheckAction } from "@/app/actions/checks";
+import { DONE_BY_PARENT_NOTE } from "@/lib/check-notes";
 import { dueDateToday, dueLabel, remaining } from "@/lib/deadline-pure";
 import { formatTimePrague } from "./format";
 import { SliderState, SwipeConfirm } from "./swipe-confirm";
@@ -45,6 +46,8 @@ export function CheckCard({ check, nowIso }: { check: CheckCardData; nowIso: str
   };
 
   const left = remaining(dueDateToday(check.dueTime, now), now);
+  // D31: a parent did it; the slider says who, so the corner stays empty (no name twice).
+  const byParent = status === "APPROVED" && check.note === DONE_BY_PARENT_NOTE;
 
   return (
     <article className="flex flex-col gap-3 rounded-tile border border-border bg-card px-[18px] pt-4 pb-[18px]">
@@ -53,7 +56,9 @@ export function CheckCard({ check, nowIso }: { check: CheckCardData; nowIso: str
           {dueLabel(check.dueTime)}
         </span>
         <span className="ml-auto">
-          <Meta status={status} left={left} submittedAt={submittedAt} reviewer={check.reviewerName} />
+          {!byParent && (
+            <Meta status={status} left={left} submittedAt={submittedAt} reviewer={check.reviewerName} />
+          )}
         </span>
       </div>
 
@@ -81,7 +86,11 @@ export function CheckCard({ check, nowIso }: { check: CheckCardData; nowIso: str
         <SliderState tone="warning" label="Čeká na schválení" icon={<Hourglass className="size-5" />} />
       )}
       {status === "APPROVED" && (
-        <SliderState tone="success" label="Schváleno" icon={<Check className="size-[22px]" />} />
+        <SliderState
+          tone="success"
+          label={byParent ? `Hotovo (${check.reviewerName ?? "rodič"})` : "Schváleno"}
+          icon={<Check className="size-[22px]" />}
+        />
       )}
       {status === "MISSED" && (
         <SliderState tone="danger" label="Zmeškáno" icon={<X className="size-[22px]" />} />

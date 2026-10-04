@@ -170,3 +170,14 @@ export function screenCancelledMessage(minutes: number, costCzk: number, openCou
     badge: openCount,
   };
 }
+
+/** D31: push to the child whose running task a parent finished; no reward. */
+export function taskDoneByParentMessage(taskName: string, openCount: number): PushMessage {
+  return {
+    title: `Úkol ${taskName} je hotový`,
+    body: "Dodělal ho rodič, odměna se nepřipíše.",
+    url: "/child/vydelat",
+    tag: "task",
+    badge: openCount,
+  };
+}

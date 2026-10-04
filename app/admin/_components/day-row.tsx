@@ -3,10 +3,10 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Check, ChevronDown, ChevronUp, Hourglass, Undo2, X } from "lucide-react";
-import { excuseDayAction } from "@/app/actions/checks";
+import { doCheckForChildAction, excuseDayAction } from "@/app/actions/checks";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import type { ChipState, WeekDay } from "./child-days";
+import type { ChipState, DayCheck, WeekDay } from "./child-days";
 
 /** StateChip for a day or a check: colour + text, never colour alone. */
 export function StateChip({ state, openCount }: { state: ChipState; openCount?: number }) {
@@ -48,10 +48,13 @@ export function StateChip({ state, openCount }: { state: ChipState; openCount?: 
   }
 }
 
-/** Pen `DayRow` / `DayRow · rozbalený`: a day of the week, expands to its checks; a failed day can be excused (D20). */
-export function DayRow({ day, userId }: { day: WeekDay; userId: string }) {
+/**
+ * Pen `DayRow` / `DayRow · rozbalený`: a day of the week, expands to its checks; a failed day can be
+ * excused (D20). Today starts expanded and an open check can be done by the parent (D31).
+ */
+export function DayRow({ day, userId, childName }: { day: WeekDay; userId: string; childName: string }) {
   const router = useRouter();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(day.isToday && day.checks.length > 0);
   const [confirming, setConfirming] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
@@ -99,13 +102,7 @@ export function DayRow({ day, userId }: { day: WeekDay; userId: string }) {
         <div className="flex flex-col gap-3.5 px-[18px] pb-[18px]">
           <ul className="flex flex-col gap-2.5">
             {day.checks.map((c) => (
-              <li key={c.id} className="flex items-center gap-2.5">
-                <div className="flex flex-1 flex-col gap-0.5">
-                  <span className="text-[15px] font-semibold">{c.name}</span>
-                  <span className="text-[13px] text-muted-foreground">{c.meta}</span>
-                </div>
-                <StateChip state={c.state} />
-              </li>
+              <CheckLine key={c.id} check={c} childName={childName} />
             ))}
           </ul>
 
@@ -139,5 +136,68 @@ export function DayRow({ day, userId }: { day: WeekDay; userId: string }) {
         </div>
       )}
     </div>
+  );
+}
+
+/** One check of an expanded day; today's open one offers "Udělám já" with an inline confirm (D31). */
+function CheckLine({ check, childName }: { check: DayCheck; childName: string }) {
+  const router = useRouter();
+  const [confirming, setConfirming] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isPending, startTransition] = useTransition();
+
+  const doIt = () =>
+    startTransition(async () => {
+      setError(null);
+      const res = await doCheckForChildAction(check.id);
+      if (res.ok) {
+        setConfirming(false);
+        router.refresh();
+      } else {
+        setError(
+          res.error === "invalid_state"
+            ? "Mezitím se to změnilo, obnov stránku."
+            : "Nepovedlo se, zkus to znovu.",
+        );
+      }
+    });
+
+  return (
+    <li className="flex flex-col gap-2.5">
+      <div className="flex items-center gap-2.5">
+        <div className="flex flex-1 flex-col gap-0.5">
+          <span className="text-[15px] font-semibold">{check.name}</span>
+          <span className="text-[13px] text-muted-foreground">{check.meta}</span>
+        </div>
+        {check.canDoForChild && !confirming ? (
+          <Button variant="outline" size="sm" onClick={() => setConfirming(true)}>
+            Udělám já
+          </Button>
+        ) : (
+          <StateChip state={check.state} />
+        )}
+      </div>
+      {confirming && (
+        <>
+          <p className="text-[13px] leading-snug text-muted-foreground">
+            {childName} se to započítá jako splněné.
+          </p>
+          <div className="flex gap-2.5">
+            <Button
+              variant="outline"
+              className="h-12 flex-1"
+              onClick={() => setConfirming(false)}
+              disabled={isPending}
+            >
+              Zrušit
+            </Button>
+            <Button className="flex-1" onClick={doIt} disabled={isPending}>
+              Ano, hotovo
+            </Button>
+          </div>
+        </>
+      )}
+      {error && <p className="text-sm text-destructive">{error}</p>}
+    </li>
   );
 }

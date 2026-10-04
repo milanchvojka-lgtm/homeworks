@@ -90,7 +90,7 @@ export default async function AdminChildPage({ params }: { params: Promise<{ id:
 
         <h2 className="mt-1 font-mono text-xs font-bold tracking-[0.12em] uppercase">Dny týdne</h2>
         {weekDays.map((d) => (
-          <DayRow key={d.iso} day={d} userId={child.id} />
+          <DayRow key={d.iso} day={d} userId={child.id} childName={child.name} />
         ))}
       </main>
     </>
