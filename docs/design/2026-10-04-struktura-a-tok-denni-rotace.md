@@ -1,6 +1,6 @@
 # Struktura a tok — denní rotace (D32, D33)
 
-**Datum:** 2026-10-04 · **Stav:** návrh · **Podle:** scénáře `2026-10-04-scenare-denni-rotace.md` 1–4
+**Datum:** 2026-10-04 · **Stav:** schváleno 2026-10-04 (1A, 2A; 14:00 i o víkendu) · **Podle:** scénáře `2026-10-04-scenare-denni-rotace.md` 1–4
 
 ## Už rozhodnuto (pen, Milan 2026-10-04)
 
