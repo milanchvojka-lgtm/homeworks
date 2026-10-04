@@ -82,6 +82,8 @@ gh run watch
 
 ## 4. Reálná data v DB
 
+**Status:** ✅ Hotovo (2026-10-04) — data z Google tabulky „podklady pro ostrý provoz“ nahrána skriptem `prisma/launch-load.ts` (dry run bez `--apply`): pilotní dítě Test smazáno i s historií, Emi #1 · Neli #2 · Ani #3 s dočasným PINem `0000`, kompetence podle katalogu (D32/D33), 8 extra úkolů v nabídce (úkoly „na zavolání“ ne, D36), screen time 60 Kč/h, trofeje 50/100/200/300/500/2000 Kč. Ruční `daily-rollover` přiřadil role na 4. 10. (Emi Kuchyň a stůl, Neli Obývák, Ani Prádlo a koupelna). Postup níže (volby A/B, M11 kroky 4–5) už není potřeba.
+
 Default seed obsahuje testovací data (Milan, Teri, Ani, Emi, Neli, default PIN `1234`, ukázkové kompetence). Před spuštěním:
 
 **Volba A — full reset (čistší):**
