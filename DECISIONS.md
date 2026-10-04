@@ -603,3 +603,16 @@
 - D24: „zůstane ten týden neobsloužená“ → „zůstane ten den neobsloužená“.
 - Obsah: kompetence a checky podle katalogu se zadají v administraci (nebo jednorázovým skriptem), staré oddíly Obývák / Stůl / Kuchyň se nahradí.
 - Simulace (D22): denní rotace, ověřit řadu a bonus přes přechod z týdenní rotace.
+
+---
+
+## D33 — Detail u denní povinnosti: řádek pod názvem, vždy vidět
+
+**Rozhodnutí:**
+- `DailyCheck` dostane volitelné pole **`description`** (krátký text, co cílový stav znamená, např. u „Linka je volná a čistá“: „Utřená · koše vysypané · skleničky a sklo na půdičce · tašky a suché potraviny pryč“).
+- Dítě ho na kartě povinnosti vidí **vždy** jako šedý řádek pod názvem (pen HWD · 01A, schváleno 2026-10-04). Žádné rozbalování.
+- Prázdný popis = karta beze změny. Rodič ho zadává v administraci kompetencí vedle názvu.
+
+**Důvod:** Milan 2026-10-04 vybral variantu A (detail vždy vidět) před B (rozbalovací „Co k tomu patří“): „až si lidi časem zvyknou, tak to prostě vyčistíme“. Po zažití se popisy smažou a karty budou zase nízké. Souhrnná stránka všech kompetencí byla zvážena a odložena (Milan: „asi je to takhle dobrý“).
+
+**Důsledky:** schéma `DailyCheck.description String?` (`prisma db push` + `prisma generate`), formulář povinnosti v `/admin/kompetence/[id]`, `CheckCard` zobrazí řádek pod názvem. Součást M11.
