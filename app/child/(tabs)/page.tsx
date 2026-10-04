@@ -11,7 +11,7 @@ import { currentAbsence } from "@/lib/absence";
 
 /**
  * Dnes (návrh 2, frames 01A6, 01b, 01d): today's role with progress and check detail (D32, D33, pen HWD · 01A, 02B).
- * Only tasks the child must act on stay here (running, returned); sent and approved ones live in Vydělat.
+ * Only the running task and one returned today stay here; sent and approved ones live in Vydělat.
  */
 export default async function ChildToday() {
   const user = await getSession();
@@ -27,8 +27,12 @@ export default async function ChildToday() {
         reviewer: { select: { name: true } },
       },
     }),
+    // Running tasks, plus a task returned today (its note says why; a returned task ends, D32 flow).
     db.taskInstance.findMany({
-      where: { claimedById: user.id, status: { in: ["CLAIMED", "REJECTED"] } },
+      where: {
+        claimedById: user.id,
+        OR: [{ status: "CLAIMED" }, { status: "REJECTED", reviewedAt: { gte: today } }],
+      },
       include: { task: true },
       orderBy: { claimedAt: "asc" },
     }),
