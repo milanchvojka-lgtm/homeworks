@@ -11,7 +11,6 @@ export default async function AdminUsersPage() {
       role: true,
       avatarColor: true,
       rotationOrder: true,
-      monthlyAllowanceCzk: true,
     },
   });
 

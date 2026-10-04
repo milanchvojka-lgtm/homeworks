@@ -11,7 +11,6 @@ type User = {
   role: "ADMIN" | "CHILD";
   avatarColor: string;
   rotationOrder: number | null;
-  monthlyAllowanceCzk: number;
 };
 
 export function UserRow({ user }: { user: User }) {
