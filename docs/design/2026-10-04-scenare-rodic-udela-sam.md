@@ -1,16 +1,14 @@
 # Kontextové scénáře — rodič udělá povinnost nebo úkol sám (D31)
 
-**Datum:** 2026-10-04 · **Stav:** návrh · **Role:** rodič (dítě jen jako to, kdo výsledek vidí)
+**Datum:** 2026-10-04 · **Stav:** schváleno 2026-10-04 · **Role:** rodič (dítě jen jako to, kdo výsledek vidí)
 
 Navazuje na D32 (role po dnech, kuchyň do 17:00). Když je dítě pryč (D24), povinnosti nemá a není co dělat za něj — tyhle scénáře jsou o dni, kdy dítě doma je, ale svou věc neudělalo nebo nestihlo.
-
-*Domněnka* = věta, kterou nemám z čeho podložit. Milan ji potvrdí nebo škrtne.
 
 ---
 
 ## Scénář 1: Táta udělá kuchyň za holku, která nestihla
 
-Úterý 16:45. Ani má dnes Kuchyň a stůl, ale má trénink do šesti a s Emi se nevyměnila. Myčku stihla vyndat v poledne a nahlásila ji. Linka a stůl zůstaly. Táta chce vařit, tak linku utře a stůl uklidí sám — no hard feelings. Nechce, aby Ani o půlnoci přišla o řadu a kus bonusu za něco, co se nakonec udělalo. Chce to zaznamenat hned, dokud na to myslí, a jít vařit. Ani večer uvidí, že je kuchyň hotová a kdo ji udělal. *(domněnka: zaznamená to hned, ne až večer při schvalování)*
+Úterý 16:45. Ani má dnes Kuchyň a stůl, ale má trénink do šesti a s Emi se nevyměnila. Myčku stihla vyndat v poledne a nahlásila ji. Linka a stůl zůstaly. Táta chce vařit, tak linku utře a stůl uklidí sám — no hard feelings. Nechce, aby Ani o půlnoci přišla o řadu a kus bonusu za něco, co se nakonec udělalo. Chce to zaznamenat hned, dokud na to myslí, a jít vařit. Ani večer uvidí, že je kuchyň hotová a kdo ji udělal.
 
 **Kroky:** ① otevře appku ② najde Aninu dnešní kuchyň ③ označí linku a stůl jako „udělal jsem já“ ④ vidí, že je Ani na dnešek hotová
 
@@ -40,7 +38,7 @@ Sobota. Půdička (75 Kč) visí v nabídce druhý den a žádná z holek si ji 
 
 ## Scénář 3: Táta dodělá úkol, který si holka vzala a nestihne
 
-Emi si ve čtvrtek ve 14:00 vzala Umýt okna (300 Kč, 6 h na dokončení). V 17:00 ji rozbolí hlava a jde si lehnout. Okna jsou z poloviny. Táta je dodělá. Úkol má Emi rozdělaný, takže ho táta potřebuje uzavřít, aby Emi nevisel ani jí po vypršení nepropadl. Emi peníze nedostane. *(domněnka: chce, aby Emi věděla, že to dodělal on, ne aby jí úkol zmizel beze slova)*
+Emi si ve čtvrtek ve 14:00 vzala Umýt okna (300 Kč, 6 h na dokončení). V 17:00 ji rozbolí hlava a jde si lehnout. Okna jsou z poloviny. Táta je dodělá. Úkol má Emi rozdělaný, takže ho táta potřebuje uzavřít, aby Emi nevisel ani jí po vypršení nepropadl. Emi peníze nedostane. Emi má vědět, že to dodělal on, ne aby jí úkol zmizel beze slova.
 
 **Kroky:** ① otevře appku ② najde Eminy rozdělaná Okna ③ označí „udělal jsem já" ④ Emi už úkol nemá
 
@@ -48,20 +46,23 @@ Emi si ve čtvrtek ve 14:00 vzala Umýt okna (300 Kč, 6 h na dokončení). V 17
 |---|---|---|---|
 | „Úkol má Emi rozdělaný" | kdo úkol drží a v jakém stavu | uzavřít i rozdělaný úkol | — |
 | „Emi peníze nedostane" | — | hotovo bez odměny | ani za půlku |
-| „Aby Emi věděla" | — | dítě se dozví, že úkol udělal rodič | push, nebo jen vidí v appce? (D31 otevřené) |
+| „Aby Emi věděla" | — | dítě se dozví, že úkol udělal rodič | push (Milan 2026-10-04) |
 
 ---
 
-## Otázky pro Milana
+## Rozhodnuto (Milan 2026-10-04)
 
-1. **Kdy to rodič zaznamená?** Hned, když to udělá (scénář 1), nebo spíš večer při procházení Schválit?
-2. **Celý den naráz?** Stačí po jednotlivých povinnostech, nebo chceš i „udělal jsem celou její kuchyň“ jedním klepnutím?
-3. **Rozdělaný úkol (scénář 3):** má Emi dostat push „Okna dodělal táta“, nebo stačí, že jí úkol zmizí z appky?
-4. **Co dítě vidí:** u povinnosti „Udělal táta“ místo „schváleno“ — sedí?
+1. Rodič to zaznamená **hned**, když to udělá.
+2. **Po jednotlivých povinnostech**, ne celý den naráz.
+3. Rozdělaný úkol: dítě dostane **push**.
+4. Dítě u povinnosti vidí, že ji udělal rodič, místo „Schváleno“.
 
 ## Co ze scénářů plyne pro návrh
 
-(doplní se po schválení)
+- Vstup musí být rychlý z telefonu v kuchyni: pár klepnutí od otevření appky.
+- U povinností: dnešní povinnosti konkrétního dítěte, vybrat jednu, hotovo. Dítěti se počítá.
+- U úkolů: to, co teď visí (v nabídce, rozdělané), ne šablony úkolů.
+- Dítě vidí, kdo to udělal; u rozdělaného úkolu přijde push.
 
 ## Průchod návrhem (vyplní se při schvalování návrhu v penu)
 
