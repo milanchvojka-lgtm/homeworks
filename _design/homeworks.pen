@@ -9574,9 +9574,9 @@
                       ]
                     },
                     {
-                      "id": "jV6KE",
+                      "id": "kYhlJ",
                       "type": "ref",
-                      "ref": "hbm8c",
+                      "ref": "G1YNr",
                       "name": "Přepínač"
                     }
                   ]
@@ -22042,12 +22042,6 @@
                             },
                             "WclSR": {
                               "content": "Zapnuté"
-                            },
-                            "jV6KE": {
-                              "id": "EkbLJ",
-                              "type": "ref",
-                              "ref": "G1YNr",
-                              "name": "Přepínač"
                             }
                           }
                         },
@@ -43915,12 +43909,6 @@
                           "descendants": {
                             "WclSR": {
                               "content": "Zapnuté"
-                            },
-                            "jV6KE": {
-                              "id": "c8FHD",
-                              "type": "ref",
-                              "ref": "hbm8c",
-                              "name": "Přepínač"
                             }
                           }
                         },
@@ -44482,12 +44470,6 @@
                           "descendants": {
                             "WclSR": {
                               "content": "Zapnuté"
-                            },
-                            "jV6KE": {
-                              "id": "voNYS",
-                              "type": "ref",
-                              "ref": "G1YNr",
-                              "name": "Přepínač"
                             }
                           }
                         },
@@ -45050,8 +45032,8 @@
                             "WclSR": {
                               "content": "Vypnuté · zapni je, ať nepřijdeš o řadu"
                             },
-                            "jV6KE": {
-                              "id": "sinMd",
+                            "kYhlJ": {
+                              "id": "WHrxh",
                               "type": "ref",
                               "ref": "IzeJW",
                               "name": "Přepínač"
@@ -45617,8 +45599,11 @@
                             "WclSR": {
                               "content": "Nenastavené. Zapni v Nastavení → Oznámení → Homeworks."
                             },
-                            "jV6KE": {
-                              "enabled": false
+                            "kYhlJ": {
+                              "id": "w28pkA",
+                              "type": "ref",
+                              "ref": "IzeJW",
+                              "name": "Přepínač"
                             }
                           }
                         },
