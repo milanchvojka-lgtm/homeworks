@@ -30,7 +30,7 @@ Aplikace je primárně provozována jako PWA na mobilních zařízeních (iPhone
   - Schvalovat nebo vracet hlášení o splnění úkolů a denních checků.
   - Označovat hotovostní výplaty jako provedené.
   - Konfigurovat ekonomické parametry (hodinová sazba, cena obrazovky, výše bonusu, granularita).
-  - Spravovat uživatelské profily dětí (vytvořit, upravit jméno, výši kapesného, pořadí v rotaci).
+  - Spravovat uživatelské profily dětí (vytvořit, upravit jméno, pořadí v rotaci).
   - Pauznout den/období holky (např. nemoc, výlet) — neplatí pro v1, viz Open Questions.
 
 ### Child (dítě)
@@ -69,7 +69,7 @@ Aplikace je primárně provozována jako PWA na mobilních zařízeních (iPhone
     ├── /admin/payouts            (týdenní/měsíční výplaty, odškrtávání hotovosti)
     ├── /admin/screen-time        (žádosti o čerpání obrazovky — odsouhlasení a odpočet)
     ├── /admin/users              (správa profilů dětí)
-    └── /admin/settings           (ekonomické parametry, rotace, kapesné)
+    └── /admin/settings           (ekonomické parametry, rotace)
 ```
 
 Po přihlášení se uživatel směruje automaticky do `/admin` nebo `/child` podle své role.
@@ -382,10 +382,10 @@ Po přihlášení se uživatel směruje automaticky do `/admin` nebo `/child` po
   - Výchozí timeout claim fronty (default 24h).
   - Výchozí timeout execute (default 3h).
   - Pořadí holek v rotaci kompetencí.
-  - Výše kapesného per holka (jen evidenční — kapesné chodí mimo aplikaci).
+  - ~~Výše kapesného per holka.~~ *(D34: appka kapesné neeviduje.)*
 
 - **Data:**
-  - Globální nastavení aplikace, plus per-holka konfigurace kapesného.
+  - Globální nastavení aplikace.
 
 - **UI notes:**
   - Jeden přehledný formulář, ne mnoho podstránek.
@@ -460,7 +460,7 @@ Po přihlášení se uživatel směruje automaticky do `/admin` nebo `/child` po
 Hlavní entity v plain language. Vztahy popsané, datové typy zjednodušené.
 
 ### User
-- `id`, `name`, `role` (admin / child), `pin_hash`, `avatar_color`, `rotation_order` (pouze pro děti, určuje pořadí v rotaci kompetencí), `monthly_allowance_czk` (pouze evidenční).
+- `id`, `name`, `role` (admin / child), `pin_hash`, `avatar_color`, `rotation_order` (pouze pro děti, určuje pořadí v rotaci kompetencí). *(D34: `monthly_allowance_czk` odstraněno, kapesné se neeviduje.)*
 
 ### Competency
 - `id`, `name` (Kuchyň / Obývák / Koupelna), `description`.

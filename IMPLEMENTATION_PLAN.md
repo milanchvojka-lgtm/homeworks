@@ -74,7 +74,6 @@ model User {
   pinHash         String
   avatarColor     String   @default("#888")
   rotationOrder   Int?     // jen pro CHILD
-  monthlyAllowanceCzk Int  @default(0)  // jen pro CHILD
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
@@ -773,7 +772,7 @@ Než pustíš Claude Code na M2, měj nachystané:
 2. **Pořadí rotace.**
    Kdo začíná v prvním týdnu s kterou kompetencí.
 
-3. **Jména a měsíční kapesné** všech tří dcer.
+3. **Jména** všech tří dcer. *(Kapesné appka neeviduje, D34.)*
 
 4. **Prvotní seznam extra úkolů.**
    Pár opakujících se (sprchový kout, půdička) + pár ad hoc, na rozjezd.

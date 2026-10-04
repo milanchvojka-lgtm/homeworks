@@ -616,3 +616,13 @@
 **Důvod:** Milan 2026-10-04 vybral variantu A (detail vždy vidět) před B (rozbalovací „Co k tomu patří“): „až si lidi časem zvyknou, tak to prostě vyčistíme“. Po zažití se popisy smažou a karty budou zase nízké. Souhrnná stránka všech kompetencí byla zvážena a odložena (Milan: „asi je to takhle dobrý“).
 
 **Důsledky:** schéma `DailyCheck.description String?` (`prisma db push` + `prisma generate`), formulář povinnosti v `/admin/kompetence/[id]`, `CheckCard` zobrazí řádek pod názvem. Součást M11.
+
+---
+
+## D34 — Kapesné appka neeviduje (mění PRD §3, §5, datový model)
+
+**Rozhodnutí:** výše měsíčního kapesného se v appce nevede. Pole `User.monthlyAllowanceCzk` odchází ze schématu, ze seedu i z administrace, sloupec z podkladů pro ostrý provoz.
+
+**Důvod:** Milan 2026-10-04: „vyškrtni to všude“. Pole bylo v PRD od začátku „jen evidenční — kapesné chodí mimo aplikaci“, appka ho nikde nepočítá ani nezobrazuje (kredit, výplata, bonus ani dítě ho nevidí). Princip „kapesné je protislužba“ (brief landing page) nese rotace a povinnosti, ne číslo v profilu.
+
+**Důsledky:** schéma bez `monthlyAllowanceCzk`. Na produkci `prisma db push --accept-data-loss` (zahodí jen tenhle sloupec) spolu se změnou schématu M11 (D32, D33), pak `prisma generate`. `app/admin/uzivatele` a `prisma/seed.ts` bez pole.
