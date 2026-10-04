@@ -21658,7 +21658,7 @@
                                       "id": "qZACd",
                                       "name": "Pod",
                                       "fill": "$hw-ink-60",
-                                      "content": "3 aktivní",
+                                      "content": "8 aktivních",
                                       "fontFamily": "$hw-font-sans",
                                       "fontSize": 13,
                                       "fontWeight": "normal"
@@ -21668,6 +21668,77 @@
                                 {
                                   "type": "icon",
                                   "id": "JcqYj",
+                                  "name": "Šipka",
+                                  "width": 18,
+                                  "height": 18,
+                                  "icon": "chevron-right",
+                                  "library": "lucide",
+                                  "fill": "$hw-ink-35"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "nRKUF",
+                              "name": "Nepřítomnost",
+                              "width": "fill_container",
+                              "height": 64,
+                              "stroke": "$hw-hair",
+                              "strokeWidth": {
+                                "bottom": 1
+                              },
+                              "gap": 14,
+                              "padding": [
+                                0,
+                                14,
+                                0,
+                                16
+                              ],
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "XbIom",
+                                  "name": "Ikona",
+                                  "width": 22,
+                                  "height": 22,
+                                  "icon": "plane",
+                                  "library": "lucide",
+                                  "fill": "$hw-ink"
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "v90Bnx",
+                                  "name": "Text",
+                                  "width": "fill_container",
+                                  "layout": "vertical",
+                                  "gap": 2,
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "U6NYB",
+                                      "name": "Název",
+                                      "fill": "$hw-ink",
+                                      "content": "Nepřítomnost",
+                                      "fontFamily": "$hw-font-sans",
+                                      "fontSize": 17,
+                                      "fontWeight": "600"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "O7UbCV",
+                                      "name": "Pod",
+                                      "fill": "$hw-ink-60",
+                                      "content": "tábor, dovolená, nemoc",
+                                      "fontFamily": "$hw-font-sans",
+                                      "fontSize": 13,
+                                      "fontWeight": "normal"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "icon",
+                                  "id": "dOzUo",
                                   "name": "Šipka",
                                   "width": 18,
                                   "height": 18,
@@ -21729,7 +21800,7 @@
                                       "id": "DOghX",
                                       "name": "Pod",
                                       "fill": "$hw-ink-60",
-                                      "content": "Kuchyň, Stůl, Kanape",
+                                      "content": "Kuchyň a stůl, Obývák, Prádlo a koupelna",
                                       "fontFamily": "$hw-font-sans",
                                       "fontSize": 13,
                                       "fontWeight": "normal"
@@ -21958,6 +22029,27 @@
                               ]
                             }
                           ]
+                        },
+                        {
+                          "id": "mNvuN",
+                          "type": "ref",
+                          "ref": "yUJE3",
+                          "name": "Řádek Upozornění",
+                          "width": "fill_container",
+                          "descendants": {
+                            "mAlaz": {
+                              "content": "Upozornění"
+                            },
+                            "WclSR": {
+                              "content": "Zapnuté"
+                            },
+                            "jV6KE": {
+                              "id": "EkbLJ",
+                              "type": "ref",
+                              "ref": "G1YNr",
+                              "name": "Přepínač"
+                            }
+                          }
                         },
                         {
                           "type": "frame",
