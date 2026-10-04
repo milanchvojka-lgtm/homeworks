@@ -15,7 +15,7 @@ Minuty = odhad náročnosti z poznámek.
 | 3 | Vyvětrat obývák | jednou denně, kdykoli | 5 | do konce dne |
 | 4 | Uklidit a utřít stůl | (srovnat prostírání vypadlo) | 10 | **do 17:00** |
 | 5 | Udržovat čisté povrchy v obýváku | piano, TV skříňka, komody | 15 | do konce dne |
-| 6 | Udržovat čistou koupelnu | vyhodit drobnosti (vatové tyčinky apod.), sebrat popadané ručníky | ? | do konce dne |
+| 6 | Udržovat čisté koupelny | obě (dole v přízemí, nahoře v patře): vyhodit drobnosti (vatové tyčinky apod.), sebrat popadané ručníky | 10 | do konce dne |
 
 ## Kuchyň — kolečko „all hands“ (děti i rodiče)
 
@@ -28,20 +28,16 @@ Kuchyň se možná spojí se stolem (#4), protože obojí musí být hotové př
 
 ## Extra úkoly za odměnu (1× týdně)
 
-| # | Úkol | Co to obnáší | Min |
-|---|---|---|---|
-| 9 | Vysát | | 15–20 |
-| 10 | Utřít prach v obýváku | piano, TV skříňka, komody | ? |
-| 11 | Umýt koupelnu — spodek | (záchod, sprcha?) | 15 |
-| 12 | Umýt koupelnu — vršek | (zrcadlo?) | 15 |
+Odměna = náročnost × 150 Kč/h, zaokrouhleno na 10 Kč.
+
+| # | Úkol | Co to obnáší | Min | Odměna |
+|---|---|---|---|---|
+| 9 | Vysát | | 20 | 50 Kč |
+| 10 | Utřít prach v obýváku | piano, TV skříňka, komody | 20 | 50 Kč |
+| 11 | Umýt koupelnu dole (přízemí) | záchod, zrcadlo, sprcha | 15 | 40 Kč |
+| 12 | Umýt koupelnu nahoře (patro) | záchod, zrcadlo, sprcha | 15 | 40 Kč |
 
 ## Termíny
 
 - **Do 17:00:** to, co jinak brání vaření a jídlu, tedy kuchyň a stůl.
 - **Do konce dne:** všechno ostatní.
-- Postih „táta vypne mobil“: návrh (zatím nepotvrzený) je nepřenášet ho do appky, protože jeho roli už hraje screen time a řada (D30, D11).
-
-## Otevřené
-
-- Minuty u #6 a #10.
-- Koupelna: co přesně patří ke spodku a co k vršku. Na papíře je jen „záchod, zrcadlo, sprcha“.
