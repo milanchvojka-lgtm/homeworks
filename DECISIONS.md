@@ -569,7 +569,7 @@
 
 **Důvod:** Milan 2026-10-03: „Někdy myčku dělám já nebo Tereza… no hard feelings.“ Odpovědi: povinnost se dítěti počítá jako splněná, úkol bez odměny, obě místa + nevzaté úkoly z nabídky.
 
-**Otevřené:** úkol, který má dítě rozdělaný (`CLAIMED`) — dostane dítě push „Úkol udělal táta“? Vyřeší tok.
+**Upřesněno 2026-10-04 (scénáře, tok 1A + 2A):** rodič to zaznamená hned, po jednotlivých povinnostech; povinnost v detailu dítěte (dnešek rozbalený, „Udělám já“), úkoly v sekci „Teď visí“ v Úkolech. Dítě vidí **„Hotovo (Milan)“** (bez rodu slovesa, appka neví, kdo je táta a máma). Rozdělaný úkol: dítě dostane **push**. Vrácený úkol mimo záběr (je ukončený, nikdo ho nedrží). Žádné nové pole: značka v `note`.
 
 **Důsledky:** nové server actions pro admina (check → APPROVED s poznámkou; úkol → DONE bez `TASK_REWARD`, u opakovaných úkolů pokračuje rotace jako po dokončení). Simulace (D22): den, kdy povinnost udělá rodič, nesmí přerušit řadu. Implementace až po M10 (D30).
 
