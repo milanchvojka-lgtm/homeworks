@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ChevronRight, Layers, ListChecks, Plane, Settings, UsersRound } from "lucide-react";
+import { ChevronRight, KeyRound, Layers, ListChecks, Plane, Settings, UsersRound } from "lucide-react";
 import { db } from "@/lib/db";
 import { startOfDayPrague } from "@/lib/time";
 import { formatDayRange } from "@/app/child/_components/format";
@@ -36,6 +36,7 @@ export default async function AdminMorePage() {
       sub: competencies.map((c) => c.name).join(", ") || "zatím žádné",
     },
     { href: "/admin/uzivatele", Icon: UsersRound, title: "Uživatelé", sub: `${people} ${few(people) ? "lidé" : "lidí"}, PINy` },
+    { href: "/admin/pin", Icon: KeyRound, title: "Změnit PIN", sub: "tvůj PIN k přihlášení" },
     { href: "/admin/nastaveni", Icon: Settings, title: "Nastavení", sub: "sazby, bonus, trofeje" },
   ];
 

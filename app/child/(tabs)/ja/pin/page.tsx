@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import { ChangePinForm } from "./_change-pin-form";
+import { ChangePinForm } from "@/app/_components/change-pin-form";
 
 /** Change PIN (moved from former /child/nastaveni, reachable from Já). */
 export default function ChildPinPage() {
