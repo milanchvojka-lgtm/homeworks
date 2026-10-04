@@ -41,3 +41,25 @@ Odměna = náročnost × 150 Kč/h, zaokrouhleno na 10 Kč.
 
 - **Do 17:00:** to, co jinak brání vaření a jídlu, tedy kuchyň a stůl.
 - **Do konce dne:** všechno ostatní.
+
+## Návrh: formulace jako cílový stav (2026-10-04, ke schválení)
+
+Milan: název má popisovat konečný stav, ne činnost („na kanapi se dá sednout“ místo „uklidit kanape“). Detail řádek pod názvem = co to znamená, jen kde to není samo zřejmé.
+
+| # | Dnes | Cílový stav (název) | Detail |
+|---|---|---|---|
+| 1 | Uklidit kanape | **Na kanapi se dá sednout** | deky složené, polštáře na místě, žádné věci |
+| 3 | Vyvětrat obývák | **Obývák je vyvětraný** | jednou denně okna na 5 minut |
+| 5 | Udržovat čisté povrchy | **Povrchy v obýváku jsou volné** | piano, TV skříňka, komody bez odložených věcí |
+| 2 | Uklidit prádlo | **Čisté prádlo je u majitelů** | rozdělené a roznesené |
+| 6 | Udržovat čistou koupelnu | **Koupelny jsou v pořádku** | dole i nahoře: žádné drobnosti, ručníky pověšené |
+| 7 | Vyndat a nandat myčku | **Myčka je prázdná** | umyté nádobí uklizené na svém místě |
+| 8 | Uklidit a utřít linku | **Linka je volná a čistá** | utřená · koše vysypané · skleničky a sklo na půdičce · tašky a suché potraviny pryč |
+| 4 | Uklidit a utřít stůl | **Stůl je připravený k jídlu** | uklizený a utřený |
+| 9 | Vysát | **Obývák je vysátý** | (extra) |
+| 10 | Utřít prach | **V obýváku není prach** | piano, TV skříňka, komody (extra) |
+| 11 | Umýt koupelnu dole | **Koupelna dole je čistá** | záchod, zrcadlo, sprcha (extra) |
+| 12 | Umýt koupelnu nahoře | **Koupelna nahoře je čistá** | záchod, zrcadlo, sprcha (extra) |
+
+**Detail v appce:** extra úkoly ho mít můžou už dnes (`Task.description`). Denní povinnosti (`DailyCheck`) pole pro popis nemají. Detail u povinností = nové pole v datovém modelu, takže rozhodnutí do `DECISIONS.md` před implementací.
+
