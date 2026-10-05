@@ -19001,7 +19001,7 @@
                   "name": "Obrazovka HWR · 03",
                   "clip": true,
                   "width": 390,
-                  "height": 844,
+                  "height": 1100,
                   "fill": "$hw-paper",
                   "layout": "vertical",
                   "children": [
@@ -19287,6 +19287,86 @@
                               "content": "Zapsat screen time"
                             }
                           }
+                        },
+                        {
+                          "type": "text",
+                          "id": "o9Leaw",
+                          "name": "Section label Za co",
+                          "fill": "$hw-ink",
+                          "content": "ZA CO",
+                          "fontFamily": "$hw-font-mono",
+                          "fontSize": "$hw-fs-section",
+                          "fontWeight": "700",
+                          "letterSpacing": 1.4
+                        },
+                        {
+                          "type": "frame",
+                          "id": "IBSg1",
+                          "name": "Za co",
+                          "clip": true,
+                          "width": "fill_container",
+                          "fill": "$hw-card",
+                          "cornerRadius": 18,
+                          "stroke": "$hw-rule",
+                          "strokeWidth": 1,
+                          "layout": "vertical",
+                          "children": [
+                            {
+                              "id": "kM47W",
+                              "type": "ref",
+                              "ref": "kWfDp",
+                              "name": "TransactionRow · Umýt okna",
+                              "width": "fill_container",
+                              "descendants": {
+                                "shAmR": {
+                                  "content": "Umýt okna"
+                                },
+                                "H9JeR1": {
+                                  "content": "St 23. 9. · úkol"
+                                },
+                                "Ykmm6": {
+                                  "content": "+300 Kč"
+                                }
+                              }
+                            },
+                            {
+                              "id": "hsKP5",
+                              "type": "ref",
+                              "ref": "kWfDp",
+                              "name": "TransactionRow · Screen time 1 h",
+                              "width": "fill_container",
+                              "descendants": {
+                                "shAmR": {
+                                  "content": "Screen time 1 h"
+                                },
+                                "H9JeR1": {
+                                  "content": "Út 22. 9."
+                                },
+                                "Ykmm6": {
+                                  "content": "−200 Kč"
+                                }
+                              }
+                            },
+                            {
+                              "id": "sRRSQ",
+                              "type": "ref",
+                              "ref": "kWfDp",
+                              "name": "TransactionRow · Vyluxovat auto",
+                              "width": "fill_container",
+                              "strokeWidth": 0,
+                              "descendants": {
+                                "shAmR": {
+                                  "content": "Vyluxovat auto"
+                                },
+                                "H9JeR1": {
+                                  "content": "Po 21. 9. · úkol"
+                                },
+                                "Ykmm6": {
+                                  "content": "+75 Kč"
+                                }
+                              }
+                            }
+                          ]
                         },
                         {
                           "type": "text",
