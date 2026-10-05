@@ -5,7 +5,7 @@ import {
   computeDebtOut,
   type Transaction,
 } from "./credit-pure";
-import { startOfWeekPrague, endOfWeekPrague } from "./time";
+import { startOfWeekPrague } from "./time";
 
 export {
   aggregateTransactions,
@@ -23,14 +23,15 @@ export async function getAppSettings() {
   return db.appSettings.create({ data: {} });
 }
 
-/** Suma transakcí v týdnu pro daného uživatele (earned/screenTime/balance). */
+/**
+ * Suma transakcí v týdnu pro daného uživatele (earned/screenTime/balance).
+ * D21: by `weekStart` like weekly-close, so the running week shows what its payout will count.
+ */
 export async function getWeekTotals(userId: string, date: Date = new Date()) {
-  const weekStart = startOfWeekPrague(date);
-  const weekEnd = endOfWeekPrague(date);
   const txs = await db.creditTransaction.findMany({
     where: {
       userId,
-      createdAt: { gte: weekStart, lte: weekEnd },
+      weekStart: startOfWeekPrague(date),
     },
     select: { type: true, amountCzk: true },
   });
