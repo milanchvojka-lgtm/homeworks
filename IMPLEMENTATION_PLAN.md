@@ -959,6 +959,6 @@ Jediný actions soubor, který hází výjimky místo `{ ok, error }` (viz SKILL
 
 ## Po launchi — Fronta vyřízená druhým rodičem (D37)
 
-- [ ] Push „Vše vyřízeno ✓“ ostatním rodičům, když se fronta vyprázdní (`inboxClearedMessage`, `notifyInboxCleared` ze čtyř schvalovacích akcí), test.
-- [ ] Prázdné Schválit: „Vyřízeno: {počet} · {jméno} · {kdy}“ podle posledního vyřízení druhým rodičem; pen HWR · 01 stav.
+- ✅ 2026-10-05 (`52237b8`): push „Vše vyřízeno ✓“ ostatním rodičům, když se fronta vyprázdní (`inboxClearedMessage`, `notifyInboxCleared` ze čtyř schvalovacích akcí), test + invariant v simulaci.
+- ✅ 2026-10-05 (`52237b8`): prázdné Schválit „Vyřízeno: {počet} · {jméno} · {kdy}“ (`lib/approvals-pure.ts`); pen sekce D37, HWV · 01 a 02.
 - [ ] Ověřit na telefonu: nahrazená notifikace vynuluje číslo na ikoně; zazvoní, nebo ne (riziko D37).
