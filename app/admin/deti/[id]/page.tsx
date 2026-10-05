@@ -7,6 +7,7 @@ import { getAppSettings, getWeekBalance } from "@/lib/credit";
 import { endOfWeekPrague, startOfDayPrague, startOfWeekPrague } from "@/lib/time";
 import { BackHeader } from "@/app/_components/app-header";
 import { czkToMinutes, formatDayRange, formatMinutes } from "@/app/child/_components/format";
+import { TransactionList, getTransactionItems } from "@/app/child/_components/transactions";
 import { getChildWeek } from "../../_components/child-days";
 import { DayRow } from "../../_components/day-row";
 
@@ -17,7 +18,10 @@ function days(n: number): string {
   return `${n} dní`;
 }
 
-/** Detail dítěte (pen HWR · 03): this week (with carried debt, D30), days of the week with excuse (D20). */
+/**
+ * Detail dítěte (pen HWR · 03): this week (with carried debt, D30), what it is for (the child's
+ * „Za co" list), days of the week with excuse (D20).
+ */
 export default async function AdminChildPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const child = await db.user.findUnique({
@@ -26,13 +30,14 @@ export default async function AdminChildPage({ params }: { params: Promise<{ id:
   });
   if (!child || child.role !== "CHILD") notFound();
 
-  const [week, settings, bonus, weekDays, absence] = await Promise.all([
+  const [week, settings, bonus, weekDays, absence, items] = await Promise.all([
     getWeekBalance(id),
     getAppSettings(),
     getBonusStatus(id),
     getChildWeek(id),
     // Running or next upcoming absence (D24).
     db.absence.findFirst({ where: { userId: id, toDate: { gte: startOfDayPrague() } }, orderBy: { fromDate: "asc" } }),
+    getTransactionItems(id, startOfWeekPrague(), startOfWeekPrague()),
   ]);
   const screenMin = czkToMinutes(week.screenTimeCzk, settings.screenTimeHourCostCzk);
 
@@ -86,6 +91,17 @@ export default async function AdminChildPage({ params }: { params: Promise<{ id:
             </span>
             <ChevronRight className="size-[18px] text-subtle" />
           </Link>
+        )}
+
+        <h2 className="mt-1 font-mono text-xs font-bold tracking-[0.12em] uppercase">Za co</h2>
+        {items.length === 0 ? (
+          <p className="rounded-tile border border-border bg-card px-[18px] py-6 text-center text-muted-foreground">
+            Tento týden zatím nic.
+          </p>
+        ) : (
+          <div className="rounded-tile border border-border bg-card">
+            <TransactionList items={items} />
+          </div>
         )}
 
         <h2 className="mt-1 font-mono text-xs font-bold tracking-[0.12em] uppercase">Dny týdne</h2>
