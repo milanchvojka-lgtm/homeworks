@@ -646,3 +646,21 @@
 **Důvod:** Milan 2026-10-04 chce úkol „aktivovat ručně“. Appka to neumí: `createTaskAction` hned vytvoří instanci (úkol je v nabídce), `isActive` řídí jen cron opakovaných úkolů a jednorázový úkol po splnění nebo vypršení znovu nabídnout nejde. Funkce navíc se do dnešního launche nevejde; Milan souhlasí s variantou A (založit ručně) teď.
 
 **Později (po launchi):** „připravené úkoly“: úkol čeká v seznamu a rodič ho tlačítkem „Nabídnout teď“ pustí do nabídky, i opakovaně. Půjde postupem D16 a s vlastním záznamem v DECISIONS.
+
+---
+
+## D37 — Když frontu vyřídí druhý rodič: notifikace „Vše vyřízeno“ a kdo to vyřídil na prázdném Schválit (mění D28)
+
+**Rozhodnutí:**
+- **A · notifikace:** když rodič vyřídí (schválí nebo vrátí) **poslední** položku ve frontě ke schválení, ostatní rodiče dostanou push se stejným štítkem `approvals` jako „Máš co schvalovat“: titulek **„Vše vyřízeno ✓“**, text **„{jméno} · ke schválení nic nevisí“**, číslo na ikoně **0**. V centru notifikací nahradí starou notifikaci o schvalování a vynuluje číslo na ikoně. Tomu, kdo frontu vyprázdnil, nechodí nic.
+- **B · prázdné Schválit:** když nic nevisí a poslední vyřízené položky dnes vyřídil jiný rodič, prázdný stav místo „Všechno, co holky nahlásily, je vyřízené.“ ukáže **„Vyřízeno: {počet} · {jméno} · {kdy}“** (např. „Vyřízeno: 3 · Tereza · před 10 min“). Počítají se položky, které druhý rodič vyřídil dnes po poslední položce, kterou vyřídil ten, kdo se dívá. Povinnosti a úkoly udělané rodičem za dítě (D31) a uznané dny (D20) se nepočítají, ve frontě nikdy nebyly.
+- Texty jsou rodově neutrální (bez „vyřídil/vyřídila“).
+
+**Důvod:** Milan 2026-10-05 (první den ostrého provozu): přijde notifikace „Ke schválení: 3“, než ji otevře, Tereza to schválí, na ikoně dál svítí 3 a appka je prázdná — „vypadá to jako chyba“. iOS nedovolí tichý push (D28), takže číslo na ikoně jde vynulovat jen další notifikací; vysvětlení v appce pokrývá situaci, kdy notifikace nepřijde nebo ji rodič přehlédne.
+
+**Důsledky:**
+- Schéma beze změny: `reviewerId` už mají `DailyCheckInstance` i `TaskInstance`.
+- `lib/reminders-pure.ts`: `inboxClearedMessage(name)` + test. `lib/notifications.ts`: `notifyInboxCleared(reviewer)` — po odpovědi (`after`), jen když `getAdminInboxCount()` = 0, push ostatním rodičům.
+- Volá se z `approveCheckAction`, `rejectCheckAction`, `approveTaskAction`, `rejectTaskAction`.
+- Schválit (`app/admin/(tabs)/page.tsx` + `approval-list.tsx`): text prázdného stavu podle posledního vyřízení druhým rodičem. Pen: prázdné Schválit (HWR · 01) dostane stav s textem.
+- Riziko: iOS může u nahrazené notifikace zazvonit. Když to bude obtěžovat, rozhodne Milan o omezení (např. jen když druhý rodič dostal notifikaci o schvalování od posledního vyprázdnění).

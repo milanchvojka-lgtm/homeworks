@@ -954,3 +954,11 @@ Jediný actions soubor, který hází výjimky místo `{ ok, error }` (viz SKILL
 - ✅ 2026-10-04 (`775770c`): detail dítěte — dnešek rozbalený, „Udělám já“ u dnešní nenahlášené nebo vrácené povinnosti (`doCheckForChildAction`, značka v `note`), dítě vidí „Hotovo (Milan)“; Úkoly — sekce „Teď visí“ (`doTaskForChildAction`, bez odměny, `claimedById` null, push dítěti s rozdělaným úkolem); simulace se třemi případy, invariant odměn zná úkol hotový rodičem.
 - ✅ 2026-10-04 (`b048f62`): vrácený úkol v odznaku Vydělat a v Mých úkolech jen v den vrácení.
 
+
+---
+
+## Po launchi — Fronta vyřízená druhým rodičem (D37)
+
+- [ ] Push „Vše vyřízeno ✓“ ostatním rodičům, když se fronta vyprázdní (`inboxClearedMessage`, `notifyInboxCleared` ze čtyř schvalovacích akcí), test.
+- [ ] Prázdné Schválit: „Vyřízeno: {počet} · {jméno} · {kdy}“ podle posledního vyřízení druhým rodičem; pen HWR · 01 stav.
+- [ ] Ověřit na telefonu: nahrazená notifikace vynuluje číslo na ikoně; zazvoní, nebo ne (riziko D37).

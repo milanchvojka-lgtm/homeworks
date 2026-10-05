@@ -445,6 +445,7 @@ Po přihlášení se uživatel směruje automaticky do `/admin` nebo `/child` po
   **(c) Web Push a číslo na ikoně appky** (D28, před launchem):
   - **Dítě:** připomínky jen když mu dnes ještě něco zbývá: 60 min před termínem povinnosti, 19:30 souhrn, 21:00 poslední šance (D35), a hned při vrácení povinnosti. Číslo na ikoně = dnešní neodeslané povinnosti.
   - **Rodič:** push hned při odeslané povinnosti a nahlášeném úkolu (D30: žádost o screen time chodí z iOS, ne z appky). Číslo na ikoně = položky ke schválení.
+  - **Rodič, fronta vyřízená druhým rodičem (D37):** když rodič vyřídí poslední položku, ostatním přijde „Vše vyřízeno ✓ · {jméno}“, která nahradí notifikaci o schvalování a vynuluje číslo na ikoně. Prázdné Schválit ukáže „Vyřízeno: {počet} · {jméno} · {kdy}“.
   - Povolení v posledním kroku uvítání a v Já / Víc. Funguje jen v appce přidané na plochu.
 
   **(d) Večerní e-mail rodičům ve 20:00** (D28): které dítě má co z dneška ještě neodeslané. Jen když něco zbývá.
