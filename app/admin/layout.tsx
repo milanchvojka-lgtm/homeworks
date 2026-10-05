@@ -3,6 +3,7 @@ import { getSession } from "@/lib/auth";
 import { getAdminInboxCount } from "@/lib/badges";
 import { BottomNav } from "../_components/bottom-nav";
 import { PushSync } from "../_components/push-sync";
+import { RefreshOnResume } from "../_components/refresh-on-resume";
 
 /** Parent part (M8.6, tok varianta B; D30 Screen time tab): Schválit · Děti · Screen time · Výplaty · Víc. */
 export default async function AdminLayout({
@@ -19,6 +20,7 @@ export default async function AdminLayout({
   return (
     <div className="flex min-h-screen flex-1 flex-col pb-24">
       {children}
+      <RefreshOnResume />
       <PushSync badge={inboxCount} />
       <BottomNav
         tabs={[

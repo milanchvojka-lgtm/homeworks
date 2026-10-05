@@ -8,6 +8,7 @@ import {
 import { startOfDayPrague } from "@/lib/time";
 import { BottomNav } from "../_components/bottom-nav";
 import { PushSync } from "../_components/push-sync";
+import { RefreshOnResume } from "../_components/refresh-on-resume";
 
 export default async function ChildLayout({
   children,
@@ -32,6 +33,7 @@ export default async function ChildLayout({
   return (
     <div className="flex min-h-screen flex-1 flex-col pb-24">
       {children}
+      <RefreshOnResume />
       <PushSync badge={openChecks} />
       <BottomNav
         tabs={[
