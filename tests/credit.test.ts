@@ -46,6 +46,16 @@ describe("aggregateTransactions", () => {
     expect(r.balanceCzk).toBe(240); // 100+50-100+200-10
   });
 
+  it("counts every bonus weekly-close pays out as bonus (welcome, monthly, trophy)", () => {
+    const r = aggregateTransactions([
+      { type: "TASK_REWARD", amountCzk: 50 },
+      { type: "WELCOME_BONUS", amountCzk: 100 },
+      { type: "MONTHLY_BONUS", amountCzk: 150 },
+      { type: "STREAK_MILESTONE", amountCzk: 20 },
+    ]);
+    expect(r.earnedCzk).toBe(320);
+  });
+
   it("empty list → all zeros", () => {
     expect(aggregateTransactions([])).toEqual({
       earnedCzk: 0,

@@ -29,7 +29,8 @@ export function computeScreenTimeCost(
 
 /**
  * Sečte transakce do (earned, screenTime, balance).
- *   earned     = suma všech kladných TASK_REWARD a MONTHLY_BONUS
+ *   earned     = suma kladných TASK_REWARD a bonusů, které weekly-close vyplácí jako bonus
+ *                (MONTHLY_BONUS, WELCOME_BONUS, STREAK_MILESTONE), takže netCzk sedí s výplatou
  *   screenTime = abs suma SCREEN_TIME (kladné číslo = kolik utratila)
  *   balance    = součet všech amountCzk (signed)
  */
@@ -43,7 +44,12 @@ export function aggregateTransactions(transactions: Transaction[]): {
   let balanceCzk = 0;
   for (const t of transactions) {
     balanceCzk += t.amountCzk;
-    if (t.type === "TASK_REWARD" || t.type === "MONTHLY_BONUS" || t.type === "WELCOME_BONUS") {
+    if (
+      t.type === "TASK_REWARD" ||
+      t.type === "MONTHLY_BONUS" ||
+      t.type === "WELCOME_BONUS" ||
+      t.type === "STREAK_MILESTONE"
+    ) {
       if (t.amountCzk > 0) earnedCzk += t.amountCzk;
     } else if (t.type === "SCREEN_TIME") {
       screenTimeCzk += Math.abs(t.amountCzk);
