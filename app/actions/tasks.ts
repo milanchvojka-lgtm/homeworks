@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { after } from "next/server";
 import { db } from "@/lib/db";
 import { getSession } from "@/lib/auth";
-import { enqueueNotification } from "@/lib/notifications";
+import { enqueueNotification, notifyInboxCleared } from "@/lib/notifications";
 import {
   canUserClaim,
   createTaskInstance,
@@ -213,6 +213,7 @@ export async function approveTaskAction(
     return true;
   });
   if (!approved) return { ok: false, error: "invalid_state" };
+  notifyInboxCleared(admin); // D37
 
   revalidatePath("/admin");
   revalidatePath("/child", "layout");
@@ -244,6 +245,7 @@ export async function rejectTaskAction(
     },
   });
   if (updated.count === 0) return { ok: false, error: "invalid_state" };
+  notifyInboxCleared(admin); // D37
 
   // Vytvoří se nová instance s rotací, která vynechá toho, kdo zfušoval.
   await createTaskInstance(inst.taskId, {

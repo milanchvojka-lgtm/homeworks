@@ -4,7 +4,7 @@ import { Resend } from "resend";
 import { db } from "./db";
 import { getAdminInboxCount } from "./badges";
 import { adminIds, sendPush } from "./push";
-import { approvalMessage } from "./reminders-pure";
+import { approvalMessage, inboxClearedMessage } from "./reminders-pure";
 import { startOfDayPrague } from "./time";
 import type { NotificationEventType, Prisma } from "@prisma/client";
 
@@ -31,6 +31,23 @@ export async function enqueueNotification(
       await sendPush(await adminIds(), approvalMessage(await getAdminInboxCount()));
     } catch (err) {
       console.error("push: approval push failed", err);
+    }
+  });
+}
+
+/**
+ * D37: a parent approved or returned an item. When that emptied the queue, the other parents get
+ * „Vše vyřízeno ✓“, which replaces their approvals notification and resets the icon number.
+ * After the response and never throwing, like the approvals push.
+ */
+export function notifyInboxCleared(reviewer: { id: string; name: string }): void {
+  after(async () => {
+    try {
+      if ((await getAdminInboxCount()) > 0) return;
+      const others = (await adminIds()).filter((id) => id !== reviewer.id);
+      await sendPush(others, inboxClearedMessage(reviewer.name));
+    } catch (err) {
+      console.error("push: inbox cleared push failed", err);
     }
   });
 }

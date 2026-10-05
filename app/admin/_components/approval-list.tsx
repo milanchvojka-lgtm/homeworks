@@ -24,7 +24,7 @@ export type ApprovalGroup = {
 type RowState = "done" | "handled";
 
 /** Schválit (pen HWR · 01): waiting items grouped by child, approve in one tap, return opens a note. */
-export function ApprovalList({ groups }: { groups: ApprovalGroup[] }) {
+export function ApprovalList({ groups, clearedText }: { groups: ApprovalGroup[]; clearedText?: string }) {
   const router = useRouter();
   const [rows, setRows] = useState<Record<string, RowState>>({});
   const [rejectingId, setRejectingId] = useState<string | null>(null);
@@ -66,7 +66,7 @@ export function ApprovalList({ groups }: { groups: ApprovalGroup[] }) {
     .map((g) => ({ ...g, items: g.items.filter((i) => rows[i.id] !== "done") }))
     .filter((g) => g.items.length > 0);
 
-  if (visible.length === 0) return <NothingWaiting />;
+  if (visible.length === 0) return <NothingWaiting text={clearedText} />;
 
   return (
     <div className="flex flex-col gap-3">
@@ -196,14 +196,14 @@ function ApprovalRow({
   );
 }
 
-/** Pen HWR · 01c. */
-export function NothingWaiting() {
+/** Pen HWR · 01c; with `text` pen HWV · 01 (D37: the other parent emptied the queue). */
+export function NothingWaiting({ text }: { text?: string }) {
   return (
     <EmptyState
       Icon={CheckCheck}
       tone="success"
       title="Nic nevisí"
-      text="Všechno, co holky nahlásily, je vyřízené."
+      text={text ?? "Všechno, co holky nahlásily, je vyřízené."}
       className="flex-1 py-24"
     />
   );

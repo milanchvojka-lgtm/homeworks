@@ -481,13 +481,21 @@ describe("month simulation (D22)", () => {
     const unsentMails = emails.filter((e) => e.subject.includes("neodesláno")).length;
     const mailDays = (await db.reminderLog.findMany({ where: { key: "parents-email" }, distinct: ["date"] })).length;
     if (unsentMails !== mailDays) problems.push(`end: ${unsentMails} unsent e-mails for ${mailDays} days with something open`);
-    const approvalPushes = pushes.filter((p) => p.message.tag === "approvals");
+    // D37: "Vše vyřízeno" shares the approvals tag (it replaces that notification) but has badge 0.
+    const approvalPushes = pushes.filter((p) => p.message.tag === "approvals" && p.message.badge > 0);
+    const clearedPushes = pushes.filter((p) => p.message.tag === "approvals" && p.message.badge === 0);
+    if (clearedPushes.length === 0) problems.push("end: the queue was never reported as cleared (D37)");
+    const otherParent = (body: string) =>
+      body.startsWith(`${f.milan.name} · `) ? f.teri.id : body.startsWith(`${f.teri.name} · `) ? f.milan.id : null;
+    if (clearedPushes.some((p) => p.userIds.length !== 1 || p.userIds[0] !== otherParent(p.message.body))) {
+      problems.push("end: an inbox-cleared push did not go to exactly the other parent (D37)");
+    }
     const queued = await db.notificationQueue.count();
     if (approvalPushes.length !== queued) problems.push(`end: ${approvalPushes.length} approval pushes for ${queued} queued events`);
     if (approvalPushes.some((p) => p.userIds.sort().join() !== [f.milan.id, f.teri.id].sort().join())) {
       problems.push("end: an approval push did not go to both parents");
     }
-    events.push(`end pushes: ${pushes.filter((p) => p.message.tag === "reminder").length} reminders, ${approvalPushes.length} approval pushes`);
+    events.push(`end pushes: ${pushes.filter((p) => p.message.tag === "reminder").length} reminders, ${approvalPushes.length} approval pushes, ${clearedPushes.length} inbox cleared`);
 
     // D30: every record and cancel pushed only the child; Emi's binge carried debt over two weeks.
     const screenPushes = pushes.filter((p) => p.message.tag === "screen-time");

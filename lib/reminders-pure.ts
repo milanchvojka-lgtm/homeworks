@@ -148,6 +148,20 @@ export function approvalMessage(inboxCount: number): PushMessage {
   };
 }
 
+/**
+ * D37: the queue was emptied by another parent. Same tag as `approvalMessage`, so it replaces that
+ * notification and resets the number on the icon. Gender-neutral on purpose.
+ */
+export function inboxClearedMessage(reviewerName: string): PushMessage {
+  return {
+    title: "Vše vyřízeno ✓",
+    body: `${reviewerName} · ke schválení nic nevisí`,
+    url: "/admin",
+    tag: "approvals",
+    badge: 0,
+  };
+}
+
 const minutesLabel = (m: number) => (m % 60 === 0 ? `${m / 60} h` : `${m} min`);
 
 /** D30: push to the child when a parent records screen time; neutral, no "who recorded" (Milan 2026-10-03). */

@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { after } from "next/server";
 import { db } from "@/lib/db";
 import { getSession } from "@/lib/auth";
-import { enqueueNotification } from "@/lib/notifications";
+import { enqueueNotification, notifyInboxCleared } from "@/lib/notifications";
 import { sendPush } from "@/lib/push";
 import { openChecksToday } from "@/lib/reminders";
 import { rejectedCheckMessage } from "@/lib/reminders-pure";
@@ -74,6 +74,7 @@ export async function approveCheckAction(
     },
   });
   if (updated.count === 0) return { ok: false, error: "invalid_state" };
+  notifyInboxCleared(user); // D37
 
   revalidatePath("/admin");
   revalidatePath("/child", "layout");
@@ -128,6 +129,7 @@ export async function rejectCheckAction(
     },
   });
   if (updated.count === 0) return { ok: false, error: "invalid_state" };
+  notifyInboxCleared(user); // D37
 
   // D28: something is open again for the child — tell them now (a past day's check only closes, no push).
   if (instance.date.getTime() === startOfDayPrague().getTime()) {
