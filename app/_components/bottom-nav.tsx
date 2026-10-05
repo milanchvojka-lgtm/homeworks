@@ -35,7 +35,11 @@ export type NavTab = {
   badge?: number;
 };
 
-/** Bottom tab bar shared by the child and parent parts (pen `BottomNav`). The first tab matches its path exactly. */
+/**
+ * Bottom tab bar shared by the child and parent parts (pen `BottomNav`). The first tab matches its path exactly.
+ * `transform-gpu` gives the fixed bar its own layer: on an iPhone SE (2022) iOS painted it into the
+ * scrolling content and dragged pieces of it along with a fling.
+ */
 export function BottomNav({ tabs }: { tabs: NavTab[] }) {
   const pathname = usePathname();
 
@@ -45,7 +49,7 @@ export function BottomNav({ tabs }: { tabs: NavTab[] }) {
   }
 
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-10 flex justify-around border-t border-border bg-card px-2 pt-1.5 pb-[max(1.125rem,env(safe-area-inset-bottom))]">
+    <nav className="fixed inset-x-0 bottom-0 z-10 flex transform-gpu justify-around border-t border-border bg-card px-2 pt-1.5 pb-[max(1.125rem,env(safe-area-inset-bottom))]">
       {tabs.map((tab, i) => {
         const active = isActive(tab, i);
         const Icon = ICONS[tab.icon];
