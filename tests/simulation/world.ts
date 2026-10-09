@@ -101,9 +101,9 @@ export async function seedFamily(): Promise<Family> {
     });
   // D32 catalog: three roles rotating daily; only the kitchen round has a deadline.
   await comp("Kuchyň a stůl", 1, [
-    ["Myčka je prázdná", "17:00"],
-    ["Linka je volná a čistá", "17:00"],
-    ["Stůl je připravený k jídlu", "17:00"],
+    ["Myčka je prázdná", "18:30"],
+    ["Linka je volná a čistá", "18:30"],
+    ["Stůl je připravený k jídlu", "18:30"],
   ]);
   await comp("Obývák", 2, [
     ["Na kanapi se dá sednout", null],

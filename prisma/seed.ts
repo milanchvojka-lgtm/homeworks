@@ -44,9 +44,9 @@ const COMPETENCIES: {
     description: "Odpolední kolo, aby se dalo vařit a jíst.",
     order: 1,
     checks: [
-      { name: "Myčka je prázdná", description: "Umyté nádobí uklizené na svém místě.", timeOfDay: "ANYTIME", dueTime: "17:00" },
-      { name: "Linka je volná a čistá", description: "Utřená · koše vysypané · skleničky a sklo na půdičce · tašky a suché potraviny pryč.", timeOfDay: "ANYTIME", dueTime: "17:00" },
-      { name: "Stůl je připravený k jídlu", description: "Uklizený a utřený.", timeOfDay: "ANYTIME", dueTime: "17:00" },
+      { name: "Myčka je prázdná", description: "Umyté nádobí uklizené na svém místě.", timeOfDay: "ANYTIME", dueTime: "18:30" },
+      { name: "Linka je volná a čistá", description: "Utřená · koše vysypané · skleničky a sklo na půdičce · tašky a suché potraviny pryč.", timeOfDay: "ANYTIME", dueTime: "18:30" },
+      { name: "Stůl je připravený k jídlu", description: "Uklizený a utřený.", timeOfDay: "ANYTIME", dueTime: "18:30" },
     ],
   },
   {
