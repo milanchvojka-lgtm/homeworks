@@ -664,3 +664,16 @@
 - Volá se z `approveCheckAction`, `rejectCheckAction`, `approveTaskAction`, `rejectTaskAction`.
 - Schválit (`app/admin/(tabs)/page.tsx` + `approval-list.tsx`): text prázdného stavu podle posledního vyřízení druhým rodičem. Pen: prázdné Schválit (HWR · 01) dostane stav s textem.
 - Riziko: iOS může u nahrazené notifikace zazvonit. Když to bude obtěžovat, rozhodne Milan o omezení (např. jen když druhý rodič dostal notifikaci o schvalování od posledního vyprázdnění).
+
+---
+
+## D38 — Kuchyň a stůl do 18:30 místo 17:00 (mění D32)
+
+**Rozhodnutí:** termín všech tří povinností role Kuchyň a stůl (myčka prázdná, linka volná a čistá, stůl připravený k jídlu) je **18:30** místo 17:00. Zatím, Milan to bude podle provozu ladit dál.
+
+**Důvod:** Milan 2026-10-09 po prvních dnech ostrého provozu: holky často chodí ze školy až kolem 17:00, takže termín 17:00 nestíhají.
+
+**Důsledky:**
+- Jen data: `DailyCheck.dueTime` „18:30“ u tří povinností v ostré DB a v `prisma/seed.ts`. Kód termín bere z dat (D18), připomínka „60 min před termínem“ přijde v 17:30, upozornění s rolí od 14:00 ukáže „Do 18:30“.
+- Ostatní role dál do konce dne. Pen (D32 sekce) ukazuje „DO 17:00“ jako historii návrhu, nepřekresluje se.
+- Termín jde dál měnit i v administraci (Kompetence → povinnost → Termín).

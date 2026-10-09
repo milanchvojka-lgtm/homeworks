@@ -118,7 +118,7 @@ Po přihlášení se uživatel směruje automaticky do `/admin` nebo `/child` po
 - **Priorita:** Must-have
 
 - **Description:**
-  Každý den se kompetence automaticky posunou podle adminem nastaveného pořadí (přiřazení dělá ranní `daily-rollover`). Standardní rotace: 3 kompetence × 3 holky → každá má stejnou roli jednou za 3 dny. Kuchyň a stůl = jen odpolední kolo do 17:00; ostatní kola kuchyně dělají rodiče mimo appku (D32).
+  Každý den se kompetence automaticky posunou podle adminem nastaveného pořadí (přiřazení dělá ranní `daily-rollover`). Standardní rotace: 3 kompetence × 3 holky → každá má stejnou roli jednou za 3 dny. Kuchyň a stůl = jen odpolední kolo do 18:30 (D38, původně 17:00); ostatní kola kuchyně dělají rodiče mimo appku (D32).
 
 - **User flow:**
   - Žádný interaktivní flow — automatika.
