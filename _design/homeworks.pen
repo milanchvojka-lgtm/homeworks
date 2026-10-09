@@ -19277,18 +19277,6 @@
                           ]
                         },
                         {
-                          "id": "CHTnI",
-                          "type": "ref",
-                          "ref": "xz14g",
-                          "name": "Zapsat obrazovku",
-                          "width": "fill_container",
-                          "descendants": {
-                            "FCFit": {
-                              "content": "Zapsat screen time"
-                            }
-                          }
-                        },
-                        {
                           "type": "text",
                           "id": "o9Leaw",
                           "name": "Section label Za co",
@@ -19935,18 +19923,6 @@
                               ]
                             }
                           ]
-                        },
-                        {
-                          "id": "SLoVc",
-                          "type": "ref",
-                          "ref": "xz14g",
-                          "name": "Zapsat obrazovku",
-                          "width": "fill_container",
-                          "descendants": {
-                            "FCFit": {
-                              "content": "Zapsat screen time"
-                            }
-                          }
                         },
                         {
                           "type": "text",
@@ -20771,19 +20747,6 @@
                               ]
                             }
                           ]
-                        },
-                        {
-                          "id": "r8JsTX",
-                          "type": "ref",
-                          "ref": "xz14g",
-                          "enabled": false,
-                          "name": "Zapsat obrazovku",
-                          "width": "fill_container(358)",
-                          "descendants": {
-                            "FCFit": {
-                              "content": "Zapsat screen time"
-                            }
-                          }
                         },
                         {
                           "type": "text",
@@ -56110,6 +56073,321 @@
                   ],
                   "width": 390,
                   "height": 844
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "PnILr",
+      "x": 9187,
+      "y": 28979,
+      "name": "HW · Vyřízeno druhým rodičem (5. 10.) · D37",
+      "fill": "#E9E7E1",
+      "layout": "vertical",
+      "gap": 24,
+      "padding": 40,
+      "children": [
+        {
+          "type": "text",
+          "id": "GXHUZ",
+          "name": "Nadpis sekce",
+          "fill": "$hw-ink",
+          "content": "HW · VYŘÍZENO DRUHÝM RODIČEM (5. 10.) · D37 · drobná změna textu, bez toku",
+          "fontFamily": "$hw-font-mono",
+          "fontSize": 14,
+          "fontWeight": "700",
+          "letterSpacing": 1.2
+        },
+        {
+          "type": "frame",
+          "id": "UioIB",
+          "name": "Obrazovky",
+          "gap": 40,
+          "children": [
+            {
+              "type": "frame",
+              "id": "e7Od8W",
+              "name": "HWV · 01",
+              "width": 390,
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "LAGoN",
+                  "name": "Štítek framu",
+                  "width": "fill_container",
+                  "fill": "#17191E",
+                  "cornerRadius": 8,
+                  "layout": "vertical",
+                  "gap": 2,
+                  "padding": [
+                    8,
+                    12
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "YBGI9",
+                      "name": "Kód",
+                      "fill": "#FFFFFF",
+                      "content": "HWV · 01",
+                      "fontFamily": "$hw-font-mono",
+                      "fontSize": 12,
+                      "fontWeight": "700",
+                      "letterSpacing": 1.2
+                    },
+                    {
+                      "type": "text",
+                      "id": "HFtYU",
+                      "name": "Popis",
+                      "fill": "#DFDDD7",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Schválit · nic nevisí, frontu vyřídil druhý rodič (D37). Místo obecného textu: kolik, kdo a kdy. Počítá se dnešní dávka po tvém posledním vyřízení. Rodově neutrálně.",
+                      "fontFamily": "$hw-font-sans",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "E8pgKb",
+                  "name": "Obrazovka HWR · 01c",
+                  "clip": true,
+                  "width": 390,
+                  "height": 844,
+                  "fill": "$hw-paper",
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "id": "rnQgU",
+                      "type": "ref",
+                      "ref": "SBJyG",
+                      "name": "Hlavička",
+                      "width": "fill_container",
+                      "descendants": {
+                        "K0DUDo": {
+                          "content": "Ahoj, Milane 👋"
+                        }
+                      }
+                    },
+                    {
+                      "type": "frame",
+                      "id": "L0stWT",
+                      "name": "Obsah",
+                      "width": "fill_container",
+                      "height": "fill_container",
+                      "layout": "vertical",
+                      "gap": 10,
+                      "padding": [
+                        20,
+                        16,
+                        16,
+                        16
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "id": "povMn",
+                          "type": "ref",
+                          "ref": "nvZok",
+                          "name": "Nic nevisí",
+                          "descendants": {
+                            "b4uclp": {
+                              "content": "Vyřízeno: 3 · Tereza · před 10 min"
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "id": "qz3Xr",
+                      "type": "ref",
+                      "ref": "IhnZG",
+                      "name": "Spodní lišta",
+                      "width": "fill_container",
+                      "descendants": {
+                        "jAKxs": {
+                          "fill": "$hw-pink"
+                        },
+                        "DHwxF": {
+                          "icon": "check-check",
+                          "fill": "$hw-ink"
+                        },
+                        "P8fVZ": {
+                          "content": "Schválit",
+                          "fill": "$hw-ink",
+                          "fontWeight": "600"
+                        },
+                        "AfMsP": {
+                          "fill": "#FFFFFF00"
+                        },
+                        "VvRjy": {
+                          "icon": "users",
+                          "fill": "$hw-ink-35"
+                        },
+                        "oqZFL": {
+                          "enabled": false
+                        },
+                        "OmTod": {
+                          "content": "Děti",
+                          "fill": "$hw-ink-35",
+                          "fontWeight": "500"
+                        },
+                        "T0mMx": {
+                          "fill": "#FFFFFF00"
+                        },
+                        "O00gx3": {
+                          "icon": "wallet",
+                          "fill": "$hw-ink-35"
+                        },
+                        "uBEES": {
+                          "content": "Výplaty",
+                          "fill": "$hw-ink-35",
+                          "fontWeight": "500"
+                        },
+                        "myclT": {
+                          "fill": "#FFFFFF00"
+                        },
+                        "KFjsw": {
+                          "icon": "menu",
+                          "fill": "$hw-ink-35"
+                        },
+                        "WMDi5": {
+                          "content": "Víc",
+                          "fill": "$hw-ink-35",
+                          "fontWeight": "500"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Ugr6h",
+              "name": "HWV · 02",
+              "width": 358,
+              "layout": "vertical",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "yhCdE",
+                  "name": "Štítek framu",
+                  "width": "fill_container",
+                  "fill": "#17191E",
+                  "cornerRadius": 8,
+                  "layout": "vertical",
+                  "gap": 2,
+                  "padding": [
+                    8,
+                    12
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "oo1FH",
+                      "name": "Kód",
+                      "fill": "#FFFFFF",
+                      "content": "HWV · 02",
+                      "fontFamily": "$hw-font-mono",
+                      "fontSize": 12,
+                      "fontWeight": "700",
+                      "letterSpacing": 1.2
+                    },
+                    {
+                      "type": "text",
+                      "id": "O138uD",
+                      "name": "Popis",
+                      "fill": "#DFDDD7",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Push ostatním rodičům, když se fronta vyprázdní. Štítek approvals = nahradí „Máš co schvalovat“, číslo na ikoně 0.",
+                      "fontFamily": "$hw-font-sans",
+                      "fontSize": 13,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "fdnqG",
+                  "name": "Notifikace (iOS)",
+                  "width": "fill_container",
+                  "fill": "#FFFFFFCC",
+                  "cornerRadius": 20,
+                  "gap": 10,
+                  "padding": 14,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "itFWt",
+                      "name": "Ikona appky",
+                      "width": 38,
+                      "height": 38,
+                      "fill": "$hw-ink",
+                      "cornerRadius": 9
+                    },
+                    {
+                      "type": "frame",
+                      "id": "WewWa",
+                      "name": "Text",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 2,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "L2CYY",
+                          "name": "Řádek",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "L6871",
+                              "name": "Titulek",
+                              "fill": "$hw-ink",
+                              "content": "Vše vyřízeno ✓",
+                              "fontFamily": "$hw-font-sans",
+                              "fontSize": 15,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "V4vrV",
+                              "name": "Čas",
+                              "fill": "$hw-ink-60",
+                              "content": "teď",
+                              "fontFamily": "$hw-font-sans",
+                              "fontSize": 13,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "cf4wG",
+                          "name": "Tělo",
+                          "fill": "$hw-ink",
+                          "content": "Tereza · ke schválení nic nevisí",
+                          "fontFamily": "$hw-font-sans",
+                          "fontSize": 15,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
                 }
               ]
             }
